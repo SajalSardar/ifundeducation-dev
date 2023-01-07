@@ -45,6 +45,7 @@
                         <button type="submit">Login</button>
 
                     </form>
+                    <a href="{{ route('social.google.redirect') }}">Login With Google</a>
                     <p class="text-center mb-2 ">Don't have an Account? <a href="{{ route('front.user.register') }}">Sign
                             Up</a></p>
                 </div>

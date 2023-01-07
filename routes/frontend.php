@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Frontend\FrontController;
+use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +28,7 @@ Route::middleware( ['auth', 'verified'] )->group( function () {
     Route::get( '/user/make/role/donor', [UserDashboardController::class, 'makeDonor'] )->name( 'make.role.donor' );
     Route::get( '/user/make/role/fundraiser', [UserDashboardController::class, 'makeFundraiser'] )->name( 'make.role.fundraiser' );
 } );
+
+Route::get( '/google/redirect', [SocialAuthController::class, 'googleRedirect'] )->name( 'social.google.redirect' );
+
+Route::get( '/google/callback', [SocialAuthController::class, 'googleCallback'] )->name( 'social.google.callback' );
