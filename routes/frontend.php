@@ -3,6 +3,7 @@ use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::name( 'front.' )->group( function () {
@@ -24,9 +25,16 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser|donor'] )->group( funct
 } );
 
 Route::middleware( ['auth', 'verified'] )->group( function () {
-    Route::get( '/user/make/role', [UserDashboardController::class, 'makeRole'] )->name( 'make.role' );
-    Route::get( '/user/make/role/donor', [UserDashboardController::class, 'makeDonor'] )->name( 'make.role.donor' );
-    Route::get( '/user/make/role/fundraiser', [UserDashboardController::class, 'makeFundraiser'] )->name( 'make.role.fundraiser' );
+    Route::controller( UserDashboardController::class )->prefix( 'user' )->name( 'make.' )->group( function () {
+        Route::get( '/make/role', 'makeRole' )->name( 'role' );
+        Route::get( '/make/role/donor', 'makeDonor' )->name( 'role.donor' );
+        Route::get( '/make/role/fundraiser', 'makeFundraiser' )->name( 'role.fundraiser' );
+    } );
+
+    Route::controller( UserProfileController::class )->prefix( 'user/profile' )->name( 'user.profile.' )->group( function () {
+        Route::get( '/create', 'create' )->name( 'create' );
+    } );
+
 } );
 
 Route::get( '/google/redirect', [SocialAuthController::class, 'googleRedirect'] )->name( 'social.google.redirect' );

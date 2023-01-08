@@ -145,9 +145,9 @@
     <!-- footer part end -->
 
 
-    <script src="{{ asset('frontedn/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('frontedn/js/jquery-1.12.4.min.js') }}"></script>
-    <script src="{{ asset('frontedn/js/script.js') }}"></script>
+    <script src="{{ asset('frontend/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery-1.12.4.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/script.js') }}"></script>
     @yield('script')
 </body>
 
