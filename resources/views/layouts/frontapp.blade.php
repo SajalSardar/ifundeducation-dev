@@ -8,11 +8,12 @@
     <title>@yield('title') - {{ config('app.name') }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    @yield('style')
     <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css') }}">
-    @yield('style')
+
 </head>
 
 <body>
@@ -20,7 +21,7 @@
     <!-- header part start  -->
     <header id="top_header">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center align-items-center">
                 <div class="col-sm-6">
                     <div class="header_left">
                         <p><i class="fa-sharp fa-solid fa-paper-plane"></i> admin@ifundeducation.com</p>
@@ -33,13 +34,27 @@
                                 <li><a href="{{ route('front.user.login') }}">Login</a></li>
                                 <li><a href="{{ route('front.user.register') }}">Sign Up</a></li>
                             @else
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <li><a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                      this.closest('form').submit();">LogOut</a>
-                                    </li>
-                                </form>
+                                <li>
+                                    <a href="#">
+                                        <img src="{{ Avatar::create(auth()->user()->first_name)->setDimension(35)->setFontSize(14)->toBase64() }}"
+                                            alt="{{ auth()->user()->first_name }}"> <i class="fa-solid fa-angle-down"></i>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <a
+                                                href="{{ route('user.profile.edit') }}">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</a>
+                                        </li>
+                                        <li>
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <a href="{{ route('logout') }}"
+                                                    onclick="event.preventDefault();
+                                                  this.closest('form').submit();">LogOut</a>
+
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
                             @endguest
                         </ul>
                     </div>

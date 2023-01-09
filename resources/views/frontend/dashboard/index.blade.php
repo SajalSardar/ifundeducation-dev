@@ -22,29 +22,31 @@
                 <div class="col-sm-4">
                     <div class=" text-center">
                         <p>
-                            Account type:
+                            <span class="fw-semibold">Account type:</span>
                             @foreach (auth()->user()->roles as $role)
                                 <span class="badge bg-success">{{ Str::upper($role->name) }}</span>
                             @endforeach
+
+
+
+                            @if (auth()->user()->hasRole('donor'))
+                                @if (auth()->user()->hasRole('fundraiser') &&
+                                    auth()->user()->hasRole('donor'))
+                                @else
+                                    <a href="{{ route('make.role.fundraiser') }}" class="btn btn-sm btn-info">Make
+                                        Fundraiser</a>
+                                @endif
+
+                            @endif
+                            @if (auth()->user()->hasRole('fundraiser'))
+                                @if (auth()->user()->hasRole('fundraiser') &&
+                                    auth()->user()->hasRole('donor'))
+                                @else
+                                    <a href="{{ route('make.role.donor') }}" class="btn btn-sm btn-info">Make Donor</a>
+                                @endif
+
+                            @endif
                         </p>
-
-
-                        @if (auth()->user()->hasRole('donor'))
-                            @if (auth()->user()->hasRole('fundraiser') &&
-                                auth()->user()->hasRole('donor'))
-                            @else
-                                <a href="{{ route('make.role.fundraiser') }}" class="btn btn-primary">Make Fundraiser</a>
-                            @endif
-
-                        @endif
-                        @if (auth()->user()->hasRole('fundraiser'))
-                            @if (auth()->user()->hasRole('fundraiser') &&
-                                auth()->user()->hasRole('donor'))
-                            @else
-                                <a href="{{ route('make.role.donor') }}" class="btn btn-primary">Make Donor</a>
-                            @endif
-
-                        @endif
                     </div>
                 </div>
                 <div class="col-sm-4">

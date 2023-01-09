@@ -6,7 +6,7 @@
         <div class="close_icon d-md-none">&#10007;</div>
         <ul>
             <li class="{{ request()->routeIs('user.dashboard.index') ? 'active' : '' }}">
-                <a href="index.html"><i class="fas fa-dashboard"></i>Dashboard</a>
+                <a href="{{ route('user.dashboard.index') }}"><i class="fas fa-dashboard"></i>Dashboard</a>
             </li>
             <li>
                 <a href="donar.html"><i class="fas fa-hand-holding-heart"></i>Donar List</a>
@@ -21,8 +21,8 @@
                 <a href="withdraw.html">
                     <i class="fas fa-money-bill-trend-up"></i> Withdrawals</a>
             </li>
-            <li class="{{ request()->routeIs('user.profile.create') ? 'active' : '' }}">
-                <a href="{{ route('user.profile.create') }}"><i class="fas fa-user"></i>Profile</a>
+            <li class="{{ request()->routeIs('user.profile.edit') ? 'active' : '' }}">
+                <a href="{{ route('user.profile.edit') }}"><i class="fas fa-user"></i>Profile</a>
             </li>
             <li>
                 <a href="change_password.html"> <i class="fas fa-cog"></i>Change Password </a>
