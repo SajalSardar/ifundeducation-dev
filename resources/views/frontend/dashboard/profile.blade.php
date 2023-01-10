@@ -147,27 +147,22 @@
                                                 <label for="inputCountry" class="form-label">Country:</label>
                                                 <select id="inputCountry" class="form-select select_2">
                                                     <option selected>Select Country</option>
-                                                    <option value="AFGHANISTAN">AFGHANISTAN</option>
-                                                    <option value="ALBANIA">ALBANIA</option>
-                                                    <option value="ALGERIA">ALGERIA</option>
-                                                    <option value="AMERICAN SAMOA">AMERICAN SAMOA</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-6 mb-3">
-                                                <label for="inputCity" class="form-label">City:</label>
-                                                <select id="inputCity" class="form-select select_2 ">
-                                                    <option selected disabled>Select City</option>
-                                                    <option>Option 1</option>
-                                                    <option>Option 2</option>
-                                                    <option>Option 3</option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                    @endforeach
+
                                                 </select>
                                             </div>
                                             <div class="col-lg-6 mb-3">
                                                 <label for="inputState" class="form-label">State:</label>
-                                                <select id="inputState" class="form-select select_2">
-                                                    <option selected="" disabled="">SelectState</option>
-                                                    <option value="Alaska">Alaska</option>
-                                                    <option value="Alabama">Alabama</option>
+                                                <select id="inputState" class="form-select select_2 " disabled>
+
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-6 mb-3">
+                                                <label for="inputCity" class="form-label">City:</label>
+                                                <select id="inputCity" class="form-select select_2" disabled>
+
                                                 </select>
                                             </div>
                                             <div class="col-lg-6 mb-3">
@@ -292,6 +287,52 @@
     <script>
         $(document).ready(function() {
             $('.select_2').select2();
+
+
+            var inputCountry = $('#inputCountry');
+            var inputState = $('#inputState');
+            var inputCity = $('#inputCity');
+
+            inputCountry.on('change', function() {
+
+                inputState.removeAttr('disabled');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('user.profile.state') }}",
+                    data: {
+                        country_id: inputCountry.val(),
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        inputState.html(data);
+                    }
+
+                });
+
+
+            });
+
+            inputState.on('change', function() {
+
+                inputCity.removeAttr('disabled');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('user.profile.city') }}",
+                    data: {
+                        state_id: inputState.val(),
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        inputCity.html(data);
+                    }
+
+                });
+
+
+            });
+
         });
     </script>
 @endsection

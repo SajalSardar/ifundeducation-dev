@@ -33,6 +33,8 @@ Route::middleware( ['auth', 'verified'] )->group( function () {
 
     Route::controller( UserProfileController::class )->prefix( 'user/profile' )->name( 'user.profile.' )->group( function () {
         Route::get( '/edit', 'edit' )->name( 'edit' );
+        Route::post( '/get/state', 'state' )->name( 'state' );
+        Route::post( '/get/city', 'city' )->name( 'city' );
     } );
 
 } );
