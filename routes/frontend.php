@@ -35,6 +35,8 @@ Route::middleware( ['auth', 'verified'] )->group( function () {
         Route::get( '/edit', 'edit' )->name( 'edit' );
         Route::post( '/get/state', 'state' )->name( 'state' );
         Route::post( '/get/city', 'city' )->name( 'city' );
+
+        Route::put( '/user/personal/profile/{id}', 'personalProfile' )->name( 'personal.update' );
     } );
 
 } );
