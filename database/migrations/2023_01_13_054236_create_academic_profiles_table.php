@@ -11,16 +11,20 @@ return new class extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create( 'fundraiser_academic_profiles', function ( Blueprint $table ) {
+        Schema::create( 'academic_profiles', function ( Blueprint $table ) {
             $table->id();
             $table->foreignId( 'user_id' )->constrained()->onUpdate( 'cascade' )->onDelete( 'cascade' );
-            $table->string( 'college_or_university' )->nullable();
+            $table->foreignId( 'university_id' )->constrained();
             $table->string( 'study' )->nullable();
-            $table->string( 'enrolled_degree' )->nullable();
-            $table->string( 'classification' )->nullable();
-            $table->string( 'current_gpa' )->nullable();
+            $table->foreignId( 'degree_enrolled_id' )->constrained();
+            $table->foreignId( 'classification_id' )->constrained();
+            $table->string( 'gpa' )->nullable();
             $table->boolean( 'show_gpa' )->nullable();
-            $table->text( 'experience' )->nullable();
+            $table->string( 'schedule' )->nullable();
+            $table->string( 'show_schedule' )->nullable();
+            $table->string( 'transcript' )->nullable();
+            $table->string( 'show_transcript' )->nullable();
+            $table->longText( 'experience' )->nullable();
             $table->timestamps();
         } );
     }
@@ -31,6 +35,6 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists( 'fundraiser_academic_profiles' );
+        Schema::dropIfExists( 'academic_profiles' );
     }
 };

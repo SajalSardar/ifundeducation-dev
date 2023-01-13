@@ -1110,10 +1110,10 @@ padding: 10px 15px;
     font-weight: 600;
     color: var(--tertiary-color);
   }
-  #fundeducationTab li button{
+  #fundeducationTab li a{
     position: relative;
   }
-  #fundeducationTab li button:after{
+  #fundeducationTab li a:after{
     position: absolute;
     content: '';
     height: 3px;
@@ -1123,10 +1123,36 @@ padding: 10px 15px;
     background-color: var(--primary-color);
     opacity: 0;
   }
-  #fundeducationTab li button.active:after{
+  #fundeducationTab li a.active:after{
     opacity: 1;
   }
 
 .account_content_area_form .select2-container{
     display: block!important;
   }
+
+  .form-label{
+    font-weight: 600;
+  }
+
+.ck-editor__editable[role="textbox"] {
+    /* editing area */
+    min-height: 200px;
+}
+.ck-content .image {
+    /* block images */
+    max-width: 80%;
+    margin: 20px auto;
+}
+
+.displayBox{
+    display: none;
+}
+
+
+.alert_title{
+    font-size: 20px;
+}
+.alert_icon{
+    margin: 0.5em auto 0.6em
+}

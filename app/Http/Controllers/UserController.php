@@ -37,6 +37,7 @@ class UserController extends Controller {
         event( new Registered( $user ) );
 
         Auth::login( $user );
-        return redirect( RouteServiceProvider::HOME );
+        return redirect( RouteServiceProvider::HOME )->with( 'success', 'Login Successfull!' );
+
     }
 }

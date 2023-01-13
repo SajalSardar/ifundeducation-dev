@@ -22,7 +22,7 @@ class UserDashboardController extends Controller {
         } elseif ( auth()->user()->hasRole( 'fundraiser' ) ) {
             auth()->user()->assignRole( 'donor' );
         }
-        return redirect()->route( 'user.dashboard.index' );
+        return redirect()->route( 'user.dashboard.index' )->with( 'success', 'Congratulations, Donar Profile successfully Created !' );
 
     }
 
@@ -32,7 +32,7 @@ class UserDashboardController extends Controller {
         } elseif ( auth()->user()->hasRole( 'donor' ) ) {
             auth()->user()->assignRole( 'fundraiser' );
         }
-        return redirect()->route( 'user.dashboard.index' );
+        return redirect()->route( 'user.dashboard.index' )->with( 'success', 'Congratulations, Fundraiser Profile successfully Created !' );
 
     }
 

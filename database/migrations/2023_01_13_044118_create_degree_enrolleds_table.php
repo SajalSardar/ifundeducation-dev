@@ -11,11 +11,9 @@ return new class extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create( 'countries', function ( Blueprint $table ) {
+        Schema::create( 'degree_enrolleds', function ( Blueprint $table ) {
             $table->id();
-            $table->string( 'sortname', 5 );
-            $table->string( 'name', 150 );
-            $table->integer( 'phonecode' );
+            $table->string( 'name' );
             $table->timestamps();
         } );
     }
@@ -26,6 +24,6 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists( 'countries' );
+        Schema::dropIfExists( 'degree_enrolleds' );
     }
 };

@@ -37,6 +37,9 @@ Route::middleware( ['auth', 'verified'] )->group( function () {
         Route::post( '/get/city', 'city' )->name( 'city' );
 
         Route::put( '/user/personal/profile/{id}', 'personalProfile' )->name( 'personal.update' );
+        Route::put( '/user/academic/profile/{id}', 'academicProfile' )->name( 'academic.update' );
+        Route::post( '/professional/experience', 'experiencePhoto' )->name( 'experience.photo.upload' );
+        Route::put( '/user/social/profile/{id}', 'socialProfile' )->name( 'social.upload' );
     } );
 
 } );

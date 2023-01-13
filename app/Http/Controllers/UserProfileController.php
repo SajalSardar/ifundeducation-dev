@@ -2,33 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicProfile;
 use App\Models\City;
+use App\Models\Classification;
 use App\Models\Country;
+use App\Models\DegreeEnrolled;
 use App\Models\State;
+use App\Models\University;
 use App\Models\User;
 use App\Models\UserPersonalProfile;
+use App\Models\UserSocialProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class UserProfileController extends Controller {
+
+    /**
+     * Edit profile form.
+     */
     public function edit() {
-        $countries = Country::all();
-        // $states    = State::all();
-        // $cities    = City::select( 'id', 'name' )->get();
-        return view( 'frontend.dashboard.profile', compact( 'countries' ) );
+        $countries       = Country::all();
+        $universities    = University::select( 'id', 'name' )->get();
+        $classifications = Classification::all();
+        $degreenEnroleds = DegreeEnrolled::all();
+        return view( 'frontend.dashboard.profile', compact( 'countries', 'universities', 'classifications', 'degreenEnroleds' ) );
     }
 
+    /**
+     * User personal profile update.
+     */
+
     public function personalProfile( Request $request, $id ) {
-        $countries = UserPersonalProfile::find( $id );
-        $user      = User::find( auth()->user()->id );
-        $image     = $request->file( 'photo' );
+
+        $user  = User::find( auth()->user()->id );
+        $image = $request->file( 'photo' );
 
         $request->validate( [
             "fname"    => 'required',
             "lname"    => 'nullable',
-            "email"    => 'required|unique:users,email,' . auth()->user()->id,
             "phone"    => 'required',
             "birthday" => 'required',
             "gender"   => 'required',
@@ -54,11 +67,10 @@ class UserProfileController extends Controller {
         $user->update( [
             "first_name" => $request->fname,
             "last_name"  => $request->lname,
-            "email"      => $request->email,
             "photo"      => $image_name,
         ] );
 
-        UserPersonalProfile::updateOrCreate( [
+        $result = UserPersonalProfile::updateOrCreate( [
             'user_id' => auth()->user()->id,
         ], [
             'user_id'    => auth()->user()->id,
@@ -72,9 +84,17 @@ class UserProfileController extends Controller {
             'zip_code'   => $request->zip,
         ] );
 
-        return back();
+        if ( $result ) {
+            return back()->with( 'success', 'Personal Profile Update Successfully Done!' );
+        } else {
+            return back()->with( 'error', 'Personal Profile Update Error!' );
+        }
 
     }
+
+    /**
+     * state selected .
+     */
 
     public function state( Request $request ) {
         $states = State::where( 'country_id', $request->country_id )->get();
@@ -90,6 +110,9 @@ class UserProfileController extends Controller {
 
     }
 
+    /**
+     * City selected .
+     */
     public function city( Request $request ) {
         $cities = City::where( 'state_id', $request->state_id )->get();
 
@@ -99,6 +122,132 @@ class UserProfileController extends Controller {
 
         }
         return response()->json( $city_option );
+    }
+
+    /**
+     * academicProfile Profile Update .
+     */
+    public function academicProfile( Request $request, $id ) {
+        $user       = User::find( auth()->user()->id );
+        $schedule   = $request->file( 'schedule' );
+        $transcript = $request->file( 'transcript' );
+
+        if ( !$request->university_name ) {
+            $request->validate( [
+                'university' => 'required',
+            ], [
+                'university.required' => 'Select University Name!',
+            ] );
+
+        }
+
+        $request->validate( [
+            'major_study'    => 'required',
+            'classification' => 'required',
+            'degree'         => 'required',
+            'schedule'       => 'nullable|max:512|mimes:png,jpg,webp,jpeg',
+            'transcript'     => 'nullable|max:512|mimes:png,jpg,webp,jpeg',
+        ] );
+
+        if ( $schedule ) {
+            if ( file_exists( public_path( 'storage/class_schedule/' . $user->academic_profile->schedule ) ) ) {
+                Storage::delete( 'class_schedule/' . $user->academic_profile->schedule );
+            }
+            $schedule_name = Str::uuid() . '.' . $schedule->extension();
+            Storage::putFileAs( 'class_schedule', $schedule, $schedule_name );
+
+        } else {
+            $schedule_name = $user->academic_profile->schedule;
+        }
+        if ( $transcript ) {
+            if ( file_exists( public_path( 'storage/transcript/' . $user->academic_profile->transcript ) ) ) {
+                Storage::delete( 'transcript/' . $user->academic_profile->transcript );
+            }
+            $transcript_name = Str::uuid() . '.' . $transcript->extension();
+            Storage::putFileAs( 'transcript', $transcript, $transcript_name );
+
+        } else {
+            $transcript_name = $user->academic_profile->transcript;
+        }
+
+        if ( $request->university_name ) {
+            $university = University::create( [
+                'name' => $request->university_name,
+            ] );
+        }
+
+        $result = AcademicProfile::updateOrCreate( [
+            'user_id' => auth()->user()->id,
+        ], [
+            'user_id'            => auth()->user()->id,
+            'university_id'      => $request->university ?? $university->id,
+            'study'              => $request->major_study,
+            'degree_enrolled_id' => $request->degree,
+            'classification_id'  => $request->classification,
+            'gpa'                => $request->gpa,
+            'show_gpa'           => $request->show_gpa === 'on' ? true : false,
+            'schedule'           => $schedule_name,
+            'show_schedule'      => $request->schedule_show === 'on' ? true : false,
+            'transcript'         => $transcript_name,
+            'show_transcript'    => $request->transcript_show === 'on' ? true : false,
+            'experience'         => $request->experience,
+        ] );
+
+        if ( $result ) {
+            return back()->with( 'success', 'Academic Profile Update Successfully Done!' );
+        } else {
+            return back()->with( 'error', 'Academic Profile Update Error!' );
+        }
+    }
+
+    //ck editor image upload
+    public function experiencePhoto( Request $request ) {
+        if ( $request->hasFile( 'upload' ) ) {
+            $extension = $request->file( 'upload' )->getClientOriginalExtension();
+            $fileName  = Str::ulid() . '.' . $extension;
+
+            $request->file( 'upload' )->storeAs( 'experience', $fileName );
+
+            $url = asset( 'storage/experience/' . $fileName );
+
+            return response()->json( ['fileName' => $fileName, 'uploaded' => 1, 'url' => $url] );
+        }
+    }
+
+    //Social Profile update
+    public function socialProfile( Request $request ) {
+
+        $request->validate( [
+            'linkedin'  => 'nullable|url',
+            'instagram' => 'nullable|url',
+            'facebook'  => 'nullable|url',
+            'twitter'   => 'nullable|url',
+            'tiktok'    => 'nullable|url',
+            'youtube'   => 'nullable|url',
+            'snapchat'  => 'nullable|url',
+            'pinterest' => 'nullable|url',
+            'website'   => 'nullable|url',
+        ] );
+
+        $result = UserSocialProfile::updateOrCreate( [
+            'user_id' => auth()->user()->id,
+        ], [
+            'linkedin'  => $request->linkedin,
+            'instagram' => $request->instagram,
+            'facebook'  => $request->facebook,
+            'twitter'   => $request->twitter,
+            'tiktok'    => $request->tiktok,
+            'youtube'   => $request->youtube,
+            'snapchat'  => $request->snapchat,
+            'pinterest' => $request->pinterest,
+            'website'   => $request->website,
+        ] );
+
+        if ( $result ) {
+            return back()->with( 'success', 'Social Profile Update Successfully Done!' );
+        } else {
+            return back()->with( 'error', 'Social Profile Update Error!' );
+        }
     }
 
 }
