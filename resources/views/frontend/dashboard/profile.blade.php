@@ -3,60 +3,12 @@
 
 @section('content')
     <!-- breadcrumb  -->
-    <section class="breadcrumb_section"
-        style="
---bs-breadcrumb-divider: url(
-  &#34;data:image/svg + xml,
-  %3Csvgxmlns='http://www.w3.org/2000/svg'width='8'height='8'%3E%3Cpathd='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z'fill='%236c757d'/%3E%3C/svg%3E&#34;
-);
-">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-sm-4">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">iFundraiser</a></li>
-                        <li class="breadcrumb-item active">Profile</li>
-                    </ol>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class=" text-center">
-                        <p>
-                            <span class="fw-semibold">Account type:</span>
-                            @foreach (auth()->user()->roles as $role)
-                                <span class="badge bg-success">{{ Str::upper($role->name) }}</span>
-                            @endforeach
-
-
-
-                            @if (auth()->user()->hasRole('donor'))
-                                @if (auth()->user()->hasRole('fundraiser') &&
-                                    auth()->user()->hasRole('donor'))
-                                @else
-                                    <a href="{{ route('make.role.fundraiser') }}" class="btn btn-sm btn-info">Make
-                                        Fundraiser</a>
-                                @endif
-
-                            @endif
-                            @if (auth()->user()->hasRole('fundraiser'))
-                                @if (auth()->user()->hasRole('fundraiser') &&
-                                    auth()->user()->hasRole('donor'))
-                                @else
-                                    <a href="{{ route('make.role.donor') }}" class="btn btn-sm btn-info">Make Donor</a>
-                                @endif
-
-                            @endif
-                        </p>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="profile_photo text-end">
-                        <img src="{{ asset('frontend/images/1.png') }}" alt="" width="70">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <x-breadcrumb>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('front.index') }}">iFundraiser</a></li>
+            <li class="breadcrumb-item active">Profile</li>
+        </ol>
+    </x-breadcrumb>
     <!-- breadcrumb end  -->
 
     <section class="account_section">
@@ -148,8 +100,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-lg-6 mb-3">
-                                                <label class="form-label">Gender:<span
-                                                        class="text-danger">*</span></label>
+                                                <label class="form-label">Gender:<span class="text-danger">*</span></label>
                                                 <br>
 
                                                 <label>

@@ -24,11 +24,19 @@
             <li class="{{ request()->routeIs('user.profile.edit') ? 'active' : '' }}">
                 <a href="{{ route('user.profile.edit') }}"><i class="fas fa-user"></i>Profile</a>
             </li>
-            <li>
-                <a href="change_password.html"> <i class="fas fa-cog"></i>Change Password </a>
+            <li class="{{ request()->routeIs('account.setting.*') ? 'active' : '' }}">
+                <a href="{{ route('account.setting.edit') }}">
+                    <i class="fas fa-cog"></i>Account Setting</a>
             </li>
             <li>
-                <a href=""> <i class="fas fa-sign-out"></i> Sign Out </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                      this.closest('form').submit();"><i
+                            class="fas fa-sign-out"></i> Sign Out</a>
+
+                </form>
             </li>
         </ul>
 

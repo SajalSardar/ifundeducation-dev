@@ -37,20 +37,36 @@
                             @else
                                 <li>
                                     <a href="#">
-                                        <img src="{{ Avatar::create(auth()->user()->first_name)->setDimension(35)->setFontSize(14)->toBase64() }}"
-                                            alt="{{ auth()->user()->first_name }}"> <i class="fa-solid fa-angle-down"></i>
+                                        @if (auth()->user()->photo)
+                                            <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
+                                                alt="{{ auth()->user()->first_name }}" width="35"
+                                                class="rounded-circle">
+                                        @elseif(auth()->user()->avatar)
+                                            <img src="{{ auth()->user()->avatar }}" class="rounded-circle"
+                                                alt="{{ auth()->user()->first_name }}" width="35">
+                                        @else
+                                            <img src="{{ Avatar::create(auth()->user()->first_name)->setDimension(35)->setFontSize(14)->toBase64() }}"
+                                                alt="{{ auth()->user()->first_name }}">
+                                        @endif
+                                        <i class="fa-solid fa-angle-down"></i>
                                     </a>
                                     <ul>
                                         <li>
-                                            <a
-                                                href="{{ route('user.profile.edit') }}">{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</a>
+                                            <a>{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('user.dashboard.index') }}">Dashboard</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('user.profile.edit') }}">Profile</a>
                                         </li>
                                         <li>
                                             <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
                                                 <a href="{{ route('logout') }}"
                                                     onclick="event.preventDefault();
-                                                  this.closest('form').submit();">LogOut</a>
+                                                  this.closest('form').submit();">Sign
+                                                    Out</a>
 
                                             </form>
                                         </li>
