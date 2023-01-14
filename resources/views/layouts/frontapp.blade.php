@@ -32,8 +32,8 @@
                     <div class="header_right">
                         <ul>
                             @guest()
-                                <li><a href="{{ route('front.user.login') }}">Login</a></li>
-                                <li><a href="{{ route('front.user.register') }}">Sign Up</a></li>
+                                <li><a href="{{ route('login') }}">Login</a></li>
+                                <li><a href="{{ route('register') }}">Sign Up</a></li>
                             @else
                                 <li>
                                     <a href="#">

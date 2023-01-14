@@ -54,8 +54,7 @@
                         <button type="submit">Sign Up</button>
 
                     </form>
-                    <p class="text-center mb-2 ">Already have an Account? <a
-                            href="{{ route('front.user.login') }}">Login</a></p>
+                    <p class="text-center mb-2 ">Already have an Account? <a href="{{ route('login') }}">Login</a></p>
                 </div>
             </div>
         </div>
