@@ -45,7 +45,9 @@
                         <button type="submit">Login</button>
 
                     </form>
-                    <a href="{{ route('social.google.redirect') }}">Login With Google</a>
+                    <a href="{{ route('social.google.redirect') }}" class="link_button"> <i class="fab fa-google"></i>
+                        Login With
+                        Google</a>
                     <p class="text-center mb-2 ">Don't have an Account? <a href="{{ route('register') }}">Sign
                             Up</a></p>
                 </div>

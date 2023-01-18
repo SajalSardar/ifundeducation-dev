@@ -84,7 +84,7 @@
     <!-- main menu part start -->
     <nav class="navbar navbar-expand-md" id="main_navigation">
         <div class="container">
-            <a class="logo" href="index.html">
+            <a class="logo" href="{{ route('front.index') }}">
                 <img src=" {{ asset('frontend/images/logo.png') }}" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#iNav">

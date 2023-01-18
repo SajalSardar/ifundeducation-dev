@@ -648,15 +648,17 @@ padding: 10px 15px;
     margin: 80px 0;
     border-radius: 8px;
 }
-.login_signup_form a{
+.login_signup_form p a,
+.login_signup_form form a{
     color: var(--tertiary-color);
     text-decoration: underline;
 }
-.login_signup_form a:hover{
+.login_signup_form p a:hover,
+.login_signup_form form a:hover{
     color: var(--primary-color);
 }
 
-.login_signup_form button{
+.login_signup_form form button{
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
@@ -671,7 +673,7 @@ padding: 10px 15px;
     text-transform: uppercase;
     width: 100%;
 }
-.login_signup_form button:hover{
+.login_signup_form form button:hover{
     background-color: var(--tertiary-color);
 }
 
@@ -1155,4 +1157,29 @@ padding: 10px 15px;
 }
 .alert_icon{
     margin: 0.5em auto 0.6em
+}
+
+.link_button{
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 20px;
+    display: block;
+    transition: .4s;
+    -webkit-transition: .4s;
+    margin: 20px 0;
+    width: 100%;
+    text-decoration: none;
+     text-align: center;
+}
+.link_button:hover{
+    background-color: var(--tertiary-color);
+    color: #fff;
+}
+
+.link_button i{
+    margin-right: 15px;
+    font-size: 22px;
 }
