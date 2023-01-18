@@ -11,6 +11,6 @@ Route::middleware( 'auth' )->group( function () {
     } );
 } );
 
-require __DIR__ . '/frontend.php';
-require __DIR__ . '/backend.php';
+require __DIR__ . '/userroutes.php';
+require __DIR__ . '/admin.php';
 require __DIR__ . '/auth.php';

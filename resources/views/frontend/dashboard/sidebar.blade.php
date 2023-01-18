@@ -8,9 +8,13 @@
             <li class="{{ request()->routeIs('user.dashboard.index') ? 'active' : '' }}">
                 <a href="{{ route('user.dashboard.index') }}"><i class="fas fa-dashboard"></i>Dashboard</a>
             </li>
-            <li>
-                <a href=""><i class="fas fa-hand-holding-heart"></i>Start Fundraising</a>
-            </li>
+            @role('fundraiser')
+                <li class="{{ request()->routeIs('fundraiser.post.*') ? 'active' : '' }}">
+                    <a href="{{ route('fundraiser.post.create') }}"><i class="fas fa-hand-holding-heart"></i>Start
+                        Fundraising</a>
+                </li>
+            @endrole
+
             <li>
                 <a href="donar.html"><i class="fas fa-hand-holding-heart"></i>Donar List</a>
             </li>

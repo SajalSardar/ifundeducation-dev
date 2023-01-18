@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Frontend\FrontController;
+use App\Http\Controllers\Frontend\FundraiserPostController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserProfileController;
@@ -15,6 +16,14 @@ Route::name( 'front.' )->group( function () {
 
 Route::middleware( ['auth', 'verified', 'role:fundraiser|donor'] )->group( function () {
     Route::get( '/user/dashboard', [UserDashboardController::class, 'index'] )->name( 'user.dashboard.index' );
+
+} );
+Route::middleware( ['auth', 'verified', 'role:fundraiser'] )->group( function () {
+    Route::controller( FundraiserPostController::class )->prefix( 'fundraiser/post' )->name( 'fundraiser.post.' )->group( function () {
+        Route::get( '/', 'index' )->name( 'index' );
+        Route::get( '/create', 'create' )->name( 'create' );
+    } );
+
 } );
 
 Route::middleware( ['auth', 'verified'] )->group( function () {
