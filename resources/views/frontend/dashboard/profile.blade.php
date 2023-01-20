@@ -5,7 +5,7 @@
     <!-- breadcrumb  -->
     <x-breadcrumb>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('front.index') }}">iFundraiser</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Profile</li>
         </ol>
     </x-breadcrumb>
@@ -317,6 +317,9 @@
                                                         Schedule on my
                                                         profile
                                                     </label>
+                                                    <p style="color: rgba(54, 76, 102, 0.7)">Maximum Uploaded image size
+                                                        300kb.
+                                                    </p>
                                                     @error('schedule')
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror
@@ -340,6 +343,9 @@
                                                         on my
                                                         profile
                                                     </label>
+                                                    <p style="color: rgba(54, 76, 102, 0.7)">Maximum Uploaded image size
+                                                        300kb.
+                                                    </p>
                                                     @error('transcript')
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror

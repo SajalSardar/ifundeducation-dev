@@ -1183,3 +1183,22 @@ padding: 10px 15px;
     margin-right: 15px;
     font-size: 22px;
 }
+
+.action_icon{
+    color: var(--tertiary-color);
+    padding: 3px 5px;
+    background-color: #f1f1f1;
+    margin: 0 2px;
+    display: inline-block;
+    border-radius: 5px;
+}
+.action_icon:hover{
+    color: var(--primary-color);
+}
+
+.action_icon.delete{
+    color: rgb(250, 23, 23);
+}
+.action_icon.delete:hover{
+    color: rgb(201, 3, 3);
+}

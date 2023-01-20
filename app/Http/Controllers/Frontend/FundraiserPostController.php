@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\FundraiserCategory;
 use App\Models\FundraiserPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class FundraiserPostController extends Controller {
     /**
@@ -14,7 +17,8 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        //
+        $posts = FundraiserPost::with( 'fundraisercategories' )->where( 'user_id', auth()->user()->id )->with( 'fundraisercategories' )->select( 'id', 'title', 'end_date', 'goal', 'slug' )->orderBy( 'id', 'desc' )->paginate( 30 );
+        return view( 'frontend.fundraiser_post.index', compact( 'posts' ) );
     }
 
     /**
@@ -34,7 +38,56 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store( Request $request ) {
-        //
+
+        $image = $request->file( 'image' );
+        $request->validate( [
+            'title'            => 'required|max:200',
+            'shot_description' => 'required|min:100|max:150',
+            'goal'             => 'required|integer',
+            'end_date'         => 'required|date',
+            'image'            => 'nullable|mimes:png,jpg, webp|max:300',
+            'category'         => 'required',
+            'story'            => 'nullable|max:1500',
+            'agree'            => 'required',
+        ] );
+
+        if ( $image ) {
+
+            $image_name = Str::ulid() . '.' . $image->extension();
+
+            $upload = Image::make( $image )->resize( 250, 250 )->save( public_path( 'storage/fundraiser_post/' . $image_name ) );
+        } else {
+            $image_name = null;
+        }
+
+        $post = FundraiserPost::create( [
+            'user_id'          => auth()->user()->id,
+            'title'            => $request->title,
+            'shot_description' => $request->shot_description,
+            'goal'             => $request->goal,
+            'end_date'         => $request->end_date,
+            'image'            => $image_name,
+            'story'            => $request->story,
+            'agree'            => $request->agree === 'on' ? true : false,
+        ] );
+
+        $post->fundraisercategories()->attach( $request->category );
+
+        return redirect()->route( 'fundraiser.post.index' )->with( 'success', 'Fundraiser Post successfully Created!' );
+    }
+
+    //ck editor image upload
+    public function storyPhoto( Request $request ) {
+        if ( $request->hasFile( 'upload' ) ) {
+            $extension = $request->file( 'upload' )->getClientOriginalExtension();
+            $fileName  = Str::ulid() . '.' . $extension;
+
+            $request->file( 'upload' )->storeAs( 'fundraiser_post', $fileName );
+
+            $url = asset( 'storage/fundraiser_post/' . $fileName );
+
+            return response()->json( ['fileName' => $fileName, 'uploaded' => 1, 'url' => $url] );
+        }
     }
 
     /**
@@ -53,8 +106,9 @@ class FundraiserPostController extends Controller {
      * @param  \App\Models\FundraiserPost  $fundraiserPost
      * @return \Illuminate\Http\Response
      */
-    public function edit( FundraiserPost $fundraiserPost ) {
-        //
+    public function edit( FundraiserPost $fundraiserpost ) {
+        $categories = FundraiserCategory::orderBy( 'id', 'desc' )->where( 'status', true )->get();
+        return view( 'frontend.fundraiser_post.edit', compact( 'categories', 'fundraiserpost' ) );
     }
 
     /**
@@ -64,8 +118,44 @@ class FundraiserPostController extends Controller {
      * @param  \App\Models\FundraiserPost  $fundraiserPost
      * @return \Illuminate\Http\Response
      */
-    public function update( Request $request, FundraiserPost $fundraiserPost ) {
-        //
+    public function update( Request $request, FundraiserPost $fundraiserpost ) {
+
+        $image = $request->file( 'image' );
+        $request->validate( [
+            'title'            => 'required|max:200',
+            'shot_description' => 'required|min:100|max:150',
+            'goal'             => 'required|integer',
+            'end_date'         => 'required|date',
+            'image'            => 'nullable|mimes:png,jpg, webp|max:300',
+            'category'         => 'required',
+            'story'            => 'nullable|max:1500',
+        ] );
+
+        if ( $image ) {
+
+            if ( file_exists( public_path( 'storage/fundraiser_post/' . $fundraiserpost->image ) ) ) {
+                Storage::delete( 'fundraiser_post/' . $fundraiserpost->image );
+            }
+
+            $image_name = Str::ulid() . '.' . $image->extension();
+
+            $upload = Image::make( $image )->resize( 250, 250 )->save( public_path( 'storage/fundraiser_post/' . $image_name ) );
+        } else {
+            $image_name = $fundraiserpost->image;
+        }
+
+        $fundraiserpost->update( [
+            'title'            => $request->title,
+            'shot_description' => $request->shot_description,
+            'goal'             => $request->goal,
+            'end_date'         => $request->end_date,
+            'image'            => $image_name,
+            'story'            => $request->story,
+        ] );
+
+        $fundraiserpost->fundraisercategories()->sync( $request->category );
+
+        return redirect()->route( 'fundraiser.post.index' )->with( 'success', 'Fundraiser Post successfully Update!' );
     }
 
     /**
@@ -74,7 +164,9 @@ class FundraiserPostController extends Controller {
      * @param  \App\Models\FundraiserPost  $fundraiserPost
      * @return \Illuminate\Http\Response
      */
-    public function destroy( FundraiserPost $fundraiserPost ) {
-        //
+    public function destroy( FundraiserPost $fundraiserpost ) {
+        $fundraiserpost->delete();
+
+        return redirect()->route( 'fundraiser.post.index' )->with( 'success', 'Fundraiser Post successfully Deleted!' );
     }
 }

@@ -21,4 +21,8 @@ class FundraiserCategory extends Model {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug( $value );
     }
+
+    public function fundraiserposts() {
+        return $this->belongsToMany( FundraiserPost::class );
+    }
 }

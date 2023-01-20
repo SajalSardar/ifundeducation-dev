@@ -16,10 +16,14 @@ class AcademicProfile extends Model {
     protected $guarded = ['id'];
 
     public function classification() {
-        return $this->hasOne( Classification::class );
+        return $this->hasOne( Classification::class, 'id', 'classification_id' );
     }
 
     public function enrolleddegree() {
-        return $this->hasOne( DegreeEnrolled::class );
+        return $this->hasOne( DegreeEnrolled::class, 'id', 'degree_enrolled_id' );
+    }
+
+    public function university() {
+        return $this->belongsTo( University::class );
     }
 }

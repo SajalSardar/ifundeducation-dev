@@ -5,7 +5,7 @@
     <!-- breadcrumb  -->
     <x-breadcrumb>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('front.index') }}">iFundraiser</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
     </x-breadcrumb>

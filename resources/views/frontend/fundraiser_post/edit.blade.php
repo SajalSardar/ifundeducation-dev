@@ -1,12 +1,12 @@
 @extends('layouts.frontapp')
-@section('title', 'User Profile')
+@section('title', $fundraiserpost->title)
 
 @section('content')
     <!-- breadcrumb  -->
     <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
-            <li class="breadcrumb-item active">Profile</li>
+            <li class="breadcrumb-item active">{{ $fundraiserpost->title }}</li>
         </ol>
     </x-breadcrumb>
     <!-- breadcrumb end  -->
@@ -18,16 +18,17 @@
 
                 <div class="col-lg-9 col-md-8">
                     <div class="account_content_area">
-                        <h3>Start Fundraiser</h3>
-                        <form method="POST" action="{{ route('fundraiser.post.store') }}" class="account_content_area_form"
-                            enctype="multipart/form-data">
+                        <h3>Edit: {{ $fundraiserpost->title }}</h3>
+                        <form method="POST" action="{{ route('fundraiser.post.update', $fundraiserpost->id) }}"
+                            class="account_content_area_form" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="row">
                                 <div class="col-12 mb-3">
                                     <label for="fund_title" class="form-label">Fundraiser Title:<span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                        id="fund_title" name="title" value="{{ old('title') }}">
+                                        id="fund_title" name="title" value="{{ old('title', $fundraiserpost->title) }}">
                                     @error('title')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
@@ -36,7 +37,7 @@
                                     <label for="shot_description" class="form-label">Shot Description:<span
                                             class="text-danger">*</span></label>
                                     <textarea class="form-control @error('shot_description') is-invalid @enderror" id="shot_description"
-                                        name="shot_description" rows="5">{{ old('shot_description') }}</textarea>
+                                        name="shot_description" rows="5">{{ old('shot_description', $fundraiserpost->shot_description) }}</textarea>
                                     <p style="color: rgba(54, 76, 102, 0.7)">Minumum 100 & Maximum 150 Character.
                                     </p>
                                     @error('shot_description')
@@ -51,7 +52,8 @@
                                             <i class="fas fa-dollar"></i>
                                         </div>
                                         <input type="number" class="form-control @error('goal') is-invalid @enderror"
-                                            id="goal" name="goal" value="{{ old('goal') }}">
+                                            id="goal" name="goal"
+                                            value="{{ old('goal', (int) $fundraiserpost->goal) }}">
                                     </div>
                                     @error('goal')
                                         <p class="text-danger">{{ $message }}</p>
@@ -61,7 +63,9 @@
                                     <label for="" class="form-label">Fundraising End Date:<span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control @error('end_date') is-invalid @enderror"
-                                        name="end_date" id="date" value="{{ old('end_date') }}" placeholder="mm/dd/yy">
+                                        name="end_date" id="date"
+                                        value="{{ old('end_date', $fundraiserpost->end_date->format('Y-m-d')) }}"
+                                        placeholder="mm/dd/yy">
                                     @error('end_date')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
@@ -74,7 +78,9 @@
                                         class="form-control select_2 @error('category') is-invalid @enderror" multiple>
                                         <option disabled>Select Options</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}"
+                                                {{ in_array($category->id, $fundraiserpost->fundraisercategories->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                {{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('category')
@@ -83,7 +89,7 @@
                                 </div>
                                 <div class="col-12 mb-3">
                                     <label for="story" class="form-label">Tell Your Story :</label>
-                                    <textarea class="form-control @error('story') is-invalid @enderror" id="story" name="story">{{ old('story') }}</textarea>
+                                    <textarea class="form-control @error('story') is-invalid @enderror" id="story" name="story">{{ old('story', $fundraiserpost->story) }}</textarea>
                                     <p style="color: rgba(54, 76, 102, 0.7)">Maximum 1500 Character.
                                     </p>
                                     @error('story')
@@ -93,29 +99,20 @@
                                 <div class="col-12 mb-3">
                                     <label for="" class="form-label">Add Image :</label>
                                     <input class="form-control @error('image') is-invalid @enderror" name="image"
-                                        type="file">
+                                        type="file" id="file_input">
                                     <p style="color: rgba(54, 76, 102, 0.7)">Perfact image ratio 250x250px and
                                         maximum image size 300kb.
                                     </p>
                                     @error('image')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input @error('agree') is-invalid @enderror"
-                                                type="checkbox" name="agree"> I agree the
-                                            terms &amp;
-                                            conditions
-                                        </label>
+                                    <div class="mt-2">
+                                        <img src="{{ asset('storage/fundraiser_post/' . $fundraiserpost->image) }}"
+                                            id="show_img" alt="" width="100">
                                     </div>
-                                    @error('agree')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit">Submit</button>
+                                    <button type="submit">Update</button>
                                 </div>
                             </div>
                         </form>
@@ -144,5 +141,14 @@
             .catch(error => {
                 console.error(error);
             });
+
+        //image change
+        let imgf = document.getElementById("file_input");
+        let output = document.getElementById("show_img");
+
+        imgf.addEventListener("change", function(event) {
+            let tmppath = URL.createObjectURL(event.target.files[0]);
+            output.src = tmppath;
+        });
     </script>
 @endsection

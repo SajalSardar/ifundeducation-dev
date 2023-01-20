@@ -145,8 +145,8 @@ class UserProfileController extends Controller {
             'major_study'    => 'required',
             'classification' => 'required',
             'degree'         => 'required',
-            'schedule'       => 'nullable|max:512|mimes:png,jpg,webp,jpeg',
-            'transcript'     => 'nullable|max:512|mimes:png,jpg,webp,jpeg',
+            'schedule'       => 'nullable|max:300|mimes:png,jpg,webp,jpeg',
+            'transcript'     => 'nullable|max:300|mimes:png,jpg,webp,jpeg',
         ] );
 
         if ( $schedule ) {

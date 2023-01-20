@@ -13,8 +13,10 @@ return new class extends Migration {
     public function up() {
         Schema::create( 'fundraiser_posts', function ( Blueprint $table ) {
             $table->id();
-            $table->foreignId( 'fundraiser_category_id' )->constrained();
+            $table->foreignId( 'user_id' )->constrained()->onUpdate( 'cascade' )->onUpdate( 'cascade' );
             $table->string( 'title' );
+            $table->string( 'slug' );
+            $table->text( 'shot_description' );
             $table->decimal( 'goal' );
             $table->date( 'end_date' );
             $table->longText( 'story' )->nullable();
