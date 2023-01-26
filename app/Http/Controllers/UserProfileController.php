@@ -157,7 +157,7 @@ class UserProfileController extends Controller {
             Storage::putFileAs( 'class_schedule', $schedule, $schedule_name );
 
         } else {
-            $schedule_name = $user->academic_profile->schedule;
+            $schedule_name = $user->academic_profile->schedule ?? null;
         }
         if ( $transcript ) {
             if ( file_exists( public_path( 'storage/transcript/' . $user->academic_profile->transcript ) ) ) {
@@ -167,7 +167,7 @@ class UserProfileController extends Controller {
             Storage::putFileAs( 'transcript', $transcript, $transcript_name );
 
         } else {
-            $transcript_name = $user->academic_profile->transcript;
+            $transcript_name = $user->academic_profile->transcript ?? null;
         }
 
         if ( $request->university_name ) {

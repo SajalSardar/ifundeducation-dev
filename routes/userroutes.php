@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\FundraiserPostController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
@@ -9,8 +10,9 @@ Route::name( 'front.' )->group( function () {
 
     Route::controller( FrontController::class )->group( function () {
         Route::get( '/', 'index' )->name( 'index' );
-        Route::get( '/fundraiser/post/{slug}/show', 'fundraiserPostShow' )->name( 'fundraiser.post.show' );
     } );
+
+    Route::get( '/fundraiser/post/{slug}/show', [FundraiserPostController::class, 'fundraiserPostShow'] )->name( 'fundraiser.post.show' );
 
 } );
 
@@ -24,6 +26,12 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser|donor'] )->group( funct
 
         Route::put( '/personal/{id}', 'personalProfile' )->name( 'personal.update' );
         Route::put( '/social/{id}', 'socialProfile' )->name( 'social.upload' );
+    } );
+
+    Route::controller( WishlistController::class )->prefix( 'wishlist' )->name( 'wishlist.' )->group( function () {
+        Route::get( '/', 'index' )->name( 'index' );
+        Route::post( '/store', 'store' )->name( 'store' );
+        Route::delete( '/delete/{wishlist}', 'destroy' )->name( 'destroy' );
     } );
 
 } );

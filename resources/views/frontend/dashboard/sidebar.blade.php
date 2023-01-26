@@ -19,14 +19,14 @@
                 </li>
             @endrole
 
-            <li>
-                <a href="donar.html"><i class="fas fa-hand-holding-heart"></i>Donar List</a>
+            <li class="{{ request()->routeIs('wishlist.index') ? 'active' : '' }}">
+                <a href="{{ route('wishlist.index') }}"><i class="fas fa-heart"></i>Wishlists</a>
             </li>
             <li>
-                <a href="donation.html"> <i class="fas fa-money-bill-1"></i> Donation List </a>
+                <a href="#"><i class="fas fa-hand-holding-heart"></i>Donar List</a>
             </li>
             <li>
-                <a href="save-fundraiser.html"> <i class="fas fa-money-bill-1"></i>Saved Fundraiser</a>
+                <a href="#"> <i class="fas fa-money-bill-1"></i> Donation List </a>
             </li>
             <li>
                 <a href="withdraw.html">

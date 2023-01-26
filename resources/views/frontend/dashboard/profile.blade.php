@@ -323,11 +323,13 @@
                                                     @error('schedule')
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror
+                                                    @if (!empty(auth()->user()->academic_profile->schedule))
+                                                        <div class="mt-2">
+                                                            <img src="{{ asset('storage/class_schedule/' . auth()->user()->academic_profile->schedule) }}"
+                                                                id="schedule_show_img" alt="" width="100">
+                                                        </div>
+                                                    @endif
 
-                                                    <div class="mt-2">
-                                                        <img src="{{ asset('storage/class_schedule/' . auth()->user()->academic_profile->schedule) }}"
-                                                            id="schedule_show_img" alt="" width="100">
-                                                    </div>
                                                 </div>
                                                 <div class="col-lg-6 mb-3">
                                                     <label for="transcript" class="form-label">Transcript:</label>
@@ -349,11 +351,13 @@
                                                     @error('transcript')
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror
+                                                    @if (!empty(auth()->user()->academic_profile->transcript))
+                                                        <div class="mt-2">
+                                                            <img src="{{ asset('storage/transcript/' . auth()->user()->academic_profile->transcript) }}"
+                                                                id="transcript_show_img" alt="" width="100">
+                                                        </div>
+                                                    @endif
 
-                                                    <div class="mt-2">
-                                                        <img src="{{ asset('storage/transcript/' . auth()->user()->academic_profile->transcript) }}"
-                                                            id="transcript_show_img" alt="" width="100">
-                                                    </div>
                                                 </div>
                                                 <div class="col-lg-12 mb-3">
                                                     <label for="experience" class="form-label">Professional

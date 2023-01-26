@@ -59,12 +59,18 @@
                             <div class="buttons">
                                 <a href="#">Donate</a>
                             </div>
-                            <div class="social_profile mt-4 mt-sm-0">
+                            <div class="social_profile mt-4 mt-sm-0" id="social-links">
                                 <ul class="footer_social text-start">
                                     <li><strong class="me-3">Share:</strong></li>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                    <li><a class="social-button"
+                                            href="https://www.facebook.com/sharer/sharer.php?u={{ Request::url() }}"><i
+                                                class="fab fa-facebook-f"></i></a></li>
+                                    <li><a class="social-button"
+                                            href="https://twitter.com/intent/tweet?url={{ Request::url() }}"><i
+                                                class="fab fa-twitter"></i></a></li>
+                                    <li><a class="social-button"
+                                            href="http://www.linkedin.com/shareArticle?url={{ Request::url() }}"><i
+                                                class="fab fa-linkedin-in"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -481,6 +487,28 @@
     <script>
         new VenoBox({
             selector: ".lightBox"
+        });
+
+        //social share js 
+        var popupSize = {
+            width: 780,
+            height: 550
+        };
+
+        $(document).on('click', '.social-button', function(e) {
+            var verticalPos = Math.floor(($(window).width() - popupSize.width) / 2),
+                horisontalPos = Math.floor(($(window).height() - popupSize.height) / 2);
+
+            var popup = window.open($(this).prop('href'), 'social',
+                'width=' + popupSize.width + ',height=' + popupSize.height +
+                ',left=' + verticalPos + ',top=' + horisontalPos +
+                ',location=0,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1');
+
+            if (popup) {
+                popup.focus();
+                e.preventDefault();
+            }
+
         });
     </script>
 @endsection

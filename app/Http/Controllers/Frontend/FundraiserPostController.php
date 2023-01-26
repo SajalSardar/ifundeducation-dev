@@ -27,6 +27,9 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
+        if ( empty( auth()->user()->personal_profile ) || empty( auth()->user()->academic_profile ) ) {
+            return redirect()->route( 'user.profile.edit' );
+        }
         $categories = FundraiserCategory::orderBy( 'id', 'desc' )->where( 'status', true )->get();
         return view( 'frontend.fundraiser_post.create', compact( 'categories' ) );
     }
@@ -168,5 +171,12 @@ class FundraiserPostController extends Controller {
         $fundraiserpost->delete();
 
         return redirect()->route( 'fundraiser.post.index' )->with( 'success', 'Fundraiser Post successfully Deleted!' );
+    }
+
+    public function fundraiserPostShow( $slug ) {
+
+        $fundRaiserPost = FundraiserPost::with( 'fundraisercategories' )->where( 'slug', $slug )->firstOrfail();
+
+        return view( 'frontend.fundraiser_post.show', compact( 'fundRaiserPost' ) );
     }
 }

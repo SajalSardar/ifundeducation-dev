@@ -71,7 +71,16 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="fundraisers_card">
                             <div class="save_btn">
-                                <a href="#" class="active"><i class="fas fa-heart"></i></a>
+                                <form action="{{ route('wishlist.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" value="{{ $fundRaiserPost->id }}" name="post_id">
+                                    <a href="{{ route('wishlist.store') }}"
+                                        onclick="event.preventDefault();
+                                    this.closest('form').submit();"
+                                        class="{{ in_array($fundRaiserPost->id, $wishlists_id) == true ? 'active' : '' }}"><i
+                                            class="fas fa-heart"></i></a>
+                                </form>
+
                             </div>
                             @if ($fundRaiserPost->image)
                                 <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"

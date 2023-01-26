@@ -5,6 +5,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- <meta property="og:site_name" content="Laravel Secrets">
+    <meta property="og:title" content="{{ $fundRaiserPost->title }}">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en">
+    <meta property="og:url" content="https://laravelsecrets.com/">
+    <meta property="og:image" content="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt"
+        content="Build your knowledge with the hidden Laravel Secrets you find in this book. Learn about the why and not the what.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@stefanbauerme">
+    <meta name="twitter:creator" content="@stefanbauerme">
+    <meta name="twitter:title" content="{{ $fundRaiserPost->title }}">
+    <meta name="twitter:image" content="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"> --}}
+
     <title>@yield('title') - {{ config('app.name') }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
