@@ -17,6 +17,11 @@
                     <a href="{{ route('fundraiser.post.index') }}"><i class="fas fa-hand-holding-heart"></i>Funding
                         Posts</a>
                 </li>
+                <li class="{{ request()->routeIs('fundraiser.post.message.*') ? 'active' : '' }}">
+                    <a href="{{ route('fundraiser.post.message.index') }}"><i
+                            class="fas fa-hand-holding-heart"></i>Fundraiser
+                        Message</a>
+                </li>
             @endrole
 
             <li class="{{ request()->routeIs('wishlist.index') ? 'active' : '' }}">

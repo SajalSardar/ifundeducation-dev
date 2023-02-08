@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\FundraiserPostController;
+use App\Http\Controllers\Frontend\FundraiserUpdateMessageController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserProfileController;
@@ -50,6 +51,15 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser'] )->group( function ()
     Route::controller( UserProfileController::class )->prefix( 'user/profile' )->name( 'user.profile.' )->group( function () {
         Route::put( '/academic/{id}', 'academicProfile' )->name( 'academic.update' );
         Route::post( '/professional/experience', 'experiencePhoto' )->name( 'experience.photo.upload' );
+    } );
+
+    Route::controller( FundraiserUpdateMessageController::class )->prefix( 'fundraiser/post/message' )->name( 'fundraiser.post.message.' )->group( function () {
+        Route::get( '/', 'index' )->name( 'index' );
+        Route::get( '/create', 'create' )->name( 'create' );
+        Route::post( '/store', 'store' )->name( 'store' );
+        Route::get( '/edit/{fundraiser-message-update}', 'edit' )->name( 'edit' );
+        Route::put( '/update/{fundraiser-message-update}', 'update' )->name( 'update' );
+        Route::delete( '/delete/{fundraiser-message-update}', 'destroy' )->name( 'delete' );
     } );
 
 } );
