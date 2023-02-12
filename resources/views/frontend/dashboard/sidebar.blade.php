@@ -22,6 +22,9 @@
                             class="fas fa-hand-holding-heart"></i>Fundraiser
                         Message</a>
                 </li>
+                <li class="{{ request()->routeIs('fundraiser.comment.*') ? 'active' : '' }}">
+                    <a href="{{ route('fundraiser.comment.index') }}"><i class="fas fa-comments"></i>Comments</a>
+                </li>
             @endrole
 
             <li class="{{ request()->routeIs('wishlist.index') ? 'active' : '' }}">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\FundraiserCategory;
 use App\Models\FundraiserPost;
 use Illuminate\Http\Request;
@@ -175,10 +176,13 @@ class FundraiserPostController extends Controller {
 
     public function fundraiserPostShow( $slug ) {
 
-        $fundRaiserPost = FundraiserPost::with( ['fundraisercategories', 'fundraiserupdatemessage' => function ( $q ) {
+        $fundRaiserPost = FundraiserPost::with( ['fundraisercategories', 'comments' => function ( $q ) {
+            $q->with( 'replies' )->where( 'status', 'approved' )->orderBy( 'created_at', "desc" );
+        }, 'fundraiserupdatemessage' => function ( $q ) {
             $q->orderBy( 'created_at', 'desc' );
         }] )->where( 'slug', $slug )->firstOrfail();
+        $total_comment = Comment::where( 'fundraiser_post_id', $fundRaiserPost->id )->where( 'status', 'approved' )->count();
 
-        return view( 'frontend.fundraiser_post.show', compact( 'fundRaiserPost' ) );
+        return view( 'frontend.fundraiser_post.show', compact( 'fundRaiserPost', 'total_comment' ) );
     }
 }

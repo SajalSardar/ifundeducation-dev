@@ -123,25 +123,22 @@
             <div class="row fundraisers_description_area">
                 <div class="col-12 ">
 
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <ul class="nav nav-tabs" id="singlePostTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                data-bs-target="#story">Story</button>
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#story">Story</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                data-bs-target="#update">Update</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#update">Update</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                data-bs-target="#comments">Comments</button>
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#comments">Comments</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#donars">All
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#donars">All
                                 Donars</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                            <button class="nav-link" data-bs-toggle="tab"
                                 data-bs-target="#professional_experience">Professional Experience</button>
                         </li>
                     </ul>
@@ -171,103 +168,84 @@
                                 <div class="reply-form">
                                     <h4>Leave a Reply</h4>
                                     <p>Your email address will not be published. Required fields are marked *</p>
-                                    <form action="" class="mt-2">
-                                        <div class="row">
-                                            <div class="col-md-6 form-group"> <input name="name" type="text"
-                                                    class="form-control" placeholder="Your Name*"></div>
-                                            <div class="col-md-6 form-group"> <input name="email" type="text"
-                                                    class="form-control" placeholder="Your Email*"></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col form-group">
-                                                <input name="subject" type="text" class="form-control"
-                                                    placeholder="Your Subject">
+                                    <form action="{{ route('front.comment.store') }}" method="POST" class="mt-2">
+                                        @csrf
+                                        <input type="hidden" name="post_id" value="{{ $fundRaiserPost->id }}">
+                                        @guest
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <input name="name" type="text" class="form-control"
+                                                        placeholder="Your Name*">
+                                                    @error('name')
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <input name="email" type="text" class="form-control"
+                                                        placeholder="Your Email*">
+                                                    @error('email')
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endguest
                                         <div class="row">
                                             <div class="col form-group">
                                                 <textarea name="comment" rows="5" class="form-control" placeholder="Your Comment*"></textarea>
+                                                @error('comment')
+                                                    <p class="text-danger">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Post Comment</button>
                                     </form>
                                 </div>
-                                <h4 class="comments-count border-bottom py-3 mt-3">8 Comments</h4>
-                                <div id="comment-1" class="comment">
-                                    <div class="d-flex">
-                                        <div class="comment-img">
-                                            <img src="images/comments-2.jpg" class="rounded-circle" alt="">
-                                        </div>
-                                        <div>
-                                            <h5>
-                                                <a href="">Georgia Reader</a>
-                                                <a href="#" class="reply">
-                                                    <i class="fas fa-reply"></i>
-                                                    Reply</a>
-                                            </h5>
-                                            <time datetime="2020-01-01">01 Jan, 2020</time>
-                                            <p> Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad
-                                                aut sapiente quis
-                                                molestiae est qui cum soluta. Vero aut rerum vel.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="comment-2" class="comment">
-                                    <div class="d-flex">
-                                        <div class="comment-img">
-                                            <img src="images/comments-2.jpg" class="rounded-circle" alt="">
-                                        </div>
-                                        <div>
-                                            <h5>
-                                                <a href="">Aron Alvarado</a>
-                                                <a href="#" class="reply">
-                                                    <i class="fas fa-reply"></i>
-                                                    Reply
-                                                </a>
-                                            </h5>
-                                            <time datetime="2020-01-01">01 Jan, 2020</time>
-                                            <p> Ipsam tempora sequi voluptatem quis sapiente non..</p>
-                                        </div>
-                                    </div>
-                                    <div id="comment-reply-1" class="comment comment-reply">
-                                        <div class="d-flex">
-                                            <div class="comment-img">
-                                                <img src="images/comments-2.jpg" class="rounded-circle" alt="">
+                                <h4 class="comments-count border-bottom py-3 mt-3">
+                                    {{ $total_comment }}
+                                    Comments</h4>
+
+                                @if ($fundRaiserPost->comments)
+                                    @foreach ($fundRaiserPost->comments as $comment)
+                                        <div id="comment-2" class="comment">
+                                            <div class="d-flex">
+                                                <div class="comment-img">
+                                                    <img src="{{ Avatar::create($comment->comment)->setDimension(60)->setFontSize(14) }}"
+                                                        class="rounded-circle" alt="{{ $comment->name }}">
+                                                </div>
+                                                <div>
+                                                    <h5>
+                                                        <a href="">{{ $comment->name }}</a>
+                                                        {{-- <a href="#" class="reply">
+                                                            <i class="fas fa-reply"></i>
+                                                            Reply
+                                                        </a> --}}
+                                                    </h5>
+                                                    <time>{{ $comment->created_at->isoFormat('DD MMM YYYY') }}</time>
+                                                    <p> {{ $comment->comment }}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h5>
-                                                    <a href="">Lynda Small</a>
-                                                    <a href="#" class="reply">
-                                                        <i class="fas fa-reply"></i>
-                                                        Reply</a>
-                                                </h5>
-                                                <time datetime="2020-01-01">01 Jan, 2020</time>
-                                                <p> Enim ipsa eum fugiat fuga repellat. Commodi quo quo dicta. Est ullam
-                                                    aspernatur ut vitae
-                                                    quia mollitia id non..</p>
-                                            </div>
+                                            @if ($comment->replies)
+                                                @foreach ($comment->replies as $replay)
+                                                    <div id="comment-reply-1" class="comment comment-reply">
+                                                        <div class="d-flex">
+                                                            <div class="comment-img">
+                                                                <img src="{{ Avatar::create($replay->comment)->setDimension(60)->setFontSize(14) }}"
+                                                                    class="rounded-circle" alt="{{ $replay->name }}">
+                                                            </div>
+                                                            <div>
+                                                                <h5>
+                                                                    <a href="">{{ $replay->name }}</a>
+                                                                </h5>
+                                                                <time>{{ $replay->created_at->isoFormat('DD MMM YYYY') }}</time>
+                                                                <p>{{ $replay->comment }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         </div>
-                                    </div>
-                                </div>
-                                <div id="comment-1" class="comment">
-                                    <div class="d-flex">
-                                        <div class="comment-img">
-                                            <img src="images/comments-2.jpg" class="rounded-circle" alt="">
-                                        </div>
-                                        <div>
-                                            <h5>
-                                                <a href="">Georgia Reader</a>
-                                                <a href="#" class="reply">
-                                                    <i class="fas fa-reply"></i>
-                                                    Reply</a>
-                                            </h5>
-                                            <time datetime="2020-01-01">01 Jan, 2020</time>
-                                            <p> Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad
-                                                aut sapiente quis
-                                                molestiae est qui cum soluta. Vero aut rerum vel.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
 
@@ -511,6 +489,20 @@
                 e.preventDefault();
             }
 
+        });
+
+        $(document).ready(function() {
+            //tab change
+            $('button[data-bs-toggle="tab"]').on('show.bs.tab', function(e) {
+                localStorage.setItem('activeTab', $(e.target).attr('data-bs-target'));
+
+
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            console.log(activeTab);
+            if (activeTab) {
+                $('#singlePostTab button[data-bs-target="' + activeTab + '"]').tab('show');
+            }
         });
     </script>
 @endsection

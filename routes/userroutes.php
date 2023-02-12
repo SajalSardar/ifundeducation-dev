@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\FundraiserPostController;
 use App\Http\Controllers\Frontend\FundraiserUpdateMessageController;
@@ -14,7 +16,7 @@ Route::name( 'front.' )->group( function () {
     } );
 
     Route::get( '/fundraiser/single-post/{slug}', [FundraiserPostController::class, 'fundraiserPostShow'] )->name( 'fundraiser.post.show' );
-
+    Route::post( '/comment/post', [CommentController::class, 'store'] )->name( 'comment.store' );
 } );
 
 Route::middleware( ['auth', 'verified', 'role:fundraiser|donor'] )->group( function () {
@@ -59,6 +61,12 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser'] )->group( function ()
         Route::get( '/edit/{fundraiserupdatemessage}', 'edit' )->name( 'edit' );
         Route::put( '/update/{fundraiserupdatemessage}', 'update' )->name( 'update' );
         Route::delete( '/delete/{fundraiserupdatemessage}', 'destroy' )->name( 'delete' );
+    } );
+    Route::controller( CommentController::class )->prefix( 'fundraiser/comment' )->name( 'fundraiser.comment.' )->group( function () {
+        Route::get( '/', 'index' )->name( 'index' );
+        Route::get( '/edit/{comment}', 'edit' )->name( 'edit' );
+        Route::put( '/update/{comment}', 'update' )->name( 'update' );
+        Route::delete( '/delete/{comment}', 'destroy' )->name( 'delete' );
     } );
 
 } );
