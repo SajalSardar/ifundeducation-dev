@@ -152,16 +152,18 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="update">
+
                             <div class="mt-4">
-                                <div class="alert alert-success" role="alert">
-                                    A simple success
-                                </div>
-                                <div class="alert alert-danger" role="alert">
-                                    A simple danger
-                                </div>
-                                <div class="alert alert-warning" role="alert">
-                                    A simple warning
-                                </div>
+                                @forelse ($fundRaiserPost->fundraiserupdatemessage as $message)
+                                    <div class="alert {{ $message->message_type === 'success' ? 'alert-success' : ($message->message_type === 'danger' ? 'alert-danger' : 'alert-warning') }}"
+                                        role="alert">
+                                        {{ $message->message }}
+                                    </div>
+                                @empty
+                                    <div>
+                                        <h4>No Massage Found!</h4>
+                                    </div>
+                                @endforelse
                             </div>
                         </div>
                         <div class="tab-pane fade blog" id="comments">

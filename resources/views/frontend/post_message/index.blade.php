@@ -5,7 +5,7 @@
     <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
-            <li class="breadcrumb-item active">Fundraiser Update Message</li>
+            <li class="breadcrumb-item active">Fundraiser Message</li>
         </ol>
     </x-breadcrumb>
     <!-- breadcrumb end  -->
@@ -17,7 +17,7 @@
 
                 <div class="col-lg-9 col-md-8">
                     <div class="account_content_area">
-                        <h3>Fundraiser Update Message <button class="btn btn-sm btn-success float-end" data-bs-toggle="modal"
+                        <h3>Fundraiser Message <button class="btn btn-sm btn-success float-end" data-bs-toggle="modal"
                                 data-bs-target="#post_update_message">Create
                                 Message + </button></h3>
 
@@ -39,7 +39,7 @@
                                                     <tr>
                                                         <th>Message</th>
                                                         <th>Type</th>
-                                                        <th>Created At</th>
+                                                        <th>Updated At</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -51,9 +51,22 @@
                                                                 <span
                                                                     class="badge {{ $mess->message_type == 'success' ? ' bg-success' : ($mess->message_type == 'warning' ? ' bg-warning' : 'bg-danger') }}">{{ $mess->message_type }}</span>
                                                             </td>
-                                                            <td>{{ $mess->created_at->diffForHumans() }}</td>
+                                                            <td>{{ $mess->updated_at->diffForHumans() }}</td>
                                                             <td>
-                                                                <a href="#">Edit</a>
+                                                                <a href="{{ route('fundraiser.post.message.edit', $mess->id) }}"
+                                                                    class="action_icon" title="Edit">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </a>
+                                                                <form
+                                                                    action="{{ route('fundraiser.post.message.delete', $mess->id) }}"
+                                                                    method="POST" class="d-inline" style="cursor: pointer">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <p class="action_icon delete message_delete"
+                                                                        title="Delete">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </p>
+                                                                </form>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -73,6 +86,7 @@
     </section>
 
     {{-- create modal --}}
+
 
     <!-- Modal -->
     <div class="modal fade" id="post_update_message" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -105,7 +119,7 @@
                                     <option disabled selected>Select type</option>
                                     <option value="success">Success</option>
                                     <option value="warning">Warning</option>
-                                    <option value="error">Error</option>
+                                    <option value="danger">Danger</option>
                                 </select>
                                 <p class="text-danger" id="message_typeErrorMsg"></p>
                             </div>
@@ -114,7 +128,7 @@
                                         class="text-danger">*</span></label>
                                 <textarea class="form-control @error('update_message') is-invalid @enderror" id="update_message" name="update_message"
                                     rows="5">{{ old('update_message') }}</textarea>
-                                <p style="color: rgba(54, 76, 102, 0.7)">Maximum 300 Character.
+                                <p style="color: rgba(54, 76, 102, 0.7)">Maximum 150 Character.
                                 </p>
                                 <p class="text-danger" id="update_messageErrorMsg"></p>
                             </div>
@@ -163,5 +177,24 @@
                 },
             });
         });
+
+
+        $(function($) {
+            $('.message_delete').on('click', function() {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).parent('form').submit();
+                    }
+                });
+            })
+        });
     </script>
+
 @endsection

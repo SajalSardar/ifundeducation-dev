@@ -13,7 +13,7 @@ Route::name( 'front.' )->group( function () {
         Route::get( '/', 'index' )->name( 'index' );
     } );
 
-    Route::get( '/fundraiser/post/{slug}/show', [FundraiserPostController::class, 'fundraiserPostShow'] )->name( 'fundraiser.post.show' );
+    Route::get( '/fundraiser/single-post/{slug}', [FundraiserPostController::class, 'fundraiserPostShow'] )->name( 'fundraiser.post.show' );
 
 } );
 
@@ -55,11 +55,10 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser'] )->group( function ()
 
     Route::controller( FundraiserUpdateMessageController::class )->prefix( 'fundraiser/post/message' )->name( 'fundraiser.post.message.' )->group( function () {
         Route::get( '/', 'index' )->name( 'index' );
-        Route::get( '/create', 'create' )->name( 'create' );
         Route::post( '/store', 'store' )->name( 'store' );
-        Route::get( '/edit/{fundraiser-message-update}', 'edit' )->name( 'edit' );
-        Route::put( '/update/{fundraiser-message-update}', 'update' )->name( 'update' );
-        Route::delete( '/delete/{fundraiser-message-update}', 'destroy' )->name( 'delete' );
+        Route::get( '/edit/{fundraiserupdatemessage}', 'edit' )->name( 'edit' );
+        Route::put( '/update/{fundraiserupdatemessage}', 'update' )->name( 'update' );
+        Route::delete( '/delete/{fundraiserupdatemessage}', 'destroy' )->name( 'delete' );
     } );
 
 } );

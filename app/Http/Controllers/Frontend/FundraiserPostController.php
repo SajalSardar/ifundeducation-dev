@@ -175,7 +175,9 @@ class FundraiserPostController extends Controller {
 
     public function fundraiserPostShow( $slug ) {
 
-        $fundRaiserPost = FundraiserPost::with( 'fundraisercategories' )->where( 'slug', $slug )->firstOrfail();
+        $fundRaiserPost = FundraiserPost::with( ['fundraisercategories', 'fundraiserupdatemessage' => function ( $q ) {
+            $q->orderBy( 'created_at', 'desc' );
+        }] )->where( 'slug', $slug )->firstOrfail();
 
         return view( 'frontend.fundraiser_post.show', compact( 'fundRaiserPost' ) );
     }

@@ -25,6 +25,10 @@ class FundraiserPost extends Model {
         return $this->belongsToMany( FundraiserCategory::class );
     }
 
+    public function fundraiserupdatemessage() {
+        return $this->hasMany( FundraiserUpdateMessage::class );
+    }
+
     public function user() {
         return $this->belongsTo( User::class );
     }

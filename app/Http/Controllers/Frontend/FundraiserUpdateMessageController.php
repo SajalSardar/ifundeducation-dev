@@ -15,18 +15,9 @@ class FundraiserUpdateMessageController extends Controller {
      */
     public function index() {
         $posts    = FundraiserPost::where( 'user_id', auth()->user()->id )->get( ['id', 'title'] );
-        $messages = FundraiserUpdateMessage::with( 'fundraiserpost:id,title' )->orderBy( 'created_at', 'desc' )->paginate( 30 )->groupBy( 'fundraiserpost.title' );
+        $messages = FundraiserUpdateMessage::with( 'fundraiserpost:id,title' )->orderBy( 'updated_at', 'desc' )->paginate( 30 )->groupBy( 'fundraiserpost.title' );
 
         return view( 'frontend.post_message.index', compact( 'posts', 'messages' ) );
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        //
     }
 
     /**
@@ -39,11 +30,11 @@ class FundraiserUpdateMessageController extends Controller {
         $request->validate( [
             'fundraiser_post' => 'required',
             'message_type'    => 'required',
-            'update_message'  => 'required',
+            'update_message'  => 'required|max:150',
         ], [
-            'fundraiser_post.required' => 'Select Post',
-            'message_type.required'    => 'Select Message Type',
-            'update_message.required'  => 'Enter Message',
+            'fundraiser_post.required' => 'Select Fundraiser Post',
+            'message_type.required'    => 'Select Fundraiser Message Type',
+            'update_message.required'  => 'Enter Fundraiser Message',
         ] );
 
         FundraiserUpdateMessage::create( [
@@ -57,23 +48,14 @@ class FundraiserUpdateMessageController extends Controller {
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\FundraiserUpdateMessage  $fundraiserUpdateMessage
-     * @return \Illuminate\Http\Response
-     */
-    public function show( FundraiserUpdateMessage $fundraiserUpdateMessage ) {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\FundraiserUpdateMessage  $fundraiserUpdateMessage
      * @return \Illuminate\Http\Response
      */
-    public function edit( FundraiserUpdateMessage $fundraiserUpdateMessage ) {
-        //
+    public function edit( FundraiserUpdateMessage $fundraiserupdatemessage ) {
+        $posts = FundraiserPost::where( 'user_id', auth()->user()->id )->get( ['id', 'title'] );
+        return view( 'frontend.post_message.edit', compact( 'fundraiserupdatemessage', 'posts' ) );
     }
 
     /**
@@ -83,17 +65,37 @@ class FundraiserUpdateMessageController extends Controller {
      * @param  \App\Models\FundraiserUpdateMessage  $fundraiserUpdateMessage
      * @return \Illuminate\Http\Response
      */
-    public function update( Request $request, FundraiserUpdateMessage $fundraiserUpdateMessage ) {
-        //
+    public function update( Request $request, FundraiserUpdateMessage $fundraiserupdatemessage ) {
+        $request->validate( [
+            'fundraiser_post' => 'required',
+            'message_type'    => 'required',
+            'update_message'  => 'required|max:150',
+        ], [
+            'fundraiser_post.required' => 'Select Fundraiser Post',
+            'message_type.required'    => 'Select Fundraiser Message Type',
+            'update_message.required'  => 'Enter Fundraiser Message',
+        ] );
+
+        $update = $fundraiserupdatemessage->update( [
+            'fundraiser_post_id' => $request->fundraiser_post,
+            'message'            => $request->update_message,
+            'message_type'       => $request->message_type,
+        ] );
+        if ( $update ) {
+            return redirect()->route( 'fundraiser.post.message.index' )->with( 'success', 'Update Successfull!' );
+        } else {
+            return redirect()->route( 'fundraiser.post.message.index' )->with( 'error', 'Update Failed!' );
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\FundraiserUpdateMessage  $fundraiserUpdateMessage
+     * @param  \App\Models\FundraiserUpdateMessage  $fundraiserupdatemessage
      * @return \Illuminate\Http\Response
      */
-    public function destroy( FundraiserUpdateMessage $fundraiserUpdateMessage ) {
-        //
+    public function destroy( FundraiserUpdateMessage $fundraiserupdatemessage ) {
+        $fundraiserupdatemessage->delete();
+        return back()->with( 'success', 'Message Deleted Successfull!' );
     }
 }
