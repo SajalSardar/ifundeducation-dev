@@ -15,8 +15,7 @@ class FundraiserUpdateMessageController extends Controller {
      */
     public function index() {
         $posts    = FundraiserPost::where( 'user_id', auth()->user()->id )->get( ['id', 'title'] );
-        $messages = FundraiserUpdateMessage::with( 'fundraiserpost:id,title' )->orderBy( 'updated_at', 'desc' )->paginate( 30 )->groupBy( 'fundraiserpost.title' );
-
+        $messages = FundraiserUpdateMessage::with( 'fundraiserpost:id,title,user_id' )->where( 'user_id', auth()->user()->id )->orderBy( 'updated_at', 'desc' )->paginate( 30 )->groupBy( 'fundraiserpost.title' );
         return view( 'frontend.post_message.index', compact( 'posts', 'messages' ) );
     }
 

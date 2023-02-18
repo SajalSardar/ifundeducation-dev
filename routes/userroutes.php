@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\CommentController;
+use App\Http\Controllers\Frontend\DonateController;
 use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\FundraiserPostController;
 use App\Http\Controllers\Frontend\FundraiserUpdateMessageController;
@@ -17,6 +18,12 @@ Route::name( 'front.' )->group( function () {
 
     Route::get( '/fundraiser/single-post/{slug}', [FundraiserPostController::class, 'fundraiserPostShow'] )->name( 'fundraiser.post.show' );
     Route::post( '/comment/post', [CommentController::class, 'store'] )->name( 'comment.store' );
+
+    Route::controller( DonateController::class )->group( function () {
+        // Route::get( 'stripe', 'stripe' );
+        Route::post( 'stripe', 'stripePost' )->name( 'stripe.post' );
+    } );
+
 } );
 
 Route::middleware( ['auth', 'verified', 'role:fundraiser|donor'] )->group( function () {
@@ -67,6 +74,7 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser'] )->group( function ()
         Route::get( '/edit/{comment}', 'edit' )->name( 'edit' );
         Route::put( '/update/{comment}', 'update' )->name( 'update' );
         Route::delete( '/delete/{comment}', 'destroy' )->name( 'delete' );
+        Route::get( '/status-update/{comment}', 'statusUpdate' )->name( 'status.update' );
     } );
 
 } );

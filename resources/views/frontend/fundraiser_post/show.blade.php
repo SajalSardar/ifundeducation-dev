@@ -57,7 +57,7 @@
                         <p class="mt-3">{{ $fundRaiserPost->shot_description }}</p>
                         <div class="d-sm-flex justify-content-between mt-4 pt-2">
                             <div class="buttons">
-                                <a href="#">Donate</a>
+                                <a href="#" class="donate_btn">Donate</a>
                             </div>
                             <div class="social_profile mt-4 mt-sm-0" id="social-links">
                                 <ul class="footer_social text-start">
@@ -191,7 +191,7 @@
                                         @endguest
                                         <div class="row">
                                             <div class="col form-group">
-                                                <textarea name="comment" rows="5" class="form-control" placeholder="Your Comment*"></textarea>
+                                                <textarea name="comment" rows="5" class="form-control" placeholder="Your Comment*">{{ old('comment') }}</textarea>
                                                 @error('comment')
                                                     <p class="text-danger">{{ $message }}</p>
                                                 @enderror
@@ -457,12 +457,88 @@
         </div>
     </div>
     <!-- profile modal end -->
+
+    {{-- stripe donate form  --}}
+    <div class="donate_form_wrapper">
+
+        <form role="form" action="{{ route('front.stripe.post') }}" method="POST" class="require-validation h-100"
+            data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
+            @csrf
+
+            <div class="row justify-content-center align-items-center h-100 mx-0">
+                <div class="col-lg-5 col-xxl-4 payment_form_card">
+                    <div class='required mb-3'>
+                        <label class='control-label'>Name on Card</label>
+                        <input class='form-control' size='4' type='text'>
+                    </div>
+                    <div class='required mb-3'>
+                        <label class='control-label'>Card Number</label>
+                        <input autocomplete='off' class='form-control card-number' size='20' type='text'>
+                    </div>
+
+                    <div class='row mb-3'>
+                        <div class='col-12 col-md-4 cvc required'>
+                            <label class='control-label'>CVC</label>
+                            <input autocomplete='off' class='form-control card-cvc' placeholder='ex. 311' size='4'
+                                type='text'>
+                        </div>
+                        <div class='col-12 col-md-4  expiration required'>
+                            <label class='control-label'>Expiration Month</label>
+                            <input class='form-control card-expiry-month' placeholder='MM' size='2'
+                                type='text'>
+                        </div>
+                        <div class='col-12 col-md-4  expiration required'>
+                            <label class='control-label'>Expiration Year</label>
+                            <input class='form-control card-expiry-year' placeholder='YYYY' size='4'
+                                type='text'>
+                        </div>
+                    </div>
+                    <div class='required mb-3'>
+                        <label class='control-label'>Amount:</label>
+                        <input autocomplete='off' name="amount" class='form-control' placeholder="Enter Amount"
+                            type='number'>
+                    </div>
+
+                    <div class='col-md-12 error d-none'>
+                        <div class='alert-danger alert'>Please correct the errors and try
+                            again.</div>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    {{-- end stripe donate form  --}}
 @endsection
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('frontend/css/venobox.min.css') }}">
+    <style>
+        .donate_form_wrapper {
+            position: absolute;
+            background: rgba(184, 184, 184, 0.8);
+            z-index: 99;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            display: none;
+        }
+
+        .payment_form_card {
+            padding: 50px !important;
+            background: #fff;
+            box-shadow: 0 0 5px rgba(168, 167, 167, 0.7);
+        }
+    </style>
 @endsection
 @section('script')
+    {{-- <script src="https://js.stripe.com/v3/"></script> --}}
+    <script src="https://js.stripe.com/v2/"></script>
     <script src="{{ asset('frontend/js/venobox.min.js') }}"></script>
     <script>
         new VenoBox({
@@ -499,10 +575,83 @@
 
             });
             var activeTab = localStorage.getItem('activeTab');
-            console.log(activeTab);
             if (activeTab) {
                 $('#singlePostTab button[data-bs-target="' + activeTab + '"]').tab('show');
             }
+
+            //donate_btn 
+            $('.donate_btn').on('click', function(e) {
+                e.preventDefault();
+                $('.donate_form_wrapper').fadeIn(500);
+            });
+
+        });
+
+        $(function() {
+
+            /*------------------------------------------
+            --------------------------------------------
+            Stripe Payment Code
+            --------------------------------------------
+            --------------------------------------------*/
+
+            var $form = $(".require-validation");
+
+            $('form.require-validation').bind('submit', function(e) {
+                var $form = $(".require-validation"),
+                    inputSelector = ['input[type=email]', 'input[type=password]',
+                        'input[type=text]', 'input[type=file]',
+                        'textarea'
+                    ].join(', '),
+                    $inputs = $form.find('.required').find(inputSelector),
+                    $errorMessage = $form.find('div.error'),
+                    valid = true;
+                $errorMessage.addClass('d-none');
+
+                $('.has-error').removeClass('has-error');
+                $inputs.each(function(i, el) {
+                    var $input = $(el);
+                    if ($input.val() === '') {
+                        $input.parent().addClass('has-error');
+                        $errorMessage.removeClass('d-none');
+                        e.preventDefault();
+                    }
+                });
+
+                if (!$form.data('cc-on-file')) {
+                    e.preventDefault();
+                    Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+                    Stripe.createToken({
+                        number: $('.card-number').val(),
+                        cvc: $('.card-cvc').val(),
+                        exp_month: $('.card-expiry-month').val(),
+                        exp_year: $('.card-expiry-year').val()
+                    }, stripeResponseHandler);
+                }
+
+            });
+
+            /*------------------------------------------
+            --------------------------------------------
+            Stripe Response Handler
+            --------------------------------------------
+            --------------------------------------------*/
+            function stripeResponseHandler(status, response) {
+                if (response.error) {
+                    $('.error')
+                        .removeClass('d-none')
+                        .find('.alert')
+                        .text(response.error.message);
+                } else {
+                    /* token contains id, last4, and card type */
+                    var token = response['id'];
+
+                    $form.find('input[type=text]').empty();
+                    $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+                    $form.get(0).submit();
+                }
+            }
+
         });
     </script>
 @endsection

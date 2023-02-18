@@ -15,7 +15,10 @@ class CommentController extends Controller {
      */
     public function index() {
 
-        $comments = Comment::get();
+        $comments = Comment::whereHas( 'fundraiserpost', function ( $q ) {
+            $q->where( 'user_id', auth()->user()->id );
+        } )->orderBy( 'created_at', 'desc' )->get();
+
         return view( 'frontend.comment.index', compact( 'comments' ) );
     }
 
@@ -96,6 +99,27 @@ class CommentController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy( Comment $comment ) {
-        //
+        $comment->delete();
+        return back()->with( 'success', 'Status Delete Successfull!' );
+    }
+
+    /**
+     *
+     * @param  \App\Models\Comment  $comment
+     * @return \Illuminate\Http\Response
+     */
+    public function statusUpdate( Comment $comment ) {
+        if ( $comment->status == 'approved' ) {
+            $comment->update( [
+                'status' => 'unapproved',
+            ] );
+        } else {
+            $comment->update( [
+                'status' => 'approved',
+            ] );
+        }
+
+        return back()->with( 'success', 'Status Update Successfull!' );
+
     }
 }
