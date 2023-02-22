@@ -23,12 +23,21 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-6">
-          <form method="POST" action="" class="account_content_area_form">
+          {{-- <form method="POST" action="{{ route('front.donate.post') }}" class="account_content_area_form">
+            @csrf
+            <input type="hidden" name="post_id" value="{{ $fundPost->id }}">
 
             <div class="d-flex mb-4">
               <div class="flex-shrink-0">
-                <img src="{{ asset('storage/fundraiser_post/' . $fundPost->image) }}" width="100" class="rounded"
-                  alt="{{ $fundPost->title }}">
+
+                @if ($fundPost->image)
+                  <img src="{{ asset('storage/fundraiser_post/' . $fundPost->image) }}" width="100" class="rounded"
+                    alt="{{ $fundPost->title }}">
+                @else
+                  <img
+                    src="{{ Avatar::create($fundPost->title)->setShape('square')->setBackground('#ddd')->setDimension(100)->setFontSize(12) }}"
+                    alt="{{ $fundPost->title }}" class="rounded">
+                @endif
               </div>
               <div class="flex-grow-1 ms-3">
                 <h4>{{ $fundPost->title }}</h4>
@@ -104,7 +113,8 @@
                   </div>
                   <div class='col-md-6'>
                     <div class="form-floating">
-                      <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder='Zip Code'>
+                      <input type="text" class="form-control" id="zipCode" name="zipCode"
+                        placeholder='Zip Code'>
                       <label for="zipCode">Zip</label>
                     </div>
                   </div>
@@ -144,6 +154,22 @@
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Donate Now</button>
               </div>
             </div>
+          </form> --}}
+
+          <form action="{{ route('front.donate.post') }}" method="post" id="payment-form"
+            class="account_content_area_form">
+            @csrf
+            <div class="form-row">
+              <label for="card-element">
+                Credit or debit card
+              </label>
+              <div id="card-element">
+              </div>
+
+              <div id="card-errors" role="alert"></div>
+            </div>
+
+            <button>Submit Payment</button>
           </form>
         </div>
       </div>
@@ -151,10 +177,69 @@
   </section>
 
 
+
 @endsection
 
 @section('script')
+  <script src="https://js.stripe.com/v3/"></script>
   <script>
+    const stripe = Stripe(
+      'pk_test_51HI5BcCKybLLVMsSJ1zKQK22Av94EF1nvgUaj3eHTNBvhx9rgri9NFf5b7rjclMgwipLLhL9AJaxQodevyAywkqC00I6kl866i');
+    const elements = stripe.elements();
+
+    // Custom styling can be passed to options when creating an Element.
+    const style = {
+      base: {
+        // Add your base input styles here. For example:
+        fontSize: '16px',
+        color: '#32325d',
+      },
+    };
+
+    // Create an instance of the card Element.
+    const card = elements.create('card', {
+      style
+    });
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+
+    // Create a token or display an error when the form is submitted.
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const {
+        token,
+        error
+      } = await stripe.createToken(card);
+
+      if (error) {
+        // Inform the customer that there was an error.
+        const errorElement = document.getElementById('card-errors');
+        errorElement.textContent = error.message;
+      } else {
+        // Send the token to your server.
+        stripeTokenHandler(token);
+      }
+    });
+
+    const stripeTokenHandler = (token) => {
+      // Insert the token ID into the form so it gets submitted to the server
+      const form = document.getElementById('payment-form');
+      const hiddenInput = document.createElement('input');
+      hiddenInput.setAttribute('type', 'hidden');
+      hiddenInput.setAttribute('name', 'stripeToken');
+      hiddenInput.setAttribute('value', token.id);
+      form.appendChild(hiddenInput);
+
+      // Submit the form
+      form.submit();
+    }
+
+
+
+
     $(document).ready(function() {
       let amount = $('#amount'),
         display_amount = $('.display_amount'),

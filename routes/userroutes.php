@@ -21,7 +21,9 @@ Route::name( 'front.' )->group( function () {
 
     Route::controller( DonateController::class )->group( function () {
         Route::get( 'donate/fundraiser/{slug}', 'index' )->name( 'stripe.donate' );
-        Route::post( 'stripe', 'stripePost' )->name( 'stripe.post' );
+        Route::post( 'donate/fundraiser', 'donatePost' )->name( 'donate.post' );
+        Route::get( 'donate/success', 'donateSuccess' )->name( 'donate.success' );
+        Route::get( 'donate/cancel', 'donateCancel' )->name( 'donate.cancel' );
     } );
 
 } );
