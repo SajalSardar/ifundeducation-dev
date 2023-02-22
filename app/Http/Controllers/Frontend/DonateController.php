@@ -26,22 +26,26 @@ class DonateController extends Controller {
 
         $post = FundraiserPost::find( $request->post_id );
 
-        \Stripe\Stripe::setApiKey( env( 'STRIPE_SECRET' ) );
+        $platformFee = ( $request->amount * 3 ) / 100;
 
-        // Token is created using Stripe Checkout or Elements!
-        // Get the payment token ID submitted by the form:
         $token = $request->stripeToken;
 
+        \Stripe\Stripe::setApiKey( env( 'STRIPE_SECRET' ) );
+
         $customer = \Stripe\Customer::create( [
-            'source' => $token,
-            'name'   => 'sajal',
-            'email'  => 'paying.user@example.com',
+            'source'   => $token,
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'metadata' => [
+                'zip_code' => $request->zipCode,
+                'country'  => $request->country,
+            ],
         ] );
 
         $charge = \Stripe\Charge::create( [
-            'amount'      => 10 * 100,
+            'amount'      => ( $request->amount + $platformFee ) * 100,
             'currency'    => 'usd',
-            'description' => 'Example charge',
+            'description' => $post->title,
             'customer'    => $customer->id,
 
         ] );
@@ -73,6 +77,7 @@ class DonateController extends Controller {
     public function donateSuccess() {
         return "success";
     }
+
     public function donateCancel() {
         return "cancel";
     }
