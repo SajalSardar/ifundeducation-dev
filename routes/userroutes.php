@@ -20,7 +20,7 @@ Route::name( 'front.' )->group( function () {
     Route::post( '/comment/post', [CommentController::class, 'store'] )->name( 'comment.store' );
 
     Route::controller( DonateController::class )->group( function () {
-        // Route::get( 'stripe', 'stripe' );
+        Route::get( 'donate/fundraiser/{slug}', 'index' )->name( 'stripe.donate' );
         Route::post( 'stripe', 'stripePost' )->name( 'stripe.post' );
     } );
 
