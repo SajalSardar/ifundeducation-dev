@@ -25,9 +25,21 @@ class DonateController extends Controller {
      */
     public function donatePost( Request $request ) {
 
+        $request->validate( [
+            "cardNumber"  => 'required|min:19',
+            "expiraMonth" => 'required|integer|digits_between:1,2',
+            "expiraYear"  => 'required|integer|digits:2',
+            "cardCVC"     => 'required|integer|digits:3',
+            "name"        => 'required',
+            "email"       => 'required|email',
+            "zipCode"     => 'required|integer',
+            "country"     => 'required',
+            "amount"      => 'required|integer',
+        ] );
+
         $post = FundraiserPost::find( $request->post_id );
 
-        $platformFee = ( $request->amount * 3 ) / 100;
+        $platformFee = ( $request->amount * 3.5 ) / 100;
 
         try {
             $stripe = new \Stripe\StripeClient( env( 'STRIPE_SECRET' ) );
@@ -60,10 +72,11 @@ class DonateController extends Controller {
                 'customer'    => $customer->id,
             ] );
 
-            return $stripe->balanceTransactions->retrieve(
+            $transaction = $stripe->balanceTransactions->retrieve(
                 $charge->balance_transaction
             );
 
+            return $transaction;
             return back()->with( 'success', 'Donate Successfull' );
 
         } catch ( Exception $e ) {
@@ -73,11 +86,4 @@ class DonateController extends Controller {
 
     }
 
-    public function donateSuccess() {
-        return "success";
-    }
-
-    public function donateCancel() {
-        return "cancel";
-    }
 }

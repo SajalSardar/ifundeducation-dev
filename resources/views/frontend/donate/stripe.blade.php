@@ -45,67 +45,98 @@
                             </div>
                         </div>
                         <div class="border-top mb-3"></div>
+                        <div class='col-12 mb-3'>
+                            <div class="form-floating">
+                                <input type="number" class="form-control @error('amount') is-invalid @enderror"
+                                    id="amount" name="amount" placeholder='Amount' value="{{ old('amount') }}">
+                                <label for="amount">Amount</label>
+                            </div>
+                            @error('amount')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="border-top mb-3"></div>
                         <div class="row">
                             <div class='col-12 mb-3'>
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="name@example.com">
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" name="email" placeholder="name@example.com"
+                                        value="{{ old('email') }}">
                                     <label for="email">Email</label>
                                 </div>
+                                @error('email')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class='col-12 mb-3'>
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="Name">
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                        id="name" name="name" placeholder="Name" value="{{ old('name') }}">
                                     <label for="name">Name</label>
                                 </div>
+                                @error('name')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div class='col-12 mb-3'>
                                 <div class="form-floating">
-                                    <input type="tel" class="form-control" id="cardNumber" name="cardNumber"
-                                        placeholder="Card Number" maxlength="19">
+                                    <input type="tel" class="form-control @error('cardNumber') is-invalid @enderror"
+                                        id="cardNumber" name="cardNumber" placeholder="Card Number" maxlength="19"
+                                        value="{{ old('cardNumber') }}">
                                     <label for="cardNumber">Card Number</label>
                                 </div>
+                                @error('cardNumber')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div class="col-12">
                                 <div class='row mb-3'>
                                     <div class='col-md-4'>
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="cardCVC" name="cardCVC"
-                                                placeholder='ex. 311' maxlength="3" pattern="[0-9]*">
+                                            <input type="text"
+                                                class="form-control @error('cardCVC') is-invalid @enderror" id="cardCVC"
+                                                name="cardCVC" placeholder='ex. 311' maxlength="3" pattern="[0-9]*"
+                                                value="{{ old('cardCVC') }}">
                                             <label for="cardCVC">CVC</label>
                                         </div>
+                                        @error('cardCVC')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class='col-md-4'>
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="expiraMonth" name="expiraMonth"
-                                                placeholder='MM' maxlength="2">
+                                            <input type="text"
+                                                class="form-control @error('expiraMonth') is-invalid @enderror"
+                                                id="expiraMonth" name="expiraMonth" placeholder='MM' maxlength="2"
+                                                value="{{ old('expiraMonth') }}">
                                             <label for="expiraMonth">Month</label>
                                         </div>
+                                        @error('expiraMonth')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class=' col-md-4'>
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="expiraYear" name="expiraYear"
-                                                placeholder='YYYY' maxlength="2">
+                                            <input type="text"
+                                                class="form-control @error('expiraYear') is-invalid @enderror"
+                                                id="expiraYear" name="expiraYear" placeholder='YYYY' maxlength="2"
+                                                value="{{ old('expiraYear') }}">
                                             <label for="expiraYear">Year</label>
                                         </div>
+                                        @error('expiraYear')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
-                                </div>
-                            </div>
-                            <div class='col-12 mb-3'>
-                                <div class="form-floating">
-                                    <input type="number" class="form-control" id="amount" name="amount"
-                                        placeholder='Amount'>
-                                    <label for="amount">Amount</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class='row mb-3'>
                                     <div class='col-md-6'>
                                         <div class="form-floating">
-                                            <select class="form-select" name="country" id="floatingSelect">
+                                            <select class="form-select @error('country') is-invalid @enderror"
+                                                name="country" id="floatingSelect">
                                                 <option selected disabled>Select Country</option>
                                                 @foreach ($countries as $country)
                                                     <option value="{{ $country->name }}">{{ $country->name }}</option>
@@ -113,14 +144,21 @@
                                             </select>
                                             <label for="floatingSelect">Country</label>
                                         </div>
+                                        @error('country')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
 
                                     </div>
                                     <div class='col-md-6'>
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="zipCode" name="zipCode"
-                                                placeholder='Zip Code'>
+                                            <input type="text"
+                                                class="form-control @error('zipCode') is-invalid @enderror" id="zipCode"
+                                                name="zipCode" placeholder='Zip Code' value="{{ old('zipCode') }}">
                                             <label for="zipCode">Zip</label>
                                         </div>
+                                        @error('zipCode')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -189,7 +227,7 @@
                 display_total = $('.display_total');
 
             amount.on('change', function() {
-                let fee = parseFloat((amount.val() * 3) / 100);
+                let fee = parseFloat((amount.val() * 3.5) / 100);
                 let user_amount = parseInt(amount.val());
                 amount.val(user_amount);
                 display_amount.html(user_amount);
