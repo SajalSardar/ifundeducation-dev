@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\FundraiserPost;
+use Exception;
 use Illuminate\Http\Request;
 
 class DonateController extends Controller {
@@ -28,50 +29,48 @@ class DonateController extends Controller {
 
         $platformFee = ( $request->amount * 3 ) / 100;
 
-        $token = $request->stripeToken;
+        try {
+            $stripe = new \Stripe\StripeClient( env( 'STRIPE_SECRET' ) );
 
-        \Stripe\Stripe::setApiKey( env( 'STRIPE_SECRET' ) );
+            \Stripe\Stripe::setApiKey( env( 'STRIPE_SECRET' ) );
 
-        $customer = \Stripe\Customer::create( [
-            'source'   => $token,
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'metadata' => [
-                'zip_code' => $request->zipCode,
-                'country'  => $request->country,
-            ],
-        ] );
+            $token = $stripe->tokens->create( [
+                'card' => [
+                    'number'    => $request->cardNumber,
+                    'exp_month' => $request->expiraMonth,
+                    'exp_year'  => $request->expiraYear,
+                    'cvc'       => $request->cardCVC,
+                ],
+            ] );
 
-        $charge = \Stripe\Charge::create( [
-            'amount'      => ( $request->amount + $platformFee ) * 100,
-            'currency'    => 'usd',
-            'description' => $post->title,
-            'customer'    => $customer->id,
+            $customer = $stripe->customers->create( [
+                'source'   => $token,
+                'name'     => $request->name,
+                'email'    => $request->email,
+                'metadata' => [
+                    'zip_code' => $request->zipCode,
+                    'country'  => $request->country,
+                ],
+            ] );
 
-        ] );
+            $charge = $stripe->charges->create( [
+                'amount'      => ( $request->amount + $platformFee ) * 100,
+                'currency'    => 'usd',
+                'description' => $post->title,
+                'customer'    => $customer->id,
+            ] );
 
-        // \Stripe\Stripe::setApiKey( env( 'STRIPE_SECRET' ) );
+            return $stripe->balanceTransactions->retrieve(
+                $charge->balance_transaction
+            );
 
-        // $session = \Stripe\Checkout\Session::create( [
-        //     'submit_type'          => 'donate',
-        //     'payment_method_types' => ['card'],
-        //     'line_items'           => [[
-        //         'price_data' => [
-        //             'currency'     => 'usd',
-        //             'product_data' => [
-        //                 'name' => $post->title,
-        //             ],
-        //             'unit_amount'  => 2000,
-        //         ],
-        //         'quantity'   => 1,
-        //     ]],
-        //     'mode'                 => 'payment',
-        //     'success_url'          => route( 'front.donate.success' ),
-        //     'cancel_url'           => route( 'front.donate.cancel' ),
+            return back()->with( 'success', 'Donate Successfull' );
 
-        // ] );
+        } catch ( Exception $e ) {
 
-        // return redirect()->away( $session->url );
+            return back()->with( 'error', $e->getMessage() );
+        }
+
     }
 
     public function donateSuccess() {

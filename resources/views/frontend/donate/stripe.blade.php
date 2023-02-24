@@ -24,7 +24,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <form method="POST" action="{{ route('front.donate.post') }}" id="payment-form"
-                        class="account_content_area_form" data-stripe-key={{ env('STRIPE_KEY') }}>
+                        class="account_content_area_form">
                         @csrf
                         <input type="hidden" name="post_id" value="{{ $fundPost->id }}">
 
@@ -60,14 +60,11 @@
                                     <label for="name">Name</label>
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
-                                <div id="card-element">
-                                </div>
-                            </div>
-                            {{-- <div class='col-12 mb-3'>
+
+                            <div class='col-12 mb-3'>
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="cardNumber" size='20'
-                                        name="cardNumber" placeholder="Card Number">
+                                    <input type="tel" class="form-control" id="cardNumber" name="cardNumber"
+                                        placeholder="Card Number" maxlength="19">
                                     <label for="cardNumber">Card Number</label>
                                 </div>
                             </div>
@@ -77,26 +74,26 @@
                                     <div class='col-md-4'>
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="cardCVC" name="cardCVC"
-                                                placeholder='ex. 311' size='4'>
+                                                placeholder='ex. 311' maxlength="3" pattern="[0-9]*">
                                             <label for="cardCVC">CVC</label>
                                         </div>
                                     </div>
                                     <div class='col-md-4'>
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="expiraMonth" name="expiraMonth"
-                                                placeholder='MM' size='2'>
-                                            <label for="expiraMonth">Expiration Month</label>
+                                                placeholder='MM' maxlength="2">
+                                            <label for="expiraMonth">Month</label>
                                         </div>
                                     </div>
                                     <div class=' col-md-4'>
                                         <div class="form-floating">
                                             <input type="text" class="form-control" id="expiraYear" name="expiraYear"
-                                                placeholder='YYYY' size='4'>
-                                            <label for="expiraYear">Expiration Year</label>
+                                                placeholder='YYYY' maxlength="2">
+                                            <label for="expiraYear">Year</label>
                                         </div>
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class='col-12 mb-3'>
                                 <div class="form-floating">
                                     <input type="number" class="form-control" id="amount" name="amount"
@@ -164,21 +161,6 @@
                         </div>
                     </form>
 
-                    {{-- <form action="{{ route('front.donate.post') }}" method="post" id="payment-form"
-                        class="account_content_area_form">
-                        @csrf
-                        <div class="form-row">
-                            <label for="card-element">
-                                Credit or debit card
-                            </label>
-                            <div id="card-element">
-                            </div>
-
-                            <div id="card-errors" role="alert"></div>
-                        </div>
-
-                        <button>Submit Payment</button>
-                    </form> --}}
                 </div>
             </div>
         </div>
@@ -189,66 +171,18 @@
 @endsection
 
 @section('script')
-    <script src="https://js.stripe.com/v3/"></script>
     <script>
-        const stripe_key = document.getElementById('payment-form');
-        const stripe = Stripe(stripe_key.dataset.stripeKey);
-        const elements = stripe.elements();
+        $('#cardNumber').keyup(function() {
+            cc = $(this).val().split("-").join("");
 
-        // Custom styling can be passed to options when creating an Element.
-        const style = {
-            base: {
-                // Add your base input styles here. For example:
-                fontSize: '16px',
-                color: '#32325d',
-            },
-        };
+            cc = cc.match(new RegExp('.{1,4}$|.{1,4}', 'g')).join("-");
 
-        // Create an instance of the card Element.
-        const card = elements.create('card', {
-            style
+            $(this).val(cc);
+
         });
-
-        // Add an instance of the card Element into the `card-element` <div>.
-        card.mount('#card-element');
-
-        // Create a token or display an error when the form is submitted.
-        const form = document.getElementById('payment-form');
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const {
-                token,
-                error
-            } = await stripe.createToken(card);
-
-            if (error) {
-                // Inform the customer that there was an error.
-                const errorElement = document.getElementById('card-errors');
-                errorElement.textContent = error.message;
-            } else {
-                // Send the token to your server.
-                stripeTokenHandler(token);
-            }
-        });
-
-        const stripeTokenHandler = (token) => {
-            // Insert the token ID into the form so it gets submitted to the server
-            const form = document.getElementById('payment-form');
-            const hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-
-            // Submit the form
-            form.submit();
-        }
-
-
-
 
         $(document).ready(function() {
+
             let amount = $('#amount'),
                 display_amount = $('.display_amount'),
                 display_platform_fee = $('.display_platform_fee'),
