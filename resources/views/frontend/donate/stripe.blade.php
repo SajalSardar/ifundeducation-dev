@@ -221,6 +221,11 @@
 
         $(document).ready(function() {
 
+            const format = (num, decimals) => num.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
             let amount = $('#amount'),
                 display_amount = $('.display_amount'),
                 display_platform_fee = $('.display_platform_fee'),
@@ -231,9 +236,12 @@
                 let user_amount = parseInt(amount.val());
                 amount.val(user_amount);
                 display_amount.html(user_amount);
-                display_platform_fee.html(fee);
-                display_total.html(user_amount + fee);
+                display_platform_fee.html(format(fee));
+                display_total.html(user_amount + parseFloat(format(fee)));
+
             })
+
+
 
         });
     </script>

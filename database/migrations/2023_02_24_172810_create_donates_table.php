@@ -13,12 +13,16 @@ return new class extends Migration {
     public function up() {
         Schema::create( 'donates', function ( Blueprint $table ) {
             $table->id();
+            $table->foreignId( 'donar_id' )->nullable()->constrained( 'users' );
+            $table->foreignId( 'fundraiser_post_id' )->constrained();
             $table->string( 'charge_id' );
             $table->string( 'balance_transaction_id' );
             $table->decimal( 'amount' );
             $table->decimal( 'stripe_fee' );
             $table->decimal( 'net_balance' );
+            $table->string( 'currency' );
             $table->string( 'status' )->default( 'Succeeded' );
+            $table->string( 'display_publicly' )->default( 'yes' );
             $table->softDeletes();
             $table->timestamps();
         } );

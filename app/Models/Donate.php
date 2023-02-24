@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Donate extends Model {
     use HasFactory, SoftDeletes;
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
 }
