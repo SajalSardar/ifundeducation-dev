@@ -77,19 +77,24 @@ class DonateController extends Controller {
                 $charge->balance_transaction
             );
 
+            $platform_fee = (  ( $transaction->net / 100 ) * 3.5 ) / 100;
+
             Donate::create( [
                 "donar_id"               => auth()->user()->id ?? null,
+                'donar_name'             => $request->name,
+                'donar_email'            => $request->email,
                 "fundraiser_post_id"     => $request->post_id,
                 "charge_id"              => $charge->id,
                 "balance_transaction_id" => $transaction->id,
                 "amount"                 => $transaction->amount / 100,
                 "stripe_fee"             => $transaction->fee / 100,
-                "net_balance"            => $transaction->net / 100,
+                "net_balance"            => ( $transaction->net / 100 ) - $platform_fee,
+                "platform_fee"           => $platform_fee,
                 "currency"               => 'usd',
                 "display_publicly"       => $request->is_display_info === "on" ? "no" : "yes",
             ] );
 
-            return back()->with( 'success', 'Donate Successfull' );
+            return redirect()->route( 'front.fundraiser.post.show', $post->slug )->with( 'success', 'Donate Successfull' );
 
         } catch ( Exception $e ) {
 

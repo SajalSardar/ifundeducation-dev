@@ -33,6 +33,10 @@ class FundraiserPost extends Model {
         return $this->hasMany( Comment::class )->whereNull( 'parent_id' );
     }
 
+    public function donates() {
+        return $this->hasMany( Donate::class );
+    }
+
     public function user() {
         return $this->belongsTo( User::class );
     }

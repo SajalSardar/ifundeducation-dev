@@ -176,11 +176,17 @@ class FundraiserPostController extends Controller {
 
     public function fundraiserPostShow( $slug ) {
 
-        $fundRaiserPost = FundraiserPost::with( ['fundraisercategories', 'comments' => function ( $q ) {
-            $q->with( 'replies' )->where( 'status', 'approved' )->orderBy( 'created_at', "desc" );
-        }, 'fundraiserupdatemessage' => function ( $q ) {
-            $q->orderBy( 'created_at', 'desc' );
-        }] )->where( 'slug', $slug )->firstOrfail();
+        $fundRaiserPost = FundraiserPost::with( [
+            'fundraisercategories',
+            'donates'                 => function ( $q ) {
+                $q->select( 'id', 'donar_name', 'amount', 'created_at', 'fundraiser_post_id', 'display_publicly' );
+            },
+            'comments'                => function ( $q ) {
+                $q->with( 'replies' )->where( 'status', 'approved' )->orderBy( 'created_at', "desc" );
+            },
+            'fundraiserupdatemessage' => function ( $q ) {
+                $q->orderBy( 'created_at', 'desc' );
+            }] )->where( 'slug', $slug )->firstOrfail();
         $total_comment = Comment::where( 'fundraiser_post_id', $fundRaiserPost->id )->where( 'status', 'approved' )->count();
 
         return view( 'frontend.fundraiser_post.show', compact( 'fundRaiserPost', 'total_comment' ) );

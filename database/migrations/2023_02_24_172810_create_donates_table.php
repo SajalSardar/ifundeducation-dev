@@ -17,11 +17,14 @@ return new class extends Migration {
             $table->foreignId( 'fundraiser_post_id' )->constrained();
             $table->string( 'charge_id' );
             $table->string( 'balance_transaction_id' );
+            $table->string( 'donar_name' );
+            $table->string( 'donar_email' );
             $table->decimal( 'amount' );
             $table->decimal( 'stripe_fee' );
+            $table->decimal( 'platform_fee' );
             $table->decimal( 'net_balance' );
             $table->string( 'currency' );
-            $table->string( 'status' )->default( 'Succeeded' );
+            $table->string( 'status' )->default( 'succeeded' );
             $table->string( 'display_publicly' )->default( 'yes' );
             $table->softDeletes();
             $table->timestamps();

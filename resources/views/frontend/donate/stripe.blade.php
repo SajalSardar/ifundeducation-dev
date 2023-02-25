@@ -48,7 +48,8 @@
                         <div class='col-12 mb-3'>
                             <div class="form-floating">
                                 <input type="number" class="form-control @error('amount') is-invalid @enderror"
-                                    id="amount" name="amount" placeholder='Amount' value="{{ old('amount') }}">
+                                    id="amount" name="amount" placeholder='Amount' value="{{ old('amount') }}"
+                                    required>
                                 <label for="amount">Amount</label>
                             </div>
                             @error('amount')
@@ -61,7 +62,7 @@
                                 <div class="form-floating">
                                     <input type="email" class="form-control @error('email') is-invalid @enderror"
                                         id="email" name="email" placeholder="name@example.com"
-                                        value="{{ old('email') }}">
+                                        value="{{ old('email') }}" required>
                                     <label for="email">Email</label>
                                 </div>
                                 @error('email')
@@ -71,7 +72,8 @@
                             <div class='col-12 mb-3'>
                                 <div class="form-floating">
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        id="name" name="name" placeholder="Name" value="{{ old('name') }}">
+                                        id="name" name="name" placeholder="Name" value="{{ old('name') }}"
+                                        required>
                                     <label for="name">Name</label>
                                 </div>
                                 @error('name')
@@ -83,7 +85,7 @@
                                 <div class="form-floating">
                                     <input type="tel" class="form-control @error('cardNumber') is-invalid @enderror"
                                         id="cardNumber" name="cardNumber" placeholder="Card Number" maxlength="19"
-                                        value="{{ old('cardNumber') }}">
+                                        value="{{ old('cardNumber') }}" required>
                                     <label for="cardNumber">Card Number</label>
                                 </div>
                                 @error('cardNumber')
@@ -98,7 +100,7 @@
                                             <input type="text"
                                                 class="form-control @error('cardCVC') is-invalid @enderror" id="cardCVC"
                                                 name="cardCVC" placeholder='ex. 311' maxlength="3" pattern="[0-9]*"
-                                                value="{{ old('cardCVC') }}">
+                                                value="{{ old('cardCVC') }}" required>
                                             <label for="cardCVC">CVC</label>
                                         </div>
                                         @error('cardCVC')
@@ -110,7 +112,7 @@
                                             <input type="text"
                                                 class="form-control @error('expiraMonth') is-invalid @enderror"
                                                 id="expiraMonth" name="expiraMonth" placeholder='MM' maxlength="2"
-                                                value="{{ old('expiraMonth') }}">
+                                                value="{{ old('expiraMonth') }}" required>
                                             <label for="expiraMonth">Month</label>
                                         </div>
                                         @error('expiraMonth')
@@ -122,7 +124,7 @@
                                             <input type="text"
                                                 class="form-control @error('expiraYear') is-invalid @enderror"
                                                 id="expiraYear" name="expiraYear" placeholder='YYYY' maxlength="2"
-                                                value="{{ old('expiraYear') }}">
+                                                value="{{ old('expiraYear') }}" required>
                                             <label for="expiraYear">Year</label>
                                         </div>
                                         @error('expiraYear')
@@ -136,7 +138,7 @@
                                     <div class='col-md-6'>
                                         <div class="form-floating">
                                             <select class="form-select @error('country') is-invalid @enderror"
-                                                name="country" id="floatingSelect">
+                                                name="country" id="floatingSelect" required>
                                                 <option selected disabled>Select Country</option>
                                                 @foreach ($countries as $country)
                                                     <option value="{{ $country->name }}">{{ $country->name }}</option>
@@ -153,7 +155,8 @@
                                         <div class="form-floating">
                                             <input type="text"
                                                 class="form-control @error('zipCode') is-invalid @enderror" id="zipCode"
-                                                name="zipCode" placeholder='Zip Code' value="{{ old('zipCode') }}">
+                                                name="zipCode" placeholder='Zip Code' value="{{ old('zipCode') }}"
+                                                required>
                                             <label for="zipCode">Zip</label>
                                         </div>
                                         @error('zipCode')
