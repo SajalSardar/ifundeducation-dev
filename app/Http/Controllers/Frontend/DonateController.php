@@ -5,15 +5,22 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Donate;
+use App\Models\FundraiserBalance;
 use App\Models\FundraiserPost;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DonateController extends Controller {
 
     public function index( $slug ) {
 
-        $fundPost  = FundraiserPost::where( 'slug', $slug )->select( 'id', 'user_id', 'slug', 'title', 'image', 'shot_description' )->firstOrFail();
+        $fundPost = FundraiserPost::where( 'slug', $slug )->select( 'id', 'user_id', 'slug', 'title', 'image', 'shot_description' )->firstOrFail();
+
+        if ( $fundPost->status === 'completed' ) {
+            return view( 'frontend.donate.completed' );
+        }
+
         $countries = Country::all();
         return view( 'frontend.donate.stripe', compact( 'fundPost', 'countries' ) );
 
@@ -25,6 +32,13 @@ class DonateController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function donatePost( Request $request ) {
+
+        $post    = FundraiserPost::find( $request->post_id );
+        $balance = FundraiserBalance::where( 'user_id', $post->user_id )->first();
+
+        if ( $post->status === 'completed' ) {
+            return view( 'frontend.donate.completed' );
+        }
 
         $request->validate( [
             "cardNumber"  => 'required|min:19',
@@ -39,8 +53,6 @@ class DonateController extends Controller {
         ] );
 
         $platformFee = ( $request->amount * 3.5 ) / 100;
-
-        $post = FundraiserPost::find( $request->post_id );
 
         try {
             $stripe = new \Stripe\StripeClient( env( 'STRIPE_SECRET' ) );
@@ -93,6 +105,16 @@ class DonateController extends Controller {
                 "currency"               => 'usd',
                 "display_publicly"       => $request->is_display_info === "on" ? "no" : "yes",
             ] );
+
+            $balance->update( [
+                'curent_amount' => (  ( $transaction->net / 100 ) - $platform_fee ) + $balance->curent_amount,
+            ] );
+
+            if ( $post->donates->sum( 'amount' ) >= $post->goal ) {
+                $post->update( [
+                    'status' => 'completed',
+                ] );
+            }
 
             return redirect()->route( 'front.fundraiser.post.show', $post->slug )->with( 'success', 'Donate Successfull' );
 

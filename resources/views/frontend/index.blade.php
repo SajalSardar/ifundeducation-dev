@@ -68,61 +68,59 @@
             </div>
             <div class="row">
                 @foreach ($fundRaiserPosts as $fundRaiserPost)
-                    @if ($fundRaiserPost->donates->sum('amount') < $fundRaiserPost->goal)
-                        <div class="col-lg-4 col-md-6">
-                            <div class="fundraisers_card">
-                                <div class="save_btn">
-                                    <form action="{{ route('wishlist.store') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" value="{{ $fundRaiserPost->id }}" name="post_id">
-                                        <a href="{{ route('wishlist.store') }}"
-                                            onclick="event.preventDefault();
+                    <div class="col-lg-4 col-md-6">
+                        <div class="fundraisers_card">
+                            <div class="save_btn">
+                                <form action="{{ route('wishlist.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" value="{{ $fundRaiserPost->id }}" name="post_id">
+                                    <a href="{{ route('wishlist.store') }}"
+                                        onclick="event.preventDefault();
                                     this.closest('form').submit();"
-                                            class="{{ in_array($fundRaiserPost->id, $wishlists_id) == true ? 'active' : '' }}"><i
-                                                class="fas fa-heart"></i></a>
-                                    </form>
+                                        class="{{ in_array($fundRaiserPost->id, $wishlists_id) == true ? 'active' : '' }}"><i
+                                            class="fas fa-heart"></i></a>
+                                </form>
 
-                                </div>
-                                @if ($fundRaiserPost->image)
-                                    <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"
-                                        alt="{{ $fundRaiserPost->title }}">
-                                @else
-                                    <img src="{{ Avatar::create($fundRaiserPost->title)->setBackground('#ddd')->setDimension(250)->setFontSize(16)->toBase64() }}"
-                                        alt="{{ $fundRaiserPost->title }}">
-                                @endif
-                                <h3><a
-                                        href="{{ route('front.fundraiser.post.show', $fundRaiserPost->slug) }}">{{ $fundRaiserPost->title }}</a>
-                                </h3>
-                                <ul class="fundraisers_card_sub">
-                                    <li> <i
-                                            class="fas fa-university"></i>{{ $fundRaiserPost->user->academic_profile->university->name }}
-                                    </li>
-                                </ul>
-                                <ul class="fundraisers_card_sub">
-                                    @foreach ($fundRaiserPost->fundraisercategories as $category)
-                                        <li><i class="fas fa-tag text-dark"></i>{{ $category->name }}</li>
-                                    @endforeach
-                                </ul>
-                                <p>{{ $fundRaiserPost->shot_description }}</p>
-                                <div class="progress mt-3" style="height: 13px;">
-                                    <div class="progress-bar progress-bar-striped" role="progressbar"
-                                        aria-label="Example with label"
-                                        style="width: {{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%;"
-                                        aria-valuenow="{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}"
-                                        aria-valuemin="0" aria-valuemax="100">
-                                        {{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
-                                    </div>
-                                </div>
-                                <ul class="fundraisers_card_bottom">
-                                    <li>{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
-                                        <span>Funded</span>
-                                    </li>
-                                    <li>${{ $fundRaiserPost->goal }} <span>Target</span></li>
-                                    <li>{{ $fundRaiserPost->end_date->diffInDays() }} <span>Day Left</span></li>
-                                </ul>
                             </div>
+                            @if ($fundRaiserPost->image)
+                                <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"
+                                    alt="{{ $fundRaiserPost->title }}">
+                            @else
+                                <img src="{{ Avatar::create($fundRaiserPost->title)->setBackground('#ddd')->setDimension(250)->setFontSize(16)->toBase64() }}"
+                                    alt="{{ $fundRaiserPost->title }}">
+                            @endif
+                            <h3><a
+                                    href="{{ route('front.fundraiser.post.show', $fundRaiserPost->slug) }}">{{ $fundRaiserPost->title }}</a>
+                            </h3>
+                            <ul class="fundraisers_card_sub">
+                                <li> <i
+                                        class="fas fa-university"></i>{{ $fundRaiserPost->user->academic_profile->university->name }}
+                                </li>
+                            </ul>
+                            <ul class="fundraisers_card_sub">
+                                @foreach ($fundRaiserPost->fundraisercategories as $category)
+                                    <li><i class="fas fa-tag text-dark"></i>{{ $category->name }}</li>
+                                @endforeach
+                            </ul>
+                            <p>{{ $fundRaiserPost->shot_description }}</p>
+                            <div class="progress mt-3" style="height: 13px;">
+                                <div class="progress-bar progress-bar-striped" role="progressbar"
+                                    aria-label="Example with label"
+                                    style="width: {{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%;"
+                                    aria-valuenow="{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}"
+                                    aria-valuemin="0" aria-valuemax="100">
+                                    {{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
+                                </div>
+                            </div>
+                            <ul class="fundraisers_card_bottom">
+                                <li>{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
+                                    <span>Funded</span>
+                                </li>
+                                <li>${{ $fundRaiserPost->goal }} <span>Target</span></li>
+                                <li>{{ $fundRaiserPost->end_date->diffInDays() }} <span>Day Left</span></li>
+                            </ul>
                         </div>
-                    @endif
+                    </div>
                 @endforeach
             </div>
         </div>

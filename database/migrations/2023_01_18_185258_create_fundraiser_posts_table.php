@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->longText( 'story' )->nullable();
             $table->string( 'image' )->nullable();
             $table->boolean( 'agree' );
-            $table->boolean( 'status' )->default( true );
+            $table->string( 'status' )->default( "running" );
             $table->softDeletes();
             $table->timestamps();
         } );

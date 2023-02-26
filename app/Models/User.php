@@ -60,4 +60,16 @@ class User extends Authenticatable implements MustVerifyEmail {
         return $this->hasOne( UserSocialProfile::class );
     }
 
+    public function balance() {
+        return $this->hasOne( FundraiserBalance::class );
+    }
+
+    public function fundraiser_post() {
+        return $this->hasMany( FundraiserPost::class );
+    }
+
+    public function all_donars() {
+        return $this->hasManyThrough( Donate::class, FundraiserPost::class );
+    }
+
 }
