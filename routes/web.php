@@ -12,6 +12,8 @@ Route::middleware( 'auth' )->group( function () {
     } );
 } );
 
+
+// google login route
 Route::get( '/google/redirect', [SocialAuthController::class, 'googleRedirect'] )->name( 'social.google.redirect' );
 
 Route::get( '/google/callback', [SocialAuthController::class, 'googleCallback'] )->name( 'social.google.callback' );

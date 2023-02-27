@@ -93,7 +93,7 @@ class UserProfileController extends Controller {
     }
 
     /**
-     * state selected .
+     * state selected
      */
 
     public function state( Request $request ) {
@@ -111,7 +111,7 @@ class UserProfileController extends Controller {
     }
 
     /**
-     * City selected .
+     * City selected
      */
     public function city( Request $request ) {
         $cities = City::where( 'state_id', $request->state_id )->get();
