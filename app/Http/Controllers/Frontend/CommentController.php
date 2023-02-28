@@ -15,20 +15,11 @@ class CommentController extends Controller {
      */
     public function index() {
 
-        $comments = Comment::whereHas( 'fundraiserpost', function ( $q ) {
+        $comments = Comment::where( 'parent_id', NULL )->whereHas( 'fundraiserpost', function ( $q ) {
             $q->where( 'user_id', auth()->user()->id );
         } )->orderBy( 'created_at', 'desc' )->get();
 
         return view( 'frontend.comment.index', compact( 'comments' ) );
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() {
-        //
     }
 
     /**
@@ -59,16 +50,6 @@ class CommentController extends Controller {
             'comment'            => $request->comment,
         ] );
         return back()->with( 'success', 'Comment Successfull!' );
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show( Comment $comment ) {
-        //
     }
 
     /**
@@ -120,6 +101,38 @@ class CommentController extends Controller {
         }
 
         return back()->with( 'success', 'Status Update Successfull!' );
+
+    }
+
+    /**
+     *
+     * @param  \App\Models\Comment  $comment
+     * @return \Illuminate\Http\Response
+     */
+    public function replay( Request $request ) {
+
+        $post       = Comment::find( $request->id );
+        $user_posts = auth()->user()->fundraiser_post->pluck( 'id' );
+
+        if ( !in_array( $post->fundraiser_post_id, $user_posts->toArray() ) ) {
+            return back()->with( 'error', "Invalid Input!" );
+        }
+
+        if ( $request->replay ) {
+            Comment::create( [
+                'name'               => auth()->user()->first_name,
+                'email'              => auth()->user()->email,
+                'user_id'            => auth()->user()->id,
+                'fundraiser_post_id' => $post->fundraiser_post_id,
+                'parent_id'          => $request->id,
+                'comment'            => $request->replay,
+                'status'             => 'approved',
+            ] );
+
+            return back()->with( 'success', 'Comments Replay Successfull!' );
+        } else {
+            return back()->with( 'info', 'Enter Valid Input' );
+        }
 
     }
 }

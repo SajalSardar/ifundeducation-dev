@@ -72,10 +72,10 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser'] )->group( function ()
     } );
     Route::controller( CommentController::class )->prefix( 'fundraiser/comment' )->name( 'fundraiser.comment.' )->group( function () {
         Route::get( '/', 'index' )->name( 'index' );
-        Route::get( '/edit/{comment}', 'edit' )->name( 'edit' );
         Route::put( '/update/{comment}', 'update' )->name( 'update' );
         Route::delete( '/delete/{comment}', 'destroy' )->name( 'delete' );
         Route::get( '/status-update/{comment}', 'statusUpdate' )->name( 'status.update' );
+        Route::post( '/replay', 'replay' )->name( 'replay' );
     } );
 
 } );

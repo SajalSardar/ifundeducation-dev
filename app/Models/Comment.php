@@ -16,7 +16,7 @@ class Comment extends Model {
     protected $guarded = ['id'];
 
     public function replies() {
-        return $this->hasMany( Comment::class, 'parent_id' );
+        return $this->hasMany( Comment::class, 'parent_id' )->whereNotNull( 'parent_id' );
     }
 
     public function fundraiserpost() {
