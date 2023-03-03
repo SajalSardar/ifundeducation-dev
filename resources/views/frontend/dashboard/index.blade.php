@@ -52,7 +52,7 @@
                                 </div>
                             @endhasrole
 
-                            <div class="col-lg-4 col-sm-6">
+                            {{-- <div class="col-lg-4 col-sm-6">
                                 <div class="count_box">
                                     <div class="user_icon">
                                         <i class="fas fa-hand-holding-heart"></i>
@@ -60,7 +60,7 @@
                                     <h4>My Donation </h4>
                                     <p>$1000</p>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         @hasrole('fundraiser')
@@ -78,7 +78,8 @@
                                                     <i class="fas fa-user"></i>
                                                 </div>
                                                 <div class="donar_info">
-                                                    <h5>{{ $donar->donar_name }}</h5>
+                                                    <h5>{{ $donar->display_publicly === 'yes' ? $donar->donar_name : 'Guest' }}
+                                                    </h5>
                                                     <ul class="fundraisers_card_sub">
                                                         <li>$ {{ $donar->amount }}</li>
                                                         <li>{{ $donar->created_at->diffForHumans() }}</li>

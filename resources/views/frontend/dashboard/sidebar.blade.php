@@ -25,17 +25,15 @@
                 <li class="{{ request()->routeIs('fundraiser.comment.*') ? 'active' : '' }}">
                     <a href="{{ route('fundraiser.comment.index') }}"><i class="fas fa-comments"></i>Comments</a>
                 </li>
+                <li class="{{ request()->routeIs('donate.index') ? 'active' : '' }}">
+                    <a href="{{ route('donate.index') }}"><i class="fas fa-hand-holding-heart"></i>All Donation List</a>
+                </li>
             @endrole
 
             <li class="{{ request()->routeIs('wishlist.index') ? 'active' : '' }}">
                 <a href="{{ route('wishlist.index') }}"><i class="fas fa-heart"></i>Wishlists</a>
             </li>
-            <li>
-                <a href="#"><i class="fas fa-hand-holding-heart"></i>Donar List</a>
-            </li>
-            <li>
-                <a href="#"> <i class="fas fa-money-bill-1"></i> Donation List </a>
-            </li>
+
             <li>
                 <a href="withdraw.html">
                     <i class="fas fa-money-bill-trend-up"></i> Withdrawals</a>

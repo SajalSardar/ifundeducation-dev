@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 class DonateController extends Controller {
 
-    public function index( $slug ) {
+    public function index() {
+        return view( 'frontend.donate.index' );
+    }
+
+    public function create( $slug ) {
 
         $fundPost = FundraiserPost::where( 'slug', $slug )->select( 'id', 'user_id', 'slug', 'title', 'image', 'shot_description' )->firstOrFail();
 

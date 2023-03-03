@@ -20,7 +20,7 @@ Route::name( 'front.' )->group( function () {
     Route::post( '/comment/post', [CommentController::class, 'store'] )->name( 'comment.store' );
 
     Route::controller( DonateController::class )->group( function () {
-        Route::get( 'donate/fundraiser/{slug}', 'index' )->name( 'stripe.donate' );
+        Route::get( 'donate/fundraiser/{slug}', 'create' )->name( 'stripe.donate' );
         Route::post( 'donate/fundraiser', 'donatePost' )->name( 'donate.post' );
 
     } );
@@ -76,6 +76,10 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser'] )->group( function ()
         Route::delete( '/delete/{comment}', 'destroy' )->name( 'delete' );
         Route::get( '/status-update/{comment}', 'statusUpdate' )->name( 'status.update' );
         Route::post( '/replay', 'replay' )->name( 'replay' );
+    } );
+    Route::controller( DonateController::class )->group( function () {
+        Route::get( 'all/donation/list', 'index' )->name( 'donate.index' );
+
     } );
 
 } );
