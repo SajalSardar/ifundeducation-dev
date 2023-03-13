@@ -14,6 +14,11 @@ Route::name( 'front.' )->group( function () {
 
     Route::controller( FrontController::class )->group( function () {
         Route::get( '/', 'index' )->name( 'index' );
+        Route::get( '/about', 'about' )->name( 'about' );
+        Route::get( '/contact', 'contact' )->name( 'contact' );
+        Route::get( '/fundraiser', 'fundraiser' )->name( 'fundraiser' );
+        Route::get( '/faq', 'faq' )->name( 'faq' );
+        Route::get( '/terms-condition', 'termsCondition' )->name( 'terms.condition' );
     } );
 
     Route::get( '/fundraiser/single-post/{slug}', [FundraiserPostController::class, 'fundraiserPostShow'] )->name( 'fundraiser.post.show' );

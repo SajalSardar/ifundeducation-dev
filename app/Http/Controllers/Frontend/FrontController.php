@@ -21,4 +21,24 @@ class FrontController extends Controller {
         return view( 'frontend.index', compact( 'fundRaiserPosts', 'wishlists_id' ) );
     }
 
+    public function about() {
+        return view( 'frontend.about' );
+    }
+
+    public function fundraiser() {
+        return view( 'frontend.fundraiser' );
+    }
+
+    public function contact() {
+        return view( 'frontend.contact' );
+    }
+
+    public function faq() {
+        return view( 'frontend.faq' );
+    }
+
+    public function termsCondition() {
+        return view( 'frontend.terms' );
+    }
+
 }

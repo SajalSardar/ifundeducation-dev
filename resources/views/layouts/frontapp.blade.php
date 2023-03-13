@@ -115,13 +115,16 @@
                             href="{{ route('front.index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">about</a>
+                        <a class="nav-link {{ request()->routeIs('front.about') ? 'active' : '' }}"
+                            href="{{ route('front.about') }}">about</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="fundraiser.html">Fundraiser</a>
+                        <a class="nav-link {{ request()->routeIs('front.fundraiser') ? 'active' : '' }}"
+                            href="{{ route('front.fundraiser') }}">Fundraiser</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">contact</a>
+                        <a class="nav-link {{ request()->routeIs('front.contact') ? 'active' : '' }}"
+                            href="{{ route('front.contact') }}">contact</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">start a fundraiser</a>
@@ -153,13 +156,17 @@
                         <h3>Links</h3>
                         <div class="d-flex">
                             <ul class="w-50">
-                                <li><a href="#"><i class="far fa-arrow-alt-circle-right"></i>About</a></li>
+                                <li><a href="{{ route('front.about') }}"><i
+                                            class="far fa-arrow-alt-circle-right"></i>About</a></li>
                                 <li><a href="#"><i class="far fa-arrow-alt-circle-right"></i>Services</a></li>
-                                <li><a href="#"><i class="far fa-arrow-alt-circle-right"></i>Contact</a></li>
+                                <li><a href="{{ route('front.contact') }}"><i
+                                            class="far fa-arrow-alt-circle-right"></i>Contact</a></li>
                             </ul>
                             <ul class="w-50">
-                                <li><a href="faq.html"><i class="far fa-arrow-alt-circle-right"></i>Faq</a></li>
-                                <li><a href="terms.html"><i class="far fa-arrow-alt-circle-right"></i>Terms &
+                                <li><a href="{{ route('front.faq') }}"><i
+                                            class="far fa-arrow-alt-circle-right"></i>Faq</a></li>
+                                <li><a href="{{ route('front.terms.condition') }}"><i
+                                            class="far fa-arrow-alt-circle-right"></i>Terms &
                                         Condition</a></li>
                             </ul>
                         </div>
