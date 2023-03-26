@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\FundraiserPostController;
 use App\Http\Controllers\Frontend\FundraiserUpdateMessageController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\StripeConnectController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +85,12 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser'] )->group( function ()
     } );
     Route::controller( DonateController::class )->group( function () {
         Route::get( 'all/donation/list', 'index' )->name( 'donate.index' );
+
+    } );
+
+    Route::controller( StripeConnectController::class )->group( function () {
+        Route::get( 'withdrawals', 'index' )->name( 'withdrawals.index' );
+        Route::get( 'stripe/account', 'stripeConnectAccount' )->name( 'withdrawals.stripe.account' );
 
     } );
 

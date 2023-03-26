@@ -22,9 +22,12 @@ return new class extends Migration {
             $table->string( 'provider_id' )->nullable();
             $table->string( 'provider' )->nullable();
             $table->string( 'avatar' )->nullable();
+            $table->string( 'stripe_account_id' )->nullable();
+            $table->string( 'stripe_connect_id' )->nullable();
+            $table->string( 'status' )->default( 1 )->comment( "1=active, 2= deactive" );
             $table->rememberToken();
-            $table->timestamps();
             $table->softDeletes();
+            $table->timestamps();
         } );
     }
 

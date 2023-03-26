@@ -34,8 +34,8 @@
                 <a href="{{ route('wishlist.index') }}"><i class="fas fa-heart"></i>Wishlists</a>
             </li>
 
-            <li>
-                <a href="withdraw.html">
+            <li class="{{ request()->routeIs('withdrawals.index') ? 'active' : '' }}">
+                <a href="{{ route('withdrawals.index') }}">
                     <i class="fas fa-money-bill-trend-up"></i> Withdrawals</a>
             </li>
             <li class="{{ request()->routeIs('user.profile.edit') ? 'active' : '' }}">
