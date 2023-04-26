@@ -30,6 +30,10 @@ class StripeConnectController extends Controller {
 
         }
 
+        // return $stripe->accounts->retrieve(
+        //     auth()->user()->stripe_account_id,
+        //     []
+        // );
         $accountOnbording = $stripe->accountLinks->create(
             [
                 'account'     => auth()->user()->stripe_account_id,

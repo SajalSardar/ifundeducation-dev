@@ -9,7 +9,6 @@ use App\Models\FundraiserBalance;
 use App\Models\FundraiserPost;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DonateController extends Controller {
 

@@ -166,12 +166,7 @@
                                 </div>
                             </div>
 
-                            <div class='col-12 mb-3 mt-3'>
-                                <label> <input type="checkbox" name="is_display_info"> Don't display my name publicly on
-                                    the
-                                    fundraiser.</label>
-                            </div>
-                            <hr>
+
 
                             <div>
                                 <h6>Your donation</h6>
@@ -194,6 +189,14 @@
                                     </div>
                                     <div>$ <span class="display_total">0.00</span></div>
                                 </div>
+                            </div>
+                            <div class='col-12 mb-3 mt-3'>
+                                <label> <input type="checkbox" name="is_display_info"> Don't display my name publicly on
+                                    the
+                                    fundraiser.</label>
+                                @error('is_display_info')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div class="col-12 mt-4">

@@ -396,44 +396,47 @@
                             <td>:</td>
                             <td>
                                 <div class="social_profile ">
-                                    <ul class="footer_social text-start">
-                                        @if ($fundRaiserPost->user->userSocial->instagram)
-                                            <li><a href="{{ $fundRaiserPost->user->userSocial->instagram }}"
-                                                    title="Instagram"><i class="fab fa-instagram"></i></a></li>
-                                        @endif
-                                        @if ($fundRaiserPost->user->userSocial->linkedin)
-                                            <li><a href="{{ $fundRaiserPost->user->userSocial->linkedin }}"
-                                                    title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
-                                        @endif
-                                        @if ($fundRaiserPost->user->userSocial->facebook)
-                                            <li><a href="{{ $fundRaiserPost->user->userSocial->facebook }}"
-                                                    title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                                        @endif
-                                        @if ($fundRaiserPost->user->userSocial->twitter)
-                                            <li><a href="{{ $fundRaiserPost->user->userSocial->twitter }}"
-                                                    title="Twitter"><i class="fab fa-twitter"></i></a></li>
-                                        @endif
-                                        @if ($fundRaiserPost->user->userSocial->youtube)
-                                            <li><a href="{{ $fundRaiserPost->user->userSocial->youtube }}"
-                                                    title="youtube"><i class="fab fa-youtube"></i></a></li>
-                                        @endif
-                                        @if ($fundRaiserPost->user->userSocial->tiktok)
-                                            <li><a href="{{ $fundRaiserPost->user->userSocial->tiktok }}"
-                                                    title="Tiktok"><i class="fab fa-tiktok"></i></a></li>
-                                        @endif
-                                        @if ($fundRaiserPost->user->userSocial->pinterest)
-                                            <li><a href="{{ $fundRaiserPost->user->userSocial->pinterest }}"
-                                                    title="Pinterest"><i class="fab fa-pinterest-p"></i></a></li>
-                                        @endif
-                                        @if ($fundRaiserPost->user->userSocial->snapchat)
-                                            <li><a href="{{ $fundRaiserPost->user->userSocial->snapchat }}"
-                                                    title="snapchat"><i class="fab fa-snapchat-ghost"></i></a></li>
-                                        @endif
-                                        @if ($fundRaiserPost->user->userSocial->website)
-                                            <li><a href="{{ $fundRaiserPost->user->userSocial->website }}"
-                                                    title="Website"><i class="fas fa-globe-americas"></i></a></li>
-                                        @endif
-                                    </ul>
+                                    @if ($fundRaiserPost->user->userSocial != null)
+
+                                        <ul class="footer_social text-start">
+                                            @if ($fundRaiserPost->user->userSocial->instagram)
+                                                <li><a href="{{ $fundRaiserPost->user->userSocial->instagram }}"
+                                                        title="Instagram"><i class="fab fa-instagram"></i></a></li>
+                                            @endif
+                                            @if ($fundRaiserPost->user->userSocial->linkedin)
+                                                <li><a href="{{ $fundRaiserPost->user->userSocial->linkedin }}"
+                                                        title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
+                                            @endif
+                                            @if ($fundRaiserPost->user->userSocial->facebook)
+                                                <li><a href="{{ $fundRaiserPost->user->userSocial->facebook }}"
+                                                        title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                                            @endif
+                                            @if ($fundRaiserPost->user->userSocial->twitter)
+                                                <li><a href="{{ $fundRaiserPost->user->userSocial->twitter }}"
+                                                        title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                                            @endif
+                                            @if ($fundRaiserPost->user->userSocial->youtube)
+                                                <li><a href="{{ $fundRaiserPost->user->userSocial->youtube }}"
+                                                        title="youtube"><i class="fab fa-youtube"></i></a></li>
+                                            @endif
+                                            @if ($fundRaiserPost->user->userSocial->tiktok)
+                                                <li><a href="{{ $fundRaiserPost->user->userSocial->tiktok }}"
+                                                        title="Tiktok"><i class="fab fa-tiktok"></i></a></li>
+                                            @endif
+                                            @if ($fundRaiserPost->user->userSocial->pinterest)
+                                                <li><a href="{{ $fundRaiserPost->user->userSocial->pinterest }}"
+                                                        title="Pinterest"><i class="fab fa-pinterest-p"></i></a></li>
+                                            @endif
+                                            @if ($fundRaiserPost->user->userSocial->snapchat)
+                                                <li><a href="{{ $fundRaiserPost->user->userSocial->snapchat }}"
+                                                        title="snapchat"><i class="fab fa-snapchat-ghost"></i></a></li>
+                                            @endif
+                                            @if ($fundRaiserPost->user->userSocial->website)
+                                                <li><a href="{{ $fundRaiserPost->user->userSocial->website }}"
+                                                        title="Website"><i class="fas fa-globe-americas"></i></a></li>
+                                            @endif
+                                        </ul>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
