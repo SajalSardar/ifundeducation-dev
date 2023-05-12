@@ -22,90 +22,52 @@
             <div class="row">
                 <div class="col-12">
                     <div class="section_header text-center">
-                        <h2>Frequently Asked Questions</h2>
+                        <h2>{{$faqPage->sub_title}}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="text-center">
+                        @isset ($faqPage->image)
+                        <img class="img img-fuid" style="width: 100%;" src="{{ asset('frontend/images/pages/'.$faqPage->image) }}" alt="{{$faqPage->image}}">
+                        @endisset
                     </div>
                 </div>
             </div>
             <div class="row align-items-center about_row">
-                <div class="col-md-12">
-                    <div class="about_page_content">
-
-                        <div class="accordion " id="accordionFaq">
-                            <div class="accordion-item faq">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne">
-                                        <i class="far fa-circle-question"></i> The first item's accordion body
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show"
-                                    data-bs-parent="#accordionFaq">
-                                    <div class="accordion-body">
-                                        <p><strong>This is the first item's accordion body.</strong> It is shown by default,
-                                            until the
-                                            collapse plugin adds the appropriate classes that we use to style each element.
-                                            These classes
-                                            control the overall appearance, as well as the showing and hiding via CSS
-                                            transitions. You can
-                                            modify any of this with custom CSS or overriding our default variables. It's
-                                            also worth noting
-                                            that just about any HTML can go within the <code>.accordion-body</code>, though
-                                            the transition
-                                            does limit overflow.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item faq">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo">
-                                        <i class="far fa-circle-question"></i> You can modify any of this with custom
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
-                                    <div class="accordion-body">
-                                        <p><strong>This is the second item's accordion body.</strong> It is hidden by
-                                            default, until the
-                                            collapse plugin adds the appropriate classes that we use to style each element.
-                                            These classes
-                                            control the overall appearance, as well as the showing and hiding via CSS
-                                            transitions. You can
-                                            modify any of this with custom CSS or overriding our default variables. It's
-                                            also worth noting
-                                            that just about any HTML can go within the <code>.accordion-body</code>, though
-                                            the transition
-                                            does limit overflow.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item faq">
-                                <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThree">
-                                        <i class="far fa-circle-question"></i> It's also worth noting that just
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
-                                    <div class="accordion-body">
-                                        <p><strong>This is the third item's accordion body.</strong> It is hidden by
-                                            default, until the
-                                            collapse plugin adds the appropriate classes that we use to style each element.
-                                            These classes
-                                            control the overall appearance, as well as the showing and hiding via CSS
-                                            transitions. You can
-                                            modify any of this with custom CSS or overriding our default variables. It's
-                                            also worth noting
-                                            that just about any HTML can go within the <code>.accordion-body</code>, though
-                                            the transition
-                                            does limit overflow.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                @isset($faqPage->text_before_faq)
+                <div class="col-md-12 mb-5">
+                    {{$faqPage->text_before_faq}}
                 </div>
-
+                @endisset
+                <div class="col-md-12">
+                    @isset($faqs)
+                    <div class="accordion " id="accordionFaq">
+                        @foreach ($faqs as $faq)
+                                <div class="accordion-item faq">
+                                    <h2 class="accordion-header" id="heading{{$faq->id}}">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{$faq->id}}">
+                                            <i class="far fa-circle-question"></i> {{$faq->question}}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{$faq->id}}" class="accordion-collapse collapse {{$faq->id==1?'show':''}}"
+                                        data-bs-parent="#accordionFaq">
+                                        <div class="accordion-body">
+                                            <p>{!! $faq->answer !!}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                        @endforeach
+                    </div>
+                    @endisset
+                </div>
+                @isset($faqPage->text_after_faq)
+                <div class="col-md-12 my-5">
+                    {{$faqPage->text_after_faq}}
+                </div>
+                @endisset
             </div>
         </div>
     </section>

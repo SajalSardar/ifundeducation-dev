@@ -1,3 +1,11 @@
+@php
+use App\Models\ThemeOption;
+use App\Models\FooterMenu;
+use App\Models\SiteSocialLink;
+$themeOption  = ThemeOption::first();
+$footerMenu  = FooterMenu::where('status', 1)->get();
+$siteSocialLink  = SiteSocialLink::where('status', 1)->get();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -43,7 +51,7 @@
             <div class="row justify-content-center align-items-center">
                 <div class="col-sm-6">
                     <div class="header_left">
-                        <p><i class="fa-sharp fa-solid fa-paper-plane"></i> admin@ifundeducation.com</p>
+                        <p><i class="fa-sharp fa-solid fa-paper-plane"></i> {{$themeOption->header_email}}</p>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -103,7 +111,7 @@
     <nav class="navbar navbar-expand-md" id="main_navigation">
         <div class="container">
             <a class="logo" href="{{ route('front.index') }}">
-                <img src=" {{ asset('frontend/images/logo.png') }}" alt="">
+                <img src=" {{ asset('frontend/images/theme_options/'.$themeOption->site_logo) }}" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#iNav">
                 <i class="fas fa-bars"></i>
@@ -115,8 +123,8 @@
                             href="{{ route('front.index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('front.about') ? 'active' : '' }}"
-                            href="{{ route('front.about') }}">about</a>
+                        <a class="nav-link {{ request()->routeIs('front.page', 'about-us') ? 'active' : '' }}"
+                            href="{{ route('front.page', 'about-us') }}">about</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('front.fundraiser') ? 'active' : '' }}"
@@ -144,11 +152,9 @@
             <div class="row">
                 <div class="col-lg-4 col-sm-6">
                     <div class="footer_about">
-                        <img src="{{ asset('frontend/images/logo.png') }}" alt="">
-                        <strong>FUND AN EDUCATION,FUND A FUTURE</strong>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisci elit. Proin non felis tellus. Maurisu
-                            blandit eu enim
-                            sollicitudin.</p>
+                        <img src="{{ asset('frontend/images/theme_options/'.$themeOption->footer_logo) }}" alt="">
+                        <strong>{{$themeOption->footer_about_title}}</strong>
+                        <p>{{$themeOption->footer_about_description}}</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
@@ -156,18 +162,11 @@
                         <h3>Links</h3>
                         <div class="d-flex">
                             <ul class="w-50">
-                                <li><a href="{{ route('front.about') }}"><i
-                                            class="far fa-arrow-alt-circle-right"></i>About</a></li>
-                                <li><a href="#"><i class="far fa-arrow-alt-circle-right"></i>Services</a></li>
-                                <li><a href="{{ route('front.contact') }}"><i
-                                            class="far fa-arrow-alt-circle-right"></i>Contact</a></li>
-                            </ul>
-                            <ul class="w-50">
-                                <li><a href="{{ route('front.faq') }}"><i
-                                            class="far fa-arrow-alt-circle-right"></i>Faq</a></li>
-                                <li><a href="{{ route('front.terms.condition') }}"><i
-                                            class="far fa-arrow-alt-circle-right"></i>Terms &
-                                        Condition</a></li>
+                            @isset($footerMenu)
+                                @foreach ($footerMenu as $menuItem)
+                                <li><a href="{{$menuItem->link}}"><i class="far fa-arrow-alt-circle-right"></i>{{$menuItem->name}}</a></li>
+                                @endforeach
+                            @endisset
                             </ul>
                         </div>
                     </div>
@@ -176,9 +175,9 @@
                     <div class="footer_contact">
                         <h3>Contact</h3>
                         <ul>
-                            <li><i class="fas fa-envelope"></i> info@iFundEducation.com</li>
-                            <li><i class="fas fa-globe"></i> www.iFundEducation.com</li>
-                            <li><i class="fas fa-phone"></i> 0123546987</li>
+                            <li><i class="fas fa-envelope"></i> {{$themeOption->footer_email}}</li>
+                            <li><i class="fas fa-globe"></i> <a style="display: inline-block;" href="{{$themeOption->footer_web_address_link}}">{{$themeOption->footer_web_address}}</a></li>
+                            <li><i class="fas fa-phone"></i> {{$themeOption->footer_phone}}</li>
                         </ul>
                     </div>
                 </div>
@@ -186,14 +185,16 @@
             <div class="row bottom_footer align-items-center">
                 <div class="col-md-6">
                     <div class="footer_copy">
-                        <p>Copyright &copy; All rights reserved by iFundEducation</p>
+                        <p>{{$themeOption->copyright_text}}</p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <ul class="footer_social">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                        @isset($siteSocialLink)
+                            @foreach ($siteSocialLink as $linkItem)
+                            <li><a href="{{$linkItem->link}}"><i class="{{$linkItem->icon}}"></i></a></li>
+                            @endforeach
+                        @endisset
                     </ul>
                 </div>
             </div>

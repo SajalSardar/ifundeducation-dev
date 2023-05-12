@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <link href="{{ asset('backend/css/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    {{-- @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"); --}}
+
     @yield('style')
 </head>
 <!--end::Head-->
@@ -121,7 +125,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion  {{ request()->routeIs('dashboard.pages.*') ? 'hover show' : '' }}">
                                 <span class="menu-link">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
@@ -139,16 +143,191 @@
                                     <span class="menu-arrow"></span>
                                 </span>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
+
                                     <div class="menu-item menu-accordion">
-                                        <a href="" class="menu-link">
+                                        <a href="
+                                        {{ route('dashboard.pages.all-pages.edit', 'about-us') }}
+                                        " class="menu-link
+                                        {{ request()->routeIs('dashboard.pages.all-pages.edit', 'about-us') ? 'active' : '' }}
+                                        ">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Profile</span>
+                                            <span class="menu-title">About Us</span>
                                         </a>
-
                                     </div>
+
+                                    <div class="menu-item menu-accordion">
+                                        <a href="
+                                        {{ route('dashboard.pages.faq-page.index') }}
+                                        " class="menu-link
+                                        {{ request()->routeIs('dashboard.pages.faq-page.*') ? 'active' : '' }}
+                                        ">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">FAQ</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item menu-accordion">
+                                        <a href="
+                                        {{ route('dashboard.pages.contact-page.index') }}
+                                        " class="menu-link
+                                        {{ request()->routeIs('dashboard.pages.contact-page.*') ? 'active' : '' }}
+                                        ">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Contact Us</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item menu-accordion">
+                                        <a href="
+                                        {{ route('dashboard.pages.all-pages.index') }}
+                                        " class="menu-link
+                                        {{ request()->routeIs('dashboard.pages.all-pages.*') ? 'active' : '' }}
+                                        ">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">All Pages</span>
+                                        </a>
+                                    </div>
+
                                 </div>
+                            </div>
+
+                            <div data-kt-menu-trigger="click"
+                                class="menu-item menu-accordion {{ request()->routeIs('dashboard.page-options.*') ? 'hover show' : '' }}">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Page Options</span>
+                                    <span class="menu-arrow"></span>
+                                </span>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+
+                                    <div class="menu-item menu-accordion">
+                                        <a href="
+                                        {{ route('dashboard.page-options.home-page-banner.index') }}
+                                        " class="menu-link
+                                        {{ request()->routeIs('dashboard.page-options.home-page-banner.*') ? 'active' : '' }}
+                                        ">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Home Page Banner</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item menu-accordion">
+                                        <a href="
+                                        {{ route('dashboard.page-options.home-3-column-block.index') }}
+                                        " class="menu-link
+                                        {{ request()->routeIs('dashboard.page-options.home-3-column-block.*') ? 'active' : '' }}
+                                        ">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Home 3 Column Block</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item menu-accordion">
+                                        <a href="
+                                        {{ route('dashboard.page-options.home-2-column-block.index') }}
+                                        " class="menu-link
+                                        {{ request()->routeIs('dashboard.page-options.home-2-column-block.*') ? 'active' : '' }}
+                                        ">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Home 2 Column Block</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item menu-accordion">
+                                        <a href="
+                                        {{ route('dashboard.page-options.footer-menu.index') }}
+                                        " class="menu-link
+                                        {{ request()->routeIs('dashboard.page-options.footer-menu.*') ? 'active' : '' }}
+                                        ">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Footer Menu</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="menu-item menu-accordion">
+                                        <a href="
+                                        {{ route('dashboard.page-options.site-social-links.index') }}
+                                        " class="menu-link
+                                        {{ request()->routeIs('dashboard.page-options.site-social-links.*') ? 'active' : '' }}
+                                        ">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Site Social Links</span>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+
+                            <div class="menu-item">
+                                <a href="{{ route('dashboard.theme-options.index') }}"
+                                    class="menu-link {{ request()->routeIs('dashboard.theme-options.*') ? 'active' : '' }}">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Theme Options</span>
+                                </a>
+                            </div>
+
+
+                            <div class="menu-item">
+                                <a href="{{ route('dashboard.contact-messages.index') }}"
+                                    class="menu-link {{ request()->routeIs('dashboard.contact-messages.*') ? 'active' : '' }}">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Contact Messages</span>
+                                </a>
+                            </div>
+
                             </div>
 
                         </div>
@@ -369,6 +548,7 @@
     <script src="{{ asset('backend/js/chat.js') }}"></script>
     <script src="{{ asset('backend/js/create-app.js') }}"></script>
     <script src="{{ asset('backend/js/upgrade-plan.js') }}"></script>
+
 
     @include('flashmessage')
     @yield('script')

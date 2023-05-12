@@ -3,13 +3,13 @@
 @section('content')
     <!-- hero part  -->
     <section id="banner">
-        <div class="banner_item" style="background:url({{ asset('frontend/images/banner.png') }})">
+        <div class="banner_item" style="background:url({{ asset('frontend/images/home_page_banner/'.$homePageBanner->image) }})">
             <div class="container h-100">
                 <div class="row align-items-center h-100">
                     <div class="banner_caption">
-                        <h1>Fund An <span> Education Fund</span> A Future</h1>
-                        <p>Dedicated fundraising platform for Education!</p>
-                        <a href="#">Donate now!</a>
+                        {!! $homePageBanner->title !!}
+                        <p>{{ $homePageBanner->description }}</p>
+                        <a href="{{ $homePageBanner->button_link }}">{{ $homePageBanner->button_text }}</a>
                         <div class="search_box mt-5">
                             <form action="">
                                 <div class="input-group ">
@@ -29,27 +29,19 @@
     <section id="simple_block">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="block_inner">
-                        <i class="fa-regular fa-square-plus"></i>
-                        <h3>Create Your Account</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, at.</p>
+                @isset($home3ColumnBlocks)
+                    @foreach ($home3ColumnBlocks as $home3ColumnBlock)
+                    <div class="col-lg-4">
+                        <a href="{{$home3ColumnBlock->link}}">
+                            <div class="block_inner">
+                                <i class="{{$home3ColumnBlock->icon}}"></i>
+                                <h3>{{$home3ColumnBlock->title}}</h3>
+                                <p>{{$home3ColumnBlock->short_description}}</p>
+                            </div>
+                        </a>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="block_inner">
-                        <i class="fas fa-store"></i>
-                        <h3>Share Your Story</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, at.</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="block_inner">
-                        <i class="fa-regular fa-share-from-square"></i>
-                        <h3>Share with friends and family</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, at.</p>
-                    </div>
-                </div>
+                    @endforeach
+                @endisset
             </div>
         </div>
     </section>
@@ -131,24 +123,16 @@
     <section id="trust">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="trust_text">
-                        <h3><i class="fa-solid fa-thumbs-up"></i> Trust</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, assumenda iure natus ipsum
-                            vero soluta
-                            ipsa molestiae adipisci sit error alias sapiente quasi maiores iste amet, quo labore
-                            similique dolores?
-                        </p>
+                @isset($home2ColumnBlocks)
+                    @foreach ($home2ColumnBlocks as $home2ColumnBlock)
+                    <div class="col-lg-6">
+                        <div class="trust_text">
+                            <h3><i class="{{$home2ColumnBlock->icon}}"></i> {{$home2ColumnBlock->title}}</h3>
+                            <p>{!! $home2ColumnBlock->description !!}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="trust_text">
-                        <h3><i class="fa-solid fa-shield-heart"></i> Safety</h3>
-                        <p>Since 2010, GoFundMe has become a trusted leader in online fundraising, helping to raise and
-                            deliver more
-                            than $15 billion from over 200 million donations around the world.</p>
-                    </div>
-                </div>
+                    @endforeach
+                @endisset
             </div>
         </div>
     </section>
