@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\FundraiserBalance;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -26,7 +27,7 @@ class RegisteredUserController extends Controller {
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store( Request $request ): RedirectResponse {
+    public function store( Request $request ): RedirectResponse{
         $request->validate( [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name'  => ['required', 'string', 'max:255'],
@@ -39,6 +40,11 @@ class RegisteredUserController extends Controller {
             'last_name'  => $request->last_name,
             'email'      => $request->email,
             'password'   => Hash::make( $request->password ),
+        ] );
+
+        FundraiserBalance::create( [
+            "user_id"       => $user->id,
+            "curent_amount" => 0,
         ] );
 
         event( new Registered( $user ) );
