@@ -16,7 +16,9 @@ return new class extends Migration {
             $table->foreignId( 'user_id' )->constrained();
             $table->decimal( 'curent_amount' )->default( 0 );
             $table->decimal( 'withdraw_amount' )->default( 0 );
+            $table->date( 'is_stripe_connected' )->nullable();
             $table->timestamps();
+            $table->softDeletes();
         } );
     }
 

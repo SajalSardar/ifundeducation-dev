@@ -28,6 +28,7 @@
                                         <th>Category</th>
                                         <th>Target</th>
                                         <th>End Date</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -44,12 +45,16 @@
                                             <td>{{ $post->goal }}</td>
                                             <td>{{ $post->end_date->isoFormat('D MMM YYYY') }}</td>
                                             <td>
+                                                <span
+                                                    class="badge bg-{{ $post->status == 'running' ? 'success' : ($post->status == 'pending' ? 'warning' : 'danger') }}">{{ Str::ucfirst($post->status) }}</span>
+                                            </td>
+                                            <td>
                                                 <a href="{{ route('front.fundraiser.post.show', $post->slug) }}"
                                                     class="action_icon" title="View">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('fundraiser.post.edit', $post->id) }}" class="action_icon"
-                                                    title="Edit">
+                                                <a href="{{ route('fundraiser.post.edit', $post->id) }}"
+                                                    class="action_icon" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form action="{{ route('fundraiser.post.delete', $post->id) }}"

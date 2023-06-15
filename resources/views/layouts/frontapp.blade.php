@@ -1,10 +1,10 @@
 @php
-use App\Models\ThemeOption;
-use App\Models\FooterMenu;
-use App\Models\SiteSocialLink;
-$themeOption  = ThemeOption::first();
-$footerMenu  = FooterMenu::where('status', 1)->get();
-$siteSocialLink  = SiteSocialLink::where('status', 1)->get();
+    use App\Models\ThemeOption;
+    use App\Models\FooterMenu;
+    use App\Models\SiteSocialLink;
+    $themeOption = ThemeOption::first();
+    $footerMenu = FooterMenu::where('status', 1)->get();
+    $siteSocialLink = SiteSocialLink::where('status', 1)->get();
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -51,7 +51,7 @@ $siteSocialLink  = SiteSocialLink::where('status', 1)->get();
             <div class="row justify-content-center align-items-center">
                 <div class="col-sm-6">
                     <div class="header_left">
-                        <p><i class="fa-sharp fa-solid fa-paper-plane"></i> {{$themeOption->header_email}}</p>
+                        <p><i class="fa-sharp fa-solid fa-paper-plane"></i> {{ @$themeOption->header_email }}</p>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -111,7 +111,7 @@ $siteSocialLink  = SiteSocialLink::where('status', 1)->get();
     <nav class="navbar navbar-expand-md" id="main_navigation">
         <div class="container">
             <a class="logo" href="{{ route('front.index') }}">
-                <img src=" {{ asset('frontend/images/theme_options/'.$themeOption->site_logo) }}" alt="">
+                <img src=" {{ asset('frontend/images/theme_options/' . @$themeOption->site_logo) }}" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#iNav">
                 <i class="fas fa-bars"></i>
@@ -152,9 +152,10 @@ $siteSocialLink  = SiteSocialLink::where('status', 1)->get();
             <div class="row">
                 <div class="col-lg-4 col-sm-6">
                     <div class="footer_about">
-                        <img src="{{ asset('frontend/images/theme_options/'.$themeOption->footer_logo) }}" alt="">
-                        <strong>{{$themeOption->footer_about_title}}</strong>
-                        <p>{{$themeOption->footer_about_description}}</p>
+                        <img src="{{ asset('frontend/images/theme_options/' . @$themeOption->footer_logo) }}"
+                            alt="">
+                        <strong>{{ @$themeOption->footer_about_title }}</strong>
+                        <p>{{ @$themeOption->footer_about_description }}</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
@@ -162,11 +163,13 @@ $siteSocialLink  = SiteSocialLink::where('status', 1)->get();
                         <h3>Links</h3>
                         <div class="d-flex">
                             <ul class="w-50">
-                            @isset($footerMenu)
-                                @foreach ($footerMenu as $menuItem)
-                                <li><a href="{{$menuItem->link}}"><i class="far fa-arrow-alt-circle-right"></i>{{$menuItem->name}}</a></li>
-                                @endforeach
-                            @endisset
+                                @isset($footerMenu)
+                                    @foreach ($footerMenu as $menuItem)
+                                        <li><a href="{{ $menuItem->link }}"><i
+                                                    class="far fa-arrow-alt-circle-right"></i>{{ $menuItem->name }}</a>
+                                        </li>
+                                    @endforeach
+                                @endisset
                             </ul>
                         </div>
                     </div>
@@ -175,9 +178,11 @@ $siteSocialLink  = SiteSocialLink::where('status', 1)->get();
                     <div class="footer_contact">
                         <h3>Contact</h3>
                         <ul>
-                            <li><i class="fas fa-envelope"></i> {{$themeOption->footer_email}}</li>
-                            <li><i class="fas fa-globe"></i> <a style="display: inline-block;" href="{{$themeOption->footer_web_address_link}}">{{$themeOption->footer_web_address}}</a></li>
-                            <li><i class="fas fa-phone"></i> {{$themeOption->footer_phone}}</li>
+                            <li><i class="fas fa-envelope"></i> {{ @$themeOption->footer_email }}</li>
+                            <li><i class="fas fa-globe"></i> <a style="display: inline-block;"
+                                    href="{{ @$themeOption->footer_web_address_link }}">{{ @$themeOption->footer_web_address }}</a>
+                            </li>
+                            <li><i class="fas fa-phone"></i> {{ @$themeOption->footer_phone }}</li>
                         </ul>
                     </div>
                 </div>
@@ -185,14 +190,14 @@ $siteSocialLink  = SiteSocialLink::where('status', 1)->get();
             <div class="row bottom_footer align-items-center">
                 <div class="col-md-6">
                     <div class="footer_copy">
-                        <p>{{$themeOption->copyright_text}}</p>
+                        <p>{{ @$themeOption->copyright_text }}</p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <ul class="footer_social">
                         @isset($siteSocialLink)
                             @foreach ($siteSocialLink as $linkItem)
-                            <li><a href="{{$linkItem->link}}"><i class="{{$linkItem->icon}}"></i></a></li>
+                                <li><a href="{{ $linkItem->link }}"><i class="{{ $linkItem->icon }}"></i></a></li>
                             @endforeach
                         @endisset
                     </ul>

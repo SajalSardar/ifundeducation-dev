@@ -18,7 +18,7 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $posts = FundraiserPost::with( 'fundraisercategories' )->where( 'user_id', auth()->user()->id )->with( 'fundraisercategories' )->select( 'id', 'title', 'end_date', 'goal', 'slug' )->orderBy( 'id', 'desc' )->paginate( 30 );
+        $posts = FundraiserPost::with( 'fundraisercategories' )->where( 'user_id', auth()->user()->id )->with( 'fundraisercategories' )->paginate( 30 );
         return view( 'frontend.fundraiser_post.index', compact( 'posts' ) );
     }
 
@@ -46,7 +46,7 @@ class FundraiserPostController extends Controller {
         $image = $request->file( 'image' );
         $request->validate( [
             'title'            => 'required|max:200',
-            'shot_description' => 'required|min:100|max:150',
+            'shot_description' => 'required|max:150',
             'goal'             => 'required|integer',
             'end_date'         => 'required|date',
             'image'            => 'nullable|mimes:png,jpg, webp|max:300',
@@ -73,6 +73,7 @@ class FundraiserPostController extends Controller {
             'image'            => $image_name,
             'story'            => $request->story,
             'agree'            => $request->agree === 'on' ? true : false,
+            'status'           => "pending",
         ] );
 
         $post->fundraisercategories()->attach( $request->category );
@@ -191,4 +192,52 @@ class FundraiserPostController extends Controller {
 
         return view( 'frontend.fundraiser_post.show', compact( 'fundRaiserPost', 'total_comment' ) );
     }
+
+    // Dashboard Campaign
+
+    public function allCampaign() {
+        $posts = FundraiserPost::get();
+        return view( 'backend.fundraiser_post.index', compact( 'posts' ) );
+    }
+
+    public function showCampaign( $slug ) {
+        $fundRaiserPost = FundraiserPost::with( [
+            'fundraisercategories',
+            'donates',
+            'comments' => function ( $q ) {
+                $q->with( 'replies' )->orderBy( 'created_at', "desc" );
+            }] )->where( 'slug', $slug )->firstOrfail();
+
+        return view( 'backend.fundraiser_post.show', compact( 'fundRaiserPost' ) );
+    }
+
+    public function statusChangeCampaign( FundraiserPost $fundraiserpost, $action ) {
+
+        if ( $action == 1 ) {
+            if ( $fundraiserpost->status == 'pending' ) {
+                $fundraiserpost->update( [
+                    'status' => 'running',
+                ] );
+            } else if ( $fundraiserpost->status == 'running' ) {
+                $fundraiserpost->update( [
+                    'status' => 'pending',
+                ] );
+            }
+
+            return back()->with( 'success', 'Successfully Update!' );
+        } else if ( $action == 2 ) {
+            if ( $fundraiserpost->status == 'block' ) {
+                $fundraiserpost->update( [
+                    'status' => 'running',
+                ] );
+            } else if ( $fundraiserpost->status == 'running' || $fundraiserpost->status == 'pending' ) {
+                $fundraiserpost->update( [
+                    'status' => 'block',
+                ] );
+            }
+
+            return back()->with( 'success', 'Successfully Update!' );
+        }
+    }
+
 }
