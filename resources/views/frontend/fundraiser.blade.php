@@ -26,9 +26,9 @@
                     <div class="section_header">
                         <h2>Fundraisers</h2>
                         <div class="search_box w-50 d-none d-sm-block">
-                            <form action="">
+                            <form action="{{route('front.fundraiser.search')}}" method="GET">
                                 <div class="input-group ">
-                                    <input type="text" class="form-control" placeholder="Find fundraiser..">
+                                    <input type="text" class="form-control" value="{{Request::get('q')}}" name="q" placeholder="Find fundraiser..">
                                     <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i>
                                         Search</button>
                                 </div>
@@ -38,162 +38,62 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="fundraisers_card">
-                        <div class="save_btn">
-                            <a href="#" class="active"><i class="fas fa-heart"></i></a>
+                @foreach ($fundRaiserPosts as $fundRaiserPost)
+                    <div class="col-lg-4 col-md-6">
+                        <div class="fundraisers_card">
+                            <div class="save_btn">
+                                <form action="{{ route('wishlist.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" value="{{ $fundRaiserPost->id }}" name="post_id">
+                                    <a href="{{ route('wishlist.store') }}"
+                                        onclick="event.preventDefault();
+                                    this.closest('form').submit();"
+                                        class="{{ in_array($fundRaiserPost->id, $wishlists_id) == true ? 'active' : '' }}"><i
+                                            class="fas fa-heart"></i></a>
+                                </form>
+
+                            </div>
+                            @if ($fundRaiserPost->image)
+                                <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"
+                                    alt="{{ $fundRaiserPost->title }}">
+                            @else
+                                <img src="{{ Avatar::create($fundRaiserPost->title)->setBackground('#ddd')->setDimension(250)->setFontSize(16)->toBase64() }}"
+                                    alt="{{ $fundRaiserPost->title }}">
+                            @endif
+                            <h3><a
+                                    href="{{ route('front.fundraiser.post.show', $fundRaiserPost->slug) }}">{{ $fundRaiserPost->title }}</a>
+                            </h3>
+                            <ul class="fundraisers_card_sub">
+                                <li> <i
+                                        class="fas fa-university"></i>{{ $fundRaiserPost->user->academic_profile->university->name }}
+                                </li>
+                            </ul>
+                            <ul class="fundraisers_card_sub">
+                                @foreach ($fundRaiserPost->fundraisercategories as $category)
+                                    <li><i class="fas fa-tag text-dark"></i>{{ $category->name }}</li>
+                                @endforeach
+                            </ul>
+                            <p>{{ $fundRaiserPost->shot_description }}</p>
+                            <div class="progress mt-3" style="height: 13px;">
+                                <div class="progress-bar progress-bar-striped" role="progressbar"
+                                    aria-label="Example with label"
+                                    style="width: {{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%;"
+                                    aria-valuenow="{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}"
+                                    aria-valuemin="0" aria-valuemax="100">
+                                    {{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
+                                </div>
+                            </div>
+                            <ul class="fundraisers_card_bottom">
+                                <li>{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
+                                    <span>Funded</span>
+                                </li>
+                                <li>${{ $fundRaiserPost->goal }} <span>Target</span></li>
+                                <li>{{ $fundRaiserPost->end_date->diffInDays() }} <span>Day Left</span></li>
+                            </ul>
                         </div>
-                        <img src="images/1.png" alt="">
-                        <h3><a href="single-fundraiser.html">Origin Learning Fund</a></h3>
-                        <ul class="fundraisers_card_sub">
-                            <li> <i class="fas fa-university"></i>University</li>
-                            <li><i class="fas fa-tag text-dark"></i>Tuition</li>
-                        </ul>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maxime beatae harum reiciendis
-                            quasi, ab
-                            dolores iusto suscipit</p>
-                        <div class="progress mt-3">
-                            <div class="progress-bar progress-bar-striped" role="progressbar"
-                                aria-label="Example with label" style="width: 74%;" aria-valuenow="75" aria-valuemin="0"
-                                aria-valuemax="100">74%</div>
-                        </div>
-                        <ul class="fundraisers_card_bottom">
-                            <li>74% <span>Funded</span></li>
-                            <li>$100,000 <span>Target</span></li>
-                            <li>127 <span>Days</span></li>
-                        </ul>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="fundraisers_card">
-                        <div class="save_btn">
-                            <a href="#"><i class="fas fa-heart"></i></a>
-                        </div>
-                        <img src="images/1.png" alt="">
-                        <h3><a href="single-fundraiser.html">Origin Learning Fund</a></h3>
-                        <ul class="fundraisers_card_sub">
-                            <li> <i class="fas fa-university"></i>University</li>
-                            <li><i class="fas fa-tag text-dark"></i>Tuition</li>
-                        </ul>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maxime beatae harum reiciendis
-                            quasi, ab
-                            dolores iusto suscipit</p>
-                        <div class="progress mt-3">
-                            <div class="progress-bar progress-bar-striped" role="progressbar"
-                                aria-label="Example with label" style="width: 74%;" aria-valuenow="75" aria-valuemin="0"
-                                aria-valuemax="100">74%</div>
-                        </div>
-                        <ul class="fundraisers_card_bottom">
-                            <li>74% <span>Funded</span></li>
-                            <li>$100,000 <span>Target</span></li>
-                            <li>127 <span>Days</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="fundraisers_card">
-                        <div class="save_btn">
-                            <a href="#"><i class="fas fa-heart"></i></a>
-                        </div>
-                        <img src="images/1.png" alt="">
-                        <h3><a href="single-fundraiser.html">Origin Learning Fund</a></h3>
-                        <ul class="fundraisers_card_sub">
-                            <li> <i class="fas fa-university"></i>University</li>
-                            <li><i class="fas fa-tag text-dark"></i>Tuition</li>
-                        </ul>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maxime beatae harum reiciendis
-                            quasi, ab
-                            dolores iusto suscipit</p>
-                        <div class="progress mt-3">
-                            <div class="progress-bar progress-bar-striped" role="progressbar"
-                                aria-label="Example with label" style="width: 74%;" aria-valuenow="75" aria-valuemin="0"
-                                aria-valuemax="100">74%</div>
-                        </div>
-                        <ul class="fundraisers_card_bottom">
-                            <li>74% <span>Funded</span></li>
-                            <li>$100,000 <span>Target</span></li>
-                            <li>127 <span>Days</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="fundraisers_card">
-                        <div class="save_btn">
-                            <a href="#"><i class="fas fa-heart"></i></a>
-                        </div>
-                        <img src="images/1.png" alt="">
-                        <h3><a href="single-fundraiser.html">Origin Learning Fund</a></h3>
-                        <ul class="fundraisers_card_sub">
-                            <li> <i class="fas fa-university"></i>University</li>
-                            <li><i class="fas fa-tag text-dark"></i>Tuition</li>
-                        </ul>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maxime beatae harum reiciendis
-                            quasi, ab
-                            dolores iusto suscipit</p>
-                        <div class="progress mt-3">
-                            <div class="progress-bar progress-bar-striped" role="progressbar"
-                                aria-label="Example with label" style="width: 74%;" aria-valuenow="75" aria-valuemin="0"
-                                aria-valuemax="100">74%</div>
-                        </div>
-                        <ul class="fundraisers_card_bottom">
-                            <li>74% <span>Funded</span></li>
-                            <li>$100,000 <span>Target</span></li>
-                            <li>127 <span>Days</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="fundraisers_card">
-                        <div class="save_btn">
-                            <a href="#"><i class="fas fa-heart"></i></a>
-                        </div>
-                        <img src="images/1.png" alt="">
-                        <h3><a href="single-fundraiser.html">Origin Learning Fund</a></h3>
-                        <ul class="fundraisers_card_sub">
-                            <li> <i class="fas fa-university"></i>University</li>
-                            <li><i class="fas fa-tag text-dark"></i>Tuition</li>
-                        </ul>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maxime beatae harum reiciendis
-                            quasi, ab
-                            dolores iusto suscipit</p>
-                        <div class="progress mt-3">
-                            <div class="progress-bar progress-bar-striped" role="progressbar"
-                                aria-label="Example with label" style="width: 74%;" aria-valuenow="75" aria-valuemin="0"
-                                aria-valuemax="100">74%</div>
-                        </div>
-                        <ul class="fundraisers_card_bottom">
-                            <li>74% <span>Funded</span></li>
-                            <li>$100,000 <span>Target</span></li>
-                            <li>127 <span>Days</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="fundraisers_card">
-                        <div class="save_btn">
-                            <a href="#"><i class="fas fa-heart"></i></a>
-                        </div>
-                        <img src="images/1.png" alt="">
-                        <h3><a href="single-fundraiser.html">Origin Learning Fund</a></h3>
-                        <ul class="fundraisers_card_sub">
-                            <li> <i class="fas fa-university"></i>University</li>
-                            <li><i class="fas fa-tag text-dark"></i>Tuition</li>
-                        </ul>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus maxime beatae harum reiciendis
-                            quasi, ab
-                            dolores iusto suscipit</p>
-                        <div class="progress mt-3">
-                            <div class="progress-bar progress-bar-striped" role="progressbar"
-                                aria-label="Example with label" style="width: 74%;" aria-valuenow="75" aria-valuemin="0"
-                                aria-valuemax="100">74%</div>
-                        </div>
-                        <ul class="fundraisers_card_bottom">
-                            <li>74% <span>Funded</span></li>
-                            <li>$100,000 <span>Target</span></li>
-                            <li>127 <span>Days</span></li>
-                        </ul>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </section>
@@ -202,13 +102,14 @@
     <!-- pagination  -->
     <section id="custom_pagination">
         <nav class="container mb-5">
-            <ul class="d-flex justify-content-center">
+            {{$fundRaiserPosts->links()}}
+            {{-- <ul class="d-flex justify-content-center">
                 <li><a href="#">&laquo; Previous</a></li>
                 <li><a class="active" href="#">1</a></li>
                 <li><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
                 <li><a href="#">Next &raquo;</a></li>
-            </ul>
+            </ul> --}}
         </nav>
     </section>
     <!-- pagination end  -->

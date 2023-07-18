@@ -6,20 +6,18 @@
 );
 ">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-sm-4">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-sm-6">
                 {{ $slot }}
             </div>
 
-            <div class="col-sm-4">
-                <div class=" text-center">
+            <div class="col-sm-6">
+                <div class="text-end">
                     <p>
-                        <span class="fw-semibold">User Type:</span>
+                        {{-- <span class="fw-semibold">Account Type:</span> --}}
                         @foreach (auth()->user()->roles as $role)
                             <span class="badge bg-success">{{ Str::upper($role->name) }}</span>
                         @endforeach
-
-
 
                         @if (auth()->user()->hasRole('donor'))
                             @if (auth()->user()->hasRole('fundraiser') &&
@@ -41,7 +39,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-sm-4">
+            {{-- <div class="col-sm-4">
                 <div class="profile_photo text-end">
                     @if (auth()->user()->photo)
                         <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
@@ -54,7 +52,7 @@
                             alt="{{ auth()->user()->first_name }}">
                     @endif
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>

@@ -35,7 +35,7 @@
                 <!--begin::Brand-->
                 <div class="aside-logo flex-column-auto" id="kt_aside_logo">
                     <!--begin::Logo-->
-                    <a href="index.html">
+                    <a href="{{url('/')}}" target="_blank">
                         <img src="{{ asset('frontend/images/logo.png') }}" alt="">
                     </a>
                     <!--end::Logo-->

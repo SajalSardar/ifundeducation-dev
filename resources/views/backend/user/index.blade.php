@@ -88,6 +88,21 @@
                                 </td>
                                 <td>{{ $user->created_at->format('d M Y') }}</td>
                                 <td>
+
+                                    @if ($user->status == 1)
+                                    <a href="{{ route('dashboard.user.block', $user->id) }}"
+                                        class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" title="Deactive">
+                                            <i class="fas fa-lock"></i>
+                                        </a>
+                                    @else 
+                                    <a href="{{ route('dashboard.user.active', $user->id) }}"
+                                        class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" title="Active">
+                                            <i class="fas fa-unlock"></i>
+                                        </a>
+                                    @endif
+                                    
+                                    
+                                    @if (auth()->user()->id == $user->id)
                                     <a href="#"
                                         class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                                         <!--begin::Svg Icon | path: icons/duotone/Communication/Write.svg-->
@@ -105,6 +120,7 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                     </a>
+                                    @endif
                                     @if (auth()->user()->id != $user->id && auth()->user()->roles[0]->name == 'super-admin')
                                         <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
                                             <!--begin::Svg Icon | path: icons/duotone/General/Trash.svg-->

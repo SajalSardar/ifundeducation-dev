@@ -46,7 +46,7 @@
 <body>
 
     <!-- header part start  -->
-    <header id="top_header">
+    {{-- <header id="top_header">
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-sm-6">
@@ -104,7 +104,7 @@
                 </div>
             </div>
         </div>
-    </header>
+    </header> --}}
     <!-- header part end -->
 
     <!-- main menu part start -->
@@ -122,21 +122,70 @@
                         <a class="nav-link {{ request()->routeIs('front.index') ? 'active' : '' }}"
                             href="{{ route('front.index') }}">Home</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('front.page', 'about-us') ? 'active' : '' }}"
                             href="{{ route('front.page', 'about-us') }}">about</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('front.contact') ? 'active' : '' }}"
+                            href="{{ route('front.contact') }}">contact</a>
+                    </li> --}}
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('front.fundraiser') ? 'active' : '' }}"
                             href="{{ route('front.fundraiser') }}">Fundraiser</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('front.contact') ? 'active' : '' }}"
-                            href="{{ route('front.contact') }}">contact</a>
-                    </li>
-                    <li class="nav-item">
+                    @guest()
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Sign Up</a></li>
+                    @else
+                        <li class="login_last_item">
+                            <a href="#">
+                                @if (auth()->user()->photo)
+                                    <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
+                                        alt="{{ auth()->user()->first_name }}" width="35"
+                                        class="rounded-circle">
+                                @elseif(auth()->user()->avatar)
+                                    <img src="{{ auth()->user()->avatar }}" class="rounded-circle"
+                                        alt="{{ auth()->user()->first_name }}" width="35">
+                                @else
+                                    <img src="{{ Avatar::create(auth()->user()->first_name)->setDimension(35)->setFontSize(14)->toBase64() }}"
+                                        alt="{{ auth()->user()->first_name }}">
+                                @endif
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a>{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</a>
+                                </li>
+                                @role('super-admin|admin')
+                                <li>
+                                    <a href="{{ route('dashboard.index') }}" target="_blank">Dashboard</a>
+                                </li>
+                                @endrole
+                                @role('donar|fundraiser')
+                                <li>
+                                    <a href="{{ route('user.dashboard.index') }}">Dashboard</a>
+                                </li>
+                                @endrole
+                                <li>
+                                    <a href="{{ route('user.profile.edit') }}">Profile</a>
+                                </li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                            this.closest('form').submit();">Sign
+                                            Out</a>
+
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endguest
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#">start a fundraiser</a>
-                    </li>
+                    </li> --}}
                 </ul>
 
             </div>

@@ -22,9 +22,10 @@ class AuthenticatedSessionController extends Controller {
      * Handle an incoming authentication request.
      */
     public function store( LoginRequest $request ): RedirectResponse {
-        $request->authenticate();
+        // return $request->all();
 
-        $request->session()->regenerate();
+         $request->authenticate();
+         $request->session()->regenerate();
 
         if ( $request->user()->hasAnyRole( ['fundraiser', 'donor'] ) ) {
             return redirect()->route( 'user.dashboard.index' );

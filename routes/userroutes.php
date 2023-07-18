@@ -11,6 +11,11 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('/account-block', function(){
+    return view('user.active_deactive');
+})->name('account.blocked');
+
 Route::name( 'front.' )->group( function () {
 
     Route::controller( FrontController::class )->group( function () {
@@ -21,6 +26,7 @@ Route::name( 'front.' )->group( function () {
         Route::post( '/contact/store', 'contactStore' )->name( 'contact.store' );
 
         Route::get( '/fundraiser', 'fundraiser' )->name( 'fundraiser' );
+        Route::get( '/fundraiser/s/', 'fundraiserSearch' )->name( 'fundraiser.search' );
         Route::get( '/faq', 'faq' )->name( 'faq' );
     } );
 
@@ -33,9 +39,11 @@ Route::name( 'front.' )->group( function () {
 
     } );
 
+  
+
 } );
 
-Route::middleware( ['auth', 'verified', 'role:fundraiser|donor'] )->group( function () {
+Route::middleware( ['auth', 'verified', 'userStatus', 'role:fundraiser|donor'] )->group( function () {
     Route::get( '/user/dashboard', [UserDashboardController::class, 'index'] )->name( 'user.dashboard.index' );
 
     Route::controller( UserProfileController::class )->prefix( 'user/profile' )->name( 'user.profile.' )->group( function () {
@@ -55,7 +63,7 @@ Route::middleware( ['auth', 'verified', 'role:fundraiser|donor'] )->group( funct
 
 } );
 
-Route::middleware( ['auth', 'verified', 'role:fundraiser'] )->group( function () {
+Route::middleware( ['auth', 'verified','userStatus', 'role:fundraiser'] )->group( function () {
     Route::controller( FundraiserPostController::class )->prefix( 'fundraiser/post' )->name( 'fundraiser.post.' )->group( function () {
         Route::get( '/', 'index' )->name( 'index' );
         Route::get( '/create', 'create' )->name( 'create' );

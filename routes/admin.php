@@ -35,6 +35,8 @@ Route::middleware( ['auth', 'verified', 'role:super-admin|admin'] )->prefix( 'da
     // user management routs
     Route::controller( UserController::class )->prefix( '/user' )->name( 'user.' )->group( function () {
         Route::get( '/', 'index' )->name( 'allusers' );
+        Route::get( '/block/{id}', 'userBlock' )->name( 'block' );
+        Route::get( '/active/{id}', 'userActive' )->name( 'active' );
     } );
 
     Route::prefix( '/pages' )->name( 'pages.' )->group( function () {

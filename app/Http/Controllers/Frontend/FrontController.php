@@ -43,7 +43,15 @@ class FrontController extends Controller {
     }
 
     public function fundraiser() {
-        return view( 'frontend.fundraiser' );
+        $fundRaiserPosts = FundraiserPost::with( [
+            'fundraisercategories',
+            'donates' => function ( $q ) {
+                $q->select( 'id', 'amount', 'fundraiser_post_id' );
+            },
+            'user.academic_profile.university',
+        ] )->where( 'status', "running" )->orderBy( 'id', 'desc' )->paginate(21);
+        $wishlists_id = Wishlist::where( 'user_id', auth()->user()->id ?? '' )->pluck( 'fundraiser_post_id' )->all();
+        return view( 'frontend.fundraiser', compact('fundRaiserPosts','wishlists_id') );
     }
 
     public function contact() {
@@ -86,6 +94,20 @@ class FrontController extends Controller {
        }
 
        // return redirect()->back()->with(['success' => 'Contact Form Submit Successfully']);
+   }
+
+   public function fundraiserSearch(Request $request){
+        $fundRaiserPosts = FundraiserPost::with( [
+            'fundraisercategories',
+            'donates' => function ( $q ) {
+                $q->select( 'id', 'amount', 'fundraiser_post_id' );
+            },
+            'user.academic_profile.university',
+        ] )->where( 'status', "running" )
+        ->where('title', 'LIKE', "%$request->q%")
+        ->orderBy( 'id', 'desc' )->paginate(21);
+        $wishlists_id = Wishlist::where( 'user_id', auth()->user()->id ?? '' )->pluck( 'fundraiser_post_id' )->all();
+        return view( 'frontend.fundraiser', compact('fundRaiserPosts','wishlists_id') );
    }
 
 }

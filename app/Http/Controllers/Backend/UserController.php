@@ -9,7 +9,22 @@ class UserController extends Controller {
     //
 
     public function index() {
-        $users = User::orderBy( 'id', 'desc' )->paginate( 25 );
+        $users = User::with('roles')->orderBy( 'id', 'desc' )->paginate( 25 );
         return view( 'backend.user.index', compact( 'users' ) );
+    }
+
+    public function userBlock($id){
+        $user = User::findOrFail($id);
+        $user->update([
+            'status' => 2,
+        ]);
+        return back()->with('success', 'User Successfuly Deactivate!');
+    }
+    public function userActive($id){
+        $user = User::findOrFail($id);
+        $user->update([
+            'status' => 1,
+        ]);
+        return back()->with('success', 'User Successfuly Active!');
     }
 }

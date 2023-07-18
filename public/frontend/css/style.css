@@ -171,11 +171,11 @@ h5{
     -webkit-transition: .4s;
     position: relative;
 }
-#iNav > ul > li:last-child > a{
+/* #iNav > ul > li:last-child > a{
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
-}
+} */
 #iNav ul li:hover > a,
 #iNav ul li a.active{
     color: var(--primary-color);
@@ -195,14 +195,19 @@ h5{
 #iNav ul li:hover > a:after{
     width: 25px;
 }
-#iNav > ul > li:last-child > a:after{
+#iNav > ul > li.login_last_item:last-child > a:after{
+    height: 0;
+}
+/* #iNav > ul > li:last-child > a:after{
     height: 0;
 }
 #iNav > ul > li:last-child > a:hover{
     color: #fff;
     background-color: var(--tertiary-color);
+} */
+#iNav > ul > li.login_last_item{
+    position: relative;
 }
-
 #iNav ul li ul{
     position: absolute;
     width: 160px;
@@ -212,6 +217,8 @@ h5{
     transition: .4s;
     padding: 10px 0;
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 50%);
+    right: 0;
+    z-index: 99;
 }
 #iNav ul li:hover > ul{
     transform: scaleY(1);
@@ -451,7 +458,7 @@ h5{
     border-radius: 50%;
     border: 1px solid #ddd;
     display: block;
-    line-height: 40px;
+    padding-top: 10px;
     text-align: center;
     transition: .4s;
 }
@@ -542,6 +549,7 @@ h5{
     -webkit-transition: 0.4s;
     font-weight: 600;
 }
+.active>.page-link,
 #custom_pagination ul li a.active,
 #custom_pagination ul li a:hover{
     background-color: var(--primary-color);
