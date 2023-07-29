@@ -1,65 +1,90 @@
-:root{
-    --primary-color: #19B76B ;
+:root {
+    --primary-color: #19B76B;
     --secondary-color: #DFFCED;
     --tertiary-color: #2c3e50;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     outline: 0;
 }
 
-a{
+a {
     text-decoration: none;
 }
 
-ul,ol{
+ul,
+ol {
     list-style-type: none;
 }
 
-h1,h2,h3,h4,h5,h6,p,ul,ol,nav,span,.navbar{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+nav,
+span,
+.navbar {
     margin: 0;
     padding: 0;
 }
-h1,h2,h3,h4,h5,h6{
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 700;
     color: #222;
 }
 
-body{
+body {
     font-family: 'Open Sans', sans-serif;
 }
 
-p{
+p {
     font-size: 16px;
     line-height: 26px;
     color: rgb(45, 44, 44);
     font-weight: 400;
 }
-h2{
+
+h2 {
     font-size: 36px;
 }
-h3{
+
+h3 {
     font-size: 25px;
 }
-h4{
+
+h4 {
     font-size: 18px;
 }
-h5{
+
+h5 {
     font-size: 16px;
 }
-.section_header{
+
+.section_header {
     margin-bottom: 50px;
 }
-.section_header h2{
+
+.section_header h2 {
     display: inline-block;
     position: relative;
     padding-bottom: 10px;
 }
+
 .footer_contact h3:after,
-.section_header h2:after{
+.section_header h2:after {
     content: '';
     position: absolute;
     height: 4px;
@@ -70,21 +95,25 @@ h5{
 }
 
 /* top header part css */
-#top_header{
+#top_header {
     background-color: var(--tertiary-color);
     padding: 7px 0;
 }
-.header_left p{
+
+.header_left p {
     color: #fff;
 }
-.header_right > ul{
+
+.header_right>ul {
     text-align: right;
 }
-.header_right ul li{
+
+.header_right ul li {
     display: inline-block;
     position: relative;
 }
-.header_right ul li a{
+
+.header_right ul li a {
     font-size: 16px;
     color: #fff;
     transition: .4s;
@@ -92,11 +121,12 @@ h5{
     padding: 0 10px;
     position: relative;
 }
-.header_right ul li:hover > a{
+
+.header_right ul li:hover>a {
     color: var(--primary-color);
 }
 
-.header_right ul li a:after{
+.header_right ul li a:after {
     position: absolute;
     content: '';
     right: -2px;
@@ -107,34 +137,39 @@ h5{
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
 }
-.header_right ul li:last-child a:after{
+
+.header_right ul li:last-child a:after {
     width: 0;
 }
 
-.header_left i{
-    color:var(--primary-color);
+.header_left i {
+    color: var(--primary-color);
     padding-right: 10px;
 }
-.header_right ul li ul{
+
+.header_right ul li ul {
     position: absolute;
     width: 180px;
     background: #fff;
     transform: scaleY(0);
-    transform-origin:top;
+    transform-origin: top;
     transition: .4s;
     padding: 10px 0;
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 50%);
     z-index: 99;
     right: 0;
 }
-.header_right  ul li:hover > ul{
+
+.header_right ul li:hover>ul {
     transform: scaleY(1);
 }
-.header_right  ul li ul li{
+
+.header_right ul li ul li {
     width: 100%;
     padding: 0;
 }
-.header_right  ul li ul li a{
+
+.header_right ul li ul li a {
     padding: 8px;
     border-bottom: 1px solid #f1f1f1;
     transition: .4s;
@@ -142,16 +177,17 @@ h5{
     color: var(--tertiary-color);
     font-size: 16px;
 }
-.header_right  ul li ul li:hover a{
+
+.header_right ul li ul li:hover a {
     color: var(--primary-color);
 }
 
 /* menu part css  */
-.logo{
+.logo {
     padding: 20px 0;
 }
 
-.menuFix{
+.menuFix {
     width: 100%;
     position: fixed;
     top: 0;
@@ -160,7 +196,7 @@ h5{
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 60%);
 }
 
-#iNav ul li a{
+#iNav ul li a {
     color: #222;
     font-size: 16px;
     text-transform: capitalize;
@@ -171,16 +207,18 @@ h5{
     -webkit-transition: .4s;
     position: relative;
 }
+
 /* #iNav > ul > li:last-child > a{
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
 } */
-#iNav ul li:hover > a,
-#iNav ul li a.active{
+#iNav ul li:hover>a,
+#iNav ul li a.active {
     color: var(--primary-color);
 }
-#iNav > ul > li > a:after{
+
+#iNav>ul>li>a:after {
     content: '';
     position: absolute;
     height: 2px;
@@ -191,13 +229,16 @@ h5{
     transition: .4s;
     -webkit-transition: .4s;
 }
-#iNav > ul> li >a.active:after,
-#iNav ul li:hover > a:after{
+
+#iNav>ul>li>a.active:after,
+#iNav ul li:hover>a:after {
     width: 25px;
 }
-#iNav > ul > li.login_last_item:last-child > a:after{
+
+#iNav>ul>li.login_last_item:last-child>a:after {
     height: 0;
 }
+
 /* #iNav > ul > li:last-child > a:after{
     height: 0;
 }
@@ -205,58 +246,67 @@ h5{
     color: #fff;
     background-color: var(--tertiary-color);
 } */
-#iNav > ul > li.login_last_item{
+#iNav>ul>li.login_last_item {
     position: relative;
 }
-#iNav ul li ul{
+
+#iNav ul li ul {
     position: absolute;
     width: 160px;
     background: #fff;
     transform: scaleY(0);
-    transform-origin:top;
+    transform-origin: top;
     transition: .4s;
     padding: 10px 0;
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 50%);
     right: 0;
     z-index: 99;
 }
-#iNav ul li:hover > ul{
+
+#iNav ul li:hover>ul {
     transform: scaleY(1);
 }
-#iNav ul li ul li{
+
+#iNav ul li ul li {
     width: 100%;
     padding: 0;
 }
-#iNav ul li ul li a{
+
+#iNav ul li ul li a {
     padding: 10px 18px;
     border-bottom: 1px solid #f1f1f1;
     transition: .4s;
     display: block;
 }
-#iNav ul li ul li:hover a{
+
+#iNav ul li ul li:hover a {
     color: var(--primary-color);
 }
 
 /* hero part css */
-.banner_item{
+.banner_item {
     height: 650px;
     background-position: center !important;
     background-size: cover !important;
 }
-.banner_caption{
+
+.banner_caption {
     width: 40%;
 }
-.banner_caption h1{
+
+.banner_caption h1 {
     font-size: 50px;
 }
 
-.banner_caption h1 span{
+.banner_caption h1 span {
     color: var(--primary-color);
 }
-.banner_caption p{
+
+.banner_caption p {
     margin-top: 15px;
 }
-.banner_caption a{
+
+.banner_caption a {
     background-color: var(--primary-color);
     font-size: 18px;
     font-weight: 600;
@@ -266,26 +316,29 @@ h5{
     color: #fff;
     margin-top: 15px;
     transition: .4s;
-   -webkit-transition: .4s;
+    -webkit-transition: .4s;
 }
-.banner_caption a:hover{
+
+.banner_caption a:hover {
     background-color: var(--tertiary-color);
 }
 
 /* home search box */
-.search_box{
+.search_box {
     padding: 5px;
     border-radius: 40px;
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 60%);
     background: #fff;
 }
-.search_box input{
+
+.search_box input {
     height: 50px;
     border-radius: 40px;
     border: none;
     font-size: 16px;
 }
-.search_box button{
+
+.search_box button {
     border: 0;
     border-radius: 40px !important;
     background-color: var(--primary-color);
@@ -296,21 +349,24 @@ h5{
     font-size: 18px;
     text-transform: uppercase;
 }
-.search_box button:hover{
+
+.search_box button:hover {
     background: var(--tertiary-color);
 }
 
 /* fundraisers css */
-#fundraisers{
+#fundraisers {
     padding: 60px 0;
 }
-#fundraisers .section_header{
+
+#fundraisers .section_header {
     display: flex;
     justify-content: space-between;
     -webkit-justify-content: space-between;
     align-items: center;
     -webkit-align-items: center;
 }
+
 #fundraisers .section_header a {
     display: inline-block;
     color: var(--tertiary-color);
@@ -321,49 +377,56 @@ h5{
     transition: .4s;
     -webkit-transition: .4s;
 }
-#fundraisers .section_header a:hover{
+
+#fundraisers .section_header a:hover {
     color: var(--primary-color);
     border-color: var(--primary-color);
 }
 
-.fundraisers_card{
+.fundraisers_card {
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 60%);
     border-radius: 8px;
-    padding: 25px 15px ;
+    padding: 25px 15px;
     text-align: center;
     margin-bottom: 26px;
     position: relative;
 }
-.fundraisers_card img{
+
+.fundraisers_card img {
     width: 200px;
     height: 200px;
     border-radius: 50%;
     overflow: hidden;
     transition: .4s;
     -webkit-transition: .4s;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
-.fundraisers_card:hover img{
+
+.fundraisers_card:hover img {
     transform: scale(1.05);
     -webkit-transform: scale(1.05);
 }
-.fundraisers_card h3 a{
+
+.fundraisers_card h3 a {
     color: var(--tertiary-color);
     padding: 10px 0;
     transition: .4s;
     -webkit-transition: .4s;
     display: block;
 }
+
 .fundraisers_card h3 a:hover {
     color: var(--primary-color);
 }
-.fundraisers_card_sub li{
+
+.fundraisers_card_sub li {
     display: inline-block;
     padding: 5px 10px;
     position: relative;
-    color:  rgb(45, 44, 44);
+    color: rgb(45, 44, 44);
 }
-.fundraisers_card_sub li:after{
+
+.fundraisers_card_sub li:after {
     content: '';
     position: absolute;
     height: 5px;
@@ -371,31 +434,37 @@ h5{
     border-radius: 50%;
     right: -5px;
     top: 50%;
-     transform: translateY(-50%);
-     -webkit-transform: translateY(-50%);
-     background-color:var(--tertiary-color);
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    background-color: var(--tertiary-color);
 }
-.fundraisers_card_sub li:last-child:after{
+
+.fundraisers_card_sub li:last-child:after {
     height: 0;
     width: 0;
 }
-.fundraisers_card_sub li i{
+
+.fundraisers_card_sub li i {
     margin-right: 4px;
 }
-.fundraisers_card p{
+
+.fundraisers_card p {
     margin-top: 15px;
 }
-.fundraisers_card_bottom{
+
+.fundraisers_card_bottom {
     margin-top: 25px;
 }
-.fundraisers_card_bottom li{
+
+.fundraisers_card_bottom li {
     font-weight: 700;
-    color:  rgb(45, 44, 44);
+    color: rgb(45, 44, 44);
     position: relative;
     display: inline-block;
     padding: 0 25px;
 }
-.fundraisers_card_bottom li:after{
+
+.fundraisers_card_bottom li:after {
     content: '';
     position: absolute;
     height: 10px;
@@ -406,53 +475,59 @@ h5{
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
 }
-.fundraisers_card_bottom li:last-child:after{
+
+.fundraisers_card_bottom li:last-child:after {
     width: 0;
     height: 0;
 }
-.fundraisers_card_bottom span{
+
+.fundraisers_card_bottom span {
     display: block;
     font-weight: 400;
     font-size: 14px;
 }
 
-.save_btn{
+.save_btn {
     position: absolute;
     right: 15px;
     top: 8px;
 }
 
-.save_btn a{
+.save_btn a {
     font-size: 20px;
     color: rgb(186, 184, 184);
-    
+
 }
-.save_btn a i{
-    filter:drop-shadow(0 3px 5px  rgb(214 215 216 / 80%)) ;
+
+.save_btn a i {
+    filter: drop-shadow(0 3px 5px rgb(214 215 216 / 80%));
 }
 
 .save_btn a.active,
-.save_btn a:hover{
-    color:rgb(242, 0, 0);
+.save_btn a:hover {
+    color: rgb(242, 0, 0);
 }
 
 /* footer css */
-#footer{
+#footer {
     padding: 70px 0 20px 0;
     background: var(--tertiary-color);
 }
 
-.bottom_footer{
+.bottom_footer {
     border-top: 1px solid #ddd;
     padding-top: 20px;
 }
-.footer_social{
+
+.footer_social {
     text-align: right;
 }
+
 .footer_social li {
     display: inline-block;
 }
-.footer_social li a{
+
+.footer_social li a {
     color: #ddd;
     height: 40px;
     width: 40px;
@@ -463,19 +538,21 @@ h5{
     text-align: center;
     transition: .4s;
 }
-.footer_social li a:hover{
+
+.footer_social li a:hover {
     background: var(--primary-color);
     border-color: var(--primary-color);
 }
-.footer_copy p{
+
+.footer_copy p {
     color: #ddd;
 }
 
-.footer_contact{
+.footer_contact {
     margin-bottom: 30px;
 }
 
-.footer_contact h3{
+.footer_contact h3 {
     color: #fff;
     margin-bottom: 20px;
     position: relative;
@@ -483,36 +560,42 @@ h5{
     text-transform: uppercase;
     font-size: 20px;
 }
-.footer_contact  p{
+
+.footer_contact p {
     color: #ddd;
-}
-.footer_contact .d-flex i{
-    color: #ddd;
-    padding:4px 8px 0 0;
 }
 
-.footer_contact ul li{
+.footer_contact .d-flex i {
+    color: #ddd;
+    padding: 4px 8px 0 0;
+}
+
+.footer_contact ul li {
     color: #ddd;
     margin-bottom: 10px;
 }
-.footer_contact ul li i{
-    padding:4px 8px 0 0;
+
+.footer_contact ul li i {
+    padding: 4px 8px 0 0;
 }
 
-.footer_contact ul li a{
-    color: #ddd ;
+.footer_contact ul li a {
+    color: #ddd;
     display: block;
     transition: .4s;
 }
-.footer_contact ul li a:hover{
+
+.footer_contact ul li a:hover {
     color: var(--primary-color);
 }
-.footer_about p{
+
+.footer_about p {
     color: #ddd;
     margin-bottom: 40px;
     margin-top: 15px;
 }
-.footer_about strong{
+
+.footer_about strong {
     display: block;
     padding: 8px 0;
     color: var(--secondary-color);
@@ -523,17 +606,19 @@ h5{
 .breadcrumb {
     margin-bottom: 0;
 }
-.breadcrumb_section{
+
+.breadcrumb_section {
     background: var(--secondary-color);
     padding: 20px 0;
 }
-.breadcrumb_section .breadcrumb-item a{
+
+.breadcrumb_section .breadcrumb-item a {
     color: var(--tertiary-color);
     font-weight: 600;
 }
 
 /* fundraiser page css */
-.fundraiser_page .section_header{
+.fundraiser_page .section_header {
     border-radius: 5px;
     box-shadow: 0 0 25px #ddd;
     background: #fff;
@@ -542,7 +627,7 @@ h5{
 }
 
 /* pagination css */
-#custom_pagination ul li a{
+#custom_pagination ul li a {
     color: var(--tertiary-color);
     padding: 8px 15px;
     border: 1px solid #ddd;
@@ -550,9 +635,10 @@ h5{
     -webkit-transition: 0.4s;
     font-weight: 600;
 }
+
 .active>.page-link,
 #custom_pagination ul li a.active,
-#custom_pagination ul li a:hover{
+#custom_pagination ul li a:hover {
     background-color: var(--primary-color);
     color: #fff;
     border-color: var(--primary-color);
@@ -562,118 +648,124 @@ h5{
 /*--------------------------------------------------------------
 # Contact
 --------------------------------------------------------------*/
-#contact{
+#contact {
     padding-top: 60px;
 }
+
 .contact {
     padding-bottom: 30px;
 }
-  
+
 .contact .info-box {
-color: #444;
-text-align: center;
-box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);
-padding: 20px 0 30px 0;
-margin-bottom: 30px;
+    color: #444;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);
+    padding: 20px 0 30px 0;
+    margin-bottom: 30px;
 }
 
 .contact .info-box i {
-font-size: 32px;
-color: var(--primary-color);
-border-radius: 50%;
-padding: 8px;
-border: 2px dotted var(--primary-color);
+    font-size: 32px;
+    color: var(--primary-color);
+    border-radius: 50%;
+    padding: 8px;
+    border: 2px dotted var(--primary-color);
 }
 
 .contact .info-box h3 {
-font-size: 20px;
-color: #666;
-font-weight: 700;
-margin: 10px 0;
+    font-size: 20px;
+    color: #666;
+    font-weight: 700;
+    margin: 10px 0;
 }
 
 .contact .info-box p {
-padding: 0;
-line-height: 24px;
-font-size: 14px;
-margin-bottom: 0;
+    padding: 0;
+    line-height: 24px;
+    font-size: 14px;
+    margin-bottom: 0;
 }
 
 .contact .contact_form {
-box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);
-padding: 30px;
-margin-bottom: 30px;
+    box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);
+    padding: 30px;
+    margin-bottom: 30px;
 }
 
 
 .contact .contact_form input,
 .contact .contact_form textarea {
-border-radius: 0;
-box-shadow: none;
-font-size: 16px;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 16px;
 }
 
 .contact .contact_form input:focus,
 .contact .contact_form textarea:focus {
-border-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .contact .contact_form input {
-padding: 10px 15px;
+    padding: 10px 15px;
 }
 
 .contact .contact_form textarea {
     padding: 12px 15px;
 }
 
-.contact .contact_form button{
+.contact .contact_form button {
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
     font-size: 16px;
     text-transform: capitalize;
     font-weight: 600;
-    padding:10px 20px;
+    padding: 10px 20px;
     transition: .4s;
     -webkit-transition: .4s;
     border: none;
     margin-top: 17px;
 }
-.contact .contact_form button:hover{
+
+.contact .contact_form button:hover {
     background-color: var(--tertiary-color);
 }
 
 /* login signup form */
-#login_signup{
+#login_signup {
     background-color: #f1f1f1;
 }
-.logo{
+
+.logo {
     margin-bottom: 10px;
 }
-.login_signup_form{
+
+.login_signup_form {
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 60%);
     background-color: #fff;
     padding: 30px 20px 50px 20px;
     margin: 80px 0;
     border-radius: 8px;
 }
+
 .login_signup_form p a,
-.login_signup_form form a{
+.login_signup_form form a {
     color: var(--tertiary-color);
     text-decoration: underline;
 }
+
 .login_signup_form p a:hover,
-.login_signup_form form a:hover{
+.login_signup_form form a:hover {
     color: var(--primary-color);
 }
 
-.login_signup_form form button{
+.login_signup_form form button {
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
     font-size: 16px;
     font-weight: 600;
-    padding:8px 20px;
+    padding: 8px 20px;
     display: block;
     transition: .4s;
     -webkit-transition: .4s;
@@ -682,54 +774,61 @@ padding: 10px 15px;
     text-transform: uppercase;
     width: 100%;
 }
-.login_signup_form form button:hover{
+
+.login_signup_form form button:hover {
     background-color: var(--tertiary-color);
 }
 
 .login_signup_form .form-floating>.form-control {
     height: 50px;
 }
+
 .login_signup_form .form-floating>label {
     padding: .6rem .75rem;
 }
 
 /*  about page css */
-#page_block{
+#page_block {
     padding: 70px 0 70px 0;
 }
+
 .about_row {
     background-color: #fff;
     padding: 17px 5px;
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 60%);
 }
-.about_page_content{
+
+.about_page_content {
     padding: 30px;
 }
-.about_page_content h3{
+
+.about_page_content h3 {
     color: var(--primary-color);
 }
-.about_page_content p{
+
+.about_page_content p {
     margin-top: 15px;
     color: rgb(116, 114, 114);
 }
 
 /* faq page css */
-.faq .accordion-header .accordion-button{
+.faq .accordion-header .accordion-button {
     background-color: var(--secondary-color);
     color: #222;
     font-weight: 600;
     font-size: 18px;
 }
-.faq .accordion-header .accordion-button i{
+
+.faq .accordion-header .accordion-button i {
     margin-right: 10px;
 }
 
-.faq  .accordion-body{
+.faq .accordion-body {
     padding: 30px;
 }
 
 /* fundraiser single page */
-.fundraisers_description_area{
+.fundraisers_description_area {
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 60%);
     border-radius: 8px;
     padding: 25px 15px;
@@ -737,16 +836,18 @@ padding: 10px 15px;
     margin-bottom: 26px;
     position: relative;
 }
-.profile_info h4 span{
+
+.profile_info h4 span {
     font-weight: 400;
     font-size: 15px;
     margin-left: 8px;
 }
-.profile_info p{
+
+.profile_info p {
     margin-top: 8px;
 }
 
-.profile_info .buttons a{
+.profile_info .buttons a {
     color: #fff;
     font-size: 16px;
     text-transform: capitalize;
@@ -758,29 +859,35 @@ padding: 10px 15px;
     display: inline-block;
     border-radius: 8px;
 }
-.profile_info .buttons a:hover{
+
+.profile_info .buttons a:hover {
     background-color: var(--tertiary-color);
 }
-.progress-bar{
+
+.progress-bar {
     background-color: var(--primary-color);
 }
-.social_profile ul li a{
+
+.social_profile ul li a {
     border-color: var(--tertiary-color);
     color: var(--tertiary-color);
 }
-.social_profile ul li a:hover{
+
+.social_profile ul li a:hover {
     border-color: #fff;
     color: #fff;
 }
 
-.donar_info ul li{
+.donar_info ul li {
     display: inline-block;
 }
-.donar_info h5{
+
+.donar_info h5 {
     font-weight: 500;
     padding-left: 10px;
 }
-.user_icon i{
+
+.user_icon i {
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -790,12 +897,14 @@ padding: 10px 15px;
     font-size: 18px;
     color: #666;
 }
-.view_donar{
+
+.view_donar {
     color: var(--tertiary-color);
     font-weight: 16px;
     font-weight: 400;
 }
-.view_donar:hover{
+
+.view_donar:hover {
     color: var(--primary-color);
 }
 
@@ -803,22 +912,26 @@ padding: 10px 15px;
     border: none;
     border-bottom: 4px solid var(--tertiary-color);
 }
+
 .fundraisers_description_area .nav-tabs .nav-link.active,
-.fundraisers_description_area .nav-tabs .nav-link{
+.fundraisers_description_area .nav-tabs .nav-link {
     border: none;
 }
-.fundraisers_description_area .nav-tabs .nav-link.active{
+
+.fundraisers_description_area .nav-tabs .nav-link.active {
     background-color: transparent;
     color: var(--primary-color);
 }
-.fundraisers_description_area .nav-tabs .nav-link{
+
+.fundraisers_description_area .nav-tabs .nav-link {
     font-size: 18px;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--tertiary-color);
     position: relative;
 }
-.fundraisers_description_area .nav-tabs .nav-link:after{
+
+.fundraisers_description_area .nav-tabs .nav-link:after {
     content: '';
     position: absolute;
     height: 4px;
@@ -828,54 +941,61 @@ padding: 10px 15px;
     bottom: -3px;
     opacity: 0;
 }
-.fundraisers_description_area .nav-tabs .nav-link.active:after{
+
+.fundraisers_description_area .nav-tabs .nav-link.active:after {
     opacity: 1;
 }
 
 /* simple block css */
-#simple_block{
+#simple_block {
     padding: 70px 0 40px 0;
 }
 
-.block_inner{
+.block_inner {
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 40%);
     padding: 30px 20px;
     border-radius: 5px;
 }
-.block_inner p{
+
+.block_inner p {
     margin-top: 15px;
 }
-.block_inner i{
+
+.block_inner i {
     font-size: 30px;
     color: var(--primary-color);
     margin-bottom: 15px;
 }
 
 /* trust css */
-#trust{
+#trust {
     background-color: var(--secondary-color);
     padding: 50px 0;
 }
 
-.trust_text p{
+.trust_text p {
     margin-top: 20px;
     margin-left: 30px;
 }
-.trust_text h3 i{
+
+.trust_text h3 i {
     color: var(--primary-color);
 }
 
 /* dashboard css */
-.account_section{
+.account_section {
     margin: 40px 0 80px 0;
 }
-.account_menu{
+
+.account_menu {
     background-color: var(--tertiary-color);
 }
-.account_menu ul{
+
+.account_menu ul {
     padding: 40px 0;
 }
-.account_menu ul li a{
+
+.account_menu ul li a {
     color: #fff;
     font-size: 16px;
     text-transform: capitalize;
@@ -886,27 +1006,32 @@ padding: 10px 15px;
     display: block;
     border-bottom: 1px solid #ddd;
 }
-.account_menu ul li a i{
+
+.account_menu ul li a i {
     margin-right: 8px;
 }
+
 .account_menu ul li.active a,
-.account_menu ul li a:hover{
+.account_menu ul li a:hover {
     background-color: var(--primary-color);
 
 }
-.account_menu ul li:last-child a{
+
+.account_menu ul li:last-child a {
     border-bottom: none;
 }
 
-.account_content_area{
+.account_content_area {
     padding-left: 30px;
 }
-.account_content_area h3{
+
+.account_content_area h3 {
     border-bottom: 1px solid #ddd;
     padding-bottom: 8px;
     margin-bottom: 30px;
 }
-.mobile_menu_icon{
+
+.mobile_menu_icon {
     position: fixed;
     top: 50px;
     left: 0;
@@ -921,7 +1046,8 @@ padding: 10px 15px;
     font-weight: 700;
     z-index: 9999;
 }
-.account_menu .close_icon{
+
+.account_menu .close_icon {
     height: 40px;
     width: 40px;
     background-color: var(--primary-color);
@@ -931,11 +1057,13 @@ padding: 10px 15px;
     font-weight: 700;
     margin-left: auto;
 }
-.account_menu.fixed{
+
+.account_menu.fixed {
     transform: scale(1);
     -webkit-transform: scale(1);
 }
-.count_box{
+
+.count_box {
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 60%);
     padding: 30px 20px;
     border-radius: 5px;
@@ -943,26 +1071,28 @@ padding: 10px 15px;
     margin-bottom: 30px;
 }
 
-.donar_card{
+.donar_card {
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 40%);
     padding: 15px;
 }
 
-.count_box .user_icon i{
+.count_box .user_icon i {
     font-size: 20px;
     color: var(--primary-color);
 }
-.count_box h4{
+
+.count_box h4 {
     margin: 10px 0;
 }
-.count_box p{
+
+.count_box p {
     font-size: 18px;
 }
 
 
 /* account_content_area_form */
 
-.account_content_area_form button{
+.account_content_area_form button {
     color: #fff;
     font-size: 16px;
     text-transform: capitalize;
@@ -975,21 +1105,25 @@ padding: 10px 15px;
     border-radius: 5px;
     display: inline-block;
 }
-.account_content_area_form button:hover{
+
+.account_content_area_form button:hover {
     background-color: var(--tertiary-color);
 }
-.account_content_area_form{
+
+.account_content_area_form {
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 50%);
     padding: 20px;
 }
 
-.select2-container .select2-selection--single{
+.select2-container .select2-selection--single {
     height: 40px;
 }
-.select2-container--default .select2-selection--single .select2-selection__rendered{
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 40px;
 }
-.select2-container--default .select2-selection--single .select2-selection__arrow{
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
     top: 8px;
 }
 
@@ -997,134 +1131,137 @@ padding: 10px 15px;
 /* blog comments */
 .blog .blog-comments {
     margin-bottom: 30px;
-  }
-  
-  .blog .blog-comments .comments-count {
+}
+
+.blog .blog-comments .comments-count {
     font-weight: bold;
-  }
-  
-  .blog .blog-comments .comment {
+}
+
+.blog .blog-comments .comment {
     margin-top: 30px;
     position: relative;
-  }
-  
-  .blog .blog-comments .comment .comment-img {
+}
+
+.blog .blog-comments .comment .comment-img {
     margin-right: 14px;
-  }
-  
-  .blog .blog-comments .comment .comment-img img {
+}
+
+.blog .blog-comments .comment .comment-img img {
     width: 60px;
-  }
-  
-  .blog .blog-comments .comment h5 {
+}
+
+.blog .blog-comments .comment h5 {
     font-size: 16px;
     margin-bottom: 2px;
-  }
-  
-  .blog .blog-comments .comment h5 a {
+}
+
+.blog .blog-comments .comment h5 a {
     font-weight: bold;
     color: var(--tertiary-color);
     transition: 0.3s;
-  }
-  
-  .blog .blog-comments .comment h5 a:hover {
+}
+
+.blog .blog-comments .comment h5 a:hover {
     color: var(--primary-color);
-  }
-  
-  .blog .blog-comments .comment h5 .reply {
+}
+
+.blog .blog-comments .comment h5 .reply {
     padding-left: 10px;
     color: var(--tertiary-color);
-  }
-  
-  .blog .blog-comments .comment h5 .reply i {
+}
+
+.blog .blog-comments .comment h5 .reply i {
     font-size: 20px;
-  }
-  
-  .blog .blog-comments .comment time {
+}
+
+.blog .blog-comments .comment time {
     display: block;
     font-size: 14px;
     color: #2b607c;
     margin-bottom: 5px;
-  }
-  
-  .blog .blog-comments .comment.comment-reply {
+}
+
+.blog .blog-comments .comment.comment-reply {
     padding-left: 40px;
-  }
-  
-  .blog .blog-comments .reply-form {
+}
+
+.blog .blog-comments .reply-form {
     margin-top: 30px;
     padding: 30px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  }
-  
-  .blog .blog-comments .reply-form h4 {
+}
+
+.blog .blog-comments .reply-form h4 {
     font-weight: bold;
     font-size: 22px;
-  }
-  
-  .blog .blog-comments .reply-form p {
+}
+
+.blog .blog-comments .reply-form p {
     font-size: 14px;
-  }
-  
-  .blog .blog-comments .reply-form input {
+}
+
+.blog .blog-comments .reply-form input {
     border-radius: 4px;
     padding: 10px 10px;
     font-size: 14px;
-  }
-  
-  .blog .blog-comments .reply-form input:focus {
+}
+
+.blog .blog-comments .reply-form input:focus {
     box-shadow: none;
     border-color: var(--primary-color);
-  }
-  
-  .blog .blog-comments .reply-form textarea {
+}
+
+.blog .blog-comments .reply-form textarea {
     border-radius: 4px;
     padding: 10px 10px;
     font-size: 14px;
-  }
-  
-  .blog .blog-comments .reply-form textarea:focus {
+}
+
+.blog .blog-comments .reply-form textarea:focus {
     box-shadow: none;
     border-color: var(--primary-color);
-  }
-  
-  .blog .blog-comments .reply-form .form-group {
+}
+
+.blog .blog-comments .reply-form .form-group {
     margin-bottom: 25px;
-  }
-  
-  .blog .blog-comments .reply-form .btn-primary {
+}
+
+.blog .blog-comments .reply-form .btn-primary {
     border-radius: 4px;
     padding: 10px 20px;
     border: 0;
     background-color: var(--primary-color);
-  }
-  
-  .blog .blog-comments .reply-form .btn-primary:hover {
+}
+
+.blog .blog-comments .reply-form .btn-primary:hover {
     background-color: var(--tertiary-color);
-  }
+}
 
 
-  /* tab menu css */
-  #fundeducationTab {
+/* tab menu css */
+#fundeducationTab {
     border: none;
     border-bottom: 3px solid #ddd;
-  }
-  #fundeducationTab  .nav-link,
-  #fundeducationTab  .nav-link.active{
+}
+
+#fundeducationTab .nav-link,
+#fundeducationTab .nav-link.active {
     border: none;
     margin-bottom: 0;
     color: var(--primary-color);
-  }
+}
 
-  #fundeducationTab  .nav-link{
+#fundeducationTab .nav-link {
     font-size: 18px;
     font-weight: 600;
     color: var(--tertiary-color);
-  }
-  #fundeducationTab li a{
+}
+
+#fundeducationTab li a {
     position: relative;
-  }
-  #fundeducationTab li a:after{
+}
+
+#fundeducationTab li a:after {
     position: absolute;
     content: '';
     height: 3px;
@@ -1133,42 +1270,45 @@ padding: 10px 15px;
     left: 0;
     background-color: var(--primary-color);
     opacity: 0;
-  }
-  #fundeducationTab li a.active:after{
+}
+
+#fundeducationTab li a.active:after {
     opacity: 1;
-  }
+}
 
-.account_content_area_form .select2-container{
-    display: block!important;
-  }
+.account_content_area_form .select2-container {
+    display: block !important;
+}
 
-  .form-label{
+.form-label {
     font-weight: 600;
-  }
+}
 
 .ck-editor__editable[role="textbox"] {
     /* editing area */
     min-height: 200px;
 }
+
 .ck-content .image {
     /* block images */
     max-width: 80%;
     margin: 20px auto;
 }
 
-.displayBox{
+.displayBox {
     display: none;
 }
 
 
-.alert_title{
+.alert_title {
     font-size: 20px;
 }
-.alert_icon{
+
+.alert_icon {
     margin: 0.5em auto 0.6em
 }
 
-.link_button{
+.link_button {
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
@@ -1181,19 +1321,20 @@ padding: 10px 15px;
     margin: 20px 0;
     width: 100%;
     text-decoration: none;
-     text-align: center;
+    text-align: center;
 }
-.link_button:hover{
+
+.link_button:hover {
     background-color: var(--tertiary-color);
     color: #fff;
 }
 
-.link_button i{
+.link_button i {
     margin-right: 15px;
     font-size: 22px;
 }
 
-.action_icon{
+.action_icon {
     color: var(--tertiary-color);
     padding: 3px 5px;
     background-color: #f1f1f1;
@@ -1201,13 +1342,15 @@ padding: 10px 15px;
     display: inline-block;
     border-radius: 5px;
 }
-.action_icon:hover{
+
+.action_icon:hover {
     color: var(--primary-color);
 }
 
-.action_icon.delete{
+.action_icon.delete {
     color: rgb(250, 23, 23);
 }
-.action_icon.delete:hover{
+
+.action_icon.delete:hover {
     color: rgb(201, 3, 3);
 }
