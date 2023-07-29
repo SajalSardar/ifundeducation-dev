@@ -12,12 +12,15 @@
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
             </li>
             <li class="breadcrumb-item text-muted">
-                <a href="{{ route('dashboard.contact-messages.index') }}" class="text-muted text-hover-primary">Contact Message</a>
+                <a href="{{ route('dashboard.contact-messages.index') }}" class="text-muted text-hover-primary">Contact
+                    Message</a>
             </li>
             <li class="breadcrumb-item">
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
             </li>
-            <li class="breadcrumb-item text-dark">{{$contactMessage->your_name.' - ('.$contactMessage->your_email.')'}}</li>
+            <li class="breadcrumb-item text-dark">
+                {{ $contactMessage->your_name . ' - (' . $contactMessage->your_email . ')' }}
+            </li>
         </ul>
     </div>
 @endsection
@@ -28,14 +31,14 @@
             <h3 class="card-title align-items-start flex-column">
                 <span class="card-label fw-bolder fs-3 mb-1">{{ $contactMessage->subject }}</span>
             </h3>
-            <span style="padding-top: 15px;">{{$contactMessage->created_at->toDayDateTimeString()}}</span>
+            <span style="padding-top: 15px;">{{ $contactMessage->created_at->toDayDateTimeString() }}</span>
         </div>
         <!--end::Header-->
         <!--begin::Body-->
         <div class="card-body py-3">
             <div class="row">
                 <div class="col col-11 mb-2">
-                    <p>{{$contactMessage->your_name.' - ('.$contactMessage->your_email.')'}}</p>
+                    <p>{{ $contactMessage->your_name . ' - (' . $contactMessage->your_email . ')' }}</p>
                 </div>
                 <div class="col col-11 mb-5">
                     <span style="font-size: 16px">{!! $contactMessage->message !!}</span>
@@ -47,7 +50,7 @@
 
 
 
-    <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-modal="true" role="dialog">
+    {{-- <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-modal="true" role="dialog">
         <div class="modal-dialog mw-650px">
             <div class="modal-content">
                 <div class="modal-header pb-0 border-0 justify-content-end">
@@ -71,25 +74,28 @@
                     <div class="text-center mb-13">
                         <h2 class="mb-3">Add Message</h2>
                     </div>
-                    <form action="{{ route('dashboard.contact-messages.store') }}" method="POST">
+                    <form action="#" method="POST">
                         @csrf
                         <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                             <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                                 <span class="required">Your Name</span>
                             </label>
-                            <input type="text" class="form-control form-control-solid " placeholder="Enter Your Name" name="your_name" value="{{ old('your_name') }}">
+                            <input type="text" class="form-control form-control-solid " placeholder="Enter Your Name"
+                                name="your_name" value="{{ old('your_name') }}">
                         </div>
                         <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                             <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                                 <span class="required">Your Email</span>
                             </label>
-                            <input type="text" class="form-control form-control-solid " placeholder="Enter Your Email" name="your_email" value="{{ old('your_email') }}">
+                            <input type="text" class="form-control form-control-solid " placeholder="Enter Your Email"
+                                name="your_email" value="{{ old('your_email') }}">
                         </div>
                         <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                             <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                                 <span class="">Subject</span>
                             </label>
-                            <input type="text" class="form-control form-control-solid " placeholder="Enter subject" name="subject" value="{{ old('subject') }}">
+                            <input type="text" class="form-control form-control-solid " placeholder="Enter subject"
+                                name="subject" value="{{ old('subject') }}">
                         </div>
                         <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                             <label class="d-flex align-items-center fs-6 fw-bold mb-2">
@@ -106,7 +112,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('script')
