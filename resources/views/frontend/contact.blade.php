@@ -23,14 +23,14 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="section_header text-center">
-                            <h2>{{$contactPage->sub_title}}</h2>
+                            <h2>{{ $contactPage->sub_title }}</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <div class="row">
-                            <div class="col-md-12">
+                            {{-- <div class="col-md-12">
                                 <div class="info-box"> <i class="{{$contactPage->address_icon}}"></i>
                                     <h3>{{$contactPage->address_title}}</h3>
                                     <p>{!! $contactPage->address_text !!}</p>
@@ -41,40 +41,41 @@
                                     <h3>{{$contactPage->email_title}}</h3>
                                     <p style="padding: 0 20px;">{{$contactPage->email_text}}</p>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info-box"> <i class="{{$contactPage->phone_icon}}"></i>
-                                    <h3>{{$contactPage->phone_title}}</h3>
-                                    <p style="padding: 0 86px;">{{$contactPage->phone_text}}</p>
+                            </div> --}}
+                            <div class="col-md-12">
+                                <div class="info-box"> <i class="{{ $contactPage->phone_icon }}"></i>
+                                    <h3>{{ $contactPage->phone_title }}</h3>
+                                    <p style="padding: 0 86px;">{!! $contactPage->phone_text !!}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <form action="{{ route('front.contact.store') }}" method="POST" class="contact_form" id="contactUSForm">
+                    <div class="col-lg-7">
+                        <form action="{{ route('front.contact.store') }}" method="POST" class="contact_form"
+                            id="contactUSForm">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <input type="text" name="your_name" class="form-control" id="your_name"
-                                        placeholder="Your Name" required="" value="{{old('your_name')}}">
-                                        @if ($errors->has('your_name'))
-                                            <span class="text-danger">{{ $errors->first('your_name') }}</span>
-                                        @endif
+                                        placeholder="Your Name" required="" value="{{ old('your_name') }}">
+                                    @if ($errors->has('your_name'))
+                                        <span class="text-danger">{{ $errors->first('your_name') }}</span>
+                                    @endif
                                 </div>
                                 <div class="col-md-6 form-group mt-3 mt-md-0">
                                     <input type="email" class="form-control" name="your_email" id="your_email"
-                                        placeholder="Your Email" required="" value="{{old('your_email')}}">
-                                        @if ($errors->has('your_email'))
-                                            <span class="text-danger">{{ $errors->first('your_email') }}</span>
-                                        @endif
+                                        placeholder="Your Email" required="" value="{{ old('your_email') }}">
+                                    @if ($errors->has('your_email'))
+                                        <span class="text-danger">{{ $errors->first('your_email') }}</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="form-group mt-3">
                                 <input type="text" class="form-control" name="subject" id="subject"
-                                    placeholder="Subject" required="" value="{{old('subject')}}">
+                                    placeholder="Subject" required="" value="{{ old('subject') }}">
                             </div>
                             <div class="form-group mt-3">
-                                <textarea class="form-control" name="message" rows="5" placeholder="Message" required="">{{old('Message')}}</textarea>
+                                <textarea class="form-control" name="message" rows="5" placeholder="Message" required="">{{ old('Message') }}</textarea>
                                 @if ($errors->has('message'))
                                     <span class="text-danger">{{ $errors->first('message') }}</span>
                                 @endif
@@ -107,7 +108,7 @@
 
 @section('script')
 
-<script src="https://www.google.com/recaptcha/api.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 
 
     @error('name')
