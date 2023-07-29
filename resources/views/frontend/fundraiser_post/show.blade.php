@@ -22,7 +22,7 @@
     <section id="fundraisers" class="fundraiser_page">
         <div class="container ">
             <div class="row fundraisers_card">
-                <div class="col-xl-3 border-end">
+                <div class="col-xl-4 col-lg-6 border-end">
                     @if ($fundRaiserPost->image)
                         <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"
                             alt="{{ $fundRaiserPost->title }}">
@@ -46,7 +46,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-xl-5 border-end">
+                <div class="col-xl-5 col-lg-6 border-end">
                     <div class="text-start px-lg-4 profile_info mt-4">
                         <h4>$ {{ number_format($fundRaiserPost->donates->sum('amount'), 2, '.', ',') }} <span>USD raised of
                                 ${{ $fundRaiserPost->goal }}
@@ -81,8 +81,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-4 ps-lg-4 text-start  pt-5 pt-xl-0">
-                    <h4 class="border-bottom pb-3 mb-2">Top Donars
+                <div class="col-xl-3 ps-lg-4 text-start  pt-5 pt-xl-0">
+                    <h4 class="border-bottom pb-3 mb-2">Recent Donations
                         <!-- <a href="#" class="float-end view_donar">See All</a> -->
                     </h4>
                     @forelse ($fundRaiserPost->donates->sortByDesc('amount')->take(3) as $donate)
@@ -120,14 +120,14 @@
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#comments">Comments</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#donars">All
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#donars">
                                 Donars</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <!-- <li class="nav-item" role="presentation">
                             <button class="nav-link" data-bs-toggle="tab"
                                 data-bs-target="#professional_experience">Professional
                                 Experience</button>
-                        </li>
+                        </li> -->
                     </ul>
                     <div class="tab-content text-start" id="myTabContent">
                         <div class="tab-pane fade show active" id="story">
@@ -264,11 +264,11 @@
 
 
                         </div>
-                        <div class="tab-pane fade" id="professional_experience">
+                        <!-- <div class="tab-pane fade" id="professional_experience">
                             <div class="text-start pb-3 mt-4">
                                 {!! $fundRaiserPost->user->academic_profile->experience !!}
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -294,7 +294,7 @@
                             <td>:</td>
                             <td>{{ $fundRaiserPost->user->first_name . ' ' . $fundRaiserPost->user->last_name }}</td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td><strong>E-mail</strong></td>
                             <td>:</td>
                             <td> {{ $fundRaiserPost->user->email }}</td>
@@ -303,12 +303,12 @@
                             <td><strong>Phone Number</strong></td>
                             <td>:</td>
                             <td>{{ $fundRaiserPost->user->personal_profile->phone }}</td>
-                        </tr>
+                        </tr> 
                         <tr>
                             <td><strong>Date of Birth</strong></td>
                             <td>:</td>
                             <td>{{ $fundRaiserPost->user->personal_profile->birthday->isoFormat('D MMM YYYY') }}</td>
-                        </tr>
+                        </tr>--}}
                         <tr>
                             <td><strong>University</strong></td>
                             <td>:</td>
@@ -365,7 +365,7 @@
                             <td>:</td>
                             <td>{{ $fundRaiserPost->user->personal_profile->gender }}</td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td><strong>Address</strong></td>
                             <td>:</td>
                             <td>{{ $fundRaiserPost->user->personal_profile->address }}</td>
@@ -384,13 +384,13 @@
                             <td><strong>City</strong></td>
                             <td>:</td>
                             <td>{{ $fundRaiserPost->user->personal_profile->city->name }}</td>
-                        </tr>
+                        </tr> 
 
                         <tr>
                             <td><strong>Zip</strong></td>
                             <td>:</td>
                             <td>{{ $fundRaiserPost->user->personal_profile->zip_code }}</td>
-                        </tr>
+                        </tr>--}}
                         <tr>
                             <td><strong>Social Profile</strong></td>
                             <td>:</td>
@@ -438,6 +438,13 @@
                                         </ul>
                                     @endif
                                 </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Professional Experience</strong></td>
+                            <td>:</td>
+                            <td>
+                                {!! $fundRaiserPost->user->academic_profile->experience !!}
                             </td>
                         </tr>
                     </table>

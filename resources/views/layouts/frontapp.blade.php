@@ -142,8 +142,7 @@
                             <a href="#">
                                 @if (auth()->user()->photo)
                                     <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
-                                        alt="{{ auth()->user()->first_name }}" width="35"
-                                        class="rounded-circle">
+                                        alt="{{ auth()->user()->first_name }}" width="35" class="rounded-circle">
                                 @elseif(auth()->user()->avatar)
                                     <img src="{{ auth()->user()->avatar }}" class="rounded-circle"
                                         alt="{{ auth()->user()->first_name }}" width="35">
@@ -158,14 +157,14 @@
                                     <a>{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</a>
                                 </li>
                                 @role('super-admin|admin')
-                                <li>
-                                    <a href="{{ route('dashboard.index') }}" target="_blank">Dashboard</a>
-                                </li>
+                                    <li>
+                                        <a href="{{ route('dashboard.index') }}" target="_blank">Dashboard</a>
+                                    </li>
                                 @endrole
                                 @role('donar|fundraiser')
-                                <li>
-                                    <a href="{{ route('user.dashboard.index') }}">Dashboard</a>
-                                </li>
+                                    <li>
+                                        <a href="{{ route('user.dashboard.index') }}">Dashboard</a>
+                                    </li>
                                 @endrole
                                 <li>
                                     <a href="{{ route('user.profile.edit') }}">Profile</a>
@@ -228,10 +227,10 @@
                         <h3>Contact</h3>
                         <ul>
                             <li><i class="fas fa-envelope"></i> {{ @$themeOption->footer_email }}</li>
-                            <li><i class="fas fa-globe"></i> <a style="display: inline-block;"
+                            {{-- <li><i class="fas fa-globe"></i> <a style="display: inline-block;"
                                     href="{{ @$themeOption->footer_web_address_link }}">{{ @$themeOption->footer_web_address }}</a>
                             </li>
-                            <li><i class="fas fa-phone"></i> {{ @$themeOption->footer_phone }}</li>
+                            <li><i class="fas fa-phone"></i> {{ @$themeOption->footer_phone }}</li> --}}
                         </ul>
                     </div>
                 </div>
