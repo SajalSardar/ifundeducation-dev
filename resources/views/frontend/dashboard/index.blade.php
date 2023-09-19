@@ -81,7 +81,7 @@
                                                     <h5>{{ $donar->display_publicly === 'yes' ? $donar->donar_name : 'Guest' }}
                                                     </h5>
                                                     <ul class="fundraisers_card_sub">
-                                                        <li>$ {{ $donar->amount }}</li>
+                                                        <li>$ {{ $donar->net_balance }}</li>
                                                         <li>{{ $donar->created_at->diffForHumans() }}</li>
                                                     </ul>
                                                 </div>

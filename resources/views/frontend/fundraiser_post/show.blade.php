@@ -93,7 +93,7 @@
                             <div class="donar_info">
                                 <h5>{{ $donate->display_publicly === 'yes' ? $donate->donar_name : 'Guest' }}</h5>
                                 <ul class="fundraisers_card_sub">
-                                    <li>${{ $donate->amount }}</li>
+                                    <li>${{ $donate->net_balance }}</li>
                                     <li>{{ $donate->created_at->diffForHumans() }}</li>
                                 </ul>
                             </div>
@@ -124,10 +124,10 @@
                                 Donars</button>
                         </li>
                         <!-- <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab"
-                                data-bs-target="#professional_experience">Professional
-                                Experience</button>
-                        </li> -->
+                                    <button class="nav-link" data-bs-toggle="tab"
+                                        data-bs-target="#professional_experience">Professional
+                                        Experience</button>
+                                </li> -->
                     </ul>
                     <div class="tab-content text-start" id="myTabContent">
                         <div class="tab-pane fade show active" id="story">
@@ -249,7 +249,7 @@
                                             <h5>{{ $donate->display_publicly === 'yes' ? $donate->donar_name : 'Guest' }}
                                             </h5>
                                             <ul class="fundraisers_card_sub">
-                                                <li>${{ $donate->amount }}</li>
+                                                <li>${{ $donate->net_balance }}</li>
                                                 <li>{{ $donate->created_at->diffForHumans() }}</li>
                                             </ul>
                                         </div>
@@ -265,10 +265,10 @@
 
                         </div>
                         <!-- <div class="tab-pane fade" id="professional_experience">
-                            <div class="text-start pb-3 mt-4">
-                                {!! $fundRaiserPost->user->academic_profile->experience !!}
-                            </div>
-                        </div> -->
+                                    <div class="text-start pb-3 mt-4">
+                                        {!! $fundRaiserPost->user->academic_profile->experience !!}
+                                    </div>
+                                </div> -->
                     </div>
                 </div>
             </div>
@@ -308,7 +308,7 @@
                             <td><strong>Date of Birth</strong></td>
                             <td>:</td>
                             <td>{{ $fundRaiserPost->user->personal_profile->birthday->isoFormat('D MMM YYYY') }}</td>
-                        </tr>--}}
+                        </tr> --}}
                         <tr>
                             <td><strong>University</strong></td>
                             <td>:</td>
@@ -390,7 +390,7 @@
                             <td><strong>Zip</strong></td>
                             <td>:</td>
                             <td>{{ $fundRaiserPost->user->personal_profile->zip_code }}</td>
-                        </tr>--}}
+                        </tr> --}}
                         <tr>
                             <td><strong>Social Profile</strong></td>
                             <td>:</td>

@@ -16,29 +16,29 @@ class FundraiserPost extends Model {
      */
     protected $guarded = ['id'];
 
-    public function setTitleAttribute( $value ) {
+    public function setTitleAttribute($value) {
         $this->attributes['title'] = $value;
-        $this->attributes['slug']  = Str::slug( $value ) . '-' . Str::ulid();
+        $this->attributes['slug']  = Str::slug($value) . '-' . Str::uuid();
     }
 
     public function fundraisercategories() {
-        return $this->belongsToMany( FundraiserCategory::class );
+        return $this->belongsToMany(FundraiserCategory::class);
     }
 
     public function fundraiserupdatemessage() {
-        return $this->hasMany( FundraiserUpdateMessage::class );
+        return $this->hasMany(FundraiserUpdateMessage::class);
     }
 
     public function comments() {
-        return $this->hasMany( Comment::class )->whereNull( 'parent_id' );
+        return $this->hasMany(Comment::class)->whereNull('parent_id');
     }
 
     public function donates() {
-        return $this->hasMany( Donate::class );
+        return $this->hasMany(Donate::class);
     }
 
     public function user() {
-        return $this->belongsTo( User::class );
+        return $this->belongsTo(User::class);
     }
 
     /**

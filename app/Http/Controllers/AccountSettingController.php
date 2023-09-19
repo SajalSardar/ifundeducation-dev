@@ -13,34 +13,34 @@ class AccountSettingController extends Controller {
     /**
      * Display the user's profile form.
      */
-    public function edit( Request $request ): View {
-        return view( 'account.edit', [
+    public function edit(Request $request): View {
+        return view('account.edit', [
             'user' => $request->user(),
-        ] );
+        ]);
     }
 
     /**
      * Update the user's profile information.
      */
-    public function update( ProfileUpdateRequest $request ): RedirectResponse {
-        $request->user()->fill( $request->validated() );
+    public function update(ProfileUpdateRequest $request): RedirectResponse{
+        $request->user()->fill($request->validated());
 
-        if ( $request->user()->isDirty( 'email' ) ) {
+        if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
         $request->user()->save();
 
-        return Redirect::route( 'account.setting.edit' )->with( 'success', 'Email Update Successfully Done!' );
+        return Redirect::route('account.setting.edit')->with('success', 'Email Update Successfully Done!');
     }
 
     /**
      * Delete the user's account.
      */
-    public function destroy( Request $request ): RedirectResponse {
-        $request->validateWithBag( 'userDeletion', [
+    public function destroy(Request $request): RedirectResponse{
+        $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current-password'],
-        ] );
+        ]);
 
         $user = $request->user();
 
@@ -51,6 +51,6 @@ class AccountSettingController extends Controller {
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to( '/' );
+        return Redirect::to('/');
     }
 }

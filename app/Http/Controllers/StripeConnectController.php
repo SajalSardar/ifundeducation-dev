@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Auth;
 
 class StripeConnectController extends Controller {
     public function index() {
-        return view( 'withdrawals.index' );
+        return view('withdrawals.index');
     }
 
     public function stripeConnectAccount() {
-        $stripe = new \Stripe\StripeClient( env( 'STRIPE_SECRET' ) );
-        if ( auth()->user()->stripe_account_id === null ) {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        if (auth()->user()->stripe_account_id === null) {
             $stripeAccount = $stripe->accounts->create(
                 [
                     'country'      => 'US',
@@ -24,9 +24,9 @@ class StripeConnectController extends Controller {
                 ]
             );
 
-            auth()->user()->update( [
+            auth()->user()->update([
                 'stripe_account_id' => $stripeAccount->id,
-            ] );
+            ]);
 
         }
 
@@ -43,10 +43,10 @@ class StripeConnectController extends Controller {
             ]
         );
 
-        auth()->user()->update( [
-            'stripe_connect_id' => $accountOnbording->expires_at,
-        ] );
+        // auth()->user()->update( [
+        //     'stripe_connect_id' => $accountOnbording->expires_at,
+        // ] );
 
-        return redirect( $accountOnbording->url );
+        return redirect($accountOnbording->url);
     }
 }
