@@ -20,10 +20,15 @@
                     <div class="account_content_area">
                         <h3>Withdrawals</h3>
                         <div class="account_content_area_form">
-
-                            <a href="{{ route('withdrawals.stripe.account') }}" class="btn btn-primary btn-sm">Connect
-                                Stripe Account</a>
+                            @if (auth()->user()->stripe_account_id)
+                                <a href="{{ route('withdrawals.stripe.login') }}" class="btn btn-primary btn-sm">View Stripe
+                                    Account</a>
+                            @else
+                                <a href="{{ route('withdrawals.stripe.account') }}" class="btn btn-primary btn-sm">Connect
+                                    Stripe Account</a>
+                            @endif
                         </div>
+
 
                     </div>
                 </div>

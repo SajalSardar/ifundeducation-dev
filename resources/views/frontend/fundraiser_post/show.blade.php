@@ -48,13 +48,14 @@
                 </div>
                 <div class="col-xl-5 col-lg-6 border-end">
                     <div class="text-start px-lg-4 profile_info mt-4">
-                        <h4>$ {{ number_format($fundRaiserPost->donates->sum('amount'), 2, '.', ',') }} <span>USD raised of
+                        <h4>$ {{ number_format($fundRaiserPost->donates->sum('net_balance'), 2, '.', ',') }} <span>USD
+                                raised of
                                 ${{ $fundRaiserPost->goal }}
                                 goal</span></h4>
                         <div class="progress mt-3" style="height: 3px;">
                             <div class="progress-bar" role="progressbar"
-                                style="width: {{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%;"
-                                aria-valuenow="{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}"
+                                style="width: {{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}%;"
+                                aria-valuenow="{{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}"
                                 aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <strong class="mt-2 d-block">{{ count($fundRaiserPost->donates) }} donations</strong>
@@ -85,7 +86,7 @@
                     <h4 class="border-bottom pb-3 mb-2">Recent Donations
                         <!-- <a href="#" class="float-end view_donar">See All</a> -->
                     </h4>
-                    @forelse ($fundRaiserPost->donates->sortByDesc('amount')->take(3) as $donate)
+                    @forelse ($fundRaiserPost->donates->sortByDesc('net_balance')->take(3) as $donate)
                         <div class="d-flex  align-items-center border-bottom py-3">
                             <div class="user_icon">
                                 <i class="fas fa-user"></i>
@@ -124,10 +125,10 @@
                                 Donars</button>
                         </li>
                         <!-- <li class="nav-item" role="presentation">
-                                    <button class="nav-link" data-bs-toggle="tab"
-                                        data-bs-target="#professional_experience">Professional
-                                        Experience</button>
-                                </li> -->
+                                            <button class="nav-link" data-bs-toggle="tab"
+                                                data-bs-target="#professional_experience">Professional
+                                                Experience</button>
+                                        </li> -->
                     </ul>
                     <div class="tab-content text-start" id="myTabContent">
                         <div class="tab-pane fade show active" id="story">
@@ -265,10 +266,10 @@
 
                         </div>
                         <!-- <div class="tab-pane fade" id="professional_experience">
-                                    <div class="text-start pb-3 mt-4">
-                                        {!! $fundRaiserPost->user->academic_profile->experience !!}
-                                    </div>
-                                </div> -->
+                                            <div class="text-start pb-3 mt-4">
+                                                {!! $fundRaiserPost->user->academic_profile->experience !!}
+                                            </div>
+                                        </div> -->
                     </div>
                 </div>
             </div>
