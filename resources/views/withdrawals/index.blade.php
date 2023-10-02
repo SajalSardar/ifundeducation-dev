@@ -21,7 +21,8 @@
                         <h3>Withdrawals</h3>
                         <div class="account_content_area_form">
                             @if (auth()->user()->stripe_account_id)
-                                <a href="{{ route('withdrawals.stripe.login') }}" class="btn btn-primary btn-sm">View Stripe
+                                <a target="_blank" href="{{ route('withdrawals.stripe.login') }}"
+                                    class="btn btn-primary btn-sm">View Stripe
                                     Account</a>
                             @else
                                 <a href="{{ route('withdrawals.stripe.account') }}" class="btn btn-primary btn-sm">Connect
@@ -31,7 +32,18 @@
 
 
                     </div>
+                    @if (@$usersAmount->all_donars[0]->balance > 0)
+                        <div class="account_content_area">
+                            <h3>Transfer To Stripe Account</h3>
+                            <div class="account_content_area_form">
+                                {{ round($usersAmount->all_donars[0]->balance, 2) }}
+                                <a href="{{ route('withdrawals.stripe.transfer') }}"
+                                    class="btn btn-primary btn-sm">Transfer</a>
+                            </div>
+                        </div>
+                    @endif
                 </div>
+
             </div>
         </div>
     </section>

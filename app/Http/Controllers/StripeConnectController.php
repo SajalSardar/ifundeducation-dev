@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donate;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Stripe\Account;
 use Stripe\Stripe;
 
 class StripeConnectController extends Controller {
     public function index() {
-        return view('withdrawals.index');
+        $usersAmount = Auth::user()->load(['all_donars' => function ($q) {
+            $q->where('is_transfer_stripe', NULL)->select(DB::raw("SUM(net_balance) as balance"));
+        }]);
+
+        return view('withdrawals.index', compact('usersAmount'));
     }
 
     public function stripeConnectAccount() {
@@ -58,6 +65,40 @@ class StripeConnectController extends Controller {
         Stripe::setApiKey(env('STRIPE_SECRET'));
         $loginLink = Account::createLoginLink($auth->stripe_account_id);
         return redirect($loginLink->url);
+    }
+
+    public function stripeConnectTransfer() {
+        $usersAmount = Auth::user()->load(['all_donars' => function ($q) {
+            $q->whereNull('is_transfer_stripe')
+                ->select(DB::raw("SUM(net_balance) as balance"));
+        }]);
+
+        $donatePost = User::where('id', auth()->user()->id)->with(['all_donars' => function ($q) {
+            $q->whereNull('is_transfer_stripe');
+        }])->first();
+
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            if ($usersAmount->stripe_account_id && $usersAmount->stripe_account_id != null) {
+                Donate::whereIn('id', $donatePost->all_donars->pluck('id'))->update([
+                    'is_transfer_stripe' => 'yes',
+                ]);
+                $transfer = \Stripe\Transfer::create([
+                    "amount"      => round($usersAmount->all_donars[0]->balance, 2) * 100,
+                    "currency"    => "usd",
+                    "destination" => $usersAmount->stripe_account_id,
+                ]);
+            }
+
+            return back()->with('success', 'Transfer Successfull');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     // private $stripe;

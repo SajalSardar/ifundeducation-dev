@@ -99,6 +99,7 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::get('withdrawals', 'index')->name('withdrawals.index');
         Route::get('stripe/account', 'stripeConnectAccount')->name('withdrawals.stripe.account');
         Route::get('stripe/account/login', 'stripeConnectLogin')->name('withdrawals.stripe.login');
+        Route::get('transfer-amount-to-stripe', 'stripeConnectTransfer')->name('withdrawals.stripe.transfer');
         // Route::get('/stripe/account', 'stripeAccount')->name('withdrawals.stripe.account');
         // Route::get('/redirect', 'redirect');
 
