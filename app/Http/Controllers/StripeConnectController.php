@@ -2,21 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Donate;
+use App\Models\PayoutEmailVerification;
 use App\Models\User;
+use App\Notifications\PayoutEmailVerification as PayoutNotify;
+use Carbon\Carbon;
+use Illuminate\Contracts\Session\Session;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Stripe\Account;
 use Stripe\Stripe;
 
 class StripeConnectController extends Controller {
     public function index() {
-        $usersAmount = Auth::user()->load(['all_donars' => function ($q) {
-            $q->where('is_transfer_stripe', NULL)->select(DB::raw("SUM(net_balance) as balance"));
-        }]);
 
-        return view('withdrawals.index', compact('usersAmount'));
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+
+        $stripeAccount = [];
+
+        $account = $stripe->accounts->retrieve(
+            auth()->user()->stripe_account_id,
+            []
+        );
+
+        if ($account) {
+            $stripeAccount['email']          = $account->email;
+            $stripeAccount['display_name']   = $account->settings->dashboard->display_name;
+            $stripeAccount['connected_date'] = date('d M Y', $account->created);
+        }
+
+        // $usersAmount = Auth::user()->load(['all_donars' => function ($q) {
+        //     $q->select(DB::raw("SUM(net_balance) as balance"));
+        // }]);
+        $balance = Auth::user()->load('balance');
+
+        return view('withdrawals.index', compact('balance', 'stripeAccount'));
     }
 
     public function stripeConnectAccount() {
@@ -67,99 +87,106 @@ class StripeConnectController extends Controller {
         return redirect($loginLink->url);
     }
 
-    public function stripeConnectTransfer() {
-        $usersAmount = Auth::user()->load(['all_donars' => function ($q) {
-            $q->whereNull('is_transfer_stripe')
-                ->select(DB::raw("SUM(net_balance) as balance"));
-        }]);
+    public function verifyPayoutEmail(Request $request) {
+        $user   = User::find($request->user_id);
+        $code   = random_int(100000, 999999);
+        $verify = PayoutEmailVerification::create([
+            'user_id'      => $request->user_id,
+            'code'         => $code,
+            'expairy_date' => Carbon::now()->addMinutes(2),
+        ]);
 
-        $donatePost = User::where('id', auth()->user()->id)->with(['all_donars' => function ($q) {
-            $q->whereNull('is_transfer_stripe');
-        }])->first();
+        $user->notify(new PayoutNotify($verify));
+        return redirect()->route('withdrawals.verify.code.form');
+    }
 
-        try {
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+    public function verifyCodeForm() {
+        $verifyCode = PayoutEmailVerification::where('user_id', Auth::id())->where('apply', NULL)->orderBy('id', 'desc')->first();
+        if (!$verifyCode) {
+            return redirect()->route('user.dashboard.index');
+        }
+        $nowTime     = time();
+        $expaireTime = strtotime($verifyCode->expairy_date);
+        if ($expaireTime < $nowTime) {
+            return redirect()->route('withdrawals.index')->with('info', 'Time Expire!');
+        }
+        return view('withdrawals.verify');
+    }
 
-            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-
-            if ($usersAmount->stripe_account_id && $usersAmount->stripe_account_id != null) {
-                Donate::whereIn('id', $donatePost->all_donars->pluck('id'))->update([
-                    'is_transfer_stripe' => 'yes',
+    public function verifyCodeSubmit(Request $request) {
+        $verifyCode = PayoutEmailVerification::where('code', $request->code)->first();
+        if ($verifyCode) {
+            $nowTime     = time();
+            $expaireTime = strtotime($verifyCode->expairy_date);
+            if ($expaireTime < $nowTime) {
+                return back()->with('warning', 'Time Expire!');
+            } elseif ($verifyCode->apply != null) {
+                return back()->with('warning', 'Already Use This Code!');
+            } else {
+                $verifyCode->update([
+                    'apply' => 'yes',
                 ]);
-                $transfer = \Stripe\Transfer::create([
-                    "amount"      => round($usersAmount->all_donars[0]->balance, 2) * 100,
-                    "currency"    => "usd",
-                    "destination" => $usersAmount->stripe_account_id,
-                ]);
+                $request->session()->put('paymentVerifySuccess_' . auth()->user()->id, 'Verify success!');
+                return redirect()->route('withdrawals.payout.view')->with('success', 'Verification Successfull!');
             }
 
-            return back()->with('success', 'Transfer Successfull');
-
-        } catch (\Exception $e) {
-
-            return back()->with('error', $e->getMessage());
+        } else {
+            return back()->with('warning', 'Invalid Code!');
         }
     }
 
-    // private $stripe;
-    // public function __construct() {
-    //     $this->stripe = new StripeClient(config('stripe.api_keys.secret_key'));
-    //     Stripe::setApiKey(config('stripe.api_keys.secret_key'));
-    // }
+    public function payoutView(Request $request) {
+        $verifyCode = PayoutEmailVerification::where('user_id', Auth::id())->where('apply', 'yes')->orderBy('id', 'desc')->first();
 
-    // public function stripeAccount() {
-    //     $queryData = [
-    //         'response_type' => 'code',
-    //         'client_id'     => config('stripe.client_id'),
-    //         'scope'         => 'read_write',
-    //         'redirect_uri'  => config('stripe.redirect_uri'),
-    //     ];
-    //     $connectUri = config('stripe.authorization_uri') . '?' . http_build_query($queryData);
-    //     return redirect($connectUri);
-    // }
+        if ($verifyCode) {
+            $endTime     = time();
+            $expaireTime = strtotime($verifyCode->expairy_date) + 300;
+            if ($expaireTime < $endTime) {
+                $request->session()->forget('paymentVerifySuccess_' . auth()->user()->id);
+                return redirect()->route('withdrawals.index')->with('info', 'Payout Time Expaire!');
+            }
+        }
+        $verifySession = $request->session()->get('paymentVerifySuccess_' . auth()->user()->id);
+        if (!$verifySession || !$verifyCode) {
+            return redirect()->route('withdrawals.index')->with('info', 'Payout verification process incomplete!');
+        }
 
-    // public function redirect(Request $request) {
-    //     $token = $this->getToken($request->code);
-    //     if (!empty($token['error'])) {
-    //         $request->session()->flash('danger', $token['error']);
-    //         return response()->redirectTo('/');
-    //     }
-    //     $connectedAccountId = $token->stripe_user_id;
-    //     $account            = $this->getAccount($connectedAccountId);
-    //     if (!empty($account['error'])) {
-    //         $request->session()->flash('danger', $account['error']);
-    //         return response()->redirectTo('/');
-    //     }
-    //     auth()->user()->update([
-    //         'stripe_connect_id' => $connectedAccountId,
-    //     ]);
-    //     return $token;
-    //     return view('withdrawals.index', compact('account'));
-    // }
+        $balance = Auth::user()->load('balance');
+        return view('withdrawals.payout', compact('balance'));
+    }
 
-    // private function getToken($code) {
-    //     $token = null;
+    // public function stripeConnectTransfer() {
+    //     $usersAmount = Auth::user()->load(['all_donars' => function ($q) {
+    //         $q->whereNull('is_transfer_stripe')
+    //             ->select(DB::raw("SUM(net_balance) as balance"));
+    //     }]);
+
+    //     $donatePost = User::where('id', auth()->user()->id)->with(['all_donars' => function ($q) {
+    //         $q->whereNull('is_transfer_stripe');
+    //     }])->first();
+
     //     try {
-    //         $token = OAuth::token([
-    //             'grant_type' => 'authorization_code',
-    //             'code'       => $code,
-    //         ]);
-    //     } catch (Exception $e) {
-    //         $token['error'] = $e->getMessage();
+    //         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+
+    //         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+    //         if ($usersAmount->stripe_account_id && $usersAmount->stripe_account_id != null) {
+    //             Donate::whereIn('id', $donatePost->all_donars->pluck('id'))->update([
+    //                 'is_transfer_stripe' => 'yes',
+    //             ]);
+    //             $transfer = \Stripe\Transfer::create([
+    //                 "amount"      => round($usersAmount->all_donars[0]->balance, 2) * 100,
+    //                 "currency"    => "usd",
+    //                 "destination" => $usersAmount->stripe_account_id,
+    //             ]);
+    //         }
+
+    //         return back()->with('success', 'Transfer Successfull');
+
+    //     } catch (\Exception $e) {
+
+    //         return back()->with('error', $e->getMessage());
     //     }
-    //     return $token;
     // }
 
-    // private function getAccount($connectedAccountId) {
-    //     $account = null;
-    //     try {
-    //         $account = $this->stripe->accounts->retrieve(
-    //             $connectedAccountId,
-    //             []
-    //         );
-    //     } catch (Exception $e) {
-    //         $account['error'] = $e->getMessage();
-    //     }
-    //     return $account;
-    // }
 }

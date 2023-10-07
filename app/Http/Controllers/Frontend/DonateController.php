@@ -109,24 +109,24 @@ class DonateController extends Controller {
                 "display_publicly"       => $request->is_display_info === "on" ? "no" : "yes",
             ]);
 
-            $fundRaiser = FundraiserPost::with('user')->find($request->post_id);
-
-            if ($fundRaiser->user->stripe_account_id && $fundRaiser->user->stripe_account_id != null) {
-
-                $transfer = \Stripe\Transfer::create([
-                    "amount"      => round(($transaction->net / 100) - $platform_fee, 2) * 100,
-                    "currency"    => "usd",
-                    "destination" => $fundRaiser->user->stripe_account_id,
-                ]);
-
-                $donate->update([
-                    'is_transfer_stripe' => 'yes',
-                ]);
-            }
-
             $balance->update([
                 'curent_amount' => (($transaction->net / 100) - $platform_fee) + $balance->curent_amount,
             ]);
+
+            //$fundRaiser = FundraiserPost::with('user')->find($request->post_id);
+
+            // if ($fundRaiser->user->stripe_account_id && $fundRaiser->user->stripe_account_id != null) {
+
+            //     $transfer = \Stripe\Transfer::create([
+            //         "amount"      => round(($transaction->net / 100) - $platform_fee, 2) * 100,
+            //         "currency"    => "usd",
+            //         "destination" => $fundRaiser->user->stripe_account_id,
+            //     ]);
+
+            //     $donate->update([
+            //         'is_transfer_stripe' => 'yes',
+            //     ]);
+            // }
 
             if ($post->donates->sum('net_balance') >= $post->goal) {
                 $post->update([

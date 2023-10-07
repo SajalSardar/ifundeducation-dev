@@ -28,16 +28,16 @@
                 <li class="{{ request()->routeIs('donate.index') ? 'active' : '' }}">
                     <a href="{{ route('donate.index') }}"><i class="fas fa-hand-holding-heart"></i>All Donation List</a>
                 </li>
+                <li class="{{ request()->routeIs('withdrawals.index') ? 'active' : '' }}">
+                    <a href="{{ route('withdrawals.index') }}">
+                        <i class="fas fa-money-bill-trend-up"></i>Payout</a>
+                </li>
             @endrole
 
             <li class="{{ request()->routeIs('wishlist.index') ? 'active' : '' }}">
                 <a href="{{ route('wishlist.index') }}"><i class="fas fa-heart"></i>Wishlists</a>
             </li>
 
-            <li class="{{ request()->routeIs('withdrawals.index') ? 'active' : '' }}">
-                <a href="{{ route('withdrawals.index') }}">
-                    <i class="fas fa-money-bill-trend-up"></i> Withdrawals</a>
-            </li>
             <li class="{{ request()->routeIs('user.profile.edit') ? 'active' : '' }}">
                 <a href="{{ route('user.profile.edit') }}"><i class="fas fa-user"></i>Profile</a>
             </li>
