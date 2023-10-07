@@ -30,11 +30,15 @@
                                     You currently have
                                     <strong>{{ $balance->balance->curent_amount - $balance->balance->withdraw_amount }}</strong>
                                     in earnings for next payout.
-                                    <form action="" method="POST" class="mt-3">
+                                    <form action="{{ route('withdrawals.payout.request') }}" method="POST" class="mt-3">
                                         @csrf
                                         <div class="mt-2">
-                                            <input type="text" class="form-control" placeholder="Payout Amount"
+                                            <input type="text" name="amount" class="form-control"
+                                                placeholder="Payout Amount"
                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                            @error('amount')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="mt-3">
                                             <button type="submit" class="btn btn-success">Submit</button>

@@ -101,8 +101,9 @@ class FundraiserPostController extends Controller {
      * @param  \App\Models\FundraiserPost  $fundraiserPost
      * @return \Illuminate\Http\Response
      */
-    public function show(FundraiserPost $fundraiserPost) {
-        //
+    public function show(FundraiserPost $fundraiserpost) {
+        $singlePost = $fundraiserpost->load('fundraiserupdatemessage', 'comments', 'donates');
+        return view('frontend.fundraiser_post.show_dashboard', compact('singlePost'));
     }
 
     /**
@@ -191,6 +192,21 @@ class FundraiserPostController extends Controller {
         $total_comment = Comment::where('fundraiser_post_id', $fundRaiserPost->id)->where('status', 'approved')->count();
 
         return view('frontend.fundraiser_post.show', compact('fundRaiserPost', 'total_comment'));
+    }
+
+    public function stopRunning(FundraiserPost $fundraiserpost) {
+
+        if ($fundraiserpost->status == 'stop') {
+            $fundraiserpost->update([
+                'status' => 'running',
+            ]);
+            return back()->with('success', 'Campaign Running Successfull!');
+        } else {
+            $fundraiserpost->update([
+                'status' => 'stop',
+            ]);
+            return back()->with('success', 'Campaign Stop Successfull!');
+        }
     }
 
     // Dashboard Campaign

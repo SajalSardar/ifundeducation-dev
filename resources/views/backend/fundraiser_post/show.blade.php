@@ -48,6 +48,11 @@
             <div class="table-responsive">
                 <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                     <tr>
+                        <td width="15%"><strong>Raised</strong></td>
+                        <td width="3%">:</td>
+                        <td>{{ $fundRaiserPost->donates->sum('net_balance') }}</td>
+                    </tr>
+                    <tr>
                         <td width="15%"><strong>Status</strong></td>
                         <td width="3%">:</td>
                         <td><span
@@ -93,17 +98,117 @@
             </h3>
         </div>
         <div class="card-body py-3">
+            <div class="table-responsive">
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                    <thead>
+                        <tr>
+                            <th>Sl.</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($fundRaiserPost->donates as $donate)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $donate->donar_name }}</td>
+                                <td>{{ $donate->donar_email }}</td>
+                                <td>{{ $donate->net_balance }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3">
+                                    <div class="alert alert-info">Donation Not Found!</div>
+                                </td>
+                            </tr>
+                        @endforelse
+                        <tr></tr>
+                    </tbody>
 
+                </table>
+            </div>
         </div>
     </div>
     <div class="card mb-5 mb-xl-8">
         <div class="card-header border-0 pt-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label fw-bolder fs-3 mb-1">Donation</span>
+                <span class="card-label fw-bolder fs-3 mb-1">Comments</span>
             </h3>
         </div>
         <div class="card-body py-3">
+            <div class="table-responsive">
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                    <thead>
+                        <tr>
+                            <th>Sl.</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Comment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($fundRaiserPost->comments as $comment)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $comment->name }}</td>
+                                <td>{{ $comment->email }}</td>
+                                <td>{{ $comment->comment }}</td>
+                                <td><span class="badge bg-primary">{{ $comment->status }}</span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5">
+                                    <div class="alert alert-info">Comments Not Found!</div>
+                                </td>
+                            </tr>
+                        @endforelse
+                        <tr></tr>
+                    </tbody>
 
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-5 mb-xl-8">
+        <div class="card-header border-0 pt-5">
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label fw-bolder fs-3 mb-1">Comments</span>
+            </h3>
+        </div>
+        <div class="card-body py-3">
+            <div class="table-responsive">
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                    <thead>
+                        <tr>
+                            <th>Sl.</th>
+                            <th>message</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($fundRaiserPost->fundraiserupdatemessage as $message)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $message->message }}</td>
+                                <td><span class="badge bg-primary">{{ $message->message_type }}</span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3">
+                                    <div class="alert alert-info">Message Not Found!</div>
+                                </td>
+                            </tr>
+                        @endforelse
+                        <tr></tr>
+                    </tbody>
+
+                </table>
+            </div>
         </div>
     </div>
 @endsection

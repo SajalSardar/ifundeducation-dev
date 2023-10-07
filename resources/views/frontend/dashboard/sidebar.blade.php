@@ -28,7 +28,7 @@
                 <li class="{{ request()->routeIs('donate.index') ? 'active' : '' }}">
                     <a href="{{ route('donate.index') }}"><i class="fas fa-hand-holding-heart"></i>All Donation List</a>
                 </li>
-                <li class="{{ request()->routeIs('withdrawals.index') ? 'active' : '' }}">
+                <li class="{{ request()->routeIs('withdrawals.*') ? 'active' : '' }}">
                     <a href="{{ route('withdrawals.index') }}">
                         <i class="fas fa-money-bill-trend-up"></i>Payout</a>
                 </li>

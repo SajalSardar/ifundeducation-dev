@@ -69,6 +69,9 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::put('/update/{fundraiserpost}', 'update')->name('update');
         Route::delete('/delete/{fundraiserpost}', 'destroy')->name('delete');
         Route::post('/store/story/image', 'storyPhoto')->name('story.photo.upload');
+        Route::get('/show/{fundraiserpost}', 'show')->name('show');
+        Route::get('/stop/campaign/{fundraiserpost}', 'stopRunning')->name('stop');
+        Route::get('/running/campaign/{fundraiserpost}', 'stopRunning')->name('running');
     });
 
     Route::controller(UserProfileController::class)->prefix('user/profile')->name('user.profile.')->group(function () {
@@ -103,6 +106,7 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::get('payout/verify/code', 'verifyCodeForm')->name('withdrawals.verify.code.form');
         Route::post('payout/verify/code/submit', 'verifyCodeSubmit')->name('withdrawals.verify.code.submit');
         Route::get('payout/view', 'payoutView')->name('withdrawals.payout.view');
+        Route::post('payout/request', 'payoutRequest')->name('withdrawals.payout.request');
     });
 
 });

@@ -33,6 +33,9 @@
                                         <div class="mt-2">
                                             <input type="text" name="code" class="form-control" placeholder="Code"
                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                            @error('code')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <p class="mt-2">Use This code within 2 min!</p>
                                         <div id="countdown"></div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payout;
 use App\Models\PayoutEmailVerification;
 use App\Models\User;
 use App\Notifications\PayoutEmailVerification as PayoutNotify;
@@ -34,9 +35,13 @@ class StripeConnectController extends Controller {
         // $usersAmount = Auth::user()->load(['all_donars' => function ($q) {
         //     $q->select(DB::raw("SUM(net_balance) as balance"));
         // }]);
-        $balance = Auth::user()->load('balance');
+        $balance            = Auth::user()->load('balance');
+        $payoutAttemptCount = PayoutEmailVerification::where('user_id', Auth::id())->whereDate('created_at', '=', Carbon::today()->toDateString())->orderBy('id', 'desc')->take(3)->count();
 
-        return view('withdrawals.index', compact('balance', 'stripeAccount'));
+        $payoutRequest    = Payout::where('user_id', Auth::id())->where('status', 'processing')->count();
+        $payoutRequestall = Payout::where('user_id', Auth::id())->orderBy('id', 'desc')->paginate(25);
+
+        return view('withdrawals.index', compact('balance', 'stripeAccount', 'payoutAttemptCount', 'payoutRequest', 'payoutRequestall'));
     }
 
     public function stripeConnectAccount() {
@@ -96,12 +101,16 @@ class StripeConnectController extends Controller {
             'expairy_date' => Carbon::now()->addMinutes(2),
         ]);
 
-        $user->notify(new PayoutNotify($verify));
+        try {
+            $user->notify(new PayoutNotify($verify));
+        } catch (\Exception) {
+            return back()->with('error', 'Not sending an email  please try again');
+        }
         return redirect()->route('withdrawals.verify.code.form');
     }
 
     public function verifyCodeForm() {
-        $verifyCode = PayoutEmailVerification::where('user_id', Auth::id())->where('apply', NULL)->orderBy('id', 'desc')->first();
+        $verifyCode = PayoutEmailVerification::where('user_id', Auth::id())->whereDate('created_at', '=', Carbon::today()->toDateString())->where('apply', NULL)->orderBy('id', 'desc')->first();
         if (!$verifyCode) {
             return redirect()->route('user.dashboard.index');
         }
@@ -114,12 +123,15 @@ class StripeConnectController extends Controller {
     }
 
     public function verifyCodeSubmit(Request $request) {
+        $request->validate([
+            'code' => 'required',
+        ]);
         $verifyCode = PayoutEmailVerification::where('code', $request->code)->first();
         if ($verifyCode) {
             $nowTime     = time();
             $expaireTime = strtotime($verifyCode->expairy_date);
             if ($expaireTime < $nowTime) {
-                return back()->with('warning', 'Time Expire!');
+                return back()->with('warning', 'Time Expire. Please, try again later');
             } elseif ($verifyCode->apply != null) {
                 return back()->with('warning', 'Already Use This Code!');
             } else {
@@ -136,14 +148,14 @@ class StripeConnectController extends Controller {
     }
 
     public function payoutView(Request $request) {
-        $verifyCode = PayoutEmailVerification::where('user_id', Auth::id())->where('apply', 'yes')->orderBy('id', 'desc')->first();
+        $verifyCode = PayoutEmailVerification::where('user_id', Auth::id())->where('apply', 'yes')->whereDate('created_at', '=', Carbon::today()->toDateString())->orderBy('id', 'desc')->first();
 
         if ($verifyCode) {
             $endTime     = time();
             $expaireTime = strtotime($verifyCode->expairy_date) + 300;
             if ($expaireTime < $endTime) {
                 $request->session()->forget('paymentVerifySuccess_' . auth()->user()->id);
-                return redirect()->route('withdrawals.index')->with('info', 'Payout Time Expaire!');
+                return redirect()->route('withdrawals.index')->with('info', 'Payout Time Expaire. Please, try again later');
             }
         }
         $verifySession = $request->session()->get('paymentVerifySuccess_' . auth()->user()->id);
@@ -153,6 +165,42 @@ class StripeConnectController extends Controller {
 
         $balance = Auth::user()->load('balance');
         return view('withdrawals.payout', compact('balance'));
+    }
+    public function payoutRequest(Request $request) {
+
+        $request->validate([
+            'amount' => 'required',
+        ]);
+
+        $verifyCode = PayoutEmailVerification::where('user_id', Auth::id())->where('apply', 'yes')->whereDate('created_at', '=', Carbon::today()->toDateString())->orderBy('id', 'desc')->first();
+
+        if ($verifyCode) {
+            $endTime     = time();
+            $expaireTime = strtotime($verifyCode->expairy_date) + 300;
+            if ($expaireTime < $endTime) {
+                $request->session()->forget('paymentVerifySuccess_' . auth()->user()->id);
+                return redirect()->route('withdrawals.index')->with('info', 'Payout Time Expaire. Please, try again later');
+            }
+        }
+
+        if (!$verifyCode) {
+            return redirect()->route('withdrawals.index')->with('info', 'Payout verification process incomplete!');
+        }
+
+        $balance = Auth::user()->load('balance');
+
+        if ((int) $balance->balance->curent_amount < $request->amount) {
+            return back()->with('warning', 'Your balance is insufficient to process the payout request.');
+        }
+        $payout = Payout::create([
+            'user_id' => Auth::id(),
+            'amount'  => $request->amount,
+            'status'  => 'processing',
+        ]);
+
+        $request->session()->forget('paymentVerifySuccess_' . auth()->user()->id);
+
+        return redirect()->route('withdrawals.index')->with('success', 'Payout Request Successfully Send!');
     }
 
     // public function stripeConnectTransfer() {
