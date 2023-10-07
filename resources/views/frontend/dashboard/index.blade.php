@@ -69,7 +69,7 @@
                                     <div class="donar_card">
                                         <h4 class="border-bottom pb-3 mb-2">
                                             Resent Donation
-                                            <a href="#" class="float-end view_donar">See All</a>
+                                            <a href="{{ route('donate.index') }}" class="float-end view_donar">See All</a>
                                         </h4>
 
                                         @forelse(auth()->user()->all_donars->take(5) as $donar)

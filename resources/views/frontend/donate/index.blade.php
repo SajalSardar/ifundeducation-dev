@@ -27,18 +27,17 @@
                                         <th>Name</th>
                                         <th>Amount</th>
                                         <th>Date</th>
-                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                    @forelse(auth()->user()->all_donars as $key => $donar)
+                                    @forelse($all_donars as $key => $donar)
                                         <tr>
                                             <td>{{ ++$key }}</td>
                                             <td>{{ $donar->display_publicly === 'yes' ? $donar->donar_name : 'Guest' }}
                                             </td>
                                             <td>$ {{ $donar->amount }}</td>
-                                            <td>{{ $donar->created_at->diffForHumans() }}</td>
+                                            <td>{{ $donar->created_at->format('d M Y') }}</td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -47,6 +46,9 @@
                                     @endforelse
                                 </tbody>
                             </table>
+                            <div class="mt-3">
+                                {{ $all_donars->links() }}
+                            </div>
                         </div>
 
                     </div>

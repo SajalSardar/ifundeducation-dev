@@ -7,13 +7,19 @@ use App\Models\Country;
 use App\Models\Donate;
 use App\Models\FundraiserBalance;
 use App\Models\FundraiserPost;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DonateController extends Controller {
 
     public function index() {
-        return view('frontend.donate.index');
+        $user = User::with('all_donars')->where('id', Auth::id())->firstOrFail();
+
+        $all_donars = $user->all_donars()->orderBy('id', 'desc')->paginate(10);
+
+        return view('frontend.donate.index', compact('all_donars'));
     }
 
     public function create($slug) {
