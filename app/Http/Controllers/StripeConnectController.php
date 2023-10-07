@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FundraiserBalance;
 use App\Models\Payout;
 use App\Models\PayoutEmailVerification;
 use App\Models\User;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Stripe\Account;
+use Stripe\Balance;
 use Stripe\Stripe;
 
 class StripeConnectController extends Controller {
@@ -203,38 +205,46 @@ class StripeConnectController extends Controller {
         return redirect()->route('withdrawals.index')->with('success', 'Payout Request Successfully Send!');
     }
 
-    // public function stripeConnectTransfer() {
-    //     $usersAmount = Auth::user()->load(['all_donars' => function ($q) {
-    //         $q->whereNull('is_transfer_stripe')
-    //             ->select(DB::raw("SUM(net_balance) as balance"));
-    //     }]);
+    public function payoutListAdmin() {
+        $payoutRequestall = Payout::orderBy('id', 'desc')->paginate(25);
+        return view('backend.payout.index', compact('payoutRequestall'));
+    }
 
-    //     $donatePost = User::where('id', auth()->user()->id)->with(['all_donars' => function ($q) {
-    //         $q->whereNull('is_transfer_stripe');
-    //     }])->first();
+    public function payoutdetailsAdmin($id) {
+        $payout = Payout::with('user.balance')->find($id);
+        return view('backend.payout.details', compact('payout'));
+    }
 
-    //     try {
-    //         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+    public function stripeConnectTransfer(Request $request) {
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
-    //         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-    //         if ($usersAmount->stripe_account_id && $usersAmount->stripe_account_id != null) {
-    //             Donate::whereIn('id', $donatePost->all_donars->pluck('id'))->update([
-    //                 'is_transfer_stripe' => 'yes',
-    //             ]);
-    //             $transfer = \Stripe\Transfer::create([
-    //                 "amount"      => round($usersAmount->all_donars[0]->balance, 2) * 100,
-    //                 "currency"    => "usd",
-    //                 "destination" => $usersAmount->stripe_account_id,
-    //             ]);
-    //         }
+            $transfer = \Stripe\Transfer::create([
+                "amount"      => $request->amount * 100,
+                "currency"    => "usd",
+                "destination" => $request->stripe_account_id,
+            ]);
 
-    //         return back()->with('success', 'Transfer Successfull');
+            if ($transfer) {
+                $userBalance = FundraiserBalance::find($request->balance);
+                $userPayput  = Payout::find($request->payout_id);
 
-    //     } catch (\Exception $e) {
+                $userBalance->decrement('curent_amount', $request->amount);
+                $userBalance->increment('withdraw_amount', $request->amount);
 
-    //         return back()->with('error', $e->getMessage());
-    //     }
-    // }
+                $userPayput->update([
+                    'status' => "transfer",
+                ]);
+            }
+
+            return back()->with('success', 'Transfer Successfull');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', $e->getMessage());
+        }
+    }
 
 }

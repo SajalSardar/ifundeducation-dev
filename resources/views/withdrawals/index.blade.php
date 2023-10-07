@@ -26,11 +26,6 @@
                         <div class="col-md-8">
                             <div class="account_content_area">
                                 <div class="account_content_area_form">
-
-                                    <p>You currently have
-                                        <strong>{{ $balance->balance->curent_amount - $balance->balance->withdraw_amount }}</strong>
-                                        in earnings for next payout.
-                                    </p>
                                     @if ($payoutAttemptCount > 3)
                                         <div class="alert alert-warning mt-3">
                                             <p>Please try again later, as our system has made three payout attempts.</p>
@@ -40,6 +35,10 @@
                                             <p>Your One Payout request is procecing.</p>
                                         </div>
                                     @else
+                                        <p>You currently have
+                                            <strong>{{ $balance->balance->curent_amount - $balance->balance->withdraw_amount }}</strong>
+                                            in earnings for next payout.
+                                        </p>
                                         <form action="{{ route('withdrawals.verify') }}" method="POST">
                                             @csrf
                                             <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
