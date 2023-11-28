@@ -26,9 +26,10 @@
                     <div class="section_header">
                         <h2>Fundraisers</h2>
                         <div class="search_box w-50 d-none d-sm-block">
-                            <form action="{{route('front.fundraiser.search')}}" method="GET">
+                            <form action="{{ route('front.fundraiser.search') }}" method="GET">
                                 <div class="input-group ">
-                                    <input type="text" class="form-control" value="{{Request::get('q')}}" name="q" placeholder="Find fundraiser..">
+                                    <input type="text" class="form-control" value="{{ Request::get('q') }}"
+                                        name="q" placeholder="Find fundraiser..">
                                     <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i>
                                         Search</button>
                                 </div>
@@ -54,11 +55,15 @@
 
                             </div>
                             @if ($fundRaiserPost->image)
-                                <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"
-                                    alt="{{ $fundRaiserPost->title }}">
+                                <a href="{{ route('front.fundraiser.post.show', $fundRaiserPost->slug) }}">
+                                    <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"
+                                        alt="{{ $fundRaiserPost->title }}">
+                                </a>
                             @else
-                                <img src="{{ Avatar::create($fundRaiserPost->title)->setBackground('#ddd')->setDimension(250)->setFontSize(16)->toBase64() }}"
-                                    alt="{{ $fundRaiserPost->title }}">
+                                <a href="{{ route('front.fundraiser.post.show', $fundRaiserPost->slug) }}">
+                                    <img src="{{ Avatar::create($fundRaiserPost->title)->setBackground('#ddd')->setDimension(250)->setFontSize(16)->toBase64() }}"
+                                        alt="{{ $fundRaiserPost->title }}">
+                                </a>
                             @endif
                             <h3><a
                                     href="{{ route('front.fundraiser.post.show', $fundRaiserPost->slug) }}">{{ $fundRaiserPost->title }}</a>
@@ -93,7 +98,7 @@
                         </div>
                     </div>
                 @endforeach
-                
+
             </div>
         </div>
     </section>
@@ -102,7 +107,7 @@
     <!-- pagination  -->
     <section id="custom_pagination">
         <nav class="container mb-5">
-            {{$fundRaiserPosts->links()}}
+            {{ $fundRaiserPosts->links() }}
             {{-- <ul class="d-flex justify-content-center">
                 <li><a href="#">&laquo; Previous</a></li>
                 <li><a class="active" href="#">1</a></li>

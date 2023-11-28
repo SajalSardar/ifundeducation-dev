@@ -184,7 +184,7 @@ h5 {
 
 /* menu part css  */
 .logo {
-    padding: 20px 0;
+    padding: 15px 0;
 }
 
 .menuFix {
@@ -736,9 +736,6 @@ h5 {
     background-color: #f1f1f1;
 }
 
-.logo {
-    margin-bottom: 10px;
-}
 
 .login_signup_form {
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 60%);
@@ -984,11 +981,14 @@ h5 {
 
 /* dashboard css */
 .account_section {
-    margin: 40px 0 80px 0;
+    /* padding: 40px 0 80px 0; */
+    background-color: #F2F5F7;
 }
 
-.account_menu {
-    background-color: var(--tertiary-color);
+.side_menu_bg {
+    background-color: #fff;
+    box-shadow: 5px 0px 10px 0px  rgb(214 215 216 / 60%);
+    max-width: 300px;
 }
 
 .account_menu ul {
@@ -996,7 +996,7 @@ h5 {
 }
 
 .account_menu ul li a {
-    color: #fff;
+    color: #222;
     font-size: 16px;
     text-transform: capitalize;
     font-weight: 600;
@@ -1014,6 +1014,7 @@ h5 {
 .account_menu ul li.active a,
 .account_menu ul li a:hover {
     background-color: var(--primary-color);
+    color: #fff;
 
 }
 
@@ -1023,6 +1024,7 @@ h5 {
 
 .account_content_area {
     padding-left: 30px;
+    padding-top: 30px;
 }
 
 .account_content_area h3 {
@@ -1069,11 +1071,13 @@ h5 {
     border-radius: 5px;
     text-align: center;
     margin-bottom: 30px;
+    background-color: #fff;
 }
 
 .donar_card {
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 40%);
     padding: 15px;
+    background-color: #fff;
 }
 
 .count_box .user_icon i {
@@ -1104,6 +1108,7 @@ h5 {
     border: none;
     border-radius: 5px;
     display: inline-block;
+    
 }
 
 .account_content_area_form button:hover {
@@ -1111,10 +1116,24 @@ h5 {
 }
 
 .account_content_area_form {
-    box-shadow: 0 5px 25px 0 rgb(214 215 216 / 50%);
+    box-shadow: 0 5px 10px 0 rgb(214 215 216 / 50%);
     padding: 20px;
+    background-color: #F2F5F7;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-bottom: 20px;
 }
+.account_content_area_form table {
+    border-collapse:separate; 
+  border-spacing: 0 10px;
 
+}
+.table>:not(caption)>*>*{
+    background-color: #fff;
+    padding: 20px 15px;
+    border: 0;
+    box-shadow: 0 5px 5px 0 #e5eef3; 
+}
 .select2-container .select2-selection--single {
     height: 40px;
 }
@@ -1353,4 +1372,12 @@ h5 {
 
 .action_icon.delete:hover {
     color: rgb(201, 3, 3);
+}
+
+.password_icon{
+    border-left: 0;
+    background: transparent;
+}
+#floatingPassword{
+    border-right: 0;
 }

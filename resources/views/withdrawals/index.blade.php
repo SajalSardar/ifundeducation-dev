@@ -26,7 +26,11 @@
                         <div class="col-md-8">
                             <div class="account_content_area">
                                 <div class="account_content_area_form">
-                                    @if ($payoutAttemptCount > 3)
+                                    @if (!auth()->user()->stripe_account_id)
+                                        <div class="alert alert-info mt-3">
+                                            <p>Please, Setup Stripe Connect Account.</p>
+                                        </div>
+                                    @elseif ($payoutAttemptCount > 3)
                                         <div class="alert alert-warning mt-3">
                                             <p>Please try again later, as our system has made three payout attempts.</p>
                                         </div>
@@ -42,7 +46,8 @@
                                         <form action="{{ route('withdrawals.verify') }}" method="POST">
                                             @csrf
                                             <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
-                                            <button type="submit" class="btn btn-sm btn-success mt-3">Start Payout</button>
+                                            <button type="submit" class="btn btn-sm btn-success mt-3">Start
+                                                Payout</button>
                                         </form>
                                     @endif
 
@@ -63,7 +68,11 @@
                                     <a target="_blank" href="{{ route('withdrawals.stripe.login') }}"
                                         class="btn btn-success btn-sm">Login Stripe</a>
                                 @else
-                                    <a href="{{ route('withdrawals.stripe.account') }}" class="btn btn-primary btn-sm">Set
+                                    <img src="{{ asset('frontend/images/stripe-logo-1.png') }}" width="120"
+                                        alt="Stripe Logo">
+                                    <br>
+                                    <a href="{{ route('withdrawals.stripe.account') }}"
+                                        class="btn btn-primary btn-sm mt-3">Set
                                         Stripe Account</a>
                                 @endif
                             </div>
@@ -72,7 +81,7 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <div class="account_content_area">
+                            <div class="account_content_area mt-3">
                                 <h3>Payout History</h3>
                                 <div class="account_content_area_form">
                                     <table class="table">

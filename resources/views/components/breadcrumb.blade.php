@@ -13,7 +13,7 @@
 
             <div class="col-sm-6">
                 <div class="text-end">
-                    <p>
+                    <p> <strong>Roles:</strong>
                         {{-- <span class="fw-semibold">Account Type:</span> --}}
                         @foreach (auth()->user()->roles as $role)
                             <span class="badge bg-success">{{ Str::upper($role->name) }}</span>
@@ -21,18 +21,20 @@
 
                         @if (auth()->user()->hasRole('donor'))
                             @if (auth()->user()->hasRole('fundraiser') &&
-                                auth()->user()->hasRole('donor'))
+                                    auth()->user()->hasRole('donor'))
                             @else
-                                <a href="{{ route('make.role.fundraiser') }}" class="btn btn-sm btn-info">Make
+                                <a href="{{ route('make.role.fundraiser') }}" class="btn btn-primary"><i
+                                        class="fa-regular fa-square-plus"></i> Become a
                                     Fundraiser</a>
                             @endif
 
                         @endif
                         @if (auth()->user()->hasRole('fundraiser'))
                             @if (auth()->user()->hasRole('fundraiser') &&
-                                auth()->user()->hasRole('donor'))
+                                    auth()->user()->hasRole('donor'))
                             @else
-                                <a href="{{ route('make.role.donor') }}" class="btn btn-sm btn-info">Make Donor</a>
+                                <a href="{{ route('make.role.donor') }}" class="btn btn-primary"><i
+                                        class="fa-regular fa-square-plus"></i> Become a Donor</a>
                             @endif
 
                         @endif

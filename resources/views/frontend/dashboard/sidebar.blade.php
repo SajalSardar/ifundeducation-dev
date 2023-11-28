@@ -1,4 +1,4 @@
-<div class="col-md-4 col-lg-3">
+<div class="col-md-4 col-lg-3 side_menu_bg">
     <div class="mobile_menu_icon d-md-none">
         <i class="fa-solid fa-gear fa-spin"></i>
     </div>
@@ -11,35 +11,33 @@
             @role('fundraiser')
                 <li class="{{ request()->routeIs('fundraiser.post.create') ? 'active' : '' }}">
                     <a href="{{ route('fundraiser.post.create') }}"><i class="fas fa-hand-holding-heart"></i>Start
-                        Fundraising</a>
+                        A Fundraiser</a>
                 </li>
                 <li class="{{ request()->routeIs(['fundraiser.post.index', 'fundraiser.post.edit']) ? 'active' : '' }}">
-                    <a href="{{ route('fundraiser.post.index') }}"><i class="fas fa-hand-holding-heart"></i>Funding
-                        Posts</a>
+                    <a href="{{ route('fundraiser.post.index') }}"><i class="fa-solid fa-envelopes-bulk"></i>My
+                        Fundraisers</a>
                 </li>
                 <li class="{{ request()->routeIs('fundraiser.post.message.*') ? 'active' : '' }}">
-                    <a href="{{ route('fundraiser.post.message.index') }}"><i
-                            class="fas fa-hand-holding-heart"></i>Fundraiser
-                        Message</a>
+                    <a href="{{ route('fundraiser.post.message.index') }}"><i class="fa-regular fa-envelope"></i>Updates</a>
                 </li>
                 <li class="{{ request()->routeIs('fundraiser.comment.*') ? 'active' : '' }}">
                     <a href="{{ route('fundraiser.comment.index') }}"><i class="fas fa-comments"></i>Comments</a>
                 </li>
                 <li class="{{ request()->routeIs('donate.index') ? 'active' : '' }}">
-                    <a href="{{ route('donate.index') }}"><i class="fas fa-hand-holding-heart"></i>All Donation List</a>
+                    <a href="{{ route('donate.index') }}"><i class="fa-solid fa-table-list"></i>Donations I Made</a>
                 </li>
                 <li class="{{ request()->routeIs('withdrawals.*') ? 'active' : '' }}">
                     <a href="{{ route('withdrawals.index') }}">
-                        <i class="fas fa-money-bill-trend-up"></i>Payout</a>
+                        <i class="fas fa-money-bill-trend-up"></i>Payouts</a>
                 </li>
             @endrole
 
             <li class="{{ request()->routeIs('wishlist.index') ? 'active' : '' }}">
-                <a href="{{ route('wishlist.index') }}"><i class="fas fa-heart"></i>Wishlists</a>
+                <a href="{{ route('wishlist.index') }}"><i class="fas fa-heart"></i>Saved Fundraisers</a>
             </li>
 
             <li class="{{ request()->routeIs('user.profile.edit') ? 'active' : '' }}">
-                <a href="{{ route('user.profile.edit') }}"><i class="fas fa-user"></i>Profile</a>
+                <a href="{{ route('user.profile.edit') }}"><i class="fas fa-user"></i>My Profile</a>
             </li>
             <li class="{{ request()->routeIs('account.setting.*') ? 'active' : '' }}">
                 <a href="{{ route('account.setting.edit') }}">

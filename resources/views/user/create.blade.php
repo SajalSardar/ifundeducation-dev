@@ -41,11 +41,26 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-floating  mb-4">
+                        {{-- <div class="form-floating  mb-4">
                             <input type="password" class="form-control @error('password') is-invalid @enderror"
                                 name="password" id="password" placeholder="Password" value="{{ old('password') }}"
                                 required>
                             <label for="password">Password</label>
+                            @error('password')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div> --}}
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <div class="form-floating">
+                                    <input type="password" name="password"
+                                        class="form-control @error('password') is-invalid @enderror" id="floatingPassword"
+                                        placeholder="Password" value="{{ old('password') }}">
+                                    <label for="floatingPassword">Password</label>
+                                </div>
+                                <span class="input-group-text password_icon" style="cursor: pointer"><i
+                                        class="fas fa-eye-slash"></i></span>
+                            </div>
                             @error('password')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -60,4 +75,28 @@
         </div>
     </section>
 
+@endsection
+
+@section('script')
+    <script>
+        $('.password_icon').on('click', function() {
+
+            if ($('i').hasClass('fa-eye-slash')) {
+
+                $('i').removeClass('fa-eye-slash');
+
+                $('i').addClass('fa-eye');
+
+                $('#floatingPassword').attr('type', 'text');
+
+            } else {
+
+                $('i').removeClass('fa-eye');
+
+                $('i').addClass('fa-eye-slash');
+
+                $('#floatingPassword').attr('type', 'password');
+            }
+        });
+    </script>
 @endsection

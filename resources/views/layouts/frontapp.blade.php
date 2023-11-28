@@ -135,7 +135,7 @@
                             href="{{ route('front.fundraiser') }}">Fundraiser</a>
                     </li>
                     @guest()
-                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Sign In</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Sign Up</a></li>
                     @else
                         <li class="login_last_item">
