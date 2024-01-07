@@ -1,14 +1,14 @@
-@extends('layouts.frontapp')
+@extends('layouts.clientapp')
 @section('title', 'User Dashboard')
 
 @section('content')
     <!-- breadcrumb  -->
-    <x-breadcrumb>
+    {{-- <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Dashboard</li>
         </ol>
-    </x-breadcrumb>
+    </x-breadcrumb> --}}
     <!-- breadcrumb end  -->
 
     <section class="account_section">
@@ -17,7 +17,7 @@
 
                 @include('frontend.dashboard.sidebar')
 
-                <div class="col-lg-9 col-md-8">
+                <div class="col-lg-9 col-md-8 mb-5">
                     <div class="account_content_area">
                         <h3>My Dashboard</h3>
                         <div class="row justify-content-center">

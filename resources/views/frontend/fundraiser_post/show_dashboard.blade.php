@@ -1,16 +1,16 @@
-@extends('layouts.frontapp')
+@extends('layouts.clientapp')
 @section('title')
     {{ $singlePost->title }}
 @endsection
 
 @section('content')
     <!-- breadcrumb  -->
-    <x-breadcrumb>
+    {{-- <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Funding Post</li>
         </ol>
-    </x-breadcrumb>
+    </x-breadcrumb> --}}
     <!-- breadcrumb end  -->
 
     <section class="account_section">
@@ -18,9 +18,9 @@
             <div class="row">
                 @include('frontend.dashboard.sidebar')
 
-                <div class="col-lg-9 col-md-8">
+                <div class="col-lg-9 col-md-8 mb-5">
                     <div class="account_content_area">
-                        <h3>Title: {{ $singlePost->title }}</h3>
+                        <h3>{{ $singlePost->title }}</h3>
                         <div class="account_content_area_form table-responsive">
                             <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                                 <tr>

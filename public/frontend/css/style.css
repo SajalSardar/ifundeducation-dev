@@ -58,19 +58,19 @@ p {
 }
 
 h2 {
-    font-size: 36px;
+    font-size: 32px;
 }
 
 h3 {
-    font-size: 25px;
+    font-size: 22px;
 }
 
 h4 {
-    font-size: 18px;
+    font-size: 17px;
 }
 
 h5 {
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .section_header {
@@ -195,12 +195,15 @@ h5 {
     z-index: 999;
     box-shadow: 0 5px 25px 0 rgb(214 215 216 / 60%);
 }
+.navbar{
+    background-color: #fff;
+}
 
 #iNav ul li a {
     color: #222;
-    font-size: 16px;
+    font-size: 15px;
     text-transform: capitalize;
-    font-weight: 600;
+    font-weight: 400;
     padding-left: 20px;
     padding-right: 20px;
     transition: .4s;
@@ -558,7 +561,7 @@ h5 {
     position: relative;
     padding-bottom: 15px;
     text-transform: uppercase;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .footer_contact p {
@@ -987,19 +990,19 @@ h5 {
 
 .side_menu_bg {
     background-color: #fff;
-    box-shadow: 5px 0px 10px 0px  rgb(214 215 216 / 60%);
+    /* box-shadow: 5px 0px 10px 0px  rgb(214 215 216 / 60%); */
     max-width: 300px;
 }
 
 .account_menu ul {
-    padding: 40px 0;
+    padding: 18px 0 60px 0;
 }
 
 .account_menu ul li a {
     color: #222;
-    font-size: 16px;
+    font-size: 15px;
     text-transform: capitalize;
-    font-weight: 600;
+    font-weight: 400;
     padding: 10px 20px;
     transition: .4s;
     -webkit-transition: .4s;
@@ -1031,6 +1034,7 @@ h5 {
     border-bottom: 1px solid #ddd;
     padding-bottom: 8px;
     margin-bottom: 30px;
+    text-transform: uppercase;
 }
 
 .mobile_menu_icon {
@@ -1130,10 +1134,11 @@ h5 {
 }
 .table>:not(caption)>*>*{
     background-color: #fff;
-    padding: 20px 15px;
+    padding: 15px 15px;
     border: 0;
-    box-shadow: 0 5px 5px 0 #e5eef3; 
+    box-shadow: 0 3px 8px 0 #eaf5fa; 
 }
+
 .select2-container .select2-selection--single {
     height: 40px;
 }
@@ -1146,6 +1151,9 @@ h5 {
     top: 8px;
 }
 
+.form-control{
+    font-size: 14px;
+}
 
 /* blog comments */
 .blog .blog-comments {
@@ -1300,7 +1308,8 @@ h5 {
 }
 
 .form-label {
-    font-weight: 600;
+    font-weight: 400;
+    font-size: 15px;
 }
 
 .ck-editor__editable[role="textbox"] {

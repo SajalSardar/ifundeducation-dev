@@ -1,14 +1,14 @@
-@extends('layouts.frontapp')
+@extends('layouts.clientapp')
 @section('title', 'Funding Posts')
 
 @section('content')
     <!-- breadcrumb  -->
-    <x-breadcrumb>
+    {{-- <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Funding Campaign</li>
         </ol>
-    </x-breadcrumb>
+    </x-breadcrumb> --}}
     <!-- breadcrumb end  -->
 
     <section class="account_section">
@@ -60,8 +60,8 @@
                                                             class="fa-regular fa-circle-stop"></i></a>
                                                 @endif
 
-                                                <a href="{{ route('fundraiser.post.show', $post->id) }}"
-                                                    class="action_icon" title="View">
+                                                <a href="{{ route('fundraiser.post.show', $post->id) }}" class="action_icon"
+                                                    title="View">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                                 <a href="{{ route('fundraiser.post.edit', $post->id) }}"

@@ -1,21 +1,21 @@
-@extends('layouts.frontapp')
+@extends('layouts.clientapp')
 @section('title', 'Fundraiser Update Message')
 @section('content')
     <!-- breadcrumb  -->
-    <x-breadcrumb>
+    {{-- <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Fundraiser Message Edit</li>
         </ol>
-    </x-breadcrumb>
+    </x-breadcrumb> --}}
     <!-- breadcrumb end  -->
 
     <section class="account_section">
-        <div class="container">
+        <div class="container-fluid ps-0">
             <div class="row">
                 @include('frontend.dashboard.sidebar')
 
-                <div class="col-lg-9 col-md-8">
+                <div class="col-lg-9 col-md-8 mb-5">
                     <div class="account_content_area">
                         <h3>Fundraiser Message Edit
                             <a class="btn btn-sm btn-success float-end"
@@ -66,7 +66,7 @@
                                             class="text-danger">*</span></label>
                                     <textarea class="form-control @error('update_message') is-invalid @enderror" id="update_message" name="update_message"
                                         rows="5">{{ old('update_message', $fundraiserupdatemessage->message) }}</textarea>
-                                    <p style="color: rgba(54, 76, 102, 0.7)">Maximum 150 Character.
+                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Maximum 150 Character.
                                     </p>
                                     <p class="text-danger" id="update_messageErrorMsg"></p>
                                 </div>

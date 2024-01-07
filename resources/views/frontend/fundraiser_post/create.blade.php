@@ -1,14 +1,14 @@
-@extends('layouts.frontapp')
-@section('title', 'User Profile')
+@extends('layouts.clientapp')
+@section('title', 'Start Fundraiser')
 
 @section('content')
     <!-- breadcrumb  -->
-    <x-breadcrumb>
+    {{-- <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Profile</li>
         </ol>
-    </x-breadcrumb>
+    </x-breadcrumb> --}}
     <!-- breadcrumb end  -->
 
     <section class="account_section">
@@ -16,11 +16,11 @@
             <div class="row">
                 @include('frontend.dashboard.sidebar')
 
-                <div class="col-lg-9 col-md-8">
+                <div class="col-lg-9 col-md-8 mb-5">
                     <div class="account_content_area">
                         <h3>Start Fundraiser</h3>
-                        <form method="POST" action="{{ route('fundraiser.post.store') }}" class="account_content_area_form"
-                            enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('fundraiser.post.store') }}"
+                            class="account_content_area_form p-4 pb-5" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-12 mb-3">
@@ -37,7 +37,8 @@
                                             class="text-danger">*</span></label>
                                     <textarea class="form-control @error('shot_description') is-invalid @enderror" id="shot_description"
                                         name="shot_description" rows="5">{{ old('shot_description') }}</textarea>
-                                    <p style="color: rgba(54, 76, 102, 0.7)">Minumum 100 & Maximum 150 Character.
+                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Minumum 100 & Maximum 150
+                                        Character.
                                     </p>
                                     @error('shot_description')
                                         <p class="text-danger">{{ $message }}</p>
@@ -84,7 +85,7 @@
                                 <div class="col-12 mb-3">
                                     <label for="story" class="form-label">Tell Your Story :</label>
                                     <textarea class="form-control @error('story') is-invalid @enderror" id="story" name="story">{{ old('story') }}</textarea>
-                                    <p style="color: rgba(54, 76, 102, 0.7)">Maximum 1500 Character.
+                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Maximum 1500 Character.
                                     </p>
                                     @error('story')
                                         <p class="text-danger">{{ $message }}</p>
@@ -94,7 +95,8 @@
                                     <label for="" class="form-label">Add Image :</label>
                                     <input class="form-control @error('image') is-invalid @enderror" name="image"
                                         type="file">
-                                    <p style="color: rgba(54, 76, 102, 0.7)">Perfact image ratio 250x250px and
+                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Perfact image ratio 250x250px
+                                        and
                                         maximum image size 300kb.
                                     </p>
                                     @error('image')

@@ -1,22 +1,22 @@
-@extends('layouts.frontapp')
+@extends('layouts.clientapp')
 @section('title', 'Payout')
 
 @section('content')
     <!-- breadcrumb  -->
-    <x-breadcrumb>
+    {{-- <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Payout</li>
         </ol>
-    </x-breadcrumb>
+    </x-breadcrumb> --}}
     <!-- breadcrumb end  -->
 
     <section class="account_section">
-        <div class="container">
+        <div class="container-fluid ps-0">
             <div class="row">
                 @include('frontend.dashboard.sidebar')
 
-                <div class="col-lg-9 col-md-8">
+                <div class="col-lg-9 col-md-8 mb-5">
                     <div class="row">
                         <div class="col-12">
                             <div class="account_content_area">
@@ -81,7 +81,7 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <div class="account_content_area mt-3">
+                            <div class="account_content_area">
                                 <h3>Payout History</h3>
                                 <div class="account_content_area_form">
                                     <table class="table">

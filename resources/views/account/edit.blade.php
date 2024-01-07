@@ -1,22 +1,22 @@
-@extends('layouts.frontapp')
+@extends('layouts.clientapp')
 @section('title', 'Edit Profile')
 
 @section('content')
     <!-- breadcrumb  -->
-    <x-breadcrumb>
+    {{-- <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">iFundraiser</a></li>
             <li class="breadcrumb-item active">Account Settings</li>
         </ol>
-    </x-breadcrumb>
+    </x-breadcrumb> --}}
     <!-- breadcrumb end  -->
 
     <section class="account_section">
-        <div class="container">
+        <div class="container-fluid ps-0">
             <div class="row">
                 @include('frontend.dashboard.sidebar')
 
-                <div class="col-lg-9 col-md-8">
+                <div class="col-lg-9 col-md-8 mb-5">
                     <div class="account_content_area">
                         <h3>Password</h3>
                         <form method="post" action="{{ route('password.update') }}" class="account_content_area_form">

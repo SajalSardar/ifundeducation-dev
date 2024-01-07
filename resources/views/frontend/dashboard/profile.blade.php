@@ -1,14 +1,14 @@
-@extends('layouts.frontapp')
+@extends('layouts.clientapp')
 @section('title', 'User Profile')
 
 @section('content')
     <!-- breadcrumb  -->
-    <x-breadcrumb>
+    {{-- <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Profile</li>
         </ol>
-    </x-breadcrumb>
+    </x-breadcrumb> --}}
     <!-- breadcrumb end  -->
 
     <section class="account_section">
@@ -16,7 +16,7 @@
             <div class="row">
                 @include('frontend.dashboard.sidebar')
 
-                <div class="col-lg-9 col-md-8">
+                <div class="col-lg-9 col-md-8 mb-5">
                     <div class="account_content_area">
                         <h3>My Profile</h3>
 
@@ -184,7 +184,8 @@
                                                 <label for="file_input" class="form-label">Profile Photo:</label>
                                                 <input class="form-control @error('photo') is-invalid @enderror"
                                                     id="file_input" type="file" name="photo">
-                                                <p style="color: rgba(54, 76, 102, 0.7)">Perfact image ratio 150x150px and
+                                                <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px;">Perfact image
+                                                    ratio 150x150px and
                                                     maximum image size 300kb.
                                                 </p>
                                                 @error('photo')
@@ -275,11 +276,10 @@
                                                         class="form-control  @error('gpa') is-invalid @enderror"
                                                         name="gpa" placeholder="GPA" id="inputCurrentGPA"
                                                         value="{{ old('gpa', auth()->user()->academic_profile->gpa ?? '') }}">
-                                                    <label class="pt-1">
+                                                    <label class="pt-1 form-label">
                                                         <input class="form-check-input" type="checkbox" name="show_gpa"
                                                             {{ !empty(auth()->user()->academic_profile->show_gpa) && auth()->user()->academic_profile->show_gpa != null ? 'checked' : '' }}>
-                                                        Show GPA on my
-                                                        profile
+                                                        Show GPA on my profile
                                                     </label>
                                                     @error('gpa')
                                                         <p class="text-danger">{{ $message }}</p>
@@ -309,17 +309,17 @@
                                                     <input class="form-control  @error('schedule') is-invalid @enderror"
                                                         type="file" name="schedule" placeholder="Class Schedule"
                                                         id="schedule">
-                                                    <label class="pt-1">
+                                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Maximum
+                                                        Uploaded image size
+                                                        300kb.
+                                                    </p>
+                                                    <label class="pt-1 form-label">
                                                         <input class="form-check-input" name="schedule_show"
                                                             type="checkbox"
                                                             {{ !empty(auth()->user()->academic_profile->show_schedule) && auth()->user()->academic_profile->show_schedule != null ? 'checked' : '' }}>
-                                                        Show Class
-                                                        Schedule on my
-                                                        profile
+                                                        Show Class Schedule on my profile
                                                     </label>
-                                                    <p style="color: rgba(54, 76, 102, 0.7)">Maximum Uploaded image size
-                                                        300kb.
-                                                    </p>
+
                                                     @error('schedule')
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror
@@ -336,18 +336,17 @@
                                                     <input class="form-control  @error('transcript') is-invalid @enderror"
                                                         type="file" name="transcript" id="transcript"
                                                         placeholder="Transcript">
-                                                    <label class="pt-1">
+                                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Maximum
+                                                        Uploaded image size
+                                                        300kb.
+                                                    </p>
+                                                    <label class="pt-1 form-label">
                                                         <input class="form-check-input" type="checkbox"
                                                             name="transcript_show"
                                                             {{ !empty(auth()->user()->academic_profile->show_transcript) && auth()->user()->academic_profile->show_transcript != null ? 'checked' : '' }}>
-                                                        Show
-                                                        Transcript
-                                                        on my
-                                                        profile
+                                                        Show Transcript on my profile
                                                     </label>
-                                                    <p style="color: rgba(54, 76, 102, 0.7)">Maximum Uploaded image size
-                                                        300kb.
-                                                    </p>
+
                                                     @error('transcript')
                                                         <p class="text-danger">{{ $message }}</p>
                                                     @enderror
@@ -510,10 +509,9 @@
         <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
         <script>
             //editor
-            ClassicEditor
-                .create(document.querySelector('#experience'), {
+            ClassicEditor.create(document.querySelector('#experience'), {
                     ckfinder: {
-                        uploadUrl: '{{ route('user.profile.experience.photo.upload') . '?_token=' . csrf_token() }}',
+                        uploadUrl: "{{ route('user.profile.experience.photo.upload') . '?_token=' . csrf_token() }}",
                     }
                 })
                 .catch(error => {
@@ -573,7 +571,6 @@
 
         $(document).ready(function() {
             $('.select_2').select2();
-
             //tab change
             $('a[data-bs-toggle="tab"]').on('show.bs.tab', function(e) {
                 localStorage.setItem('activeTab', $(e.target).attr('href'));

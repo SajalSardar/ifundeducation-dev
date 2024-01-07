@@ -1,4 +1,4 @@
-@extends('layouts.frontapp')
+@extends('layouts.clientapp')
 @section('title', 'withdrawals Verification')
 
 @section('content')
@@ -12,7 +12,7 @@
     <!-- breadcrumb end  -->
 
     <section class="account_section">
-        <div class="container">
+        <div class="container-fluid ps-0">
             <div class="row">
                 @include('frontend.dashboard.sidebar')
 

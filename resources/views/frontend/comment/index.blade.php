@@ -1,18 +1,18 @@
-@extends('layouts.frontapp')
+@extends('layouts.clientapp')
 @section('title', 'Comments')
 
 @section('content')
     <!-- breadcrumb  -->
-    <x-breadcrumb>
+    {{-- <x-breadcrumb>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
             <li class="breadcrumb-item active">Comments</li>
         </ol>
-    </x-breadcrumb>
+    </x-breadcrumb> --}}
     <!-- breadcrumb end  -->
 
     <section class="account_section">
-        <div class="container">
+        <div class="container-fluid ps-0">
             <div class="row">
                 @include('frontend.dashboard.sidebar')
 
