@@ -70,7 +70,7 @@
                     @if (auth()->user()->hasRole('fundraiser') &&
                             auth()->user()->hasRole('donor'))
                     @else
-                        <a href="{{ route('make.role.donor') }}" class="btn btn-success btn-sm text-white"><i
+                        <a href="{{ route('make.role.donor') }}" class=""><i
                                 class="fa-regular fa-square-plus"></i> Become a Donor</a>
                     @endif
 

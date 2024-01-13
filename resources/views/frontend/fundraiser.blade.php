@@ -92,7 +92,7 @@
                                 <li>{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
                                     <span>Funded</span>
                                 </li>
-                                <li>${{ $fundRaiserPost->goal }} <span>Target</span></li>
+                                <li>${{ number_format($fundRaiserPost->goal, 2) }} <span>Target</span></li>
                                 <li>{{ $fundRaiserPost->end_date->diffInDays() }} <span>Day Left</span></li>
                             </ul>
                         </div>

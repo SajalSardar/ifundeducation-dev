@@ -12,10 +12,11 @@
                         <p>{{ @$homePageBanner->description }}</p>
                         <a href="{{ @$homePageBanner->button_link }}">{{ @$homePageBanner->button_text }}</a>
                         <div class="search_box mt-5">
-                            
-                            <form action="{{route('front.fundraiser.search')}}" method="GET">
+
+                            <form action="{{ route('front.fundraiser.search') }}" method="GET">
                                 <div class="input-group ">
-                                    <input type="text" class="form-control" value="{{Request::get('q')}}" name="q" placeholder="Find fundraiser..">
+                                    <input type="text" class="form-control" value="{{ Request::get('q') }}"
+                                        name="q" placeholder="Find fundraiser..">
                                     <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i>
                                         Search</button>
                                 </div>
@@ -56,7 +57,7 @@
                 <div class="col-12">
                     <div class="section_header">
                         <h2>Fundraisers</h2>
-                        <a href="{{route('front.fundraiser')}}">View All <i class="fas fa-long-arrow-alt-right"></i></a>
+                        <a href="{{ route('front.fundraiser') }}">View All <i class="fas fa-long-arrow-alt-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -110,7 +111,7 @@
                                 <li>{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
                                     <span>Funded</span>
                                 </li>
-                                <li>${{ $fundRaiserPost->goal }} <span>Target</span></li>
+                                <li>${{ number_format($fundRaiserPost->goal, 2) }} <span>Target</span></li>
                                 <li>{{ $fundRaiserPost->end_date->diffInDays() }} <span>Day Left</span></li>
                             </ul>
                         </div>

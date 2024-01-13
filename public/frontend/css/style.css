@@ -73,6 +73,16 @@ h5 {
     font-size: 15px;
 }
 
+#client_admin .bg-success{
+    background-color:  var(--secondary-color) !important;
+    color: #444 !important;
+}
+#client_admin .bg-danger{
+    background-color: rgba(251, 120, 120, 0.6) !important;
+    color: #444 !important;
+}
+
+
 .section_header {
     margin-bottom: 50px;
 }
@@ -991,38 +1001,48 @@ h5 {
 .side_menu_bg {
     background-color: #fff;
     /* box-shadow: 5px 0px 10px 0px  rgb(214 215 216 / 60%); */
-    max-width: 300px;
+    max-width: 260px;
+    
 }
-
+.account_menu {
+    background: #fff;
+}
 .account_menu ul {
     padding: 18px 0 60px 0;
 }
 
 .account_menu ul li a {
     color: #222;
-    font-size: 15px;
+    font-size: 13px;
     text-transform: capitalize;
     font-weight: 400;
-    padding: 10px 20px;
+    padding: 8px 20px;
     transition: .4s;
     -webkit-transition: .4s;
     display: block;
-    border-bottom: 1px solid #ddd;
+    margin: 5px 0;
+    border-radius: 0 20px 20px 0;
 }
 
 .account_menu ul li a i {
     margin-right: 8px;
 }
 
+.account_menu ul li.active a{
+    font-weight: 700;
+}
+.account_menu ul li:last-child a:hover,
 .account_menu ul li.active a,
 .account_menu ul li a:hover {
-    background-color: var(--primary-color);
-    color: #fff;
-
+    background-color: var(--secondary-color);
+    color: #222;
+   
 }
-
-.account_menu ul li:last-child a {
-    border-bottom: none;
+.account_menu ul li:last-child a{
+    border-radius: 8px;
+    background: var(--primary-color);
+    font-weight: 700;
+    color: #fff;
 }
 
 .account_content_area {
@@ -1132,11 +1152,17 @@ h5 {
   border-spacing: 0 10px;
 
 }
+/* table css */
+.table tr th{
+    font-size: 13px;
+    color: #222;
+}
 .table>:not(caption)>*>*{
     background-color: #fff;
     padding: 15px 15px;
     border: 0;
     box-shadow: 0 3px 8px 0 #eaf5fa; 
+    font-size: 14px;
 }
 
 .select2-container .select2-selection--single {
@@ -1279,7 +1305,7 @@ h5 {
 }
 
 #fundeducationTab .nav-link {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--tertiary-color);
 }

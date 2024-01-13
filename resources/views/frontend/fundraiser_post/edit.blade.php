@@ -2,128 +2,106 @@
 @section('title', $fundraiserpost->title)
 
 @section('content')
-    <!-- breadcrumb  -->
-    {{-- <x-breadcrumb>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
-            <li class="breadcrumb-item active">{{ $fundraiserpost->title }}</li>
-        </ol>
-    </x-breadcrumb> --}}
-    <!-- breadcrumb end  -->
-
-    <section class="account_section">
-        <div class="container-fluid ps-0">
-            <div class="row">
-                @include('frontend.dashboard.sidebar')
-
-                <div class="col-lg-9 col-md-8 mb-5">
-                    <div class="account_content_area">
-                        <h3>Update Fundraiser</h3>
-                        <form method="POST" action="{{ route('fundraiser.post.update', $fundraiserpost->id) }}"
-                            class="account_content_area_form" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-                            <div class="row">
-                                <div class="col-12 mb-3">
-                                    <label for="fund_title" class="form-label">Fundraiser Title:<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                        id="fund_title" name="title" value="{{ old('title', $fundraiserpost->title) }}">
-                                    @error('title')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label for="shot_description" class="form-label">Shot Description:<span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control @error('shot_description') is-invalid @enderror" id="shot_description"
-                                        name="shot_description" rows="5">{{ old('shot_description', $fundraiserpost->shot_description) }}</textarea>
-                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Minumum 100 & Maximum 150
-                                        Character.
-                                    </p>
-                                    @error('shot_description')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <label for="goal" class="form-label">Fundraising Goal:<span
-                                            class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <div class="input-group-text">
-                                            <i class="fas fa-dollar"></i>
-                                        </div>
-                                        <input type="number" class="form-control @error('goal') is-invalid @enderror"
-                                            id="goal" name="goal"
-                                            value="{{ old('goal', (int) $fundraiserpost->goal) }}">
-                                    </div>
-                                    @error('goal')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <label for="" class="form-label">Fundraising End Date:<span
-                                            class="text-danger">*</span></label>
-                                    <input type="date" class="form-control @error('end_date') is-invalid @enderror"
-                                        name="end_date" id="date"
-                                        value="{{ old('end_date', $fundraiserpost->end_date->format('Y-m-d')) }}"
-                                        placeholder="mm/dd/yy">
-                                    @error('end_date')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div class="col-12 mb-3">
-                                    <label class="form-label d-block">Fundraising For:<span
-                                            class="text-danger">*</span></label>
-                                    <select name="category[]" id=""
-                                        class="form-control select_2 @error('category') is-invalid @enderror" multiple>
-                                        <option disabled>Select Options</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}"
-                                                {{ in_array($category->id, $fundraiserpost->fundraisercategories->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                                {{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('category')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label for="story" class="form-label">Tell Your Story :</label>
-                                    <textarea class="form-control @error('story') is-invalid @enderror" id="story" name="story">{{ old('story', $fundraiserpost->story) }}</textarea>
-                                    <p style="color: rgba(54, 76, 102, 0.7);  font-size: 13px">Maximum 1500 Character.
-                                    </p>
-                                    @error('story')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label for="" class="form-label">Add Image :</label>
-                                    <input class="form-control @error('image') is-invalid @enderror" name="image"
-                                        type="file" id="file_input">
-                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Perfact image ratio 250x250px
-                                        and
-                                        maximum image size 300kb.
-                                    </p>
-                                    @error('image')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
-                                    <div class="mt-2">
-                                        <img src="{{ asset('storage/fundraiser_post/' . $fundraiserpost->image) }}"
-                                            id="show_img" alt="" width="100">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit">Update</button>
-                                </div>
+    <div class="col-lg-9 col-md-8 mb-5">
+        <div class="account_content_area">
+            <h3>Update Fundraiser</h3>
+            <form method="POST" action="{{ route('fundraiser.post.update', $fundraiserpost->id) }}"
+                class="account_content_area_form" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label for="fund_title" class="form-label">Fundraiser Title:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('title') is-invalid @enderror" id="fund_title"
+                            name="title" value="{{ old('title', $fundraiserpost->title) }}">
+                        @error('title')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="shot_description" class="form-label">Shot Description:<span
+                                class="text-danger">*</span></label>
+                        <textarea class="form-control @error('shot_description') is-invalid @enderror" id="shot_description"
+                            name="shot_description" rows="5">{{ old('shot_description', $fundraiserpost->shot_description) }}</textarea>
+                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Minumum 100 & Maximum 150
+                            Character.
+                        </p>
+                        @error('shot_description')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="goal" class="form-label">Fundraising Goal:<span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <i class="fas fa-dollar"></i>
                             </div>
-                        </form>
+                            <input type="number" class="form-control @error('goal') is-invalid @enderror" id="goal"
+                                name="goal" value="{{ old('goal', (int) $fundraiserpost->goal) }}">
+                        </div>
+                        @error('goal')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="" class="form-label">Fundraising End Date:<span
+                                class="text-danger">*</span></label>
+                        <input type="date" class="form-control @error('end_date') is-invalid @enderror" name="end_date"
+                            id="date" value="{{ old('end_date', $fundraiserpost->end_date->format('Y-m-d')) }}"
+                            placeholder="mm/dd/yy">
+                        @error('end_date')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
 
+                    <div class="col-12 mb-3">
+                        <label class="form-label d-block">Fundraising For:<span class="text-danger">*</span></label>
+                        <select name="category[]" id=""
+                            class="form-control select_2 @error('category') is-invalid @enderror" multiple>
+                            <option disabled>Select Options</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ in_array($category->id, $fundraiserpost->fundraisercategories->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                    {{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('category')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="story" class="form-label">Tell Your Story :</label>
+                        <textarea class="form-control @error('story') is-invalid @enderror" id="story" name="story">{{ old('story', $fundraiserpost->story) }}</textarea>
+                        <p style="color: rgba(54, 76, 102, 0.7);  font-size: 13px">Maximum 1500 Character.
+                        </p>
+                        @error('story')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="" class="form-label">Add Image :</label>
+                        <input class="form-control @error('image') is-invalid @enderror" name="image" type="file"
+                            id="file_input">
+                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Perfact image ratio 250x250px
+                            and
+                            maximum image size 300kb.
+                        </p>
+                        @error('image')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                        <div class="mt-2">
+                            <img src="{{ asset('storage/fundraiser_post/' . $fundraiserpost->image) }}" id="show_img"
+                                alt="" width="100">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit">Update</button>
                     </div>
                 </div>
-            </div>
+            </form>
+
         </div>
-    </section>
+    </div>
 @endsection
 @section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">

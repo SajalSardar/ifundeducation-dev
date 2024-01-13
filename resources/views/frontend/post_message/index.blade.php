@@ -1,91 +1,70 @@
 @extends('layouts.clientapp')
 @section('title', 'Fundraiser Update Message')
 @section('content')
-    <!-- breadcrumb  -->
-    {{-- <x-breadcrumb>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('front.index') }}">{{ config('app.name') }}</a></li>
-            <li class="breadcrumb-item active">Fundraiser Message</li>
-        </ol>
-    </x-breadcrumb> --}}
-    <!-- breadcrumb end  -->
-
-    <section class="account_section">
-        <div class="container-fluid ps-0">
-            <div class="row">
-                @include('frontend.dashboard.sidebar')
-
-                <div class="col-lg-9 col-md-8">
-                    <div class="account_content_area">
-                        <h3>Fundraiser Message <button class="btn btn-sm btn-success float-end" data-bs-toggle="modal"
-                                data-bs-target="#post_update_message">Create
-                                Message + </button></h3>
+    <div class="col-lg-9 col-md-8">
+        <div class="account_content_area">
+            <h3>Fundraiser Message <button class="btn btn-sm btn-success float-end" data-bs-toggle="modal"
+                    data-bs-target="#post_update_message">Create
+                    Message + </button></h3>
 
 
-                        <div class="accordion">
-                            @foreach ($messages as $key => $message)
-                                <div class="accordion-item mt-4">
-                                    <div class="accordion-header">
-                                        <h4 class="accordion-button text-black" data-bs-toggle="collapse"
-                                            data-bs-target="#{{ Str::slug($key) }}">
-                                            {{ $key }}
-                                        </h4>
-                                    </div>
-                                    <div id="{{ Str::slug($key) }}"
-                                        class="accordion-collapse collapse {{ $messages->first() ? 'show' : '' }}">
-                                        <div class="accordion-body">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Message</th>
-                                                        <th>Type</th>
-                                                        <th>Updated At</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($message as $mess)
-                                                        <tr>
-                                                            <td>{{ Str::limit($mess->message, 50, '...') }}</td>
-                                                            <td>
-                                                                <span
-                                                                    class="badge {{ $mess->message_type == 'success' ? ' bg-success' : ($mess->message_type == 'warning' ? ' bg-warning' : 'bg-danger') }}">{{ $mess->message_type }}</span>
-                                                            </td>
-                                                            <td>{{ $mess->updated_at->diffForHumans() }}</td>
-                                                            <td>
-                                                                <a href="{{ route('fundraiser.post.message.edit', $mess->id) }}"
-                                                                    class="action_icon" title="Edit">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-                                                                <form
-                                                                    action="{{ route('fundraiser.post.message.delete', $mess->id) }}"
-                                                                    method="POST" class="d-inline" style="cursor: pointer">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <p class="action_icon delete message_delete"
-                                                                        title="Delete">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </p>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-
+            <div class="accordion">
+                @foreach ($messages as $key => $message)
+                    <div class="accordion-item mt-4">
+                        <div class="accordion-header">
+                            <h4 class="accordion-button text-black" data-bs-toggle="collapse"
+                                data-bs-target="#{{ Str::slug($key) }}">
+                                {{ $key }}
+                            </h4>
                         </div>
-
+                        <div id="{{ Str::slug($key) }}"
+                            class="accordion-collapse collapse {{ $messages->first() ? 'show' : '' }}">
+                            <div class="accordion-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Message</th>
+                                            <th>Type</th>
+                                            <th>Updated At</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($message as $mess)
+                                            <tr>
+                                                <td>{{ Str::limit($mess->message, 50, '...') }}</td>
+                                                <td>
+                                                    <span
+                                                        class="badge {{ $mess->message_type == 'success' ? ' bg-success' : ($mess->message_type == 'warning' ? ' bg-warning' : 'bg-danger') }}">{{ $mess->message_type }}</span>
+                                                </td>
+                                                <td>{{ $mess->updated_at->diffForHumans() }}</td>
+                                                <td>
+                                                    <a href="{{ route('fundraiser.post.message.edit', $mess->id) }}"
+                                                        class="action_icon" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form action="{{ route('fundraiser.post.message.delete', $mess->id) }}"
+                                                        method="POST" class="d-inline" style="cursor: pointer">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <p class="action_icon delete message_delete" title="Delete">
+                                                            <i class="fas fa-trash"></i>
+                                                        </p>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                @endforeach
 
-    {{-- create modal --}}
+            </div>
+
+        </div>
+    </div>
 
 
     <!-- Modal -->

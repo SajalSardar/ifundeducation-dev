@@ -25,69 +25,8 @@
 
 </head>
 
-<body>
+<body id="client_admin">
 
-    <!-- header part start  -->
-    {{-- <header id="top_header">
-        <div class="container">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-sm-6">
-                    <div class="header_left">
-                        <p><i class="fa-sharp fa-solid fa-paper-plane"></i> {{ @$themeOption->header_email }}</p>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="header_right">
-                        <ul>
-                            @guest()
-                                <li><a href="{{ route('login') }}">Login</a></li>
-                                <li><a href="{{ route('register') }}">Sign Up</a></li>
-                            @else
-                                <li>
-                                    <a href="#">
-                                        @if (auth()->user()->photo)
-                                            <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
-                                                alt="{{ auth()->user()->first_name }}" width="35"
-                                                class="rounded-circle">
-                                        @elseif(auth()->user()->avatar)
-                                            <img src="{{ auth()->user()->avatar }}" class="rounded-circle"
-                                                alt="{{ auth()->user()->first_name }}" width="35">
-                                        @else
-                                            <img src="{{ Avatar::create(auth()->user()->first_name)->setDimension(35)->setFontSize(14)->toBase64() }}"
-                                                alt="{{ auth()->user()->first_name }}">
-                                        @endif
-                                        <i class="fa-solid fa-angle-down"></i>
-                                    </a>
-                                    <ul>
-                                        <li>
-                                            <a>{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('user.dashboard.index') }}">Dashboard</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('user.profile.edit') }}">Profile</a>
-                                        </li>
-                                        <li>
-                                            <form method="POST" action="{{ route('logout') }}">
-                                                @csrf
-                                                <a href="{{ route('logout') }}"
-                                                    onclick="event.preventDefault();
-                                                  this.closest('form').submit();">Sign
-                                                    Out</a>
-
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endguest
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header> --}}
-    <!-- header part end -->
 
     <!-- main menu part start -->
     <nav class="navbar navbar-expand-md sticky-top">
@@ -104,14 +43,7 @@
                         <a class="nav-link {{ request()->routeIs('front.index') ? 'active' : '' }}"
                             href="{{ route('front.index') }}">Home</a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('front.page', 'about-us') ? 'active' : '' }}"
-                            href="{{ route('front.page', 'about-us') }}">about</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('front.contact') ? 'active' : '' }}"
-                            href="{{ route('front.contact') }}">contact</a>
-                    </li> --}}
+
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('front.fundraiser') ? 'active' : '' }}"
                             href="{{ route('front.fundraiser') }}">Fundraiser</a>
@@ -167,73 +99,31 @@
                             </ul>
                         </li>
                     @endguest
-                    {{-- <li class="nav-item">
-                        <a class="nav-link" href="#">start a fundraiser</a>
-                    </li> --}}
+
                 </ul>
 
             </div>
         </div>
     </nav>
     <!-- main menu part end -->
+    <section class="account_section">
+        <div class="container-fluid ps-0">
+            <div class="row">
+                @include('frontend.dashboard.sidebar')
 
-    @yield('content')
+                @yield('content')
+            </div>
+        </div>
+    </section>
 
     <!-- footer part start -->
-    <footer id="footer" class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
-        <div class="container">
+    <footer class="wow fadeInUp py-3 bg-white" style="visibility: visible; animation-name: fadeInUp;">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-4 col-sm-6">
-                    <div class="footer_about">
-                        <img src="{{ asset('frontend/images/theme_options/' . @$themeOption->footer_logo) }}"
-                            alt="">
-                        <strong>{{ @$themeOption->footer_about_title }}</strong>
-                        <p>{{ @$themeOption->footer_about_description }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <div class="footer_contact px-lg-3">
-                        <h3>Links</h3>
-                        <div class="d-flex">
-                            <ul class="w-50">
-                                @isset($footerMenu)
-                                    @foreach ($footerMenu as $menuItem)
-                                        <li><a href="{{ $menuItem->link }}"><i
-                                                    class="far fa-arrow-alt-circle-right"></i>{{ $menuItem->name }}</a>
-                                        </li>
-                                    @endforeach
-                                @endisset
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="footer_contact">
-                        <h3>Contact</h3>
-                        <ul>
-                            <li><i class="fas fa-envelope"></i> {{ @$themeOption->footer_email }}</li>
-                            {{-- <li><i class="fas fa-globe"></i> <a style="display: inline-block;"
-                                    href="{{ @$themeOption->footer_web_address_link }}">{{ @$themeOption->footer_web_address }}</a>
-                            </li>
-                            <li><i class="fas fa-phone"></i> {{ @$themeOption->footer_phone }}</li> --}}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="row bottom_footer align-items-center">
-                <div class="col-md-6">
-                    <div class="footer_copy">
+                <div class="col-md-12">
+                    <div class=" text-center">
                         <p>{{ @$themeOption->copyright_text }}</p>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <ul class="footer_social">
-                        @isset($siteSocialLink)
-                            @foreach ($siteSocialLink as $linkItem)
-                                <li><a href="{{ $linkItem->link }}"><i class="{{ $linkItem->icon }}"></i></a></li>
-                            @endforeach
-                        @endisset
-                    </ul>
                 </div>
             </div>
         </div>

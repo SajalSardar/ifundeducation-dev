@@ -50,7 +50,7 @@
                     <div class="text-start px-lg-4 profile_info mt-4">
                         <h4>$ {{ number_format($fundRaiserPost->donates->sum('net_balance'), 2, '.', ',') }} <span>USD
                                 raised of
-                                ${{ $fundRaiserPost->goal }}
+                                ${{ number_format($fundRaiserPost->goal, 2) }}
                                 goal</span></h4>
                         <div class="progress mt-3" style="height: 3px;">
                             <div class="progress-bar" role="progressbar"
@@ -94,7 +94,7 @@
                             <div class="donar_info">
                                 <h5>{{ $donate->display_publicly === 'yes' ? $donate->donar_name : 'Guest' }}</h5>
                                 <ul class="fundraisers_card_sub">
-                                    <li>${{ $donate->net_balance }}</li>
+                                    <li>${{ number_format($donate->net_balance, 2) }}</li>
                                     <li>{{ $donate->created_at->diffForHumans() }}</li>
                                 </ul>
                             </div>
@@ -125,10 +125,10 @@
                                 Donars</button>
                         </li>
                         <!-- <li class="nav-item" role="presentation">
-                                                <button class="nav-link" data-bs-toggle="tab"
-                                                    data-bs-target="#professional_experience">Professional
-                                                    Experience</button>
-                                            </li> -->
+                                                        <button class="nav-link" data-bs-toggle="tab"
+                                                            data-bs-target="#professional_experience">Professional
+                                                            Experience</button>
+                                                    </li> -->
                     </ul>
                     <div class="tab-content text-start" id="myTabContent">
                         <div class="tab-pane fade show active" id="story">
@@ -266,10 +266,10 @@
 
                         </div>
                         <!-- <div class="tab-pane fade" id="professional_experience">
-                                                <div class="text-start pb-3 mt-4">
-                                                    {!! $fundRaiserPost->user->academic_profile->experience !!}
-                                                </div>
-                                            </div> -->
+                                                        <div class="text-start pb-3 mt-4">
+                                                            {!! $fundRaiserPost->user->academic_profile->experience !!}
+                                                        </div>
+                                                    </div> -->
                     </div>
                 </div>
             </div>
