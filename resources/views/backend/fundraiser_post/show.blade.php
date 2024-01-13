@@ -50,7 +50,7 @@
                     <tr>
                         <td width="15%"><strong>Raised</strong></td>
                         <td width="3%">:</td>
-                        <td>{{ $fundRaiserPost->donates->sum('net_balance') }}</td>
+                        <td>${{ number_format($fundRaiserPost->donates->sum('net_balance'), 2) }}</td>
                     </tr>
                     <tr>
                         <td width="15%"><strong>Status</strong></td>
@@ -62,7 +62,7 @@
                     <tr>
                         <td width="15%"><strong>Goal</strong></td>
                         <td width="3%">:</td>
-                        <td>{{ $fundRaiserPost->goal }}</td>
+                        <td>${{ number_format($fundRaiserPost->goal, 2) }}</td>
                     </tr>
                     <tr>
                         <td width="15%"><strong>End Date</strong></td>
@@ -114,7 +114,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $donate->donar_name }}</td>
                                 <td>{{ $donate->donar_email }}</td>
-                                <td>{{ $donate->net_balance }}</td>
+                                <td>${{ number_format($donate->net_balance, 2) }}</td>
                             </tr>
                         @empty
                             <tr>

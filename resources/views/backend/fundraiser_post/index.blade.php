@@ -61,7 +61,7 @@
                                         <span class="badge bg-success">{{ $categoty->name }}</span>
                                     @endforeach
                                 </td>
-                                <td>{{ $post->goal }}</td>
+                                <td>${{ number_format($post->goal, 2) }}</td>
                                 <td>{{ $post->end_date->isoFormat('D MMM YYYY') }}</td>
                                 <td>
                                     <span

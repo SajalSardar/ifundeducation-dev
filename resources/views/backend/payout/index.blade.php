@@ -53,7 +53,7 @@
                         @forelse  ($payoutRequestall as $payout)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $payout->amount }}</td>
+                                <td>${{ number_format($payout->amount, 2) }}</td>
                                 <td>{{ $payout->created_at->isoFormat('D MMM YYYY') }}</td>
                                 <td>
                                     <span
