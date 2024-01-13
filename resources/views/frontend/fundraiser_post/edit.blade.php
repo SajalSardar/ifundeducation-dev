@@ -2,7 +2,7 @@
 @section('title', $fundraiserpost->title)
 
 @section('content')
-    <div class="col-lg-9 col-md-8 mb-5">
+    <div class="mb-5">
         <div class="account_content_area">
             <h3>Update Fundraiser</h3>
             <form method="POST" action="{{ route('fundraiser.post.update', $fundraiserpost->id) }}"

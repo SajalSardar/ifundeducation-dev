@@ -108,10 +108,12 @@
     <!-- main menu part end -->
     <section class="account_section">
         <div class="container-fluid ps-0">
-            <div class="row">
+            <div class="d-flex flex-row">
                 @include('frontend.dashboard.sidebar')
 
-                @yield('content')
+                <div class="w-100">
+                    @yield('content')
+                </div>
             </div>
         </div>
     </section>

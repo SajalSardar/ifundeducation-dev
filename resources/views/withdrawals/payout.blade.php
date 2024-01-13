@@ -2,7 +2,7 @@
 @section('title', 'withdrawals')
 
 @section('content')
-    <div class="col-lg-9 col-md-8">
+    <div>
         <div class="row">
             <div class="col-12">
                 <div class="account_content_area">

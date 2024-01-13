@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="col-lg-9 col-md-8">
+    <div>
         <div class="account_content_area">
             <h3>My Funding Campaign</h3>
             <div class="account_content_area_form table-responsive">

@@ -1,4 +1,4 @@
-<div class="col-md-4 col-lg-3 side_menu_bg">
+<div class="side_menu_bg">
     <div class="mobile_menu_icon d-md-none">
         <i class="fa-solid fa-gear fa-spin"></i>
     </div>

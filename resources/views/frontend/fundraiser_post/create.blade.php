@@ -2,7 +2,7 @@
 @section('title', 'Start Fundraiser')
 
 @section('content')
-    <div class="col-lg-9 col-md-8 mb-5">
+    <div class="mb-5">
         <div class="account_content_area">
             <h3>Start Fundraiser</h3>
             <form method="POST" action="{{ route('fundraiser.post.store') }}" class="account_content_area_form p-4 pb-5"

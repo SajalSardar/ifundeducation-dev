@@ -2,7 +2,7 @@
 @section('title', 'Payout')
 
 @section('content')
-    <div class="col-lg-9 col-md-8 mb-5">
+    <div class="mb-5">
         <div class="row">
             <div class="col-12">
                 <div class="account_content_area">
@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <div class="account_content_area">
+                <div class="account_content_area pr-0">
                     <div class="account_content_area_form">
                         @if (!auth()->user()->stripe_account_id)
                             <div class="alert alert-info mt-3">
@@ -42,22 +42,25 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="account_content_area_form">
-                    @if (auth()->user()->stripe_account_id)
-                        <div>
+                <div class="account_content_area ps-0">
+                    <div class="account_content_area_form ">
+                        @if (auth()->user()->stripe_account_id)
+                            <div>
+                                <img src="{{ asset('frontend/images/stripe-logo-1.png') }}" width="120"
+                                    alt="Stripe Logo">
+                                <p><strong>Name</strong>: {{ $stripeAccount['display_name'] }}</p>
+                                <p><strong>Email</strong>: {{ $stripeAccount['email'] }}</p>
+                                <p><strong>Added</strong>: {{ $stripeAccount['connected_date'] }}</p>
+                            </div>
+                            <a target="_blank" href="{{ route('withdrawals.stripe.login') }}"
+                                class="btn btn-success btn-sm">Login Stripe</a>
+                        @else
                             <img src="{{ asset('frontend/images/stripe-logo-1.png') }}" width="120" alt="Stripe Logo">
-                            <p><strong>Name</strong>: {{ $stripeAccount['display_name'] }}</p>
-                            <p><strong>Email</strong>: {{ $stripeAccount['email'] }}</p>
-                            <p><strong>Added</strong>: {{ $stripeAccount['connected_date'] }}</p>
-                        </div>
-                        <a target="_blank" href="{{ route('withdrawals.stripe.login') }}"
-                            class="btn btn-success btn-sm">Login Stripe</a>
-                    @else
-                        <img src="{{ asset('frontend/images/stripe-logo-1.png') }}" width="120" alt="Stripe Logo">
-                        <br>
-                        <a href="{{ route('withdrawals.stripe.account') }}" class="btn btn-primary btn-sm mt-3">Set
-                            Stripe Account</a>
-                    @endif
+                            <br>
+                            <a href="{{ route('withdrawals.stripe.account') }}" class="btn btn-primary btn-sm mt-3">Set
+                                Stripe Account</a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

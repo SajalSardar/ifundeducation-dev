@@ -2,7 +2,7 @@
 @section('title', 'Donation List')
 
 @section('content')
-    <div class="col-lg-9 col-md-8 mb-5">
+    <div class="mb-5">
         <div class="account_content_area">
             <h3>Donation List</h3>
             <div class="account_content_area_form table-responsive">

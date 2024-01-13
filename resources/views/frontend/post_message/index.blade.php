@@ -1,7 +1,7 @@
 @extends('layouts.clientapp')
 @section('title', 'Fundraiser Update Message')
 @section('content')
-    <div class="col-lg-9 col-md-8">
+    <div>
         <div class="account_content_area">
             <h3>Fundraiser Message <button class="btn btn-sm btn-success float-end" data-bs-toggle="modal"
                     data-bs-target="#post_update_message">Create

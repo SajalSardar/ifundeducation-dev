@@ -1,8 +1,8 @@
 @extends('layouts.clientapp')
 @section('title', 'Fundraiser Update Message')
 @section('content')
-    <div class="col-lg-9 col-md-8 mb-5">
-        <div class="account_content_area">
+    <div class="mb-5">
+        <div class="account_content_area pr-0">
             <h3>Fundraiser Message Edit
                 <a class="btn btn-sm btn-success float-end" href="{{ route('fundraiser.post.message.index') }}">Back</a>
             </h3>
