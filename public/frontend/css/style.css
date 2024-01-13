@@ -81,6 +81,10 @@ h5 {
     background-color: rgba(251, 120, 120, 0.6) !important;
     color: #444 !important;
 }
+#client_admin .bg-warning{
+    background-color: rgba(255,193,7, 0.6) !important;
+    color: #444 !important;
+}
 
 
 .section_header {
