@@ -19,6 +19,7 @@
   .logo img{
     width: 160px;
   }
+  
   #iNav ul li a {
     font-size: 14px;
     padding-left: 10px;
@@ -72,6 +73,14 @@
 
 
 @media(max-width:767.98px){
+  .account_content_area{
+    padding: 0;
+    padding-left: 10px;
+  }
+  .account_content_area h3 {
+      margin-top: 20px;
+      font-size: 18px;
+  }
   .side_menu_bg{
     width: auto;
     padding-right: 0;
@@ -81,6 +90,13 @@
   }
   #iNav ul li:last-child a {
     display: inline-block;
+  }
+  #iNav ul li ul{
+    right: auto;
+  }
+  #iNav ul li ul li a{
+    font-size: 12px;
+    display: block !important;
   }
   .banner_item{
     background-size: auto !important;

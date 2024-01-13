@@ -31,6 +31,9 @@
     <!-- main menu part start -->
     <nav class="navbar navbar-expand-md sticky-top">
         <div class="container-fluid">
+            <div class="mobile_menu_icon d-md-none">
+                <i class="fa-solid fa-list"></i>
+            </div>
             <a class="logo" href="{{ route('front.index') }}">
                 <img src=" {{ asset('frontend/images/theme_options/' . @$themeOption->site_logo) }}" alt="">
             </a>

@@ -111,7 +111,8 @@
     <nav class="navbar navbar-expand-md sticky-top">
         <div class="container">
             <a class="logo" href="{{ route('front.index') }}">
-                <img src=" {{ asset('frontend/images/theme_options/' . @$themeOption->site_logo) }}" alt="">
+                <img src=" {{ asset('frontend/images/theme_options/' . @$themeOption->site_logo) }}" class="img-fluid"
+                    alt="{{ config('app.name') }}">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#iNav">
                 <i class="fas fa-bars"></i>
@@ -201,7 +202,7 @@
                 <div class="col-lg-4 col-sm-6">
                     <div class="footer_about">
                         <img src="{{ asset('frontend/images/theme_options/' . @$themeOption->footer_logo) }}"
-                            alt="">
+                            alt="{{ config('app.name') }}" class="img-fluid">
                         <strong>{{ @$themeOption->footer_about_title }}</strong>
                         <p>{{ @$themeOption->footer_about_description }}</p>
                     </div>

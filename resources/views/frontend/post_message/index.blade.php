@@ -3,9 +3,10 @@
 @section('content')
     <div>
         <div class="account_content_area">
-            <h3>Fundraiser Message <button class="btn btn-sm btn-success float-end" data-bs-toggle="modal"
-                    data-bs-target="#post_update_message">Create
-                    Message + </button></h3>
+            <h3>Fundraiser Message
+                <button class="btn btn-sm btn-success float-lg-end mt-2 mt-sm-0 " data-bs-toggle="modal"
+                    data-bs-target="#post_update_message">Create Message + </button>
+            </h3>
 
 
             <div class="accordion">
@@ -19,7 +20,7 @@
                         </div>
                         <div id="{{ Str::slug($key) }}"
                             class="accordion-collapse collapse {{ $messages->first() ? 'show' : '' }}">
-                            <div class="accordion-body">
+                            <div class="accordion-body table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>

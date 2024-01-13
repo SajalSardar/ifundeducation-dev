@@ -1,7 +1,5 @@
 <div class="side_menu_bg">
-    <div class="mobile_menu_icon d-md-none">
-        <i class="fa-solid fa-gear fa-spin"></i>
-    </div>
+
     <div class="account_menu">
         <div class="close_icon d-md-none">&#10007;</div>
         <ul>

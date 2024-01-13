@@ -1061,19 +1061,8 @@ h5 {
 }
 
 .mobile_menu_icon {
-    position: fixed;
-    top: 50px;
-    left: 0;
-    height: 40px;
-    width: 40px;
-    background-color: var(--primary-color);
-    color: #fff;
-    font-size: 25px;
-    box-shadow: 0 5px 15px 0 rgb(214 215 216 / 40%);
-    text-align: center;
-    font-size: 25px;
-    font-weight: 700;
-    z-index: 9999;
+    color: #222;
+    font-size: 20px;
 }
 
 .account_menu .close_icon {
