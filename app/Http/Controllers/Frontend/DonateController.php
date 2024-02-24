@@ -15,9 +15,16 @@ use Illuminate\Support\Facades\Auth;
 class DonateController extends Controller {
 
     public function index() {
-        $user = User::with('all_donars')->where('id', Auth::id())->firstOrFail();
+        // $user = User::with('all_donars.fundraiser')->where('id', Auth::id())->firstOrFail();
 
-        $all_donars = $user->all_donars()->orderBy('id', 'desc')->paginate(10);
+        // $all_donars = $user->all_donars()->orderBy('id', 'desc')->paginate(10);
+        // return $all_donars;
+
+        // $all_donars = FundraiserPost::with('donates')->select('id', 'title')->where('user_id', Auth::id())->paginate(10);
+        $all_donars = Donate::join('fundraiser_posts', 'fundraiser_posts.id', 'donates.fundraiser_post_id')
+            ->select('donates.*', 'fundraiser_posts.title', 'fundraiser_posts.user_id')
+            ->where('fundraiser_posts.user_id', Auth::id())
+            ->paginate(10);
 
         return view('frontend.donate.index', compact('all_donars'));
     }

@@ -4,26 +4,28 @@
 @section('content')
     <div class="mb-5">
         <div class="account_content_area">
-            <h3>Donation List</h3>
+            <h3>Total Donations</h3>
             <div class="account_content_area_form table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Name</th>
+                            <th>#</th>
+                            <th>Fundraiser Title</th>
                             <th>Amount</th>
                             <th>Date</th>
+                            <th>Donor</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        @forelse($all_donars as $key => $donar)
+                        @forelse($all_donars as  $donar)
                             <tr>
-                                <td>{{ ++$key }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $donar->title }}</td>
+                                <td>${{ number_format($donar->amount, 2) }}</td>
+                                <td>{{ $donar->created_at->format('M d, Y') }}</td>
                                 <td>{{ $donar->display_publicly === 'yes' ? $donar->donar_name : 'Guest' }}
                                 </td>
-                                <td>${{ number_format($donar->amount, 2) }}</td>
-                                <td>{{ $donar->created_at->format('d M Y') }}</td>
                             </tr>
                         @empty
                             <tr>

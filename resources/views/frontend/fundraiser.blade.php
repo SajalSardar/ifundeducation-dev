@@ -29,7 +29,7 @@
                             <form action="{{ route('front.fundraiser.search') }}" method="GET">
                                 <div class="input-group ">
                                     <input type="text" class="form-control" value="{{ Request::get('q') }}"
-                                        name="q" placeholder="Find fundraiser..">
+                                        name="q" placeholder="Find fundraisers...">
                                     <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i>
                                         Search</button>
                                 </div>

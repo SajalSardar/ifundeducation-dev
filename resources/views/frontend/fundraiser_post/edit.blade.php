@@ -19,7 +19,7 @@
                         @enderror
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="shot_description" class="form-label">Shot Description:<span
+                        <label for="shot_description" class="form-label">Short Description:<span
                                 class="text-danger">*</span></label>
                         <textarea class="form-control @error('shot_description') is-invalid @enderror" id="shot_description"
                             name="shot_description" rows="5">{{ old('shot_description', $fundraiserpost->shot_description) }}</textarea>
@@ -82,7 +82,7 @@
                         <label for="" class="form-label">Add Image :</label>
                         <input class="form-control @error('image') is-invalid @enderror" name="image" type="file"
                             id="file_input">
-                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Perfact image ratio 250x250px
+                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Image ratio 250x250px
                             and
                             maximum image size 300kb.
                         </p>

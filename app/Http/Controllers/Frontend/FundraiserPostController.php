@@ -45,7 +45,7 @@ class FundraiserPostController extends Controller {
 
         $image = $request->file('image');
         $request->validate([
-            'title'            => 'required|max:200',
+            'title'            => 'required|max:100',
             'shot_description' => 'required|max:150',
             'goal'             => 'required|integer',
             'end_date'         => 'required|date',
@@ -102,7 +102,13 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(FundraiserPost $fundraiserpost) {
-        $singlePost = $fundraiserpost->load('fundraiserupdatemessage', 'comments', 'donates');
+        $singlePost = $fundraiserpost->load(['fundraiserupdatemessage' => function ($q) {
+            $q->orderBy('id', 'desc')->paginate(10);
+        }, 'comments' => function ($q) {
+            $q->orderBy('id', 'desc')->paginate(10);
+        }, 'donates' => function ($q) {
+            $q->orderBy('id', 'desc')->paginate(10);
+        }]);
         return view('frontend.fundraiser_post.show_dashboard', compact('singlePost'));
     }
 
@@ -128,7 +134,7 @@ class FundraiserPostController extends Controller {
 
         $image = $request->file('image');
         $request->validate([
-            'title'            => 'required|max:200',
+            'title'            => 'required|max:100',
             'shot_description' => 'required|min:100|max:150',
             'goal'             => 'required|integer',
             'end_date'         => 'required|date',

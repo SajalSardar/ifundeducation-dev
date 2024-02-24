@@ -14,4 +14,8 @@ class Donate extends Model {
      * @var array
      */
     protected $guarded = ['id'];
+
+    public function fundraiser() {
+        return $this->belongsTo(FundraiserPost::class, 'fundraiser_post_id', 'id');
+    }
 }

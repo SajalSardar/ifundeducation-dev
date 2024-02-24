@@ -9,7 +9,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>#</th>
                             <th>Comments</th>
                             <th>Date</th>
                             <th>Status</th>
@@ -23,7 +23,7 @@
                                 <td width="50%">
                                     {{ $comment->comment }}
                                 </td>
-                                <td>{{ $comment->created_at->diffForHumans() }}</td>
+                                <td>{{ $comment->created_at->format('M d, Y') }}</td>
                                 <td><span
                                         class="badge  {{ $comment->status === 'approved' ? 'bg-success' : 'bg-warning' }}">{{ $comment->status }}</span>
                                 </td>
@@ -60,7 +60,7 @@
                                     <td width="50%">
                                         {{ $comment->comment }}
                                     </td>
-                                    <td>{{ $comment->created_at->diffForHumans() }}</td>
+                                    <td>{{ $comment->created_at->format('M d, Y') }}</td>
                                     <td><span
                                             class="badge  {{ $comment->status === 'approved' ? 'bg-success' : 'bg-warning' }}">{{ $comment->status }}</span>
                                     </td>
@@ -109,7 +109,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="replayTitle">Replay</h1>
+                    <h1 class="modal-title fs-5" id="replayTitle">Reply</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('fundraiser.comment.replay') }}" method="POST">
@@ -119,7 +119,7 @@
                         <textarea name="replay" id="" class="form-control" rows="5"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Replay</button>
+                        <button type="submit" class="btn btn-success">Reply</button>
                     </div>
                 </form>
             </div>

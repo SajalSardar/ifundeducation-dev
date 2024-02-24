@@ -29,22 +29,22 @@
                     <tr>
                         <td width="20%"><strong>End Date</strong></td>
                         <td width="3%">:</td>
-                        <td>{{ $singlePost->end_date->format('d M Y') }}</td>
+                        <td>{{ $singlePost->end_date->format('M d, Y') }}</td>
                     </tr>
                     <tr>
-                        <td width="20%"><strong>Shot Desctription</strong></td>
+                        <td width="20%"><strong>Short Description</strong></td>
                         <td width="3%">:</td>
                         <td>{{ $singlePost->shot_description }}</td>
                     </tr>
                     <tr>
-                        <td width="20%"><strong>Long Desctription</strong></td>
+                        <td width="20%"><strong>Description</strong></td>
                         <td width="3%">:</td>
                         <td>{!! Str::limit($singlePost->story, 200, '...') !!}</td>
                     </tr>
                     <tr>
-                        <td width="20%"><strong>Created Date</strong></td>
+                        <td width="20%"><strong>Date Created</strong></td>
                         <td width="3%">:</td>
-                        <td>{{ $singlePost->created_at->format('d M Y') }}</td>
+                        <td>{{ $singlePost->created_at->format('M d, Y') }}</td>
                     </tr>
 
                 </table>
@@ -52,14 +52,15 @@
 
         </div>
         <div class="account_content_area mt-5">
-            <h3>Donation:</h3>
+            <h3>Donations:</h3>
             <div class="account_content_area_form table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Sl.</th>
+                            <th>#</th>
                             <th>Name</th>
                             <th>Amount</th>
+                            <th>Donation Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,6 +69,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $donate->donar_name }}</td>
                                 <td>${{ number_format($donate->net_balance, 2) }}</td>
+                                <td>{{ $donate->created_at->format('M d, Y') }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -90,7 +92,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Sl.</th>
+                            <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Comment</th>
@@ -127,7 +129,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Sl.</th>
+                            <th>#</th>
                             <th>message</th>
                             <th>Status</th>
                         </tr>

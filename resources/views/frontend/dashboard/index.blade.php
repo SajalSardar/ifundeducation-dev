@@ -30,7 +30,7 @@
                             <div class="user_icon">
                                 <i class="fas fa-money-bill-trend-up"></i>
                             </div>
-                            <h4>Available Balannce</h4>
+                            <h4>Available Balance</h4>
                             <p>${{ number_format(auth()->user()->balance->curent_amount - auth()->user()->balance->withdraw_amount, 2) }}
                             </p>
                         </div>
@@ -53,7 +53,7 @@
                     <div class="col-lg-6 text-start pt-5 pt-xl-0">
                         <div class="donar_card">
                             <h4 class="border-bottom pb-3 mb-2">
-                                Resent Donation
+                                Recent Donations
                                 <a href="{{ route('donate.index') }}" class="float-end view_donar">See All</a>
                             </h4>
 

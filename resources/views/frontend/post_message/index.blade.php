@@ -3,9 +3,9 @@
 @section('content')
     <div>
         <div class="account_content_area">
-            <h3>Fundraiser Message
+            <h3>Fundraiser Updates
                 <button class="btn btn-sm btn-success float-lg-end mt-2 mt-sm-0 " data-bs-toggle="modal"
-                    data-bs-target="#post_update_message">Create Message + </button>
+                    data-bs-target="#post_update_message">Post an Update + </button>
             </h3>
 
 
@@ -73,7 +73,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Create Message</h1>
+                    <h1 class="modal-title fs-5">Post an Update</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -81,11 +81,10 @@
                         @csrf
                         <div class="row">
                             <div class="col-12 mb-3">
-                                <label class="form-label d-block">Fundraising Post:<span
-                                        class="text-danger">*</span></label>
+                                <label class="form-label d-block">Fundraiser:<span class="text-danger">*</span></label>
                                 <select name="fundraiser_post" id="fundraiser_post"
                                     class="form-control @error('fundraiser_post') is-invalid @enderror">
-                                    <option disabled selected>Select Post</option>
+                                    <option disabled selected>Select Fundraiser</option>
                                     @foreach ($posts as $post)
                                         <option value="{{ $post->id }}">{{ $post->title }}</option>
                                     @endforeach

@@ -5,7 +5,7 @@
 
     <div>
         <div class="account_content_area">
-            <h3>My Funding Campaign</h3>
+            <h3>My Fundraisers</h3>
             <div class="account_content_area_form table-responsive">
                 <table class="table">
                     <thead>
@@ -39,11 +39,11 @@
                                 <td>
 
                                     @if ($post->status == 'stop')
-                                        <a href="{{ route('fundraiser.post.running', $post->id) }}" title="Running Campaign"
+                                        <a href="{{ route('fundraiser.post.running', $post->id) }}" title="Restart"
                                             class="action_icon running_campaign">
                                             <i class="fa-regular fa-circle-play"></i></a>
                                     @else
-                                        <a href="{{ route('fundraiser.post.stop', $post->id) }}" title="Stop Campaign"
+                                        <a href="{{ route('fundraiser.post.stop', $post->id) }}" title="Stop"
                                             class="action_icon stop_campaign"> <i class="fa-regular fa-circle-stop"></i></a>
                                     @endif
 
@@ -89,7 +89,7 @@
                 var url = $(this).attr('href');
                 Swal.fire({
                     title: 'Are you sure?',
-                    text: "Runn this Campaign!",
+                    text: "Restart this Fundraiser!",
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -107,7 +107,7 @@
                 Swal.fire({
                     title: 'Are you sure?',
                     icon: 'warning',
-                    text: "Stope this Campaign!",
+                    text: "Stop this Fundraiser!",
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',

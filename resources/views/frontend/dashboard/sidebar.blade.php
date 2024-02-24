@@ -17,13 +17,14 @@
                         Fundraisers</a>
                 </li>
                 <li class="{{ request()->routeIs('fundraiser.post.message.*') ? 'active' : '' }}">
-                    <a href="{{ route('fundraiser.post.message.index') }}"><i class="fa-regular fa-envelope"></i>Updates</a>
+                    <a href="{{ route('fundraiser.post.message.index') }}"><i class="fa-regular fa-envelope"></i>Fundraiser
+                        Updates</a>
                 </li>
                 <li class="{{ request()->routeIs('fundraiser.comment.*') ? 'active' : '' }}">
                     <a href="{{ route('fundraiser.comment.index') }}"><i class="fas fa-comments"></i>Comments</a>
                 </li>
                 <li class="{{ request()->routeIs('donate.index') ? 'active' : '' }}">
-                    <a href="{{ route('donate.index') }}"><i class="fa-solid fa-table-list"></i>Donations I Made</a>
+                    <a href="{{ route('donate.index') }}"><i class="fa-solid fa-table-list"></i>Total Donations</a>
                 </li>
                 <li class="{{ request()->routeIs('withdrawals.*') ? 'active' : '' }}">
                     <a href="{{ route('withdrawals.index') }}">
@@ -55,8 +56,7 @@
             <li class="px-2 mt-2">
 
                 @if (auth()->user()->hasRole('donor'))
-                    @if (auth()->user()->hasRole('fundraiser') &&
-                            auth()->user()->hasRole('donor'))
+                    @if (auth()->user()->hasRole('fundraiser') && auth()->user()->hasRole('donor'))
                     @else
                         <a href="{{ route('make.role.fundraiser') }}" class="btn btn-success btn-sm text-white"><i
                                 class="fa-regular fa-square-plus"></i> Become a
@@ -65,8 +65,7 @@
 
                 @endif
                 @if (auth()->user()->hasRole('fundraiser'))
-                    @if (auth()->user()->hasRole('fundraiser') &&
-                            auth()->user()->hasRole('donor'))
+                    @if (auth()->user()->hasRole('fundraiser') && auth()->user()->hasRole('donor'))
                     @else
                         <a href="{{ route('make.role.donor') }}" class=""><i
                                 class="fa-regular fa-square-plus"></i> Become a Donor</a>

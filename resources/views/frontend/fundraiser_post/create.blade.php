@@ -4,7 +4,7 @@
 @section('content')
     <div class="mb-5">
         <div class="account_content_area">
-            <h3>Start Fundraiser</h3>
+            <h3>Start a Fundraiser</h3>
             <form method="POST" action="{{ route('fundraiser.post.store') }}" class="account_content_area_form p-4 pb-5"
                 enctype="multipart/form-data">
                 @csrf
@@ -16,9 +16,11 @@
                         @error('title')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
+                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Maximum 100 Character.
+                        </p>
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="shot_description" class="form-label">Shot Description:<span
+                        <label for="shot_description" class="form-label">Short Description:<span
                                 class="text-danger">*</span></label>
                         <textarea class="form-control @error('shot_description') is-invalid @enderror" id="shot_description"
                             name="shot_description" rows="5">{{ old('shot_description') }}</textarea>
@@ -77,7 +79,7 @@
                     <div class="col-12 mb-3">
                         <label for="" class="form-label">Add Image :</label>
                         <input class="form-control @error('image') is-invalid @enderror" name="image" type="file">
-                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Perfact image ratio 250x250px
+                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px"> Image ratio 250x250px
                             and
                             maximum image size 300kb.
                         </p>
@@ -89,9 +91,10 @@
                         <div class="form-check">
                             <label class="form-check-label">
                                 <input class="form-check-input @error('agree') is-invalid @enderror" type="checkbox"
-                                    name="agree"> I agree the
-                                terms &amp;
-                                conditions
+                                    name="agree"> I agree
+                                to the
+                                <a href="{{ config('app.url') }}/page/terms-conditions" target="_blank">terms &amp;
+                                    conditions</a>
                             </label>
                         </div>
                         @error('agree')

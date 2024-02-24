@@ -364,7 +364,6 @@ h5 {
     -webkit-transition: .4s;
     padding: 0 25px;
     font-size: 18px;
-    text-transform: uppercase;
 }
 
 .search_box button:hover {
@@ -1005,7 +1004,7 @@ h5 {
 .side_menu_bg {
     background-color: #fff;
     /* box-shadow: 5px 0px 10px 0px  rgb(214 215 216 / 60%); */
-    width: 230px;
+    width: 275px;
     padding-right: 10px;
 }
 .account_menu {
@@ -1057,7 +1056,6 @@ h5 {
     border-bottom: 1px solid #ddd;
     padding-bottom: 8px;
     margin-bottom: 30px;
-    text-transform: uppercase;
 }
 
 .mobile_menu_icon {
