@@ -72,7 +72,7 @@
                                     <label for="date" class="form-label">Date of Birth:<span
                                             class="text-danger">*</span></label>
                                     <input type="date"
-                                        value="{{ !empty(auth()->user()->personal_profile)? auth()->user()->personal_profile->birthday->format('Y-m-d') ?? '': '' }}"
+                                        value="{{ !empty(auth()->user()->personal_profile) ? auth()->user()->personal_profile->birthday->format('Y-m-d') ?? '' : '' }}"
                                         class="form-control @error('birthday') is-invalid @enderror" id="date"
                                         name="birthday">
                                     @error('birthday')
@@ -163,7 +163,7 @@
                                     <label for="file_input" class="form-label">Profile Photo:</label>
                                     <input class="form-control @error('photo') is-invalid @enderror" id="file_input"
                                         type="file" name="photo">
-                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px;">Perfact image
+                                    <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px;">Image
                                         ratio 150x150px and
                                         maximum image size 300kb.
                                     </p>
@@ -192,7 +192,7 @@
                                         <label for="inputcoll" class="form-label">College/University:<span
                                                 class="text-danger">*</span></label>
                                         <label class="form-label ms-5">
-                                            If not listed? Click Here <input type="checkbox" id="onlistUniversity">
+                                            If not listed, click here <input type="checkbox" id="onlistUniversity">
                                         </label>
                                         <div class="collage_select">
                                             <select id="inputcoll"
@@ -254,7 +254,7 @@
                                         <label class="pt-1 form-label">
                                             <input class="form-check-input" type="checkbox" name="show_gpa"
                                                 {{ !empty(auth()->user()->academic_profile->show_gpa) && auth()->user()->academic_profile->show_gpa != null ? 'checked' : '' }}>
-                                            Show GPA on my profile
+                                            I consent to show GPA on my profile.
                                         </label>
                                         @error('gpa')
                                             <p class="text-danger">{{ $message }}</p>
@@ -277,7 +277,7 @@
                                             <p class="text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>
-                                    <div class="col-lg-6 mb-3">
+                                    {{-- <div class="col-lg-6 mb-3">
                                         <label for="schedule" class="form-label">Class
                                             Schedule:</label>
                                         <input class="form-control  @error('schedule') is-invalid @enderror"
@@ -289,7 +289,7 @@
                                         <label class="pt-1 form-label">
                                             <input class="form-check-input" name="schedule_show" type="checkbox"
                                                 {{ !empty(auth()->user()->academic_profile->show_schedule) && auth()->user()->academic_profile->show_schedule != null ? 'checked' : '' }}>
-                                            Show Class Schedule on my profile
+                                            I consent to show Class Schedule on my profile.
                                         </label>
 
                                         @error('schedule')
@@ -302,8 +302,8 @@
                                             </div>
                                         @endif
 
-                                    </div>
-                                    <div class="col-lg-6 mb-3">
+                                    </div> --}}
+                                    {{-- <div class="col-lg-6 mb-3">
                                         <label for="transcript" class="form-label">Transcript:</label>
                                         <input class="form-control  @error('transcript') is-invalid @enderror"
                                             type="file" name="transcript" id="transcript" placeholder="Transcript">
@@ -314,7 +314,7 @@
                                         <label class="pt-1 form-label">
                                             <input class="form-check-input" type="checkbox" name="transcript_show"
                                                 {{ !empty(auth()->user()->academic_profile->show_transcript) && auth()->user()->academic_profile->show_transcript != null ? 'checked' : '' }}>
-                                            Show Transcript on my profile
+                                            I consent to show transcript on my profile.
                                         </label>
 
                                         @error('transcript')
@@ -327,7 +327,7 @@
                                             </div>
                                         @endif
 
-                                    </div>
+                                    </div> --}}
                                     <div class="col-lg-12 mb-3">
                                         <label for="experience" class="form-label">Professional
                                             Experience:</label>
@@ -385,7 +385,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-lg-6 mb-3">
-                                    <label for="twitter" class="form-label">Twitter:</label>
+                                    <label for="twitter" class="form-label">Twitter/X:</label>
                                     <input type="text" placeholder="Twitter Url"
                                         value="{{ old('twitter', auth()->user()->userSocial->twitter ?? '') }}"
                                         name="twitter" class="form-control @error('twitter') is-invalid @enderror"

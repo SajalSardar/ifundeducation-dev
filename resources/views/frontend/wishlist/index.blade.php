@@ -4,14 +4,15 @@
 @section('content')
     <div>
         <div class="account_content_area">
-            <h3>Wishlists</h3>
+            <h3>Saved Fundraisers</h3>
             <div class="account_content_area_form table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>#</th>
                             <th>Image</th>
-                            <th>Title</th>
+                            <th>Fundraiser Title</th>
+                            <th>Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -29,6 +30,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $wishlist->fundraiser_post->title }}</td>
+                                <td>{{ $wishlist->created_at->format('M d, Y') }}</td>
                                 <td>
                                     <a href="{{ route('front.fundraiser.post.show', $wishlist->fundraiser_post->slug) }}"
                                         class="action_icon" title="View">

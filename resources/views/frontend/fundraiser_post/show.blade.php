@@ -125,10 +125,10 @@
                                 Donars</button>
                         </li>
                         <!-- <li class="nav-item" role="presentation">
-                                                        <button class="nav-link" data-bs-toggle="tab"
-                                                            data-bs-target="#professional_experience">Professional
-                                                            Experience</button>
-                                                    </li> -->
+                                                                    <button class="nav-link" data-bs-toggle="tab"
+                                                                        data-bs-target="#professional_experience">Professional
+                                                                        Experience</button>
+                                                                </li> -->
                     </ul>
                     <div class="tab-content text-start" id="myTabContent">
                         <div class="tab-pane fade show active" id="story">
@@ -266,10 +266,10 @@
 
                         </div>
                         <!-- <div class="tab-pane fade" id="professional_experience">
-                                                        <div class="text-start pb-3 mt-4">
-                                                            {!! $fundRaiserPost->user->academic_profile->experience !!}
-                                                        </div>
-                                                    </div> -->
+                                                                    <div class="text-start pb-3 mt-4">
+                                                                        {!! $fundRaiserPost->user->academic_profile->experience !!}
+                                                                    </div>
+                                                                </div> -->
                     </div>
                 </div>
             </div>
@@ -364,7 +364,7 @@
                         <tr>
                             <td><strong>Gender</strong></td>
                             <td>:</td>
-                            <td>{{ $fundRaiserPost->user->personal_profile->gender }}</td>
+                            <td>{{ Str::ucfirst($fundRaiserPost->user->personal_profile->gender) }}</td>
                         </tr>
                         {{-- <tr>
                             <td><strong>Address</strong></td>
@@ -401,39 +401,48 @@
 
                                         <ul class="footer_social text-start">
                                             @if ($fundRaiserPost->user->userSocial->instagram)
-                                                <li><a href="{{ $fundRaiserPost->user->userSocial->instagram }}"
+                                                <li><a target="_blank"
+                                                        href="{{ $fundRaiserPost->user->userSocial->instagram }}"
                                                         title="Instagram"><i class="fab fa-instagram"></i></a></li>
                                             @endif
                                             @if ($fundRaiserPost->user->userSocial->linkedin)
-                                                <li><a href="{{ $fundRaiserPost->user->userSocial->linkedin }}"
+                                                <li><a target="_blank"
+                                                        href="{{ $fundRaiserPost->user->userSocial->linkedin }}"
                                                         title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
                                             @endif
                                             @if ($fundRaiserPost->user->userSocial->facebook)
-                                                <li><a href="{{ $fundRaiserPost->user->userSocial->facebook }}"
+                                                <li><a target="_blank"
+                                                        href="{{ $fundRaiserPost->user->userSocial->facebook }}"
                                                         title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
                                             @endif
                                             @if ($fundRaiserPost->user->userSocial->twitter)
-                                                <li><a href="{{ $fundRaiserPost->user->userSocial->twitter }}"
+                                                <li><a target="_blank"
+                                                        href="{{ $fundRaiserPost->user->userSocial->twitter }}"
                                                         title="Twitter"><i class="fab fa-twitter"></i></a></li>
                                             @endif
                                             @if ($fundRaiserPost->user->userSocial->youtube)
-                                                <li><a href="{{ $fundRaiserPost->user->userSocial->youtube }}"
+                                                <li><a target="_blank"
+                                                        href="{{ $fundRaiserPost->user->userSocial->youtube }}"
                                                         title="youtube"><i class="fab fa-youtube"></i></a></li>
                                             @endif
                                             @if ($fundRaiserPost->user->userSocial->tiktok)
-                                                <li><a href="{{ $fundRaiserPost->user->userSocial->tiktok }}"
+                                                <li><a target="_blank"
+                                                        href="{{ $fundRaiserPost->user->userSocial->tiktok }}"
                                                         title="Tiktok"><i class="fab fa-tiktok"></i></a></li>
                                             @endif
                                             @if ($fundRaiserPost->user->userSocial->pinterest)
-                                                <li><a href="{{ $fundRaiserPost->user->userSocial->pinterest }}"
+                                                <li><a target="_blank"
+                                                        href="{{ $fundRaiserPost->user->userSocial->pinterest }}"
                                                         title="Pinterest"><i class="fab fa-pinterest-p"></i></a></li>
                                             @endif
                                             @if ($fundRaiserPost->user->userSocial->snapchat)
-                                                <li><a href="{{ $fundRaiserPost->user->userSocial->snapchat }}"
+                                                <li><a target="_blank"
+                                                        href="{{ $fundRaiserPost->user->userSocial->snapchat }}"
                                                         title="snapchat"><i class="fab fa-snapchat-ghost"></i></a></li>
                                             @endif
                                             @if ($fundRaiserPost->user->userSocial->website)
-                                                <li><a href="{{ $fundRaiserPost->user->userSocial->website }}"
+                                                <li><a target="_blank"
+                                                        href="{{ $fundRaiserPost->user->userSocial->website }}"
                                                         title="Website"><i class="fas fa-globe-americas"></i></a></li>
                                             @endif
                                         </ul>
