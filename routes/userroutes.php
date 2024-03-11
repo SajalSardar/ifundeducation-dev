@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser|donor'])->
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store');
         Route::delete('/delete/{wishlist}', 'destroy')->name('destroy');
+        Route::get('wishlist-data-table', 'listDataTable')->name('datatable');
     });
 
 });

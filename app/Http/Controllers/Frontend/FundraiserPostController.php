@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\FundraiserCategory;
 use App\Models\FundraiserPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -20,11 +21,29 @@ class FundraiserPostController extends Controller {
      */
     public function index() {
 
-        return view('frontend.fundraiser_post.index');
+        $fundposts         = FundraiserPost::select('id', 'title')->where('user_id', Auth::id())->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+
+        return view('frontend.fundraiser_post.index', compact('fundposts', 'fundpostsCategory'));
     }
-    public function postDataTable() {
+    public function postDataTable(Request $request) {
         $posts = FundraiserPost::with('fundraisercategories')->where('user_id', auth()->user()->id);
 
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {

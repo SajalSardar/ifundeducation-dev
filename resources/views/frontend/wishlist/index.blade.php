@@ -5,8 +5,27 @@
     <div>
         <div class="account_content_area">
             <h3>Saved Fundraisers</h3>
+            <div class="account_content_area_form">
+                <form action="" method="GET" id="filterForm">
+                    <div class="input-group">
+                        <select class="form-select select2" name="title">
+                            <option selected value="">All Fundraiser</option>
+                            @foreach ($wishlists as $wishlist)
+                                <option value="{{ $wishlist->fundraiser_post->id }}">{{ $wishlist->fundraiser_post->title }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <input type="date" class="form-control" name="fromdate">
+                        <div class="border">
+                            <label class="form-label  px-2 mb-0 pt-2">to</label>
+                        </div>
+                        <input type="date" class="form-control" name="todate">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
             <div class="account_content_area_form table-responsive">
-                <table class="table">
+                <table class="table" id="data-table">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -17,36 +36,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($wishlists as $key => $wishlist)
-                            <tr>
-                                <td>{{ ++$key }}</td>
-                                <td>
-                                    @if ($wishlist->fundraiser_post->image)
-                                        <img src="{{ asset('storage/fundraiser_post/' . $wishlist->fundraiser_post->image) }}"
-                                            alt="{{ $wishlist->fundraiser_post->title }}" width="80">
-                                    @else
-                                        <img src="{{ Avatar::create($wishlist->fundraiser_post->title)->setShape('square')->setBackground('#ddd')->setDimension(80)->setFontSize(14)->toBase64() }}"
-                                            alt="{{ $wishlist->fundraiser_post->title }}">
-                                    @endif
-                                </td>
-                                <td>{{ $wishlist->fundraiser_post->title }}</td>
-                                <td>{{ $wishlist->created_at->format('M d, Y') }}</td>
-                                <td>
-                                    <a href="{{ route('front.fundraiser.post.show', $wishlist->fundraiser_post->slug) }}"
-                                        class="action_icon" title="View">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <form action="{{ route('wishlist.destroy', $wishlist->id) }}" method="POST"
-                                        class="d-inline" style="cursor: pointer">
-                                        @csrf
-                                        @method('DELETE')
-                                        <p class="action_icon delete post_delete" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </p>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
 
                     </tbody>
                 </table>
@@ -60,7 +49,51 @@
 
     <script>
         $(function($) {
-            $('.post_delete').on('click', function() {
+
+            var dTable = $('#data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                searching: false,
+                ajax: {
+                    url: '{{ route('wishlist.datatable') }}',
+                    type: "GET",
+                    data: function(d) {
+                        d._token = "{{ csrf_token() }}";
+                        d.title = $('select[name=title]').val();
+                        d.fromdate = $('input[name=fromdate]').val();
+                        d.todate = $('input[name=todate]').val();
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'id'
+                    },
+                    {
+                        data: 'image',
+                        name: 'image',
+                    },
+                    {
+                        data: 'title',
+                        name: 'title',
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
+                    }
+                ]
+            });
+            $('#filterForm').on('submit', function(e) {
+                dTable.draw();
+                e.preventDefault();
+            });
+
+
+            $(document).on('click', '.post_delete', function() {
                 Swal.fire({
                     title: 'Are you sure?',
                     icon: 'warning',
@@ -73,7 +106,7 @@
                         $(this).parent('form').submit();
                     }
                 });
-            })
+            });
         });
     </script>
 
