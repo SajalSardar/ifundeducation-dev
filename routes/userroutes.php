@@ -83,6 +83,7 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
 
     Route::controller(FundraiserUpdateMessageController::class)->prefix('fundraiser/post/message')->name('fundraiser.post.message.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/post/message-list-datatable', 'listDataTable')->name('index.datatable');
         Route::post('/store', 'store')->name('store');
         Route::get('/edit/{fundraiserupdatemessage}', 'edit')->name('edit');
         Route::put('/update/{fundraiserupdatemessage}', 'update')->name('update');

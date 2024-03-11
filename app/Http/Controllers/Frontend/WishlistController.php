@@ -60,18 +60,20 @@ class WishlistController extends Controller {
                 return $wishlists->created_at->isoFormat('D MMM YYYY');
             })
             ->addColumn('action', function ($wishlists) {
-                return '<a href="' . route('front.fundraiser.post.show', $wishlists->fundraiser_post->slug) . '"
+                return '<div class="text-end">
+                    <a href="' . route('front.fundraiser.post.show', $wishlists->fundraiser_post->slug) . '"
                                         class="action_icon" title="View">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <form action="' . route('wishlist.destroy', $wishlists->id) . '" method="POST"
-                                        class="d-inline" style="cursor: pointer">
-                                        <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <p class="action_icon delete post_delete" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </p>
-                                    </form>';
+                        <form action="' . route('wishlist.destroy', $wishlists->id) . '" method="POST"
+                            class="d-inline" style="cursor: pointer">
+                            <input type="hidden" name="_token" value="' . csrf_token() . '">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <p class="action_icon delete post_delete" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </p>
+                        </form>
+                </div>';
             })
             ->addIndexColumn()
             ->escapeColumns([])

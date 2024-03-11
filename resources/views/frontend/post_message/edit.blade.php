@@ -25,29 +25,12 @@
                         </select>
                         <p class="text-danger" id="fundraiser_postErrorMsg"></p>
                     </div>
-                    <div class="col-12 mb-3">
-                        <label class="form-label d-block">Message Type:<span class="text-danger">*</span></label>
-                        <select name="message_type" id="message_type"
-                            class="form-control  @error('message_type') is-invalid @enderror">
-                            <option disabled selected>Select type</option>
-                            <option value="success"
-                                {{ $fundraiserupdatemessage->message_type === 'success' ? 'selected' : '' }}>
-                                Success
-                            </option>
-                            <option value="warning"
-                                {{ $fundraiserupdatemessage->message_type === 'warning' ? 'selected' : '' }}>
-                                Warning</option>
-                            <option value="danger"
-                                {{ $fundraiserupdatemessage->message_type === 'danger' ? 'selected' : '' }}>
-                                Danger</option>
-                        </select>
-                        <p class="text-danger" id="message_typeErrorMsg"></p>
-                    </div>
+
                     <div class="col-12 mb-3">
                         <label for="update_message" class="form-label">Message :<span class="text-danger">*</span></label>
                         <textarea class="form-control @error('update_message') is-invalid @enderror" id="update_message" name="update_message"
-                            rows="5">{{ old('update_message', $fundraiserupdatemessage->message) }}</textarea>
-                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Maximum 150 Character.
+                            rows="10">{{ old('update_message', $fundraiserupdatemessage->message) }}</textarea>
+                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Maximum 500 Character.
                         </p>
                         <p class="text-danger" id="update_messageErrorMsg"></p>
                     </div>

@@ -32,7 +32,7 @@
                             <th>Image</th>
                             <th>Fundraiser Title</th>
                             <th>Date</th>
-                            <th>Actions</th>
+                            <th style="text-align: right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
