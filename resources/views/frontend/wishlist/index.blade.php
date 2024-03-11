@@ -72,10 +72,12 @@
                     {
                         data: 'image',
                         name: 'image',
+                        orderable: false
                     },
                     {
                         data: 'title',
                         name: 'title',
+                        orderable: false
                     },
                     {
                         data: 'created_at',

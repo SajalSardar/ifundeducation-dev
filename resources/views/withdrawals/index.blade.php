@@ -90,7 +90,7 @@
                         <table class="table" id="data-table">
                             <thead>
                                 <tr class="table-dark">
-                                    <th>SL</th>
+                                    <th>#</th>
                                     <th>Amount</th>
                                     <th>Status</th>
                                     <th>Date</th>

@@ -5,25 +5,47 @@
     <div>
         <div class="account_content_area">
             <h3>Comments</h3>
+            <div class="account_content_area_form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="{{ route('fundraiser.comment.index') }}" method="GET">
+                            <div class="input-group">
+                                <select class="form-select select2" name="title">
+                                    <option selected value="">All Fundraiser</option>
+                                    @foreach ($fundposts as $fundpost)
+                                        <option value="{{ $fundpost->id }}"
+                                            {{ request()->title == $fundpost->id ? 'selected' : '' }}>{{ $fundpost->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="account_content_area_form table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>Author</th>
+                            <th>Fundraiser Title</th>
                             <th>Comments</th>
-                            <th>Date</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th style="text-align: right; width:15%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse  ($comments as $key=>$comment)
                             <tr style="background: rgba(230, 229, 229, 0.7)">
-                                <td>{{ ++$key }}</td>
-                                <td width="50%">
-                                    {{ $comment->comment }}
+                                <td>{{ $comment->name }} <br> {{ $comment->email }} </td>
+                                <td>{{ Str::limit($comment->fundraiserpost->title, 20, '...') }}
                                 </td>
-                                <td>{{ $comment->created_at->format('M d, Y') }}</td>
+                                <td>
+                                    {{ $comment->comment }}
+
+                                    <p style="font-size: 12px">{{ $comment->created_at->format('M d, Y') }}</p>
+                                </td>
                                 <td><span
                                         class="badge  {{ $comment->status === 'approved' ? 'bg-success' : 'bg-warning' }}">{{ $comment->status }}</span>
                                 </td>
@@ -41,9 +63,6 @@
                                             class="far {{ $comment->status === 'approved' ? 'fa-circle-xmark' : 'fa-square-check' }}"></i>
 
                                     </a>
-                                    {{-- <a href="" class="action_icon" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a> --}}
                                     <form action="{{ route('fundraiser.comment.delete', $comment->id) }}" method="POST"
                                         class="d-inline" style="cursor: pointer">
                                         @csrf
@@ -54,30 +73,34 @@
                                     </form>
                                 </td>
                             </tr>
-                            @foreach ($comment->replies as $key => $comment)
+                            @foreach ($comment->replies as $key => $replie)
                                 <tr>
-                                    <td> </td>
-                                    <td width="50%">
-                                        {{ $comment->comment }}
+                                    <td>{{ $replie->name }} <br> {{ $replie->email }} </td>
+                                    <td>{{ Str::limit($comment->fundraiserpost->title, 20, '...') }}
                                     </td>
-                                    <td>{{ $comment->created_at->format('M d, Y') }}</td>
+                                    <td>
+                                        <p style="font-size: 12px">In reply to: <strong>{{ $comment->name }}</strong></p>
+                                        {{ $replie->comment }}
+                                        <br>
+                                        <p style="font-size: 12px">{{ $replie->created_at->format('M d, Y') }}</p>
+                                    </td>
                                     <td><span
-                                            class="badge  {{ $comment->status === 'approved' ? 'bg-success' : 'bg-warning' }}">{{ $comment->status }}</span>
+                                            class="badge  {{ $replie->status === 'approved' ? 'bg-success' : 'bg-warning' }}">{{ $replie->status }}</span>
                                     </td>
                                     <td align="right">
 
-                                        <a href="{{ route('fundraiser.comment.status.update', $comment->id) }}"
+                                        <a href="{{ route('fundraiser.comment.status.update', $replie->id) }}"
                                             class="action_icon"
-                                            title="{{ $comment->status === 'approved' ? 'Unapproved' : 'Approved' }}">
+                                            title="{{ $replie->status === 'approved' ? 'Unapproved' : 'Approved' }}">
                                             <i
-                                                class="far {{ $comment->status === 'approved' ? 'fa-circle-xmark' : 'fa-square-check' }}"></i>
+                                                class="far {{ $replie->status === 'approved' ? 'fa-circle-xmark' : 'fa-square-check' }}"></i>
 
                                         </a>
                                         {{-- <a href="" class="action_icon" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a> --}}
-                                        <form action="{{ route('fundraiser.comment.delete', $comment->id) }}"
-                                            method="POST" class="d-inline" style="cursor: pointer">
+                                        <form action="{{ route('fundraiser.comment.delete', $replie->id) }}" method="POST"
+                                            class="d-inline" style="cursor: pointer">
                                             @csrf
                                             @method('DELETE')
                                             <p class="action_icon delete post_delete" title="Delete">
@@ -99,14 +122,18 @@
 
                     </tbody>
                 </table>
+                <div>
+                    {{ $comments->links() }}
+                </div>
             </div>
+
 
         </div>
     </div>
 
     <!-- Modal -->
     <div class="modal fade" id="replayModal">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="replayTitle">Reply</h1>
@@ -127,9 +154,13 @@
     </div>
 @endsection
 
+@section('style')
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+@endsection
 @section('script')
-
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
+        $('.select2').select2();
         $(function($) {
 
             $('.replay_btn').on('click', function() {
@@ -155,5 +186,4 @@
             })
         });
     </script>
-
 @endsection

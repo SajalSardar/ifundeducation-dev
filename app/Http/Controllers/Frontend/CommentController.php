@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\FundraiserPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,13 +14,19 @@ class CommentController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
 
-        $comments = Comment::where( 'parent_id', NULL )->whereHas( 'fundraiserpost', function ( $q ) {
-            $q->where( 'user_id', auth()->user()->id );
-        } )->orderBy( 'created_at', 'desc' )->get();
+        $fundposts = FundraiserPost::select('id', 'title')->where('user_id', Auth::id())->get();
+        $query     = Comment::query();
 
-        return view( 'frontend.comment.index', compact( 'comments' ) );
+        if (!empty($request->title)) {
+            $query->where('fundraiser_post_id', $request->title);
+        }
+        $comments = $query->with('fundraiserpost')->where('parent_id', NULL)->whereHas('fundraiserpost', function ($q) {
+            $q->where('user_id', auth()->user()->id);
+        })->orderBy('created_at', 'desc')->paginate(5)->withQuerystring();
+
+        return view('frontend.comment.index', compact('comments', 'fundposts'));
     }
 
     /**
@@ -28,28 +35,28 @@ class CommentController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store( Request $request ) {
-        if ( !Auth::check() ) {
-            $request->validate( [
+    public function store(Request $request) {
+        if (!Auth::check()) {
+            $request->validate([
                 'name'    => 'required',
                 'email'   => 'required',
                 'comment' => 'required|max:300',
-            ] );
+            ]);
 
         } else {
-            $request->validate( [
+            $request->validate([
                 'comment' => 'required|max:300',
-            ] );
+            ]);
         }
 
-        Comment::create( [
+        Comment::create([
             'fundraiser_post_id' => $request->post_id,
             'user_id'            => auth()->user()->id ?? null,
             'name'               => auth()->user()->first_name ?? $request->name,
             'email'              => auth()->user()->email ?? $request->email,
             'comment'            => $request->comment,
-        ] );
-        return back()->with( 'success', 'Comment Successfull!' );
+        ]);
+        return back()->with('success', 'Comment Successfull!');
     }
 
     /**
@@ -58,7 +65,7 @@ class CommentController extends Controller {
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit( Comment $comment ) {
+    public function edit(Comment $comment) {
         //
     }
 
@@ -69,7 +76,7 @@ class CommentController extends Controller {
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update( Request $request, Comment $comment ) {
+    public function update(Request $request, Comment $comment) {
         //
     }
 
@@ -79,9 +86,9 @@ class CommentController extends Controller {
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy( Comment $comment ) {
+    public function destroy(Comment $comment) {
         $comment->delete();
-        return back()->with( 'success', 'Status Delete Successfull!' );
+        return back()->with('success', 'Status Delete Successfull!');
     }
 
     /**
@@ -89,18 +96,18 @@ class CommentController extends Controller {
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function statusUpdate( Comment $comment ) {
-        if ( $comment->status == 'approved' ) {
-            $comment->update( [
+    public function statusUpdate(Comment $comment) {
+        if ($comment->status == 'approved') {
+            $comment->update([
                 'status' => 'unapproved',
-            ] );
+            ]);
         } else {
-            $comment->update( [
+            $comment->update([
                 'status' => 'approved',
-            ] );
+            ]);
         }
 
-        return back()->with( 'success', 'Status Update Successfull!' );
+        return back()->with('success', 'Status Update Successfull!');
 
     }
 
@@ -109,17 +116,17 @@ class CommentController extends Controller {
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function replay( Request $request ) {
+    public function replay(Request $request) {
 
-        $post       = Comment::find( $request->id );
-        $user_posts = auth()->user()->fundraiser_post->pluck( 'id' );
+        $post       = Comment::find($request->id);
+        $user_posts = auth()->user()->fundraiser_post->pluck('id');
 
-        if ( !in_array( $post->fundraiser_post_id, $user_posts->toArray() ) ) {
-            return back()->with( 'error', "Invalid Input!" );
+        if (!in_array($post->fundraiser_post_id, $user_posts->toArray())) {
+            return back()->with('error', "Invalid Input!");
         }
 
-        if ( $request->replay ) {
-            Comment::create( [
+        if ($request->replay) {
+            Comment::create([
                 'name'               => auth()->user()->first_name,
                 'email'              => auth()->user()->email,
                 'user_id'            => auth()->user()->id,
@@ -127,11 +134,11 @@ class CommentController extends Controller {
                 'parent_id'          => $request->id,
                 'comment'            => $request->replay,
                 'status'             => 'approved',
-            ] );
+            ]);
 
-            return back()->with( 'success', 'Comments Replay Successfull!' );
+            return back()->with('success', 'Comments Replay Successfull!');
         } else {
-            return back()->with( 'info', 'Enter Valid Input' );
+            return back()->with('info', 'Enter Valid Input');
         }
 
     }

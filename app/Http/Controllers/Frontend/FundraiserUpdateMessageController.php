@@ -24,7 +24,7 @@ class FundraiserUpdateMessageController extends Controller {
     }
 
     public function listDataTable(Request $request) {
-        $messages = FundraiserUpdateMessage::with('fundraiserpost:id,title,user_id')->where('user_id', auth()->user()->id)->orderBy('updated_at', 'desc');
+        $messages = FundraiserUpdateMessage::with('fundraiserpost:id,title,user_id')->where('user_id', auth()->user()->id);
 
         if ($request->all()) {
             $messages->where(function ($query) use ($request) {
@@ -51,6 +51,9 @@ class FundraiserUpdateMessageController extends Controller {
             })
             ->editColumn('created_at', function ($messages) {
                 return $messages->created_at->isoFormat('D MMM, YYYY');
+            })
+            ->editColumn('updated_at', function ($messages) {
+                return $messages->updated_at->isoFormat('D MMM, YYYY');
             })
             ->addColumn('action', function ($messages) {
                 return '<div class="text-end"><a href="' . route('fundraiser.post.message.edit', $messages->id) . '"

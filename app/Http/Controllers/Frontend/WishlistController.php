@@ -22,7 +22,7 @@ class WishlistController extends Controller {
     }
 
     public function listDataTable(Request $request, Avatar $av) {
-        $wishlists = Wishlist::with('fundraiser_post:id,title,slug,image')->where('user_id', auth()->user()->id)->orderBy('id', 'desc');
+        $wishlists = Wishlist::with('fundraiser_post:id,title,slug,image')->where('user_id', auth()->user()->id);
 
         if ($request->all()) {
             $wishlists->where(function ($query) use ($request) {

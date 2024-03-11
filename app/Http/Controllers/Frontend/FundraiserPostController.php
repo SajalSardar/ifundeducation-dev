@@ -56,7 +56,7 @@ class FundraiserPostController extends Controller {
                 return '$' . number_format($posts->goal, 2);
             })
             ->editColumn('end_date', function ($posts) {
-                return $posts->end_date->isoFormat('D MMM YYYY');
+                return $posts->end_date->format('M d, Y');
             })
             ->editColumn('status', function ($posts) {
                 $statusui = $posts->status == 'running' ? 'success' : ($posts->status == 'pending' ? 'warning' : 'danger');
@@ -64,7 +64,7 @@ class FundraiserPostController extends Controller {
                 return $status;
             })
             ->editColumn('created_at', function ($posts) {
-                return $posts->created_at->isoFormat('D MMM YYYY');
+                return $posts->created_at->format('M d, Y');
             })
             ->addColumn('action_column', function ($posts) {
                 $links = '';

@@ -33,6 +33,7 @@
                             <th>#</th>
                             <th>Fundraiser Title</th>
                             <th>Message</th>
+                            <th>Created At</th>
                             <th>Updated At</th>
                             <th style="text-align: right">Action</th>
                         </tr>
@@ -121,6 +122,7 @@
                     {
                         data: 'title',
                         name: 'title',
+                        orderable: false
                     },
                     {
                         data: 'message',
@@ -129,6 +131,10 @@
                     {
                         data: 'created_at',
                         name: 'created_at'
+                    },
+                    {
+                        data: 'updated_at',
+                        name: 'updated_at'
                     },
                     {
                         data: 'action',

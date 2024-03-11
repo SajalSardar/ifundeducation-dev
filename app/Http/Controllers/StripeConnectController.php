@@ -48,7 +48,7 @@ class StripeConnectController extends Controller {
     }
 
     public function listDataTable(Request $request) {
-        $payoutRequestall = Payout::where('user_id', Auth::id())->orderBy('id', 'desc');
+        $payoutRequestall = Payout::where('user_id', Auth::id());
 
         if ($request->all()) {
             $payoutRequestall->where(function ($query) use ($request) {
@@ -76,7 +76,7 @@ class StripeConnectController extends Controller {
                 return '<span class="badge bg-' . $status . '">' . Str::ucfirst($payoutRequestall->status) . '</span>';
             })
             ->editColumn('created_at', function ($wishlists) {
-                return $wishlists->created_at->isoFormat('D MMM YYYY');
+                return $wishlists->created_at->format('M d, Y');
             })
             ->addIndexColumn()
             ->escapeColumns([])

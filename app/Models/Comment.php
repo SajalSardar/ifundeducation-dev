@@ -16,10 +16,13 @@ class Comment extends Model {
     protected $guarded = ['id'];
 
     public function replies() {
-        return $this->hasMany( Comment::class, 'parent_id' )->whereNotNull( 'parent_id' );
+        return $this->hasMany(Comment::class, 'parent_id')->whereNotNull('parent_id');
     }
 
     public function fundraiserpost() {
-        return $this->belongsTo( FundraiserPost::class, 'fundraiser_post_id' );
+        return $this->belongsTo(FundraiserPost::class, 'fundraiser_post_id');
+    }
+    public function author() {
+        return $this->hasOne(User::class);
     }
 }
