@@ -7,71 +7,20 @@
         <div class="account_content_area">
             <h3>My Fundraisers</h3>
             <div class="account_content_area_form table-responsive">
-                <table class="table">
+                <table class="table" id="data-table">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Title</th>
                             <th>Category</th>
                             <th>Target</th>
+                            <th>Start Date</th>
                             <th>End Date</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse  ($posts as $post)
-                            <tr>
-                                <td>{{ $post->id }}</td>
-                                <td>{{ Str::limit($post->title, 20, '...') }}</td>
-                                <td>
-                                    @foreach ($post->fundraisercategories as $categoty)
-                                        <span class="badge bg-success">{{ $categoty->name }}</span>
-                                    @endforeach
-                                </td>
-                                {{-- <td>{{ money_format('%.2n', $post->goal) }}</td> --}}
-                                <td>${{ number_format($post->goal, 2) }}</td>
-                                <td>{{ $post->end_date->isoFormat('D MMM YYYY') }}</td>
-                                <td>
-                                    <span
-                                        class="badge bg-{{ $post->status == 'running' ? 'success' : ($post->status == 'pending' ? 'warning' : 'danger') }}">{{ Str::ucfirst($post->status) }}</span>
-                                </td>
-                                <td>
-
-                                    @if ($post->status == 'stop')
-                                        <a href="{{ route('fundraiser.post.running', $post->id) }}" title="Restart"
-                                            class="action_icon running_campaign">
-                                            <i class="fa-regular fa-circle-play"></i></a>
-                                    @else
-                                        <a href="{{ route('fundraiser.post.stop', $post->id) }}" title="Stop"
-                                            class="action_icon stop_campaign"> <i class="fa-regular fa-circle-stop"></i></a>
-                                    @endif
-
-                                    <a href="{{ route('fundraiser.post.show', $post->id) }}" class="action_icon"
-                                        title="View">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('fundraiser.post.edit', $post->id) }}" class="action_icon"
-                                        title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('fundraiser.post.delete', $post->id) }}" method="POST"
-                                        class="d-inline" style="cursor: pointer">
-                                        @csrf
-                                        @method('DELETE')
-                                        <p class="action_icon delete post_delete" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </p>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6">
-                                    <p>No Post Found!</p>
-                                </td>
-                            </tr>
-                        @endforelse
 
                     </tbody>
                 </table>
@@ -84,6 +33,55 @@
 @section('script')
     <script>
         $(function($) {
+
+            var dTable = $('#data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                ajax: {
+                    url: '{{ route('fundraiser.post.datatable') }}',
+
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'id'
+                    },
+                    {
+                        data: 'title',
+                        name: 'title'
+                    },
+                    {
+                        data: 'category',
+                        name: 'category'
+                    },
+                    {
+                        data: 'goal',
+                        name: 'goal',
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'end_date',
+                        name: 'end_date'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                    },
+                    {
+                        data: 'action_column',
+                        name: 'action_column'
+                    }
+                ]
+            });
+            // $('#filterForm').on('submit', function(e) {
+            //     dTable.draw();
+            //     e.preventDefault();
+            // });
+
+
             $('.running_campaign').on('click', function(e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
@@ -119,7 +117,7 @@
                 });
             })
 
-            $('.post_delete').on('click', function() {
+            $(document).on('click', '.post_delete', function() {
                 Swal.fire({
                     title: 'Are you sure?',
                     icon: 'question',

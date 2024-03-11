@@ -11,6 +11,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class DonateController extends Controller {
 
@@ -20,13 +21,48 @@ class DonateController extends Controller {
         // $all_donars = $user->all_donars()->orderBy('id', 'desc')->paginate(10);
         // return $all_donars;
 
-        // $all_donars = FundraiserPost::with('donates')->select('id', 'title')->where('user_id', Auth::id())->paginate(10);
+        $fundposts = FundraiserPost::select('id', 'title')->where('user_id', Auth::id())->get();
+
+        return view('frontend.donate.index', compact('fundposts'));
+    }
+    public function listDataTabel(Request $request) {
         $all_donars = Donate::join('fundraiser_posts', 'fundraiser_posts.id', 'donates.fundraiser_post_id')
             ->select('donates.*', 'fundraiser_posts.title', 'fundraiser_posts.user_id')
-            ->where('fundraiser_posts.user_id', Auth::id())
-            ->paginate(10);
+            ->where('fundraiser_posts.user_id', Auth::id());
 
-        return view('frontend.donate.index', compact('all_donars'));
+        if ($request->all()) {
+            $all_donars->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('donates.fundraiser_post_id', '=', $request->title);
+                }
+                if ($request->donorname) {
+
+                    $query->where('donates.donar_name', 'like', "%$request->donorname%");
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('donates.created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('donates.created_at', '<=', $to_date);
+                }
+            });
+        }
+        return DataTables::of($all_donars)
+
+            ->editColumn('amount', function ($all_donars) {
+                return '$' . number_format($all_donars->amount, 2);
+            })
+            ->editColumn('created_at', function ($all_donars) {
+                return $all_donars->created_at->isoFormat('D MMM YYYY');
+            })
+            ->editColumn('donor', function ($all_donars) {
+                return $all_donars->display_publicly === 'yes' ? $all_donars->donar_name : 'Guest';
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function create($slug) {

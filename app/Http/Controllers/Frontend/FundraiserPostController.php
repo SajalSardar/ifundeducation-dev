@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Yajra\DataTables\Facades\DataTables;
 
 class FundraiserPostController extends Controller {
     /**
@@ -18,10 +19,64 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $posts = FundraiserPost::with('fundraisercategories')->where('user_id', auth()->user()->id)->with('fundraisercategories')->paginate(30);
-        return view('frontend.fundraiser_post.index', compact('posts'));
-    }
 
+        return view('frontend.fundraiser_post.index');
+    }
+    public function postDataTable() {
+        $posts = FundraiserPost::with('fundraisercategories')->where('user_id', auth()->user()->id);
+
+        return DataTables::of($posts)
+
+            ->addColumn('category', function ($posts) {
+                foreach ($posts->fundraisercategories as $categoty) {
+                    return '<span class="badge bg-success">' . $categoty->name . '</span>';
+                }
+
+            })
+            ->editColumn('goal', function ($posts) {
+                return '$' . number_format($posts->goal, 2);
+            })
+            ->editColumn('end_date', function ($posts) {
+                return $posts->end_date->isoFormat('D MMM YYYY');
+            })
+            ->editColumn('status', function ($posts) {
+                $statusui = $posts->status == 'running' ? 'success' : ($posts->status == 'pending' ? 'warning' : 'danger');
+                $status   = '<span class="badge bg-' . $statusui . '">' . Str::ucfirst($posts->status) . '</span>';
+                return $status;
+            })
+            ->editColumn('created_at', function ($posts) {
+                return $posts->created_at->isoFormat('D MMM YYYY');
+            })
+            ->addColumn('action_column', function ($posts) {
+                $links = '';
+                if ($posts->status == 'stop') {
+                    $links = '<a href="' . route('fundraiser.post.running', $posts->id) . '" title="Restart"
+                    class="action_icon running_campaign">
+                    <i class="fa-regular fa-circle-play"></i></a>';
+                } else {
+                    $links = '<a href="' . route('fundraiser.post.stop', $posts->id) . '" title="Stop"
+                    class="action_icon stop_campaign"> <i class="fa-regular fa-circle-stop"></i></a>';
+                }
+
+                $links = '<a href="' . route('fundraiser.post.show', $posts->id) . '" class="action_icon"
+                title="View">
+                <i class="fas fa-eye"></i></a><a href="' . route('fundraiser.post.edit', $posts->id) . '" class="action_icon"
+                title="Edit"> <i class="fas fa-edit"></i></a>
+                <form action="' . route('fundraiser.post.delete', $posts->id) . '" method="POST"
+                class="d-inline" style="cursor: pointer">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <p class="action_icon delete post_delete" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </p>
+                </form>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
     /**
      * Show the form for creating a new resource.
      *

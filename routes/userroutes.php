@@ -72,6 +72,7 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::get('/show/{fundraiserpost}', 'show')->name('show');
         Route::get('/stop/campaign/{fundraiserpost}', 'stopRunning')->name('stop');
         Route::get('/running/campaign/{fundraiserpost}', 'stopRunning')->name('running');
+        Route::get('/post-datatable', 'postDataTable')->name('datatable');
     });
 
     Route::controller(UserProfileController::class)->prefix('user/profile')->name('user.profile.')->group(function () {
@@ -95,6 +96,7 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
     });
     Route::controller(DonateController::class)->group(function () {
         Route::get('all/donation/list', 'index')->name('donate.index');
+        Route::get('donation-list-datatable', 'listDataTabel')->name('donate.index.datatable');
 
     });
 

@@ -23,7 +23,7 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                       
+
                         <div class="mb-3">
                             <div class="input-group">
                                 <div class="form-floating">
@@ -52,9 +52,9 @@
                         <button type="submit">Login</button>
 
                     </form>
-                    <a href="{{ route('social.google.redirect') }}" class="link_button"> <i class="fab fa-google"></i>
+                    {{-- <a href="{{ route('social.google.redirect') }}" class="link_button"> <i class="fab fa-google"></i>
                         Login With
-                        Google</a>
+                        Google</a> --}}
                     <p class="text-center mb-2 ">Don't have an Account? <a href="{{ route('register') }}">Sign
                             Up</a></p>
                 </div>
