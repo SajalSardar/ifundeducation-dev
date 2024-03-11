@@ -12,9 +12,11 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 use Stripe\Account;
 use Stripe\Balance;
 use Stripe\Stripe;
+use Yajra\DataTables\Facades\DataTables;
 
 class StripeConnectController extends Controller {
     public function index() {
@@ -40,10 +42,45 @@ class StripeConnectController extends Controller {
         $balance            = Auth::user()->load('balance');
         $payoutAttemptCount = PayoutEmailVerification::where('user_id', Auth::id())->whereDate('created_at', '=', Carbon::today()->toDateString())->orderBy('id', 'desc')->take(3)->count();
 
-        $payoutRequest    = Payout::where('user_id', Auth::id())->where('status', 'processing')->count();
-        $payoutRequestall = Payout::where('user_id', Auth::id())->orderBy('id', 'desc')->paginate(25);
+        $payoutRequest = Payout::where('user_id', Auth::id())->where('status', 'processing')->count();
 
-        return view('withdrawals.index', compact('balance', 'stripeAccount', 'payoutAttemptCount', 'payoutRequest', 'payoutRequestall'));
+        return view('withdrawals.index', compact('balance', 'stripeAccount', 'payoutAttemptCount', 'payoutRequest'));
+    }
+
+    public function listDataTable(Request $request) {
+        $payoutRequestall = Payout::where('user_id', Auth::id())->orderBy('id', 'desc');
+
+        if ($request->all()) {
+            $payoutRequestall->where(function ($query) use ($request) {
+                if ($request->status) {
+                    $query->where('status', '=', $request->status);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('created_at', '<=', $to_date);
+                }
+            });
+        }
+
+        return DataTables::of($payoutRequestall)
+
+            ->editColumn('amount', function ($payoutRequestall) {
+                return '$' . number_format($payoutRequestall->amount, 2);
+            })
+            ->editColumn('status', function ($payoutRequestall) {
+                $status = $payoutRequestall->status == 'transfer' ? 'success' : 'warning';
+                return '<span class="badge bg-' . $status . '">' . Str::ucfirst($payoutRequestall->status) . '</span>';
+            })
+            ->editColumn('created_at', function ($wishlists) {
+                return $wishlists->created_at->isoFormat('D MMM YYYY');
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function stripeConnectAccount() {

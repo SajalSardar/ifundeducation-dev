@@ -103,6 +103,7 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
 
     Route::controller(StripeConnectController::class)->group(function () {
         Route::get('withdrawals', 'index')->name('withdrawals.index');
+        Route::get('withdrawal-datatable', 'listDataTable')->name('withdrawals.index.datatable');
         Route::get('stripe/account', 'stripeConnectAccount')->name('withdrawals.stripe.account');
         Route::get('stripe/account/login', 'stripeConnectLogin')->name('withdrawals.stripe.login');
         Route::post('payout/verify', 'verifyPayoutEmail')->name('withdrawals.verify');

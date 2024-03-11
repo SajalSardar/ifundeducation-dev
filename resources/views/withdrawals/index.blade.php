@@ -70,7 +70,24 @@
                 <div class="account_content_area">
                     <h3>Payout History</h3>
                     <div class="account_content_area_form">
-                        <table class="table">
+                        <form action="" method="GET" id="filterForm">
+                            <div class="input-group">
+                                <select class="form-select" name="status">
+                                    <option selected value="">All status</option>
+                                    <option value="transfer">Transfer</option>
+                                    <option value="processing">Processing</option>
+                                </select>
+                                <input type="date" class="form-control" name="fromdate">
+                                <div class="border">
+                                    <label class="form-label  px-2 mb-0 pt-2">to</label>
+                                </div>
+                                <input type="date" class="form-control" name="todate">
+                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="account_content_area_form table-responsive">
+                        <table class="table" id="data-table">
                             <thead>
                                 <tr class="table-dark">
                                     <th>SL</th>
@@ -80,28 +97,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($payoutRequestall as $payout)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>${{ number_format($payout->amount, 2) }}</td>
-                                        <td><span
-                                                class="badge bg-{{ $payout->status == 'transfer' ? 'success' : 'warning' }}">{{ Str::ucfirst($payout->status) }}
-                                            </span>
-                                        </td>
-                                        <td>{{ $payout->created_at->format('d M Y') }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="3">
-                                            <div class="alert alert-info">Payout not found!</div>
-                                        </td>
-                                    </tr>
-                                @endforelse
+
                             </tbody>
                         </table>
-                        <div class="mt-3">
-                            {{ $payoutRequestall->links() }}
-                        </div>
                     </div>
                 </div>
             </div>
@@ -144,5 +142,50 @@
                 myModal.show();
             });
         </script> --}}
+
+@endsection
+@section('script')
+
+    <script>
+        $(function($) {
+
+            var dTable = $('#data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                ajax: {
+                    url: '{{ route('withdrawals.index.datatable') }}',
+                    type: "GET",
+                    data: function(d) {
+                        d._token = "{{ csrf_token() }}";
+                        d.status = $('select[name=status]').val();
+                        d.fromdate = $('input[name=fromdate]').val();
+                        d.todate = $('input[name=todate]').val();
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'id'
+                    },
+                    {
+                        data: 'amount',
+                        name: 'amount',
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    }
+                ]
+            });
+            $('#filterForm').on('submit', function(e) {
+                dTable.draw();
+                e.preventDefault();
+            });
+        });
+    </script>
 
 @endsection
