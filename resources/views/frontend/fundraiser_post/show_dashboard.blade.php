@@ -37,9 +37,9 @@
                         <td>{{ $fundraiserpost->shot_description }}</td>
                     </tr>
                     <tr>
-                        <td width="20%"><strong>Description</strong></td>
-                        <td width="3%">:</td>
-                        <td>{!! Str::limit($fundraiserpost->story, 200, '...') !!}</td>
+                        <td width="20%" valign="top"><strong>Description</strong></td>
+                        <td width="3%" valign="top">:</td>
+                        <td>{!! $fundraiserpost->story !!}</td>
                     </tr>
                     <tr>
                         <td width="20%"><strong>Date Created</strong></td>

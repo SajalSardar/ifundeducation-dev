@@ -14,6 +14,7 @@ class UserDashboardController extends Controller {
             ->groupBy('fundraiser_post_id')
             ->get()
             ->count();
+
         return view('frontend.dashboard.index', compact('donateTotal', 'donateFundraiserCount'));
     }
 
