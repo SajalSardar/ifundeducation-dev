@@ -17,7 +17,6 @@ class DonorController extends Controller {
             ->select('fundraiser_posts.id', DB::raw('MAX(fundraiser_posts.title) as title'))
             ->where('donar_id', Auth::id())->groupBy('fundraiser_posts.id')->get();
 
-        return $fundposts;
         return view('frontend.donor.index', compact('fundposts'));
     }
 
