@@ -30,7 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail {
         'email_verified_at',
         'stripe_account_id',
         'stripe_connect_id',
-        'status'
+        'status',
     ];
 
     /**
@@ -53,27 +53,30 @@ class User extends Authenticatable implements MustVerifyEmail {
     ];
 
     public function personal_profile() {
-        return $this->hasOne( UserPersonalProfile::class );
+        return $this->hasOne(UserPersonalProfile::class);
     }
 
     public function academic_profile() {
-        return $this->hasOne( AcademicProfile::class );
+        return $this->hasOne(AcademicProfile::class);
     }
 
     public function userSocial() {
-        return $this->hasOne( UserSocialProfile::class );
+        return $this->hasOne(UserSocialProfile::class);
     }
 
     public function balance() {
-        return $this->hasOne( FundraiserBalance::class );
+        return $this->hasOne(FundraiserBalance::class);
     }
 
     public function fundraiser_post() {
-        return $this->hasMany( FundraiserPost::class );
+        return $this->hasMany(FundraiserPost::class);
     }
 
     public function all_donars() {
-        return $this->hasManyThrough( Donate::class, FundraiserPost::class );
+        return $this->hasManyThrough(Donate::class, FundraiserPost::class);
+    }
+    public function donates() {
+        return $this->hasMany(Donate::class, 'donar_id', 'id');
     }
 
 }

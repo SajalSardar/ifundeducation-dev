@@ -36,6 +36,26 @@
                         </div>
                     </div>
                 @endhasrole
+                @hasrole('donor')
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="count_box">
+                            <div class="user_icon">
+                                <i class="fas fa-money-bill-trend-up"></i>
+                            </div>
+                            <h4>Total Donate</h4>
+                            <p>${{ $donateTotal ? number_format($donateTotal, 2) : '0' }}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="count_box">
+                            <div class="user_icon">
+                                <i class="fas fa-money-check "></i>
+                            </div>
+                            <h4>Total Donate Fundraiser</h4>
+                            <p>{{ $donateFundraiserCount ?? '0' }}</p>
+                        </div>
+                    </div>
+                @endhasrole
 
                 {{-- <div class="col-lg-4 col-sm-6">
                 <div class="count_box">

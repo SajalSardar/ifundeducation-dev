@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\DonateController;
+use App\Http\Controllers\Frontend\DonorController;
 use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\FundraiserPostController;
 use App\Http\Controllers\Frontend\FundraiserUpdateMessageController;
@@ -125,5 +126,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/make/role/donor', 'makeDonor')->name('role.donor');
         Route::get('/make/role/fundraiser', 'makeFundraiser')->name('role.fundraiser');
     });
+
+});
+
+Route::middleware(['auth', 'verified', 'userStatus', 'role:donor'])->prefix('donor')->name('donor.')->group(function () {
+    Route::get('/donate-list', [DonorController::class, 'donateList'])->name('index');
+    Route::get('/donate-list-datatable', [DonorController::class, 'listDataTabel'])->name('index.datatable');
 
 });

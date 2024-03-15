@@ -82,7 +82,7 @@
                                         <a href="{{ route('dashboard.index') }}" target="_blank">Dashboard</a>
                                     </li>
                                 @endrole
-                                @role('donar|fundraiser')
+                                @role('donor|fundraiser')
                                     <li>
                                         <a href="{{ route('user.dashboard.index') }}">Dashboard</a>
                                     </li>

@@ -51,8 +51,8 @@ class DonateController extends Controller {
         }
         return DataTables::of($all_donars)
 
-            ->editColumn('amount', function ($all_donars) {
-                return '$' . number_format($all_donars->amount, 2);
+            ->editColumn('net_balance', function ($all_donars) {
+                return '$' . number_format($all_donars->net_balance, 2);
             })
             ->editColumn('created_at', function ($all_donars) {
                 return $all_donars->created_at->format('M d, Y');

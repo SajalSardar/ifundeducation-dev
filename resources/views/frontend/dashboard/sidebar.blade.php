@@ -32,6 +32,13 @@
                 </li>
             @endrole
 
+            @role('donor')
+                <li class="{{ request()->routeIs('donor.*') ? 'active' : '' }}">
+                    <a href="{{ route('donor.index') }}">
+                        <i class="fas fa-money-bill-trend-up"></i>Total Donate</a>
+                </li>
+            @endrole
+
             <li class="{{ request()->routeIs('wishlist.index') ? 'active' : '' }}">
                 <a href="{{ route('wishlist.index') }}"><i class="fas fa-heart"></i>Saved Fundraisers</a>
             </li>
