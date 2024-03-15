@@ -14,7 +14,7 @@ class DonorController extends Controller {
     public function donateList() {
         $fundposts = FundraiserPost::join('donates', 'donates.fundraiser_post_id', 'fundraiser_posts.id')
             ->select('fundraiser_posts.id', 'fundraiser_posts.title')
-            ->where('donar_id', Auth::id())->groupBy('fundraiser_posts.id')->get();
+            ->where('donar_id', Auth::id())->get();
 
         return view('frontend.donor.index', compact('fundposts'));
     }
