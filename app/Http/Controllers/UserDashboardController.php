@@ -9,7 +9,11 @@ class UserDashboardController extends Controller {
     public function index() {
         $donateTotal = Donate::where('donar_id', Auth::id())->sum('amount');
 
-        $donateFundraiserCount = Donate::where('donar_id', Auth::id())->groupBy('fundraiser_post_id')->count();
+        $donateFundraiserCount = Donate::select('fundraiser_post_id')
+            ->where('donar_id', Auth::id())
+            ->groupBy('fundraiser_post_id')
+            ->get()
+            ->count();
         return view('frontend.dashboard.index', compact('donateTotal', 'donateFundraiserCount'));
     }
 
