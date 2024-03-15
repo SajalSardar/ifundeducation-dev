@@ -392,6 +392,7 @@ h5 {
     border-radius: 3px;
     transition: .4s;
     -webkit-transition: .4s;
+    font-size: 14px;
 }
 
 #fundraisers .section_header a:hover {
@@ -429,6 +430,9 @@ h5 {
     transition: .4s;
     -webkit-transition: .4s;
     display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  white-space: nowrap;
 }
 
 .fundraisers_card h3 a:hover {
@@ -466,6 +470,14 @@ h5 {
 
 .fundraisers_card p {
     margin-top: 15px;
+   
+}
+.fundraisers_card_card p{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    height: 52px;
 }
 
 .fundraisers_card_bottom {
@@ -483,7 +495,7 @@ h5 {
 .fundraisers_card_bottom li:after {
     content: '';
     position: absolute;
-    height: 10px;
+    height: 15px;
     width: 2px;
     background-color: var(--tertiary-color);
     right: -2px;

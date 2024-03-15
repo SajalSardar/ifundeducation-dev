@@ -64,7 +64,7 @@
             <div class="row">
                 @foreach ($fundRaiserPosts as $fundRaiserPost)
                     <div class="col-lg-4 col-md-6">
-                        <div class="fundraisers_card">
+                        <div class="fundraisers_card fundraisers_card_card">
                             <div class="save_btn">
                                 <form action="{{ route('wishlist.store') }}" method="POST">
                                     @csrf
