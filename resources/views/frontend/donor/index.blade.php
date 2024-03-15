@@ -10,8 +10,8 @@
                     <div class="input-group">
                         <select class="form-select select2" name="title">
                             <option selected value="">All Fundraiser</option>
-                            @foreach ($fundposts as $fundpost)
-                                <option value="{{ $fundpost->id }}">{{ $fundpost->title }}</option>
+                            @foreach (@$fundposts as $fundpost)
+                                <option value="{{ @$fundpost->id }}">{{ @$fundpost->title }}</option>
                             @endforeach
                         </select>
                         <input type="date" class="form-control" name="fromdate">
