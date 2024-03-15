@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Donate;
-use App\Models\FundraiserPost;
 use Illuminate\Http\Request;
+use App\Models\FundraiserPost;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -13,7 +14,7 @@ class DonorController extends Controller {
 
     public function donateList() {
         $fundposts = FundraiserPost::join('donates', 'donates.fundraiser_post_id', 'fundraiser_posts.id')
-            ->select('fundraiser_posts.id', 'fundraiser_posts.title')
+            ->select('fundraiser_posts.id', DB::raw('MAX(fundraiser_posts.title) as title'))
             ->where('donar_id', Auth::id())->groupBy('fundraiser_posts.id')->get();
         return view('frontend.donor.index', compact('fundposts'));
     }
