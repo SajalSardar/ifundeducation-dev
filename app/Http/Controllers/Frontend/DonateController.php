@@ -55,7 +55,7 @@ class DonateController extends Controller {
                 return '$' . number_format($all_donars->amount, 2);
             })
             ->editColumn('created_at', function ($all_donars) {
-                return $all_donars->created_at->isoFormat('D MMM YYYY');
+                return $all_donars->created_at->format('M d, Y');
             })
             ->editColumn('donor', function ($all_donars) {
                 return $all_donars->display_publicly === 'yes' ? $all_donars->donar_name : 'Guest';

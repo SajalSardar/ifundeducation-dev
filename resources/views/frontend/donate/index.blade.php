@@ -56,6 +56,9 @@
                 serverSide: true,
                 responsive: true,
                 searching: false,
+                order: [
+                    [3, 'desc']
+                ],
                 ajax: {
                     url: '{{ route('donate.index.datatable') }}',
                     type: "GET",

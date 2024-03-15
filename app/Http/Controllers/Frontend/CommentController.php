@@ -22,6 +22,9 @@ class CommentController extends Controller {
         if (!empty($request->title)) {
             $query->where('fundraiser_post_id', $request->title);
         }
+        if (!empty($request->status)) {
+            $query->where('status', $request->status);
+        }
         $comments = $query->with('fundraiserpost')->where('parent_id', NULL)->whereHas('fundraiserpost', function ($q) {
             $q->where('user_id', auth()->user()->id);
         })->orderBy('created_at', 'desc')->paginate(5)->withQuerystring();

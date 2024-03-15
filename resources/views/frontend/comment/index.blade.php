@@ -6,23 +6,26 @@
         <div class="account_content_area">
             <h3>Comments</h3>
             <div class="account_content_area_form">
-                <div class="row">
-                    <div class="col-md-6">
-                        <form action="{{ route('fundraiser.comment.index') }}" method="GET">
-                            <div class="input-group">
-                                <select class="form-select select2" name="title">
-                                    <option selected value="">All Fundraiser</option>
-                                    @foreach ($fundposts as $fundpost)
-                                        <option value="{{ $fundpost->id }}"
-                                            {{ request()->title == $fundpost->id ? 'selected' : '' }}>{{ $fundpost->title }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <button class="btn btn-outline-secondary" type="submit">Search</button>
-                            </div>
-                        </form>
+                <form action="{{ route('fundraiser.comment.index') }}" method="GET">
+                    <div class="input-group">
+                        <select class="form-select select2" name="title">
+                            <option selected value="">All Fundraiser</option>
+                            @foreach ($fundposts as $fundpost)
+                                <option value="{{ $fundpost->id }}"
+                                    {{ request()->title == $fundpost->id ? 'selected' : '' }}>{{ $fundpost->title }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <select class="form-select" name="status">
+                            <option value="">All</option>
+                            <option value="approved" {{ request()->status == 'approved' ? 'selected' : '' }}>Approve
+                            </option>
+                            <option value="unapproved" {{ request()->status == 'unapproved' ? 'selected' : '' }}>Unapprove
+                            </option>
+                        </select>
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="account_content_area_form table-responsive">
                 <table class="table">

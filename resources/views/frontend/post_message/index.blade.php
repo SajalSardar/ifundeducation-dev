@@ -105,6 +105,9 @@
                 serverSide: true,
                 responsive: true,
                 searching: false,
+                order: [
+                    [4, 'desc']
+                ],
                 ajax: {
                     url: '{{ route('fundraiser.post.message.index.datatable') }}',
                     type: "GET",

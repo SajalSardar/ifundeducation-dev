@@ -50,10 +50,10 @@ class FundraiserUpdateMessageController extends Controller {
                 return Str::limit($messages->fundraiserpost->title, 20, '...');
             })
             ->editColumn('created_at', function ($messages) {
-                return $messages->created_at->isoFormat('D MMM, YYYY');
+                return $messages->created_at->format('M d, Y');
             })
             ->editColumn('updated_at', function ($messages) {
-                return $messages->updated_at->isoFormat('D MMM, YYYY');
+                return $messages->updated_at->format(' M d, Y');
             })
             ->addColumn('action', function ($messages) {
                 return '<div class="text-end"><a href="' . route('fundraiser.post.message.edit', $messages->id) . '"

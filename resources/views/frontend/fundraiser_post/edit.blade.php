@@ -23,7 +23,7 @@
                                 class="text-danger">*</span></label>
                         <textarea class="form-control @error('shot_description') is-invalid @enderror" id="shot_description"
                             name="shot_description" rows="5">{{ old('shot_description', $fundraiserpost->shot_description) }}</textarea>
-                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Minumum 100 & Maximum 150
+                        <p style="color: rgba(54, 76, 102, 0.7); font-size: 13px">Maximum 250
                             Character.
                         </p>
                         @error('shot_description')

@@ -57,7 +57,7 @@ class WishlistController extends Controller {
             })
 
             ->editColumn('created_at', function ($wishlists) {
-                return $wishlists->created_at->isoFormat('D MMM YYYY');
+                return $wishlists->created_at->format('M d, Y');
             })
             ->addColumn('action', function ($wishlists) {
                 return '<div class="text-end">

@@ -55,6 +55,9 @@
                 serverSide: true,
                 responsive: true,
                 searching: false,
+                order: [
+                    [3, 'desc']
+                ],
                 ajax: {
                     url: '{{ route('wishlist.datatable') }}',
                     type: "GET",

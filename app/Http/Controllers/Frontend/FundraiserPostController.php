@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Donate;
 use App\Models\FundraiserCategory;
 use App\Models\FundraiserPost;
+use App\Models\FundraiserUpdateMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -77,7 +79,7 @@ class FundraiserPostController extends Controller {
                     class="action_icon stop_campaign"> <i class="fa-regular fa-circle-stop"></i></a>';
                 }
 
-                $links = '<a href="' . route('fundraiser.post.show', $posts->id) . '" class="action_icon"
+                $links .= '<a href="' . route('fundraiser.post.show', $posts->id) . '" class="action_icon"
                 title="View">
                 <i class="fas fa-eye"></i></a><a href="' . route('fundraiser.post.edit', $posts->id) . '" class="action_icon"
                 title="Edit"> <i class="fas fa-edit"></i></a>
@@ -120,7 +122,7 @@ class FundraiserPostController extends Controller {
         $image = $request->file('image');
         $request->validate([
             'title'            => 'required|max:100',
-            'shot_description' => 'required|max:150',
+            'shot_description' => 'required|max:250',
             'goal'             => 'required|integer',
             'end_date'         => 'required|date',
             'image'            => 'nullable|mimes:png,jpg, webp|max:300',
@@ -176,14 +178,53 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(FundraiserPost $fundraiserpost) {
-        $singlePost = $fundraiserpost->load(['fundraiserupdatemessage' => function ($q) {
-            $q->orderBy('id', 'desc')->paginate(10);
-        }, 'comments' => function ($q) {
-            $q->orderBy('id', 'desc')->paginate(10);
-        }, 'donates' => function ($q) {
-            $q->orderBy('id', 'desc')->paginate(10);
-        }]);
-        return view('frontend.fundraiser_post.show_dashboard', compact('singlePost'));
+        return view('frontend.fundraiser_post.show_dashboard', compact('fundraiserpost'));
+    }
+
+    public function singleDonationDataTable(FundraiserPost $fundraiserpost) {
+
+        $singleDonates = Donate::where('fundraiser_post_id', $fundraiserpost->id);
+
+        return DataTables::of($singleDonates)
+
+            ->editColumn('net_balance', function ($singleDonates) {
+                return '$' . number_format($singleDonates->net_balance, 2);
+            })
+            ->editColumn('created_at', function ($singleDonates) {
+                return $singleDonates->created_at->format('M d, Y');
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
+    public function singleCommentsDataTable(FundraiserPost $fundraiserpost) {
+
+        $singleComments = Comment::where('fundraiser_post_id', $fundraiserpost->id);
+
+        return DataTables::of($singleComments)
+
+            ->editColumn('status', function ($singleComments) {
+                $statusbg = $singleComments->status == 'approved' ? 'success' : 'warning';
+                return '<span class="badge bg-' . $statusbg . '">' . $singleComments->status . '</span>';
+            })
+            ->editColumn('created_at', function ($singleComments) {
+                return $singleComments->created_at->format('M d, Y');
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
+    public function singleUpdatemessageDataTable(FundraiserPost $fundraiserpost) {
+
+        $singleUpdateMessage = FundraiserUpdateMessage::where('fundraiser_post_id', $fundraiserpost->id);
+
+        return DataTables::of($singleUpdateMessage)
+            ->editColumn('created_at', function ($singleUpdateMessage) {
+                return $singleUpdateMessage->created_at->format('M d, Y');
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
     }
 
     /**
@@ -209,7 +250,7 @@ class FundraiserPostController extends Controller {
         $image = $request->file('image');
         $request->validate([
             'title'            => 'required|max:100',
-            'shot_description' => 'required|min:100|max:150',
+            'shot_description' => 'required|min:100|max:250',
             'goal'             => 'required|integer',
             'end_date'         => 'required|date',
             'image'            => 'nullable|mimes:png,jpg, webp|max:300',
@@ -289,7 +330,7 @@ class FundraiserPostController extends Controller {
         }
     }
 
-    // Dashboard Campaign
+    // admin & super admin Campaign
 
     public function allCampaign() {
         $posts = FundraiserPost::get();

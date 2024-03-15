@@ -153,6 +153,9 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
+                order: [
+                    [3, 'desc']
+                ],
                 ajax: {
                     url: '{{ route('withdrawals.index.datatable') }}',
                     type: "GET",

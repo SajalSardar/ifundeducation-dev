@@ -64,7 +64,7 @@
                 serverSide: true,
                 responsive: true,
                 ajax: {
-                    url: '{{ route('fundraiser.post.datatable') }}',
+                    url: "{{ route('fundraiser.post.datatable') }}",
                     type: "GET",
                     data: function(d) {
                         d._token = "{{ csrf_token() }}";

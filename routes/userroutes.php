@@ -74,6 +74,9 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::get('/stop/campaign/{fundraiserpost}', 'stopRunning')->name('stop');
         Route::get('/running/campaign/{fundraiserpost}', 'stopRunning')->name('running');
         Route::get('/post-datatable', 'postDataTable')->name('datatable');
+        Route::get('/single-donation/{fundraiserpost}', 'singleDonationDataTable')->name('single.donation.datatable');
+        Route::get('/single-comments/{fundraiserpost}', 'singleCommentsDataTable')->name('single.comments.datatable');
+        Route::get('/single-updatemessage/{fundraiserpost}', 'singleUpdatemessageDataTable')->name('single.updatemessage.datatable');
     });
 
     Route::controller(UserProfileController::class)->prefix('user/profile')->name('user.profile.')->group(function () {
