@@ -38,7 +38,7 @@
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th style="text-align: right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>

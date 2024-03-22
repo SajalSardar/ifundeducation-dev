@@ -4,7 +4,7 @@
 @section('content')
     <div class="mb-5">
         <div class="account_content_area">
-            <h3>Update Fundraiser</h3>
+            <h3>Edit Fundraiser</h3>
             <form method="POST" action="{{ route('fundraiser.post.update', $fundraiserpost->id) }}"
                 class="account_content_area_form" enctype="multipart/form-data">
                 @csrf

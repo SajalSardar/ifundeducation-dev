@@ -70,13 +70,16 @@ class FundraiserPostController extends Controller {
             })
             ->addColumn('action_column', function ($posts) {
                 $links = '';
-                if ($posts->status == 'stop') {
-                    $links = '<a href="' . route('fundraiser.post.running', $posts->id) . '" title="Restart"
-                    class="action_icon running_campaign">
-                    <i class="fa-regular fa-circle-play"></i></a>';
-                } else {
-                    $links = '<a href="' . route('fundraiser.post.stop', $posts->id) . '" title="Stop"
-                    class="action_icon stop_campaign"> <i class="fa-regular fa-circle-stop"></i></a>';
+
+                if ($posts->status != 'pending' && $posts->status != 'block') {
+                    if ($posts->status == 'stop') {
+                        $links = '<a href="' . route('fundraiser.post.running', $posts->id) . '" title="Restart"
+                        class="action_icon running_campaign">
+                        <i class="fa-regular fa-circle-play"></i></a>';
+                    } else {
+                        $links = '<a href="' . route('fundraiser.post.stop', $posts->id) . '" title="Stop"
+                        class="action_icon stop_campaign"> <i class="fa-regular fa-circle-stop"></i></a>';
+                    }
                 }
 
                 $links .= '<a href="' . route('fundraiser.post.show', $posts->id) . '" class="action_icon"
