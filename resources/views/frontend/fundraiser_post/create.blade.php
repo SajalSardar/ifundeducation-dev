@@ -6,11 +6,12 @@
         <div class="account_content_area">
             <h3>Start a Fundraiser</h3>
             <form method="POST" action="{{ route('fundraiser.post.store') }}" class="account_content_area_form p-4 pb-5"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data" id="post_form">
                 @csrf
                 <div class="row">
                     <div class="col-12 mb-3">
-                        <label for="fund_title" class="form-label">Fundraiser Title:<span class="text-danger">*</span></label>
+                        <label for="fund_title" class="form-label">Fundraiser Title:<span
+                                class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('title') is-invalid @enderror" id="fund_title"
                             name="title" value="{{ old('title') }}">
                         @error('title')
@@ -101,7 +102,11 @@
                         @enderror
                     </div>
                     <div class="col-12">
-                        <button type="submit">Submit</button>
+                        <button type="submit"
+                            onclick="this.form.submit(); this.disabled=true; this.innerHTML='saveing…';">Publish</button>
+                        <input type="hidden" name="save_draft" id="draft_input">
+                        <button type="button" name="save_draft" id="draft_btn">Save to
+                            draft</button>
                     </div>
                 </div>
             </form>
@@ -116,6 +121,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
     <script>
+        $(document).on('click', '#draft_btn', function() {
+            $('#draft_input').val('draft');
+            $('#post_form').submit();
+            this.disabled = true;
+            this.innerHTML = 'saveing…';
+        });
+
         $('.select_2').select2();
         //editor
         ClassicEditor

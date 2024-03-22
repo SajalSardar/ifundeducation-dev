@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Donate;
 use App\Models\FundraiserCategory;
 use App\Models\FundraiserPost;
+use App\Models\FundraiserPostUpdate;
 use App\Models\FundraiserUpdateMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +62,7 @@ class FundraiserPostController extends Controller {
                 return $posts->end_date->format('M d, Y');
             })
             ->editColumn('status', function ($posts) {
-                $statusui = $posts->status == 'running' ? 'success' : ($posts->status == 'pending' ? 'warning' : 'danger');
+                $statusui = $posts->status == 'running' ? 'success' : ($posts->status == 'pending' || $posts->status == 'draft' ? 'warning' : 'danger');
                 $status   = '<span class="badge bg-' . $statusui . '">' . Str::ucfirst($posts->status) . '</span>';
                 return $status;
             })
@@ -71,7 +72,7 @@ class FundraiserPostController extends Controller {
             ->addColumn('action_column', function ($posts) {
                 $links = '';
 
-                if ($posts->status != 'pending' && $posts->status != 'block') {
+                if ($posts->status != 'pending' && $posts->status != 'block' && $posts->status != 'draft') {
                     if ($posts->status == 'stop') {
                         $links = '<a href="' . route('fundraiser.post.running', $posts->id) . '" title="Restart"
                         class="action_icon running_campaign">
@@ -133,7 +134,6 @@ class FundraiserPostController extends Controller {
             'story'            => 'nullable|max:1500',
             'agree'            => 'required',
         ]);
-
         if ($image) {
 
             $image_name = Str::ulid() . '.' . $image->extension();
@@ -142,7 +142,6 @@ class FundraiserPostController extends Controller {
         } else {
             $image_name = null;
         }
-
         $post = FundraiserPost::create([
             'user_id'          => auth()->user()->id,
             'title'            => $request->title,
@@ -152,12 +151,36 @@ class FundraiserPostController extends Controller {
             'image'            => $image_name,
             'story'            => $request->story,
             'agree'            => $request->agree === 'on' ? true : false,
-            'status'           => "pending",
         ]);
+        if ($request->save_draft === "draft") {
+            $post->update([
+                'status' => "draft",
+            ]);
+        } else {
+            $post->update([
+                'status' => "pending",
+            ]);
+            $postUpdate = FundraiserPostUpdate::create([
+                'user_id'            => auth()->user()->id,
+                'fundraiser_post_id' => $post->id,
+                'title'              => $request->title,
+                'shot_description'   => $request->shot_description,
+                'goal'               => $request->goal,
+                'end_date'           => $request->end_date,
+                'image'              => $image_name,
+                'story'              => $request->story,
+                'agree'              => $request->agree === 'on' ? true : false,
+                'status'             => "initiated",
+            ]);
+        }
 
         $post->fundraisercategories()->attach($request->category);
 
-        return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser Post successfully Created!');
+        if ($request->save_draft === "draft") {
+            return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser Post Save to draft!');
+        } else {
+            return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser Post Published!');
+        }
     }
 
     //ck editor image upload
@@ -237,6 +260,7 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(FundraiserPost $fundraiserpost) {
+        $fundraiserpost->load('pendingUpdate');
         $categories = FundraiserCategory::orderBy('id', 'desc')->where('status', true)->get();
         return view('frontend.fundraiser_post.edit', compact('categories', 'fundraiserpost'));
     }
@@ -253,7 +277,7 @@ class FundraiserPostController extends Controller {
         $image = $request->file('image');
         $request->validate([
             'title'            => 'required|max:100',
-            'shot_description' => 'required|min:100|max:250',
+            'shot_description' => 'required|max:250',
             'goal'             => 'required|integer',
             'end_date'         => 'required|date',
             'image'            => 'nullable|mimes:png,jpg, webp|max:300',
@@ -274,18 +298,66 @@ class FundraiserPostController extends Controller {
             $image_name = $fundraiserpost->image;
         }
 
-        $fundraiserpost->update([
-            'title'            => $request->title,
-            'shot_description' => $request->shot_description,
-            'goal'             => $request->goal,
-            'end_date'         => $request->end_date,
-            'image'            => $image_name,
-            'story'            => $request->story,
-        ]);
+        if ($request->save_draft === "draft") {
+            $fundraiserpost->update([
+                'title'            => $request->title,
+                'shot_description' => $request->shot_description,
+                'goal'             => $request->goal,
+                'end_date'         => $request->end_date,
+                'image'            => $image_name,
+                'story'            => $request->story,
+                'status'           => "draft",
+            ]);
+            $fundraiserpost->fundraisercategories()->sync($request->category);
+        } else if ($request->publish === 'publish') {
+            $fundraiserpost->update([
+                'title'            => $request->title,
+                'shot_description' => $request->shot_description,
+                'goal'             => $request->goal,
+                'end_date'         => $request->end_date,
+                'image'            => $image_name,
+                'story'            => $request->story,
+                'status'           => "pending",
+            ]);
+            $fundraiserpost->fundraisercategories()->sync($request->category);
 
-        $fundraiserpost->fundraisercategories()->sync($request->category);
+            FundraiserPostUpdate::create([
+                'user_id'            => auth()->user()->id,
+                'fundraiser_post_id' => $fundraiserpost->id,
+                'title'              => $request->title,
+                'shot_description'   => $request->shot_description,
+                'goal'               => $request->goal,
+                'end_date'           => $request->end_date,
+                'image'              => $image_name,
+                'story'              => $request->story,
+                'agree'              => $fundraiserpost->agree,
+                'status'             => "initiated",
+            ]);
 
-        return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser Post successfully Update!');
+        } else {
+            FundraiserPostUpdate::create([
+                'user_id'            => auth()->user()->id,
+                'fundraiser_post_id' => $fundraiserpost->id,
+                'title'              => $request->title,
+                'shot_description'   => $request->shot_description,
+                'goal'               => $request->goal,
+                'end_date'           => $request->end_date,
+                'image'              => $image_name,
+                'story'              => $request->story,
+                'agree'              => $fundraiserpost->agree,
+                'status'             => "pending",
+            ]);
+
+        }
+
+        if ($request->save_draft === "draft") {
+            return back()->with('success', 'Fundraiser Save to draft!');
+        } else if ($request->publish === 'publish') {
+            return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser Post published!');
+        } else {
+            return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser successfully updated!');
+        }
+
     }
 
     /**
@@ -320,7 +392,11 @@ class FundraiserPostController extends Controller {
 
     public function stopRunning(FundraiserPost $fundraiserpost) {
 
-        if ($fundraiserpost->status == 'stop') {
+        if ($fundraiserpost->status == 'pending') {
+
+            return back()->with('warning', 'Campaign is pending!');
+
+        } elseif ($fundraiserpost->status == 'stop') {
             $fundraiserpost->update([
                 'status' => 'running',
             ]);

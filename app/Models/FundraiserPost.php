@@ -40,6 +40,9 @@ class FundraiserPost extends Model {
     public function user() {
         return $this->belongsTo(User::class);
     }
+    public function pendingUpdate() {
+        return $this->hasOne(FundraiserPostUpdate::class)->where('status', 'pending')->orderBy('id', 'desc');
+    }
 
     /**
      * The attributes that should be cast.

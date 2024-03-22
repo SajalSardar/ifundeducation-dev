@@ -51,8 +51,8 @@ body {
 }
 
 p {
-    font-size: 16px;
-    line-height: 26px;
+    font-size: 14px;
+    line-height: 24px;
     color: rgb(45, 44, 44);
     font-weight: 400;
 }
@@ -128,7 +128,7 @@ h5 {
 }
 
 .header_right ul li a {
-    font-size: 16px;
+    font-size: 14px;;
     color: #fff;
     transition: .4s;
     -webkit-transition: .4s;
@@ -189,7 +189,7 @@ h5 {
     transition: .4s;
     display: block;
     color: var(--tertiary-color);
-    font-size: 16px;
+    font-size: 14px;;
 }
 
 .header_right ul li ul li:hover a {
@@ -352,7 +352,7 @@ h5 {
     height: 50px;
     border-radius: 40px;
     border: none;
-    font-size: 16px;
+    font-size: 14px;;
 }
 
 .search_box button {
@@ -725,7 +725,7 @@ h5 {
 .contact .contact_form textarea {
     border-radius: 0;
     box-shadow: none;
-    font-size: 16px;
+    font-size: 14px;;
 }
 
 .contact .contact_form input:focus,
@@ -745,7 +745,7 @@ h5 {
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;;
     text-transform: capitalize;
     font-weight: 600;
     padding: 10px 20px;
@@ -788,7 +788,7 @@ h5 {
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;;
     font-weight: 600;
     padding: 8px 20px;
     display: block;
@@ -874,7 +874,7 @@ h5 {
 
 .profile_info .buttons a {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;;
     text-transform: capitalize;
     font-weight: 600;
     padding: 8px 25px;
@@ -1124,10 +1124,9 @@ h5 {
 
 .account_content_area_form button {
     color: #fff;
-    font-size: 16px;
-    text-transform: capitalize;
+    font-size: 14px;
     font-weight: 600;
-    padding: 8px 30px;
+    padding: 5px 30px;
     transition: .4s;
     -webkit-transition: .4s;
     background-color: var(--primary-color);
@@ -1206,7 +1205,7 @@ h5 {
 }
 
 .blog .blog-comments .comment h5 {
-    font-size: 16px;
+    font-size: 14px;;
     margin-bottom: 2px;
 }
 
@@ -1337,7 +1336,7 @@ h5 {
 
 .form-label {
     font-weight: 400;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .ck-editor__editable[role="textbox"] {
@@ -1368,7 +1367,7 @@ h5 {
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;;
     font-weight: 600;
     padding: 8px 20px;
     display: block;
