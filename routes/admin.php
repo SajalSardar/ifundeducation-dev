@@ -8,13 +8,13 @@ use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\FaqPageController;
 use App\Http\Controllers\Backend\FooterMenuController;
 use App\Http\Controllers\Backend\FundraiserCategoryController;
+use App\Http\Controllers\Backend\FundraiserPostController;
 use App\Http\Controllers\Backend\Home2ColumnBlockController;
 use App\Http\Controllers\Backend\Home3ColumnBlockController;
 use App\Http\Controllers\Backend\HomePageBannerController;
 use App\Http\Controllers\Backend\SiteSocialLinkController;
 use App\Http\Controllers\Backend\ThemeOptionController;
 use App\Http\Controllers\Backend\UserController;
-use App\Http\Controllers\Frontend\FundraiserPostController;
 use App\Http\Controllers\StripeConnectController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +24,12 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
 
     Route::controller(FundraiserPostController::class)->prefix('campaign')->name('fundraiser.campaign.')->group(function () {
         Route::get('/', 'allCampaign')->name('campaign.all');
+        Route::get('/datatable', 'allCampaignDatatable')->name('campaign.all.datatable');
+
+        Route::get('/update-request', 'updateCampaign')->name('campaign.update.request');
+        Route::get('/update-request-datatable', 'updateCampaignDatatable')->name('campaign.update.datatable');
+        Route::get('/update-request/{slug}', 'updateCampaignShow')->name('campaign.update.request.show');
+
         Route::get('/{slug}', 'showCampaign')->name('campaign.show');
         Route::get('/{fundraiserpost}/{action}', 'statusChangeCampaign')->name('campaign.status');
     });

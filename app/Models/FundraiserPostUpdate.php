@@ -16,9 +16,13 @@ class FundraiserPostUpdate extends Model {
      */
     protected $guarded = ['id'];
 
-    public function setTitleAttribute($value) {
-        $this->attributes['title'] = $value;
-        $this->attributes['slug']  = Str::slug($value) . '-' . Str::uuid();
-    }
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'end_date' => 'datetime',
+    ];
 
 }

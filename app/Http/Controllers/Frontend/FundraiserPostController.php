@@ -164,6 +164,7 @@ class FundraiserPostController extends Controller {
                 'user_id'            => auth()->user()->id,
                 'fundraiser_post_id' => $post->id,
                 'title'              => $request->title,
+                'slug'               => $post->slug,
                 'shot_description'   => $request->shot_description,
                 'goal'               => $request->goal,
                 'end_date'           => $request->end_date,
@@ -309,7 +310,9 @@ class FundraiserPostController extends Controller {
                 'status'           => "draft",
             ]);
             $fundraiserpost->fundraisercategories()->sync($request->category);
+
         } else if ($request->publish === 'publish') {
+
             $fundraiserpost->update([
                 'title'            => $request->title,
                 'shot_description' => $request->shot_description,
@@ -319,11 +322,14 @@ class FundraiserPostController extends Controller {
                 'story'            => $request->story,
                 'status'           => "pending",
             ]);
+
             $fundraiserpost->fundraisercategories()->sync($request->category);
 
             FundraiserPostUpdate::create([
                 'user_id'            => auth()->user()->id,
+                'categories'         => json_encode($request->category),
                 'fundraiser_post_id' => $fundraiserpost->id,
+                'slug'               => $fundraiserpost->slug,
                 'title'              => $request->title,
                 'shot_description'   => $request->shot_description,
                 'goal'               => $request->goal,
@@ -338,6 +344,8 @@ class FundraiserPostController extends Controller {
             FundraiserPostUpdate::create([
                 'user_id'            => auth()->user()->id,
                 'fundraiser_post_id' => $fundraiserpost->id,
+                'slug'               => $fundraiserpost->slug,
+                'categories'         => json_encode($request->category),
                 'title'              => $request->title,
                 'shot_description'   => $request->shot_description,
                 'goal'               => $request->goal,
@@ -406,53 +414,6 @@ class FundraiserPostController extends Controller {
                 'status' => 'stop',
             ]);
             return back()->with('success', 'Campaign Stop Successfull!');
-        }
-    }
-
-    // admin & super admin Campaign
-
-    public function allCampaign() {
-        $posts = FundraiserPost::get();
-        return view('backend.fundraiser_post.index', compact('posts'));
-    }
-
-    public function showCampaign($slug) {
-        $fundRaiserPost = FundraiserPost::with([
-            'fundraisercategories',
-            'donates',
-            'comments' => function ($q) {
-                $q->with('replies')->orderBy('created_at', "desc");
-            }])->where('slug', $slug)->firstOrfail();
-
-        return view('backend.fundraiser_post.show', compact('fundRaiserPost'));
-    }
-
-    public function statusChangeCampaign(FundraiserPost $fundraiserpost, $action) {
-
-        if ($action == 1) {
-            if ($fundraiserpost->status == 'pending') {
-                $fundraiserpost->update([
-                    'status' => 'running',
-                ]);
-            } else if ($fundraiserpost->status == 'running') {
-                $fundraiserpost->update([
-                    'status' => 'pending',
-                ]);
-            }
-
-            return back()->with('success', 'Successfully Update!');
-        } else if ($action == 2) {
-            if ($fundraiserpost->status == 'block') {
-                $fundraiserpost->update([
-                    'status' => 'running',
-                ]);
-            } else if ($fundraiserpost->status == 'running' || $fundraiserpost->status == 'pending') {
-                $fundraiserpost->update([
-                    'status' => 'block',
-                ]);
-            }
-
-            return back()->with('success', 'Successfully Update!');
         }
     }
 

@@ -60,6 +60,15 @@
                         </td>
                     </tr>
                     <tr>
+                        <td width="15%"><strong>Category</strong></td>
+                        <td width="3%">:</td>
+                        <td>
+                            @foreach ($fundRaiserPost->fundraisercategories as $category)
+                                <span class="badge badge-success">{{ $category->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
                         <td width="15%"><strong>Goal</strong></td>
                         <td width="3%">:</td>
                         <td>${{ number_format($fundRaiserPost->goal, 2) }}</td>
@@ -75,9 +84,9 @@
                         <td>{{ $fundRaiserPost->shot_description }}</td>
                     </tr>
                     <tr>
-                        <td width="15%"><strong>Long Desctription</strong></td>
+                        <td width="15%"><strong>Desctription</strong></td>
                         <td width="3%">:</td>
-                        <td>{!! Str::limit($fundRaiserPost->story, 200, '...') !!}</td>
+                        <td>{!! $fundRaiserPost->story !!}</td>
                     </tr>
                     <tr>
                         <td width="15%"><strong>Created Date</strong></td>

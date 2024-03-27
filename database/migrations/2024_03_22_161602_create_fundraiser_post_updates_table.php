@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onUpdate('cascade');
             $table->foreignId('fundraiser_post_id')->constrained()->onUpdate('cascade')->onUpdate('cascade');
             $table->string('title')->nullable();
+            $table->json('categories')->nullable();
             $table->string('slug')->nullable();
             $table->text('shot_description')->nullable();
             $table->decimal('goal')->nullable();

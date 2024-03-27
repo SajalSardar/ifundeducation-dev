@@ -91,7 +91,7 @@
                 serverSide: true,
                 responsive: true,
                 ajax: {
-                    url: "{{ route('dashboard.fundraiser.campaign.campaign.all.datatable') }}",
+                    url: "{{ route('dashboard.fundraiser.campaign.campaign.update.datatable') }}",
                     type: "GET",
                     // data: function(d) {
                     //     d._token = "{{ csrf_token() }}";

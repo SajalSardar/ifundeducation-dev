@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     {{-- @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"); --}}
-
+    <link rel="stylesheet" href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css">
     @yield('style')
 </head>
 <!--end::Head-->
@@ -116,11 +116,22 @@
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
                                     <div class="menu-item menu-accordion">
                                         <a href="{{ route('dashboard.fundraiser.campaign.campaign.all') }}"
-                                            class="menu-link {{ request()->routeIs('dashboard.fundraiser.campaign.campaign.*') ? 'active' : '' }}">
+                                            class="menu-link {{ request()->routeIs('dashboard.fundraiser.campaign.campaign.all') ? 'active' : '' }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
                                             <span class="menu-title">Campaign</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <div class="menu-item menu-accordion">
+                                        <a href="{{ route('dashboard.fundraiser.campaign.campaign.update.request') }}"
+                                            class="menu-link {{ request()->routeIs('dashboard.fundraiser.campaign.campaign.update.request') ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Update request</span>
                                         </a>
                                     </div>
                                 </div>
@@ -434,8 +445,8 @@
                                         width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect x="0" y="0" width="24" height="24" />
-                                            <rect fill="#000000" x="4" y="5" width="16"
-                                                height="3" rx="1.5" />
+                                            <rect fill="#000000" x="4" y="5" width="16" height="3"
+                                                rx="1.5" />
                                             <path
                                                 d="M5.5,15 L18.5,15 C19.3284271,15 20,15.6715729 20,16.5 C20,17.3284271 19.3284271,18 18.5,18 L5.5,18 C4.67157288,18 4,17.3284271 4,16.5 C4,15.6715729 4.67157288,15 5.5,15 Z M5.5,10 L18.5,10 C19.3284271,10 20,10.6715729 20,11.5 C20,12.3284271 19.3284271,13 18.5,13 L5.5,13 C4.67157288,13 4,12.3284271 4,11.5 C4,10.6715729 4.67157288,10 5.5,10 Z"
                                                 fill="#000000" opacity="0.3" />
@@ -546,8 +557,7 @@
                                                 <svg width="24px" height="24px" viewBox="0 0 24 24">
                                                     <g stroke="none" stroke-width="1" fill="none"
                                                         fill-rule="evenodd">
-                                                        <rect x="0" y="0" width="24"
-                                                            height="24" />
+                                                        <rect x="0" y="0" width="24" height="24" />
                                                         <path fill-rule="evenodd" clip-rule="evenodd"
                                                             d="M22 11.5C22 12.3284 21.3284 13 20.5 13H3.5C2.6716 13 2 12.3284 2 11.5C2 10.6716 2.6716 10 3.5 10H20.5C21.3284 10 22 10.6716 22 11.5Z"
                                                             fill="black" />
@@ -628,7 +638,7 @@
     <script src="{{ asset('backend/js/chat.js') }}"></script>
     <script src="{{ asset('backend/js/create-app.js') }}"></script>
     <script src="{{ asset('backend/js/upgrade-plan.js') }}"></script>
-
+    <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
 
     @include('flashmessage')
     @yield('script')
