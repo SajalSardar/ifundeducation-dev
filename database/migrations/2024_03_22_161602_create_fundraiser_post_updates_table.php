@@ -11,6 +11,7 @@ return new class extends Migration {
      * @return void
      */
     public function up() {
+
         Schema::create('fundraiser_post_updates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onUpdate('cascade');
