@@ -31,7 +31,8 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
         Route::get('/update-request/{slug}', 'updateCampaignShow')->name('campaign.update.request.show');
 
         Route::get('/{slug}', 'showCampaign')->name('campaign.show');
-        Route::get('/{fundraiserpost}/{action}', 'statusChangeCampaign')->name('campaign.status');
+        Route::post('/campaign-status-update', 'statusChangeCampaign')->name('campaign.status');
+        Route::post('/request-campaign-status-update', 'fundraiserRequestUpdate')->name('request.campaign.update');
     });
 
     Route::controller(StripeConnectController::class)->prefix('payout')->name('fundraiser.payout.')->group(function () {

@@ -31,16 +31,39 @@
             @if ($fundRaiserPost->status != 'draft')
                 <div class="card-toolbar">
                     @if ($fundRaiserPost->status != 'block')
-                        <a href="{{ route('dashboard.fundraiser.campaign.campaign.status', [$fundRaiserPost->id, 1]) }}"
-                            class="btn btn-sm btn-success">
-                            {{ $fundRaiserPost->status == 'running' ? 'Make Pending' : 'Make Active' }}
+                        @if ($fundRaiserPost->status == 'pending')
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                                class="btn btn-sm btn-success" id="active">
+                                Make Active
+                            </a>
+                        @else
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                                class="btn btn-sm btn-success" id="pending">
+                                Make Pending
+                            </a>
+                        @endif
+
+
+                    @endif
+
+
+                    @if ($fundRaiserPost->status == 'block')
+                        {{-- <a href="{{ route('dashboard.fundraiser.campaign.campaign.status', [$fundRaiserPost->id, 2]) }}"
+                            class="btn btn-sm btn-info mx-2">
+                            Unblock
+                        </a> --}}
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                            class="btn btn-sm btn-info mx-2" id="unblock">
+                            Unblock
+                        </a>
+                    @else
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                            class="btn btn-sm btn-info mx-2" id="block">
+                            Make Block
                         </a>
                     @endif
 
-                    <a href="{{ route('dashboard.fundraiser.campaign.campaign.status', [$fundRaiserPost->id, 2]) }}"
-                        class="btn btn-sm btn-info mx-2">
-                        {{ $fundRaiserPost->status == 'block' ? 'Unblock' : 'Make Block' }}
-                    </a>
+
                 </div>
             @endif
         </div>
@@ -222,4 +245,70 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-dialog mw-650px">
+            <div class="modal-content">
+                <div class="modal-header pb-0 border-0 justify-content-end">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <span class="svg-icon svg-icon-1">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)"
+                                    fill="#000000">
+                                    <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1">
+                                    </rect>
+                                    <rect fill="#000000" opacity="0.5"
+                                        transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)"
+                                        x="0" y="7" width="16" height="2" rx="1">
+                                    </rect>
+                                </g>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                    <div class=" mb-13">
+                        <h2 class="mb-3">Comments</h2>
+                    </div>
+                    <form action="{{ route('dashboard.fundraiser.campaign.campaign.status') }}" method="POST">
+                        @csrf
+                        <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                            <input type="hidden" name="status" id="status_input">
+                            <input type="hidden" name="fundRaiserPost" value="{{ $fundRaiserPost->id }}">
+                            <textarea name="comment" class="form-control form-control-solid @error('name') is-invalid @enderror" rows="8">{{ old('comment') }}</textarea>
+                            @error('comment')
+                                <p class="text-danger mt-2">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="">
+                            <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
+                                <span class="indicator-label">Submit</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+
+@section('script')
+    <script>
+        $(function($) {
+            let status_input = $('#status_input');
+            $(document).on('click', '#unblock', function() {
+                status_input.val('running');
+            })
+            $(document).on('click', '#block', function() {
+                status_input.val('block');
+            })
+            $(document).on('click', '#pending', function() {
+                status_input.val('pending');
+            })
+            $(document).on('click', '#active', function() {
+                status_input.val('running');
+            })
+        });
+    </script>
 @endsection

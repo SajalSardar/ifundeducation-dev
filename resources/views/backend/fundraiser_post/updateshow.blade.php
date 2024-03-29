@@ -29,10 +29,14 @@
                 <span class="card-label fw-bolder fs-3 mb-1">Update Request</span>
             </h3>
             <div class="card-toolbar">
-
-
-                <a href="" class="btn btn-sm btn-info mx-2">Accept</a>
-                <a href="" class="btn btn-sm btn-warning mx-2">Cancel</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                    class="btn btn-sm btn-info me-1" id="accept">
+                    Accept
+                </a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                    class="btn btn-sm btn-warning" id="cancel">
+                    Cancel
+                </a>
             </div>
         </div>
         <!--end::Header-->
@@ -123,4 +127,62 @@
         <!--begin::Body-->
     </div>
 
+    <div class="modal fade" id="kt_modal_invite_friends" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-dialog mw-650px">
+            <div class="modal-content">
+                <div class="modal-header pb-0 border-0 justify-content-end">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <span class="svg-icon svg-icon-1">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)"
+                                    fill="#000000">
+                                    <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1">
+                                    </rect>
+                                    <rect fill="#000000" opacity="0.5"
+                                        transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)"
+                                        x="0" y="7" width="16" height="2" rx="1">
+                                    </rect>
+                                </g>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                    <div class=" mb-13">
+                        <h2 class="mb-3">Comments</h2>
+                    </div>
+                    <form action="{{ route('dashboard.fundraiser.campaign.request.campaign.update') }}" method="POST">
+                        @csrf
+                        <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                            <input type="hidden" name="status" id="status_input">
+                            <input type="hidden" name="update_post_id" value="{{ $updatePost->id }}">
+                            <textarea name="comment" class="form-control form-control-solid @error('name') is-invalid @enderror" rows="8">{{ old('comment') }}</textarea>
+                            @error('comment')
+                                <p class="text-danger mt-2">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="">
+                            <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
+                                <span class="indicator-label">Submit</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+@section('script')
+    <script>
+        $(function($) {
+            let status_input = $('#status_input');
+            $(document).on('click', '#accept', function() {
+                status_input.val('updated');
+            })
+            $(document).on('click', '#cancel', function() {
+                status_input.val('cancelled');
+            })
+        });
+    </script>
 @endsection

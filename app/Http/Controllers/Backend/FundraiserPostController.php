@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\FundraiserApprovalComments;
 use App\Models\FundraiserCategory;
 use App\Models\FundraiserPost;
 use App\Models\FundraiserPostUpdate;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -77,6 +80,37 @@ class FundraiserPostController extends Controller {
 
         return view('backend.fundraiser_post.show', compact('fundRaiserPost'));
     }
+    public function statusChangeCampaign(Request $request) {
+
+        $fundraiserpost = FundraiserPost::where('id', $request->fundRaiserPost)->first();
+        if ($request->status == 'pending') {
+            $fundraiserpost->update([
+                'status' => 'pending',
+            ]);
+        } else if ($request->status == 'running') {
+            $fundraiserpost->update([
+                'status' => 'running',
+            ]);
+        } else if ($request->status == 'block') {
+            $fundraiserpost->update([
+                'status' => 'block',
+            ]);
+        }
+
+        if ($request->comment) {
+            FundraiserApprovalComments::create([
+                "fundraiser_post_id" => $fundraiserpost->id,
+                "comments"           => $request->comment,
+                "status"             => $request->status,
+                "admin_id"           => Auth::id(),
+            ]);
+        }
+
+        return back()->with('success', 'Successfully Update!');
+
+    }
+
+    // update request
 
     public function updateCampaign() {
         return view('backend.fundraiser_post.update');
@@ -146,34 +180,35 @@ class FundraiserPostController extends Controller {
 
         return view('backend.fundraiser_post.updateshow', compact('updatePost', 'updateCategories', 'currentPost'));
     }
+    public function fundraiserRequestUpdate(Request $request) {
 
-    public function statusChangeCampaign(FundraiserPost $fundraiserpost, $action) {
+        $updatePost  = FundraiserPostUpdate::where('id', $request->update_post_id)->firstOrfail();
+        $currentPost = FundraiserPost::where('id', $updatePost->fundraiser_post_id)->firstOrfail();
 
-        if ($action == 1) {
-            if ($fundraiserpost->status == 'pending') {
-                $fundraiserpost->update([
-                    'status' => 'running',
-                ]);
-            } else if ($fundraiserpost->status == 'running') {
-                $fundraiserpost->update([
-                    'status' => 'pending',
-                ]);
-            }
-
-            return back()->with('success', 'Successfully Update!');
-        } else if ($action == 2) {
-            if ($fundraiserpost->status == 'block') {
-                $fundraiserpost->update([
-                    'status' => 'running',
-                ]);
-            } else if ($fundraiserpost->status == 'running' || $fundraiserpost->status == 'pending') {
-                $fundraiserpost->update([
-                    'status' => 'block',
-                ]);
-            }
-
-            return back()->with('success', 'Successfully Update!');
+        if ($request->status == 'cancelled') {
+            $updatePost->update([
+                'status'         => 'cancelled',
+                "admin_comments" => $request->comment,
+                "cancel_by"      => Auth::id(),
+            ]);
+        } else if ($request->status == 'updated') {
+            $currentPost->update([
+                'fundraiser_category_id' => $updatePost->fundraiser_category_id,
+                'title'                  => $updatePost->title,
+                'shot_description'       => $updatePost->shot_description,
+                'goal'                   => $updatePost->goal,
+                'end_date'               => $updatePost->end_date,
+                'image'                  => $updatePost->image,
+                'story'                  => $updatePost->story,
+            ]);
+            $updatePost->update([
+                'status'         => 'updated',
+                "admin_comments" => $request->comment,
+                "accepted_by"    => Auth::id(),
+            ]);
         }
-    }
 
+        return redirect()->route('dashboard.fundraiser.campaign.campaign.all')->with('success', 'Successfully Update!');
+
+    }
 }
