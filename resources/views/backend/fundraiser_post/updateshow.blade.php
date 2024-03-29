@@ -29,14 +29,17 @@
                 <span class="card-label fw-bolder fs-3 mb-1">Update Request</span>
             </h3>
             <div class="card-toolbar">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
-                    class="btn btn-sm btn-info me-1" id="accept">
-                    Accept
-                </a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
-                    class="btn btn-sm btn-warning" id="cancel">
-                    Cancel
-                </a>
+                @if ($updatePost->status == 'pending')
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                        class="btn btn-sm btn-info me-1" id="accept">
+                        Accept
+                    </a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                        class="btn btn-sm btn-warning" id="cancel">
+                        Cancel
+                    </a>
+                @endif
+
             </div>
         </div>
         <!--end::Header-->

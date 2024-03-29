@@ -90,6 +90,9 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
+                order: [
+                    [0, 'desc']
+                ],
                 ajax: {
                     url: "{{ route('dashboard.fundraiser.campaign.campaign.update.datatable') }}",
                     type: "GET",

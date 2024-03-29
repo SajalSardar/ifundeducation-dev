@@ -146,7 +146,7 @@ class FundraiserPostController extends Controller {
                 return $posts->end_date->format('M d, Y');
             })
             ->editColumn('status', function ($posts) {
-                $statusui = $posts->status == 'running' ? 'success' : ($posts->status == 'pending' || $posts->status == 'draft' ? 'warning' : 'danger');
+                $statusui = $posts->status == 'updated' ? 'success' : ($posts->status == 'pending' ? 'warning' : 'danger');
                 $status   = '<span class="badge bg-' . $statusui . '">' . Str::ucfirst($posts->status) . '</span>';
                 return $status;
             })
