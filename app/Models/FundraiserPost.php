@@ -16,11 +16,6 @@ class FundraiserPost extends Model {
      */
     protected $guarded = ['id'];
 
-    public function setTitleAttribute($value) {
-        $this->attributes['title'] = $value;
-        $this->attributes['slug']  = Str::slug($value) . '-' . Str::uuid();
-    }
-
     public function fundraisercategory() {
         return $this->belongsTo(FundraiserCategory::class, 'fundraiser_category_id', 'id');
     }

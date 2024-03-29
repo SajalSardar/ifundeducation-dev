@@ -16,7 +16,7 @@
                 </div>
             @endif
             <form method="POST"
-                action="{{ $fundraiserpost->status != 'pending' && @$fundraiserpost->pendingUpdate->status != 'pending' ? route('fundraiser.post.update', $fundraiserpost->id) : '#' }}"
+                action="{{ $fundraiserpost->status != 'pending' && @$fundraiserpost->pendingUpdate->status != 'pending' ? route('fundraiser.post.update', $fundraiserpost->slug) : '#' }}"
                 class="account_content_area_form" enctype="multipart/form-data" id="post_form">
                 @csrf
                 @method('PUT')

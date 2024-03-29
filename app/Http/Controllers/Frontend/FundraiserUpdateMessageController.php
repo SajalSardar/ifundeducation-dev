@@ -17,10 +17,10 @@ class FundraiserUpdateMessageController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $posts     = FundraiserPost::where('user_id', auth()->user()->id)->get(['id', 'title']);
-        $fundposts = FundraiserPost::select('id', 'title')->where('user_id', Auth::id())->get();
+        // $posts     = FundraiserPost::where('user_id', auth()->user()->id)->get(['id', 'title']);
+        $fundposts = FundraiserPost::select('id', 'title')->where('user_id', Auth::id())->where('status', 'running')->get();
 
-        return view('frontend.post_message.index', compact('posts', 'fundposts'));
+        return view('frontend.post_message.index', compact('fundposts'));
     }
 
     public function listDataTable(Request $request) {
@@ -109,7 +109,11 @@ class FundraiserUpdateMessageController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(FundraiserUpdateMessage $fundraiserupdatemessage) {
-        $posts = FundraiserPost::where('user_id', auth()->user()->id)->get(['id', 'title']);
+        if ($fundraiserupdatemessage->user_id != Auth::id()) {
+            abort(404);
+        }
+        $posts = FundraiserPost::where('user_id', auth()->user()->id)->where('status', 'running')->get(['id', 'title']);
+
         return view('frontend.post_message.edit', compact('fundraiserupdatemessage', 'posts'));
     }
 
@@ -121,6 +125,9 @@ class FundraiserUpdateMessageController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, FundraiserUpdateMessage $fundraiserupdatemessage) {
+        if ($fundraiserupdatemessage->user_id != Auth::id()) {
+            abort(404);
+        }
         $request->validate([
             'fundraiser_post' => 'required',
             'update_message'  => 'required|max:500',
@@ -147,6 +154,9 @@ class FundraiserUpdateMessageController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(FundraiserUpdateMessage $fundraiserupdatemessage) {
+        if ($fundraiserupdatemessage->user_id != Auth::id()) {
+            abort(404);
+        }
         $fundraiserupdatemessage->delete();
         return back()->with('success', 'Message Deleted Successfull!');
     }

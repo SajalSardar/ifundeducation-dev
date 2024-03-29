@@ -64,7 +64,7 @@
                                 <select name="fundraiser_post" id="fundraiser_post"
                                     class="form-control @error('fundraiser_post') is-invalid @enderror">
                                     <option disabled selected>Select Fundraiser</option>
-                                    @foreach ($posts as $post)
+                                    @foreach ($fundposts as $post)
                                         <option value="{{ $post->id }}">{{ $post->title }}</option>
                                     @endforeach
                                 </select>

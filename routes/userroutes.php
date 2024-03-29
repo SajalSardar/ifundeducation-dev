@@ -67,17 +67,17 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{fundraiserpost}', 'edit')->name('edit');
-        Route::put('/update/{fundraiserpost}', 'update')->name('update');
-        Route::delete('/delete/{fundraiserpost}', 'destroy')->name('delete');
+        Route::get('/edit/{slug}', 'edit')->name('edit');
+        Route::put('/update/{slug}', 'update')->name('update');
+        Route::delete('/delete/{slug}', 'destroy')->name('delete');
         Route::post('/store/story/image', 'storyPhoto')->name('story.photo.upload');
-        Route::get('/show/{fundraiserpost}', 'show')->name('show');
-        Route::get('/stop/campaign/{fundraiserpost}', 'stopRunning')->name('stop');
-        Route::get('/running/campaign/{fundraiserpost}', 'stopRunning')->name('running');
+        Route::get('/show/{slug}', 'show')->name('show');
+        Route::get('/stop/campaign/{slug}', 'stopRunning')->name('stop');
+        Route::get('/running/campaign/{slug}', 'stopRunning')->name('running');
         Route::get('/post-datatable', 'postDataTable')->name('datatable');
-        Route::get('/single-donation/{fundraiserpost}', 'singleDonationDataTable')->name('single.donation.datatable');
-        Route::get('/single-comments/{fundraiserpost}', 'singleCommentsDataTable')->name('single.comments.datatable');
-        Route::get('/single-updatemessage/{fundraiserpost}', 'singleUpdatemessageDataTable')->name('single.updatemessage.datatable');
+        Route::get('/single-donation/{slug}', 'singleDonationDataTable')->name('single.donation.datatable');
+        Route::get('/single-comments/{slug}', 'singleCommentsDataTable')->name('single.comments.datatable');
+        Route::get('/single-updatemessage/{slug}', 'singleUpdatemessageDataTable')->name('single.updatemessage.datatable');
     });
 
     Route::controller(UserProfileController::class)->prefix('user/profile')->name('user.profile.')->group(function () {

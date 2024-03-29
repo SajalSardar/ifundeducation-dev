@@ -72,20 +72,20 @@ class FundraiserPostController extends Controller {
 
                 if ($posts->status != 'pending' && $posts->status != 'block' && $posts->status != 'draft') {
                     if ($posts->status == 'stop') {
-                        $links = '<a href="' . route('fundraiser.post.running', $posts->id) . '" title="Restart"
+                        $links = '<a href="' . route('fundraiser.post.running', $posts->slug) . '" title="Restart"
                         class="action_icon running_campaign">
                         <i class="fa-regular fa-circle-play"></i></a>';
                     } else {
-                        $links = '<a href="' . route('fundraiser.post.stop', $posts->id) . '" title="Stop"
+                        $links = '<a href="' . route('fundraiser.post.stop', $posts->slug) . '" title="Stop"
                         class="action_icon stop_campaign"> <i class="fa-regular fa-circle-stop"></i></a>';
                     }
                 }
 
-                $links .= '<a href="' . route('fundraiser.post.show', $posts->id) . '" class="action_icon"
+                $links .= '<a href="' . route('fundraiser.post.show', $posts->slug) . '" class="action_icon"
                 title="View">
-                <i class="fas fa-eye"></i></a><a href="' . route('fundraiser.post.edit', $posts->id) . '" class="action_icon"
+                <i class="fas fa-eye"></i></a><a href="' . route('fundraiser.post.edit', $posts->slug) . '" class="action_icon"
                 title="Edit"> <i class="fas fa-edit"></i></a>
-                <form action="' . route('fundraiser.post.delete', $posts->id) . '" method="POST"
+                <form action="' . route('fundraiser.post.delete', $posts->slug) . '" method="POST"
                 class="d-inline" style="cursor: pointer">
                     <input type="hidden" name="_token" value="' . csrf_token() . '">
                     <input type="hidden" name="_method" value="DELETE">
@@ -144,6 +144,7 @@ class FundraiserPostController extends Controller {
             'user_id'                => auth()->user()->id,
             'fundraiser_category_id' => $request->category,
             'title'                  => $request->title,
+            'slug'                   => Str::slug($request->title) . '-' . Str::ulid(),
             'shot_description'       => $request->shot_description,
             'goal'                   => $request->goal,
             'end_date'               => $request->end_date,
@@ -202,7 +203,11 @@ class FundraiserPostController extends Controller {
      * @param  \App\Models\FundraiserPost  $fundraiserPost
      * @return \Illuminate\Http\Response
      */
-    public function show(FundraiserPost $fundraiserpost) {
+    public function show($slug) {
+        $fundraiserpost = FundraiserPost::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+        if ($fundraiserpost->user_id != Auth::id()) {
+            abort(404);
+        }
         return view('frontend.fundraiser_post.show_dashboard', compact('fundraiserpost'));
     }
 
@@ -258,8 +263,13 @@ class FundraiserPostController extends Controller {
      * @param  \App\Models\FundraiserPost  $fundraiserPost
      * @return \Illuminate\Http\Response
      */
-    public function edit(FundraiserPost $fundraiserpost) {
-        $fundraiserpost->load('pendingUpdate');
+    public function edit($slug) {
+        $fundraiserpost = FundraiserPost::with('pendingUpdate')->where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+
+        if ($fundraiserpost->user_id != Auth::id()) {
+            abort(404);
+        }
+
         $categories = FundraiserCategory::orderBy('id', 'desc')->where('status', true)->get();
         return view('frontend.fundraiser_post.edit', compact('categories', 'fundraiserpost'));
     }
@@ -271,8 +281,11 @@ class FundraiserPostController extends Controller {
      * @param  \App\Models\FundraiserPost  $fundraiserPost
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FundraiserPost $fundraiserpost) {
-
+    public function update(Request $request, $slug) {
+        $fundraiserpost = FundraiserPost::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+        if ($fundraiserpost->user_id != Auth::id()) {
+            abort(404);
+        }
         $image = $request->file('image');
         $request->validate([
             'title'            => 'required|max:100',
@@ -371,7 +384,11 @@ class FundraiserPostController extends Controller {
      * @param  \App\Models\FundraiserPost  $fundraiserPost
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FundraiserPost $fundraiserpost) {
+    public function destroy($slug) {
+        $fundraiserpost = FundraiserPost::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+        if ($fundraiserpost->user_id != Auth::id()) {
+            abort(404);
+        }
         $fundraiserpost->delete();
 
         return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser Post successfully Deleted!');
@@ -395,8 +412,11 @@ class FundraiserPostController extends Controller {
         return view('frontend.fundraiser_post.show', compact('fundRaiserPost', 'total_comment'));
     }
 
-    public function stopRunning(FundraiserPost $fundraiserpost) {
-
+    public function stopRunning($slug) {
+        $fundraiserpost = FundraiserPost::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+        if ($fundraiserpost->user_id != Auth::id()) {
+            abort(404);
+        }
         if ($fundraiserpost->status == 'pending') {
 
             return back()->with('warning', 'Campaign is pending!');

@@ -100,6 +100,7 @@ class CommentController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function statusUpdate(Comment $comment) {
+
         if ($comment->status == 'approved') {
             $comment->update([
                 'status' => 'unapproved',
