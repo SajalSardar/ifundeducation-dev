@@ -11,21 +11,22 @@ return new class extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create( 'fundraiser_posts', function ( Blueprint $table ) {
+        Schema::create('fundraiser_posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId( 'user_id' )->constrained()->onUpdate( 'cascade' )->onUpdate( 'cascade' );
-            $table->string( 'title' );
-            $table->string( 'slug' );
-            $table->text( 'shot_description' );
-            $table->decimal( 'goal' );
-            $table->date( 'end_date' );
-            $table->longText( 'story' )->nullable();
-            $table->string( 'image' )->nullable();
-            $table->boolean( 'agree' );
-            $table->string( 'status' )->default( "running" );
+            $table->bigInteger('fundraiser_category_id');
+            $table->bigInteger('user_id');
+            $table->string('title');
+            $table->string('slug');
+            $table->text('shot_description');
+            $table->decimal('goal');
+            $table->date('end_date');
+            $table->longText('story')->nullable();
+            $table->string('image')->nullable();
+            $table->boolean('agree');
+            $table->string('status')->default("running");
             $table->softDeletes();
             $table->timestamps();
-        } );
+        });
     }
 
     /**
@@ -34,6 +35,6 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists( 'fundraiser_posts' );
+        Schema::dropIfExists('fundraiser_posts');
     }
 };

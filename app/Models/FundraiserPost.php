@@ -21,8 +21,8 @@ class FundraiserPost extends Model {
         $this->attributes['slug']  = Str::slug($value) . '-' . Str::uuid();
     }
 
-    public function fundraisercategories() {
-        return $this->belongsToMany(FundraiserCategory::class);
+    public function fundraisercategory() {
+        return $this->belongsTo(FundraiserCategory::class, 'fundraiser_category_id', 'id');
     }
 
     public function fundraiserupdatemessage() {

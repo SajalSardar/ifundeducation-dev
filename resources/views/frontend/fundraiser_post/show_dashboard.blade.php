@@ -22,6 +22,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <td width="20%"><strong>Category</strong></td>
+                        <td width="3%">:</td>
+                        <td><span class="badge bg-success"> {{ $fundraiserpost->fundraisercategory->name }}</span>
+                        </td>
+                    </tr>
+                    <tr>
                         <td width="20%"><strong>Goal</strong></td>
                         <td width="3%">:</td>
                         <td>${{ number_format($fundraiserpost->goal, 2) }}</td>

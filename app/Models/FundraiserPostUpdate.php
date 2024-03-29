@@ -25,4 +25,7 @@ class FundraiserPostUpdate extends Model {
         'end_date' => 'datetime',
     ];
 
+    public function fundraisercategory() {
+        return $this->belongsTo(FundraiserCategory::class, 'fundraiser_category_id', 'id');
+    }
 }

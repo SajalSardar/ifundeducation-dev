@@ -17,7 +17,7 @@ class FundraiserPostController extends Controller {
     }
 
     public function allCampaignDatatable() {
-        $posts = FundraiserPost::query();
+        $posts = FundraiserPost::with('fundraisercategory');
         // if ($request->all()) {
         //     $posts->where(function ($query) use ($request) {
         //         if ($request->title) {
@@ -36,9 +36,7 @@ class FundraiserPostController extends Controller {
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {
-                foreach ($posts->fundraisercategories as $categoty) {
-                    return '<span class="badge bg-success">' . $categoty->name . '</span>';
-                }
+                return '<span class="badge bg-success">' . $posts->fundraisercategory->name . '</span>';
 
             })
             ->editColumn('goal', function ($posts) {
@@ -72,7 +70,6 @@ class FundraiserPostController extends Controller {
 
     public function showCampaign($slug) {
         $fundRaiserPost = FundraiserPost::with([
-            'fundraisercategories',
             'donates',
             'comments' => function ($q) {
                 $q->with('replies')->orderBy('created_at', "desc");
@@ -105,12 +102,7 @@ class FundraiserPostController extends Controller {
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {
-                $categories = FundraiserCategory::whereIn('id', json_decode($posts->categories, true))->get();
-                $category   = '';
-                foreach ($categories as $categoty) {
-                    $category .= '<span class="badge bg-success mx-1">' . $categoty->name . '</span>';
-                }
-                return $category;
+                return '<span class="badge bg-success">' . $posts->fundraisercategory->name . '</span>';
 
             })
             ->editColumn('goal', function ($posts) {
@@ -144,13 +136,13 @@ class FundraiserPostController extends Controller {
 
     public function updateCampaignShow($slug) {
         $updatePost  = FundraiserPostUpdate::where('slug', $slug)->orderBy('id', 'desc')->firstOrfail();
-        $currentPost = FundraiserPost::with('fundraisercategories')->where('id', $updatePost->fundraiser_post_id)->firstOrfail();
+        $currentPost = FundraiserPost::where('id', $updatePost->fundraiser_post_id)->firstOrfail();
 
         if ($updatePost->status != 'pending') {
             abort(404);
         }
 
-        $updateCategories = FundraiserCategory::whereIn('id', json_decode($updatePost->categories, true))->get();
+        $updateCategories = FundraiserCategory::where('id', 'fundraiser_category_id')->get();
 
         return view('backend.fundraiser_post.updateshow', compact('updatePost', 'updateCategories', 'currentPost'));
     }

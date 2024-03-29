@@ -17,12 +17,12 @@ class FundraiserCategory extends Model {
      */
     protected $guarded = ['id'];
 
-    public function setNameAttribute( $value ) {
+    public function setNameAttribute($value) {
         $this->attributes['name'] = $value;
-        $this->attributes['slug'] = Str::slug( $value );
+        $this->attributes['slug'] = Str::slug($value);
     }
 
-    public function fundraiserposts() {
-        return $this->belongsToMany( FundraiserPost::class );
+    public function fundraiserpost() {
+        return $this->hasOne(FundraiserPost::class);
     }
 }

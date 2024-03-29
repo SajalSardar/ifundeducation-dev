@@ -14,10 +14,10 @@ return new class extends Migration {
 
         Schema::create('fundraiser_post_updates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onUpdate('cascade');
-            $table->foreignId('fundraiser_post_id')->constrained()->onUpdate('cascade')->onUpdate('cascade');
+            $table->bigInteger('user_id');
+            $table->bigInteger('fundraiser_post_id');
+            $table->integer('fundraiser_category_id')->nullable();
             $table->string('title')->nullable();
-            $table->json('categories')->nullable();
             $table->string('slug')->nullable();
             $table->text('shot_description')->nullable();
             $table->decimal('goal')->nullable();
@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->string('status')->default("pending")->comment('initiated,pending, updated, cancelled');
             $table->integer('accepted_by')->nullable();
             $table->integer('cancel_by')->nullable();
+            $table->text('admin_comments')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

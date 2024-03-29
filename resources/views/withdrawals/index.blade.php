@@ -26,7 +26,7 @@
                             </div>
                         @else
                             <p>You currently have
-                                <strong>${{ number_format($balance->balance->curent_amount - $balance->balance->withdraw_amount, 2) }}</strong>
+                                <strong>${{ $balance->balance ? number_format($balance->balance->curent_amount - $balance->balance->withdraw_amount, 2) : '0' }}</strong>
                                 in earnings for next payout.
                             </p>
                             <form action="{{ route('withdrawals.verify') }}" method="POST">
@@ -120,7 +120,7 @@
                 </div>
                 <div class="modal-body">
                     You currently have
-                    <strong>{{ $balance->balance->curent_amount - $balance->balance->withdraw_amount }}</strong>
+                    <strong>{{ $balance->balance ? $balance->balance->curent_amount - $balance->balance->withdraw_amount : '0' }}</strong>
                     in earnings for next payout.
                     <form action="" method="POST" class="mt-3">
                         @csrf

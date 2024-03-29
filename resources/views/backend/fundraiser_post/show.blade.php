@@ -28,19 +28,21 @@
             <h3 class="card-title align-items-start flex-column">
                 <span class="card-label fw-bolder fs-3 mb-1">{{ Str::upper($fundRaiserPost->title) }}</span>
             </h3>
-            <div class="card-toolbar">
-                @if ($fundRaiserPost->status != 'block')
-                    <a href="{{ route('dashboard.fundraiser.campaign.campaign.status', [$fundRaiserPost->id, 1]) }}"
-                        class="btn btn-sm btn-success">
-                        {{ $fundRaiserPost->status == 'running' ? 'Make Pending' : 'Make Active' }}
-                    </a>
-                @endif
+            @if ($fundRaiserPost->status != 'draft')
+                <div class="card-toolbar">
+                    @if ($fundRaiserPost->status != 'block')
+                        <a href="{{ route('dashboard.fundraiser.campaign.campaign.status', [$fundRaiserPost->id, 1]) }}"
+                            class="btn btn-sm btn-success">
+                            {{ $fundRaiserPost->status == 'running' ? 'Make Pending' : 'Make Active' }}
+                        </a>
+                    @endif
 
-                <a href="{{ route('dashboard.fundraiser.campaign.campaign.status', [$fundRaiserPost->id, 2]) }}"
-                    class="btn btn-sm btn-info mx-2">
-                    {{ $fundRaiserPost->status == 'block' ? 'Unblock' : 'Make Block' }}
-                </a>
-            </div>
+                    <a href="{{ route('dashboard.fundraiser.campaign.campaign.status', [$fundRaiserPost->id, 2]) }}"
+                        class="btn btn-sm btn-info mx-2">
+                        {{ $fundRaiserPost->status == 'block' ? 'Unblock' : 'Make Block' }}
+                    </a>
+                </div>
+            @endif
         </div>
         <!--end::Header-->
         <!--begin::Body-->
@@ -63,9 +65,9 @@
                         <td width="15%"><strong>Category</strong></td>
                         <td width="3%">:</td>
                         <td>
-                            @foreach ($fundRaiserPost->fundraisercategories as $category)
-                                <span class="badge badge-success">{{ $category->name }}</span>
-                            @endforeach
+
+                            <span class="badge badge-success">{{ $fundRaiserPost->fundraisercategory->name }}</span>
+
                         </td>
                     </tr>
                     <tr>

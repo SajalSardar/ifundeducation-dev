@@ -56,8 +56,8 @@
 
                     <div class="col-12 mb-3">
                         <label class="form-label d-block">Fundraising For:<span class="text-danger">*</span></label>
-                        <select name="category[]" id=""
-                            class="form-control select_2 @error('category') is-invalid @enderror" multiple>
+                        <select name="category" id=""
+                            class="form-control select_2 @error('category') is-invalid @enderror">
                             <option disabled>Select Options</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -103,7 +103,7 @@
                     </div>
                     <div class="col-12">
                         <button type="submit"
-                            onclick="this.form.submit(); this.disabled=true; this.innerHTML='saveing…';">Publish</button>
+                            onclick="this.form.submit(); this.disabled=true; this.innerHTML='saving…';">Publish</button>
                         <input type="hidden" name="save_draft" id="draft_input">
                         <button type="button" name="save_draft" id="draft_btn">Save to
                             draft</button>
@@ -125,7 +125,7 @@
             $('#draft_input').val('draft');
             $('#post_form').submit();
             this.disabled = true;
-            this.innerHTML = 'saveing…';
+            this.innerHTML = 'saving…';
         });
 
         $('.select_2').select2();

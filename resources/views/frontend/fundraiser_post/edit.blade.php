@@ -68,12 +68,12 @@
 
                     <div class="col-12 mb-3">
                         <label class="form-label d-block">Fundraising For:<span class="text-danger">*</span></label>
-                        <select name="category[]" id=""
-                            class="form-control select_2 @error('category') is-invalid @enderror" multiple>
+                        <select name="category" id=""
+                            class="form-control select_2 @error('category') is-invalid @enderror">
                             <option disabled>Select Options</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"
-                                    {{ in_array($category->id, $fundraiserpost->fundraisercategories->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                    {{ $fundraiserpost->fundraisercategory->id == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}</option>
                             @endforeach
                         </select>
@@ -115,7 +115,7 @@
                             <button type="button" name="save_draft" id="draft_btn">Save to draft</button>
                         @elseif($fundraiserpost->status != 'pending' && @$fundraiserpost->pendingUpdate->status != 'pending')
                             <button type="submit"
-                                onclick="this.form.submit(); this.disabled=true; this.innerHTML='saveing…';">Update</button>
+                                onclick="this.form.submit(); this.disabled=true; this.innerHTML='saving…';">Update</button>
                         @endif
 
                     </div>
@@ -136,13 +136,13 @@
             $('#draft_input').val('draft');
             $('#post_form').submit();
             this.disabled = true;
-            this.innerHTML = 'saveing…';
+            this.innerHTML = 'saving…';
         });
         $(document).on('click', '#publish_btn', function() {
             $('#publish_input').val('publish');
             $('#post_form').submit();
             this.disabled = true;
-            this.innerHTML = 'saveing…';
+            this.innerHTML = 'saving…';
         });
         $('.select_2').select2();
         //editor

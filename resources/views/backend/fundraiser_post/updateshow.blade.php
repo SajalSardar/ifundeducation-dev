@@ -56,13 +56,9 @@
                         <td width="15%"><strong>Category</strong></td>
                         <td width="3%">:</td>
                         <td>
-                            @foreach ($currentPost->fundraisercategories as $category)
-                                <span class="badge badge-success">{{ $category->name }}</span>
-                            @endforeach
+                            <span class="badge badge-success">{{ $currentPost->fundraisercategory->name }}</span>
                             <p class="bg-info badge my-1">to <i class="fas fa-long-arrow-alt-right"></i></p>
-                            @foreach ($updateCategories as $category)
-                                <span class="badge badge-success">{{ $category->name }}</span>
-                            @endforeach
+                            <span class="badge badge-success">{{ $updatePost->fundraisercategory->name }}</span>
                         </td>
                     </tr>
                     <tr>
