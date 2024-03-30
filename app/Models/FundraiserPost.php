@@ -39,6 +39,10 @@ class FundraiserPost extends Model {
         return $this->hasOne(FundraiserPostUpdate::class)->where('status', 'pending')->orderBy('id', 'desc');
     }
 
+    public function approvalComments() {
+        return $this->hasMany(FundraiserApprovalComments::class);
+    }
+
     /**
      * The attributes that should be cast.
      *

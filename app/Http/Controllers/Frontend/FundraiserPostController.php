@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Donate;
+use App\Models\FundraiserApprovalComments;
 use App\Models\FundraiserCategory;
 use App\Models\FundraiserPost;
 use App\Models\FundraiserPostUpdate;
@@ -205,10 +206,16 @@ class FundraiserPostController extends Controller {
      */
     public function show($slug) {
         $fundraiserpost = FundraiserPost::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+
         if ($fundraiserpost->user_id != Auth::id()) {
             abort(404);
         }
-        return view('frontend.fundraiser_post.show_dashboard', compact('fundraiserpost'));
+
+        $lastApprovedComment = FundraiserApprovalComments::where('fundraiser_post_id', $fundraiserpost->id)->orderBy('id', 'desc')->first();
+
+        // return $lastApprovedComment;
+
+        return view('frontend.fundraiser_post.show_dashboard', compact('fundraiserpost', 'lastApprovedComment'));
     }
 
     public function singleDonationDataTable(FundraiserPost $fundraiserpost) {

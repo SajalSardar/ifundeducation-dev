@@ -5,8 +5,19 @@
 
 @section('content')
     <div class=" mb-5">
+
         <div class="account_content_area">
             <h3>{{ $fundraiserpost->title }}</h3>
+            @if ($lastApprovedComment && $lastApprovedComment->status != 'running' && $fundraiserpost->status != 'running')
+                <div class="alert alert-warning">
+                    <div>
+                        <strong>{{ $lastApprovedComment->created_at->format('M d, Y') }}</strong>
+                        <hr>
+                        <p>{{ $lastApprovedComment->comments }}</p>
+                    </div>
+                </div>
+            @endif
+
             <div class="account_content_area_form table-responsive">
                 <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                     <tr>
