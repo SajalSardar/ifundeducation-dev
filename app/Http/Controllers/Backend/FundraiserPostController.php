@@ -306,17 +306,18 @@ class FundraiserPostController extends Controller {
     public function statusChangeCampaign(Request $request) {
 
         $fundraiserpost = FundraiserPost::where('id', $request->fundRaiserPost)->first();
-        if ($request->status == 'pending') {
-            $fundraiserpost->update([
-                'status' => 'pending',
-            ]);
-        } else if ($request->status == 'running') {
+
+        if ($request->status == 'running') {
             $fundraiserpost->update([
                 'status' => 'running',
             ]);
         } else if ($request->status == 'block') {
             $fundraiserpost->update([
                 'status' => 'block',
+            ]);
+        } else if ($request->status == 'reviewed') {
+            $fundraiserpost->update([
+                'status' => 'reviewed',
             ]);
         }
 

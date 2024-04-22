@@ -30,28 +30,16 @@
             </h3>
             @if ($fundRaiserPost->status != 'stop' && $fundRaiserPost->status != 'completed')
                 <div class="card-toolbar">
-                    @if ($fundRaiserPost->status != 'block')
-                        @if ($fundRaiserPost->status == 'pending')
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
-                                class="btn btn-sm btn-success" id="active">
-                                Make Active
-                            </a>
-                            {{-- @else
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
-                                class="btn btn-sm btn-success" id="pending">
-                                Make Pending
-                            </a> --}}
-                        @endif
-
-
-                    @endif
-
-
-                    @if ($fundRaiserPost->status == 'block')
-                        {{-- <a href="{{ route('dashboard.fundraiser.campaign.campaign.status', [$fundRaiserPost->id, 2]) }}"
-                            class="btn btn-sm btn-info mx-2">
-                            Unblock
-                        </a> --}}
+                    @if ($fundRaiserPost->status == 'pending')
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                            class="btn btn-sm btn-success" id="active">
+                            Active
+                        </a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
+                            class="btn btn-sm btn-primary ms-2" id="reviewed">
+                            Review
+                        </a>
+                    @elseif ($fundRaiserPost->status == 'block')
                         <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
                             class="btn btn-sm btn-info mx-2" id="unblock">
                             Unblock
@@ -59,9 +47,12 @@
                     @else
                         <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
                             class="btn btn-sm btn-info mx-2" id="block">
-                            Make Block
+                            Block
                         </a>
                     @endif
+
+
+
 
 
                 </div>
@@ -81,7 +72,7 @@
                         <td width="15%"><strong>Status</strong></td>
                         <td width="3%">:</td>
                         <td><span
-                                class="badge badge-{{ $fundRaiserPost->status == 'running' ? 'success' : ($fundRaiserPost->status == 'pending' ? 'warning' : 'danger') }}">{{ Str::ucfirst($fundRaiserPost->status) }}</span>
+                                class="badge badge-{{ $fundRaiserPost->status == 'stop' || $fundRaiserPost->status == 'block' ? 'danger' : ($fundRaiserPost->status == 'pending' ? 'warning' : 'success') }}">{{ Str::ucfirst($fundRaiserPost->status) }}</span>
                         </td>
                     </tr>
                     <tr>
@@ -303,8 +294,8 @@
             $(document).on('click', '#block', function() {
                 status_input.val('block');
             })
-            $(document).on('click', '#pending', function() {
-                status_input.val('pending');
+            $(document).on('click', '#reviewed', function() {
+                status_input.val('reviewed');
             })
             $(document).on('click', '#active', function() {
                 status_input.val('running');

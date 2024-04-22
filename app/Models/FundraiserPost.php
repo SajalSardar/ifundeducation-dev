@@ -39,8 +39,8 @@ class FundraiserPost extends Model {
         return $this->hasOne(FundraiserPostUpdate::class)->where('status', 'pending')->orderBy('id', 'desc');
     }
 
-    public function approvalComments() {
-        return $this->hasMany(FundraiserApprovalComments::class);
+    public function reviewedComments() {
+        return $this->hasMany(FundraiserApprovalComments::class)->where('status', 'reviewed');
     }
 
     /**
