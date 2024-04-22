@@ -28,7 +28,7 @@
             <h3 class="card-title align-items-start flex-column">
                 <span class="card-label fw-bolder fs-3 mb-1">{{ Str::upper($fundRaiserPost->title) }}</span>
             </h3>
-            @if ($fundRaiserPost->status != 'draft')
+            @if ($fundRaiserPost->status != 'stop' && $fundRaiserPost->status != 'completed')
                 <div class="card-toolbar">
                     @if ($fundRaiserPost->status != 'block')
                         @if ($fundRaiserPost->status == 'pending')
@@ -36,11 +36,11 @@
                                 class="btn btn-sm btn-success" id="active">
                                 Make Active
                             </a>
-                        @else
+                            {{-- @else
                             <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
                                 class="btn btn-sm btn-success" id="pending">
                                 Make Pending
-                            </a>
+                            </a> --}}
                         @endif
 
 

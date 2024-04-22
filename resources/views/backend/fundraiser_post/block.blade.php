@@ -29,7 +29,7 @@
         <!--begin::Header-->
         <div class="card-header border-0 pt-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label fw-bolder fs-3 mb-1">All Campaign</span>
+                <span class="card-label fw-bolder fs-3 mb-1">Block Campaign</span>
             </h3>
 
         </div>
@@ -94,7 +94,7 @@
                 serverSide: true,
                 responsive: true,
                 ajax: {
-                    url: "{{ route('dashboard.fundraiser.campaign.campaign.all.datatable') }}",
+                    url: "{{ route('dashboard.fundraiser.campaign.campaign.block.datatable') }}",
                     type: "GET",
                     // data: function(d) {
                     //     d._token = "{{ csrf_token() }}";

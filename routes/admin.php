@@ -23,8 +23,20 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
     Route::get('/', [BackendController::class, 'index'])->name('index');
 
     Route::controller(FundraiserPostController::class)->prefix('campaign')->name('fundraiser.campaign.')->group(function () {
-        Route::get('/', 'allCampaign')->name('campaign.all');
-        Route::get('/datatable', 'allCampaignDatatable')->name('campaign.all.datatable');
+        Route::get('/running', 'runningCampaign')->name('campaign.all');
+        Route::get('/datatable/running', 'runningCampaignDatatable')->name('campaign.all.datatable');
+
+        Route::get('/pending', 'pendingCampaign')->name('campaign.pending');
+        Route::get('/datatable/pending', 'pendingCampaignDatatable')->name('campaign.pending.datatable');
+
+        Route::get('/completed', 'completedCampaign')->name('campaign.completed');
+        Route::get('/datatable/completed', 'completedCampaignDatatable')->name('campaign.completed.datatable');
+
+        Route::get('/block', 'blockCampaign')->name('campaign.block');
+        Route::get('/datatable/block', 'blockCampaignDatatable')->name('campaign.block.datatable');
+
+        Route::get('/stop', 'stopCampaign')->name('campaign.stop');
+        Route::get('/datatable/stop', 'stopCampaignDatatable')->name('campaign.stop.datatable');
 
         Route::get('/update-request', 'updateCampaign')->name('campaign.update.request');
         Route::get('/update-request-datatable', 'updateCampaignDatatable')->name('campaign.update.datatable');
