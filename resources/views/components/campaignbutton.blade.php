@@ -7,5 +7,6 @@
     <a href="{{ route('dashboard.fundraiser.campaign.campaign.block') }}" class="btn btn-sm btn-danger">Block</a>
     <a href="{{ route('dashboard.fundraiser.campaign.campaign.stop') }}" class="btn btn-sm btn-secondary">Stop by
         fundraiser</a>
+    <a href="{{ route('dashboard.fundraiser.campaign.campaign.reviewed') }}" class="btn btn-sm btn-info">Reviewed</a>
 
 </div>

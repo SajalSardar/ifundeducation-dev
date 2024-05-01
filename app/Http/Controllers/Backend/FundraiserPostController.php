@@ -293,6 +293,61 @@ class FundraiserPostController extends Controller {
             ->escapeColumns([])
             ->make(true);
     }
+    public function reviewedCampaign() {
+
+        return view('backend.fundraiser_post.reviewed');
+    }
+
+    public function reviewedCampaignDatatable() {
+        $posts = FundraiserPost::with('fundraisercategory')->where('status', 'reviewed');
+        // if ($request->all()) {
+        //     $posts->where(function ($query) use ($request) {
+        //         if ($request->title) {
+        //             $query->where('id', '=', $request->title);
+        //         }
+        //         if ($request->fromdate) {
+        //             $from_date = date("Y-m-d", strtotime($request->fromdate));
+        //             $query->where('created_at', '>=', $from_date);
+        //         }
+        //         if ($request->todate) {
+        //             $to_date = date("Y-m-d", strtotime($request->todate));
+        //             $query->where('end_date', '<=', $to_date);
+        //         }
+        //     });
+        // }
+        return DataTables::of($posts)
+
+            ->addColumn('category', function ($posts) {
+                return '<span class="badge bg-success">' . $posts->fundraisercategory->name . '</span>';
+
+            })
+            ->editColumn('goal', function ($posts) {
+                return '$' . number_format($posts->goal, 2);
+            })
+            ->editColumn('end_date', function ($posts) {
+                return $posts->end_date->format('M d, Y');
+            })
+            ->editColumn('status', function ($posts) {
+                $status = '<span class="badge bg-danger">' . Str::ucfirst($posts->status) . '</span>';
+                return $status;
+            })
+            ->editColumn('created_at', function ($posts) {
+                return $posts->created_at->format('M d, Y');
+            })
+            ->addColumn('action_column', function ($posts) {
+                $links = '';
+
+                $links .= '<a href="' . route('dashboard.fundraiser.campaign.campaign.show', $posts->slug) . '"
+                class="btn btn-sm btn-primary" title="View">
+                View
+            </a>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
 
     public function showCampaign($slug) {
         $fundRaiserPost = FundraiserPost::with([
@@ -301,6 +356,13 @@ class FundraiserPostController extends Controller {
                 $q->with('replies')->orderBy('created_at', "desc");
             }])->where('slug', $slug)->firstOrfail();
 
+        if ($fundRaiserPost->status === "reviewed") {
+            $fundRaiserPost->load('reviewedComments');
+        }
+        if ($fundRaiserPost->status === "block") {
+            $fundRaiserPost->load('blockComments');
+        }
+        // return $fundRaiserPost;
         return view('backend.fundraiser_post.show', compact('fundRaiserPost'));
     }
     public function statusChangeCampaign(Request $request) {

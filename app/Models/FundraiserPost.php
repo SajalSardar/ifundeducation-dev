@@ -42,6 +42,9 @@ class FundraiserPost extends Model {
     public function reviewedComments() {
         return $this->hasMany(FundraiserApprovalComments::class)->where('status', 'reviewed');
     }
+    public function blockComments() {
+        return $this->hasMany(FundraiserApprovalComments::class)->where('status', 'block');
+    }
 
     /**
      * The attributes that should be cast.

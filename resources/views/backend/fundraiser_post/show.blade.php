@@ -22,6 +22,38 @@
     </div>
 @endsection
 @section('content')
+    @if ($fundRaiserPost->status === 'reviewed')
+        <div class="card mb-5 mb-xl-8">
+            <div class="card-header border-0 pt-5">
+                <h3>Review message</h3>
+            </div>
+            <div class="card-body py-3">
+                @foreach ($fundRaiserPost->reviewedComments as $reviewedComment)
+                    <div class="alert alert-warning">
+                        Date: {{ $reviewedComment->created_at->format('d M, Y') }}
+                        <br>
+                        <strong> Message:</strong> {{ $reviewedComment->comments }}
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+    @if ($fundRaiserPost->status === 'block')
+        <div class="card mb-5 mb-xl-8">
+            <div class="card-header border-0 pt-5">
+                <h3>Block reason</h3>
+            </div>
+            <div class="card-body py-3">
+                @foreach ($fundRaiserPost->blockComments as $blockComment)
+                    <div class="alert alert-danger">
+                        Date: {{ $blockComment->created_at->format('d M, Y') }}
+                        <br>
+                        <strong> Message:</strong> {{ $blockComment->comments }}
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
     <div class="card mb-5 mb-xl-8">
         <!--begin::Header-->
         <div class="card-header border-0 pt-5">
@@ -30,7 +62,7 @@
             </h3>
             @if ($fundRaiserPost->status != 'stop' && $fundRaiserPost->status != 'completed')
                 <div class="card-toolbar">
-                    @if ($fundRaiserPost->status == 'pending')
+                    @if ($fundRaiserPost->status == 'pending' || $fundRaiserPost->status == 'reviewed')
                         <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
                             class="btn btn-sm btn-success" id="active">
                             Active
@@ -41,8 +73,8 @@
                         </a>
                     @elseif ($fundRaiserPost->status == 'block')
                         <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"
-                            class="btn btn-sm btn-info mx-2" id="unblock">
-                            Unblock
+                            class="btn btn-sm btn-success mx-2" id="unblock">
+                            Active
                         </a>
                     @else
                         <a href="#" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends"

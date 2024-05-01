@@ -38,12 +38,16 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
         Route::get('/stop', 'stopCampaign')->name('campaign.stop');
         Route::get('/datatable/stop', 'stopCampaignDatatable')->name('campaign.stop.datatable');
 
+        Route::get('/reviewed', 'reviewedCampaign')->name('campaign.reviewed');
+        Route::get('/datatable/reviewed', 'reviewedCampaignDatatable')->name('campaign.reviewed.datatable');
+
         Route::get('/update-request', 'updateCampaign')->name('campaign.update.request');
         Route::get('/update-request-datatable', 'updateCampaignDatatable')->name('campaign.update.datatable');
         Route::get('/update-request/{slug}', 'updateCampaignShow')->name('campaign.update.request.show');
 
         Route::get('/{slug}', 'showCampaign')->name('campaign.show');
         Route::post('/campaign-status-update', 'statusChangeCampaign')->name('campaign.status');
+
         Route::post('/request-campaign-status-update', 'fundraiserRequestUpdate')->name('request.campaign.update');
     });
 
