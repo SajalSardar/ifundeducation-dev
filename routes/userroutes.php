@@ -78,6 +78,22 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::get('/single-donation/{slug}', 'singleDonationDataTable')->name('single.donation.datatable');
         Route::get('/single-comments/{slug}', 'singleCommentsDataTable')->name('single.comments.datatable');
         Route::get('/single-updatemessage/{slug}', 'singleUpdatemessageDataTable')->name('single.updatemessage.datatable');
+
+        Route::get('/pending', 'pendingCampaign')->name('campaign.pending');
+        Route::get('/datatable/pending', 'pendingCampaignDatatable')->name('campaign.pending.datatable');
+
+        Route::get('/completed', 'completedCampaign')->name('campaign.completed');
+        Route::get('/datatable/completed', 'completedCampaignDatatable')->name('campaign.completed.datatable');
+
+        Route::get('/block', 'blockCampaign')->name('campaign.block');
+        Route::get('/datatable/block', 'blockCampaignDatatable')->name('campaign.block.datatable');
+
+        Route::get('/stop', 'stopCampaign')->name('campaign.stop');
+        Route::get('/datatable/stop', 'stopCampaignDatatable')->name('campaign.stop.datatable');
+
+        Route::get('/reviewed', 'reviewedCampaign')->name('campaign.reviewed');
+        Route::get('/datatable/reviewed', 'reviewedCampaignDatatable')->name('campaign.reviewed.datatable');
+
     });
 
     Route::controller(UserProfileController::class)->prefix('user/profile')->name('user.profile.')->group(function () {

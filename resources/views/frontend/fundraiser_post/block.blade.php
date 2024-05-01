@@ -14,7 +14,7 @@
                 <form action="" method="GET" id="filterForm">
                     <div class="input-group">
                         <select class="form-select select2" name="title">
-                            <option selected value="">Running Fundraiser</option>
+                            <option selected value="">Block Fundraiser</option>
                             @foreach ($fundposts as $fundpost)
                                 <option value="{{ $fundpost->id }}">{{ $fundpost->title }}</option>
                             @endforeach
@@ -68,7 +68,7 @@
                 serverSide: true,
                 responsive: true,
                 ajax: {
-                    url: "{{ route('fundraiser.post.datatable') }}",
+                    url: "{{ route('fundraiser.post.campaign.block.datatable') }}",
                     type: "GET",
                     data: function(d) {
                         d._token = "{{ csrf_token() }}";

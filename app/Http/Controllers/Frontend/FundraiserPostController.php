@@ -25,13 +25,18 @@ class FundraiserPostController extends Controller {
      */
     public function index() {
 
-        $fundposts         = FundraiserPost::select('id', 'title')->where('user_id', Auth::id())->get();
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('user_id', Auth::id())
+            ->where('status', 'running')
+            ->get();
         $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
 
         return view('frontend.fundraiser_post.index', compact('fundposts', 'fundpostsCategory'));
     }
     public function postDataTable(Request $request) {
-        $posts = FundraiserPost::with('fundraisercategory')->where('user_id', auth()->user()->id);
+        $posts = FundraiserPost::with('fundraisercategory')
+            ->where('user_id', auth()->user()->id)
+            ->where('status', 'running');
 
         if ($request->all()) {
             $posts->where(function ($query) use ($request) {
@@ -61,8 +66,7 @@ class FundraiserPostController extends Controller {
                 return $posts->end_date->format('M d, Y');
             })
             ->editColumn('status', function ($posts) {
-                $statusui = $posts->status == 'running' ? 'success' : ($posts->status == 'pending' || $posts->status == 'draft' ? 'warning' : 'danger');
-                $status   = '<span class="badge bg-' . $statusui . '">' . Str::ucfirst($posts->status) . '</span>';
+                $status = '<span class="badge bg-success">' . Str::ucfirst($posts->status) . '</span>';
                 return $status;
             })
             ->editColumn('created_at', function ($posts) {
@@ -71,15 +75,13 @@ class FundraiserPostController extends Controller {
             ->addColumn('action_column', function ($posts) {
                 $links = '';
 
-                if ($posts->status != 'pending' && $posts->status != 'block' && $posts->status != 'draft') {
-                    if ($posts->status == 'stop') {
-                        $links = '<a href="' . route('fundraiser.post.running', $posts->slug) . '" title="Restart"
-                        class="action_icon running_campaign">
-                        <i class="fa-regular fa-circle-play"></i></a>';
-                    } else {
-                        $links = '<a href="' . route('fundraiser.post.stop', $posts->slug) . '" title="Stop"
-                        class="action_icon stop_campaign"> <i class="fa-regular fa-circle-stop"></i></a>';
-                    }
+                if ($posts->status == 'stop') {
+                    $links = '<a href="' . route('fundraiser.post.running', $posts->slug) . '" title="Restart"
+                    class="action_icon running_campaign">
+                    <i class="fa-regular fa-circle-play"></i></a>';
+                } else {
+                    $links = '<a href="' . route('fundraiser.post.stop', $posts->slug) . '" title="Stop"
+                    class="action_icon stop_campaign"> <i class="fa-regular fa-circle-stop"></i></a>';
                 }
 
                 $links .= '<a href="' . route('fundraiser.post.show', $posts->slug) . '" class="action_icon"
@@ -101,6 +103,369 @@ class FundraiserPostController extends Controller {
             ->escapeColumns([])
             ->make(true);
     }
+
+    public function pendingCampaign() {
+
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('user_id', Auth::id())
+            ->where('status', 'pending')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+
+        return view('frontend.fundraiser_post.pending', compact('fundposts', 'fundpostsCategory'));
+    }
+    public function pendingCampaignDatatable(Request $request) {
+        $posts = FundraiserPost::with('fundraisercategory')
+            ->where('user_id', auth()->user()->id)
+            ->where('status', 'pending');
+
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
+        return DataTables::of($posts)
+
+            ->addColumn('category', function ($posts) {
+                return '<span class="badge bg-success">' . $posts->fundraisercategory->name . '</span>';
+
+            })
+            ->editColumn('goal', function ($posts) {
+                return '$' . number_format($posts->goal, 2);
+            })
+            ->editColumn('end_date', function ($posts) {
+                return $posts->end_date->format('M d, Y');
+            })
+            ->editColumn('status', function ($posts) {
+                $status = '<span class="badge bg-warning">' . Str::ucfirst($posts->status) . '</span>';
+                return $status;
+            })
+            ->editColumn('created_at', function ($posts) {
+                return $posts->created_at->format('M d, Y');
+            })
+            ->addColumn('action_column', function ($posts) {
+                $links = '';
+
+                $links .= '<a href="' . route('fundraiser.post.show', $posts->slug) . '" class="action_icon"
+                title="View">
+                <i class="fas fa-eye"></i></a><a href="' . route('fundraiser.post.edit', $posts->slug) . '" class="action_icon"
+                title="Edit"> <i class="fas fa-edit"></i></a>
+                <form action="' . route('fundraiser.post.delete', $posts->slug) . '" method="POST"
+                class="d-inline" style="cursor: pointer">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <p class="action_icon delete post_delete" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </p>
+                </form>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
+
+    public function completedCampaign() {
+
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('user_id', Auth::id())
+            ->where('status', 'completed')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+
+        return view('frontend.fundraiser_post.completed', compact('fundposts', 'fundpostsCategory'));
+    }
+
+    public function completedCampaignDatatable(Request $request) {
+        $posts = FundraiserPost::with('fundraisercategory')
+            ->where('user_id', auth()->user()->id)
+            ->where('status', 'completed');
+
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
+        return DataTables::of($posts)
+
+            ->addColumn('category', function ($posts) {
+                return '<span class="badge bg-success">' . $posts->fundraisercategory->name . '</span>';
+
+            })
+            ->editColumn('goal', function ($posts) {
+                return '$' . number_format($posts->goal, 2);
+            })
+            ->editColumn('end_date', function ($posts) {
+                return $posts->end_date->format('M d, Y');
+            })
+            ->editColumn('status', function ($posts) {
+                $status = '<span class="badge bg-success">' . Str::ucfirst($posts->status) . '</span>';
+                return $status;
+            })
+            ->editColumn('created_at', function ($posts) {
+                return $posts->created_at->format('M d, Y');
+            })
+            ->addColumn('action_column', function ($posts) {
+                $links = '';
+
+                $links .= '<a href="' . route('fundraiser.post.show', $posts->slug) . '" class="action_icon"
+                title="View">
+                <i class="fas fa-eye"></i></a>
+                <form action="' . route('fundraiser.post.delete', $posts->slug) . '" method="POST"
+                class="d-inline" style="cursor: pointer">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <p class="action_icon delete post_delete" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </p>
+                </form>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
+
+    public function blockCampaign() {
+
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('user_id', Auth::id())
+            ->where('status', 'block')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+
+        return view('frontend.fundraiser_post.block', compact('fundposts', 'fundpostsCategory'));
+    }
+    public function blockCampaignDatatable(Request $request) {
+        $posts = FundraiserPost::with('fundraisercategory')
+            ->where('user_id', auth()->user()->id)
+            ->where('status', 'block');
+
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
+        return DataTables::of($posts)
+
+            ->addColumn('category', function ($posts) {
+                return '<span class="badge bg-success">' . $posts->fundraisercategory->name . '</span>';
+
+            })
+            ->editColumn('goal', function ($posts) {
+                return '$' . number_format($posts->goal, 2);
+            })
+            ->editColumn('end_date', function ($posts) {
+                return $posts->end_date->format('M d, Y');
+            })
+            ->editColumn('status', function ($posts) {
+                $status = '<span class="badge bg-danger">' . Str::ucfirst($posts->status) . '</span>';
+                return $status;
+            })
+            ->editColumn('created_at', function ($posts) {
+                return $posts->created_at->format('M d, Y');
+            })
+            ->addColumn('action_column', function ($posts) {
+                $links = '';
+
+                $links .= '<a href="' . route('fundraiser.post.show', $posts->slug) . '" class="action_icon"
+                title="View">
+                <i class="fas fa-eye"></i></a>
+                <form action="' . route('fundraiser.post.delete', $posts->slug) . '" method="POST"
+                class="d-inline" style="cursor: pointer">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <p class="action_icon delete post_delete" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </p>
+                </form>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
+
+    public function stopCampaign() {
+
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('user_id', Auth::id())
+            ->where('status', 'stop')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+
+        return view('frontend.fundraiser_post.stop', compact('fundposts', 'fundpostsCategory'));
+    }
+    public function stopCampaignDatatable(Request $request) {
+        $posts = FundraiserPost::with('fundraisercategory')
+            ->where('user_id', auth()->user()->id)
+            ->where('status', 'stop');
+
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
+        return DataTables::of($posts)
+
+            ->addColumn('category', function ($posts) {
+                return '<span class="badge bg-success">' . $posts->fundraisercategory->name . '</span>';
+
+            })
+            ->editColumn('goal', function ($posts) {
+                return '$' . number_format($posts->goal, 2);
+            })
+            ->editColumn('end_date', function ($posts) {
+                return $posts->end_date->format('M d, Y');
+            })
+            ->editColumn('status', function ($posts) {
+                $status = '<span class="badge bg-danger">' . Str::ucfirst($posts->status) . '</span>';
+                return $status;
+            })
+            ->editColumn('created_at', function ($posts) {
+                return $posts->created_at->format('M d, Y');
+            })
+            ->addColumn('action_column', function ($posts) {
+                $links = '';
+
+                $links .= '<a href="' . route('fundraiser.post.running', $posts->slug) . '" title="Restart"
+                    class="action_icon running_campaign">
+                    <i class="fa-regular fa-circle-play"></i></a>';
+
+                $links .= '<a href="' . route('fundraiser.post.show', $posts->slug) . '" class="action_icon"
+                title="View">
+                <i class="fas fa-eye"></i></a>
+                <form action="' . route('fundraiser.post.delete', $posts->slug) . '" method="POST"
+                class="d-inline" style="cursor: pointer">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <p class="action_icon delete post_delete" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </p>
+                </form>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
+
+    public function reviewedCampaign() {
+
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('user_id', Auth::id())
+            ->where('status', 'reviewed')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+
+        return view('frontend.fundraiser_post.reviewed', compact('fundposts', 'fundpostsCategory'));
+    }
+    public function reviewedCampaignDatatable(Request $request) {
+        $posts = FundraiserPost::with('fundraisercategory')
+            ->where('user_id', auth()->user()->id)
+            ->where('status', 'reviewed');
+
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
+        return DataTables::of($posts)
+
+            ->addColumn('category', function ($posts) {
+                return '<span class="badge bg-success">' . $posts->fundraisercategory->name . '</span>';
+
+            })
+            ->editColumn('goal', function ($posts) {
+                return '$' . number_format($posts->goal, 2);
+            })
+            ->editColumn('end_date', function ($posts) {
+                return $posts->end_date->format('M d, Y');
+            })
+            ->editColumn('status', function ($posts) {
+                $status = '<span class="badge bg-success">' . Str::ucfirst($posts->status) . '</span>';
+                return $status;
+            })
+            ->editColumn('created_at', function ($posts) {
+                return $posts->created_at->format('M d, Y');
+            })
+            ->addColumn('action_column', function ($posts) {
+                $links = '';
+
+                $links .= '<a href="' . route('fundraiser.post.show', $posts->slug) . '" class="action_icon"
+                title="View">
+                <i class="fas fa-eye"></i></a><a href="' . route('fundraiser.post.edit', $posts->slug) . '" class="action_icon"
+                title="Edit"> <i class="fas fa-edit"></i></a>
+                <form action="' . route('fundraiser.post.delete', $posts->slug) . '" method="POST"
+                class="d-inline" style="cursor: pointer">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <p class="action_icon delete post_delete" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </p>
+                </form>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
