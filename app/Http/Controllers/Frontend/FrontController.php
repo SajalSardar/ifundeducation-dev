@@ -43,7 +43,7 @@ class FrontController extends Controller {
 
     public function fundraiser() {
         $fundRaiserPosts = FundraiserPost::with([
-            'fundraisercategories',
+            'fundraisercategory',
             'donates' => function ($q) {
                 $q->select('id', 'amount', 'fundraiser_post_id');
             },

@@ -74,9 +74,8 @@
                                 </li>
                             </ul>
                             <ul class="fundraisers_card_sub">
-                                @foreach ($fundRaiserPost->fundraisercategories as $category)
-                                    <li><i class="fas fa-tag text-dark"></i>{{ $category->name }}</li>
-                                @endforeach
+                                <li><i class="fas fa-tag text-dark"></i>{{ $fundRaiserPost->fundraisercategory->name }}
+                                </li>
                             </ul>
                             <p>{{ $fundRaiserPost->shot_description }}</p>
                             <div class="progress mt-3" style="height: 13px;">
