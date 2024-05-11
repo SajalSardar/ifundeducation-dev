@@ -370,6 +370,28 @@ class FundraiserPostController extends Controller {
         $fundraiserpost = FundraiserPost::where('id', $request->fundRaiserPost)->first();
 
         if ($request->status == 'running') {
+
+            $postUpdate = FundraiserPostUpdate::where('fundraiser_post_id', $fundraiserpost->id)
+                ->where('status', "running")
+                ->first();
+            if (!$postUpdate) {
+                FundraiserPostUpdate::create([
+                    'user_id'                => $fundraiserpost->user_id,
+                    'fundraiser_category_id' => $fundraiserpost->fundraiser_category_id,
+                    'fundraiser_post_id'     => $fundraiserpost->id,
+                    'slug'                   => $fundraiserpost->slug,
+                    'title'                  => $fundraiserpost->title,
+                    'shot_description'       => $fundraiserpost->shot_description,
+                    'goal'                   => $fundraiserpost->goal,
+                    'end_date'               => $fundraiserpost->end_date,
+                    'image'                  => $fundraiserpost->image,
+                    'story'                  => $fundraiserpost->story,
+                    'agree'                  => $fundraiserpost->agree,
+                    'status'                 => "primary",
+                    'accepted_by'            => Auth::id(),
+                ]);
+            }
+
             $fundraiserpost->update([
                 'status' => 'running',
             ]);

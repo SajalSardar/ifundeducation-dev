@@ -517,30 +517,8 @@ class FundraiserPostController extends Controller {
             'image'                  => $image_name,
             'story'                  => $request->story,
             'agree'                  => $request->agree === 'on' ? true : false,
+            'status'                 => $request->save_draft === "draft" ? "draft" : "pending",
         ]);
-        if ($request->save_draft === "draft") {
-            $post->update([
-                'status' => "draft",
-            ]);
-        } else {
-            $post->update([
-                'status' => "pending",
-            ]);
-            $postUpdate = FundraiserPostUpdate::create([
-                'user_id'                => auth()->user()->id,
-                'fundraiser_post_id'     => $post->id,
-                'fundraiser_category_id' => $request->category,
-                'title'                  => $request->title,
-                'slug'                   => $post->slug,
-                'shot_description'       => $request->shot_description,
-                'goal'                   => $request->goal,
-                'end_date'               => $request->end_date,
-                'image'                  => $image_name,
-                'story'                  => $request->story,
-                'agree'                  => $request->agree === 'on' ? true : false,
-                'status'                 => "initiated",
-            ]);
-        }
 
         if ($request->save_draft === "draft") {
             return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser Post Save to draft!');
@@ -669,60 +647,19 @@ class FundraiserPostController extends Controller {
             'story'            => 'nullable|max:1500',
         ]);
 
-        if ($image) {
+        // return $fundraiserpost;
 
-            if (file_exists(public_path('storage/fundraiser_post/' . $fundraiserpost->image))) {
-                Storage::delete('fundraiser_post/' . $fundraiserpost->image);
+        if ($fundraiserpost->status === "running") {
+
+            if ($image) {
+
+                $image_name = Str::ulid() . '.' . $image->extension();
+
+                $upload = Image::make($image)->resize(250, 250)->save(public_path('storage/fundraiser_post/' . $image_name));
+            } else {
+                $image_name = $fundraiserpost->image;
             }
 
-            $image_name = Str::ulid() . '.' . $image->extension();
-
-            $upload = Image::make($image)->resize(250, 250)->save(public_path('storage/fundraiser_post/' . $image_name));
-        } else {
-            $image_name = $fundraiserpost->image;
-        }
-
-        if ($request->save_draft === "draft") {
-            $fundraiserpost->update([
-                'fundraiser_category_id' => $request->category,
-                'title'                  => $request->title,
-                'shot_description'       => $request->shot_description,
-                'goal'                   => $request->goal,
-                'end_date'               => $request->end_date,
-                'image'                  => $image_name,
-                'story'                  => $request->story,
-                'status'                 => "draft",
-            ]);
-
-        } else if ($request->publish === 'publish') {
-
-            $fundraiserpost->update([
-                'fundraiser_category_id' => $request->category,
-                'title'                  => $request->title,
-                'shot_description'       => $request->shot_description,
-                'goal'                   => $request->goal,
-                'end_date'               => $request->end_date,
-                'image'                  => $image_name,
-                'story'                  => $request->story,
-                'status'                 => "pending",
-            ]);
-
-            FundraiserPostUpdate::create([
-                'user_id'                => auth()->user()->id,
-                'fundraiser_category_id' => $request->category,
-                'fundraiser_post_id'     => $fundraiserpost->id,
-                'slug'                   => $fundraiserpost->slug,
-                'title'                  => $request->title,
-                'shot_description'       => $request->shot_description,
-                'goal'                   => $request->goal,
-                'end_date'               => $request->end_date,
-                'image'                  => $image_name,
-                'story'                  => $request->story,
-                'agree'                  => $fundraiserpost->agree,
-                'status'                 => "initiated",
-            ]);
-
-        } else {
             FundraiserPostUpdate::create([
                 'user_id'                => auth()->user()->id,
                 'fundraiser_post_id'     => $fundraiserpost->id,
@@ -738,14 +675,47 @@ class FundraiserPostController extends Controller {
                 'status'                 => "pending",
             ]);
 
-        }
+            return redirect()->route('fundraiser.post.index')->with('success', 'Updated pending!');
 
-        if ($request->save_draft === "draft") {
-            return back()->with('success', 'Fundraiser Save to draft!');
-        } else if ($request->publish === 'publish') {
-            return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser Post published!');
         } else {
-            return redirect()->route('fundraiser.post.index')->with('success', 'Fundraiser successfully updated!');
+
+            if ($image) {
+
+                if (file_exists(public_path('storage/fundraiser_post/' . $fundraiserpost->image))) {
+                    Storage::delete('fundraiser_post/' . $fundraiserpost->image);
+                }
+
+                $image_name = Str::ulid() . '.' . $image->extension();
+
+                $upload = Image::make($image)->resize(250, 250)->save(public_path('storage/fundraiser_post/' . $image_name));
+            } else {
+                $image_name = $fundraiserpost->image;
+            }
+
+            $fundraiserpost->update([
+                'fundraiser_category_id' => $request->category,
+                'title'                  => $request->title,
+                'shot_description'       => $request->shot_description,
+                'goal'                   => $request->goal,
+                'end_date'               => $request->end_date,
+                'image'                  => $image_name,
+                'story'                  => $request->story,
+            ]);
+
+            if ($request->save_draft === "draft") {
+                $fundraiserpost->update([
+                    'status' => "draft",
+                ]);
+                return back()->with('success', 'Fundraiser Save to draft!');
+
+            } else {
+                $fundraiserpost->update([
+                    'status' => "pending",
+                ]);
+
+                return redirect()->route('fundraiser.post.campaign.pending')->with('success', 'Fundraiser Post published!');
+            }
+
         }
 
     }

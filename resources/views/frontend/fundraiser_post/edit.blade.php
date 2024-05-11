@@ -5,18 +5,8 @@
     <div class="mb-5">
         <div class="account_content_area">
             <h3>Edit Fundraiser</h3>
-            @if (@$fundraiserpost->status === 'pending')
-                <div class="alert alert-warning">
-                    <p>Fundraiser status pending!</p>
-                </div>
-            @endif
-            @if (@$fundraiserpost->pendingUpdate->status === 'pending')
-                <div class="alert alert-warning">
-                    <p>one update request is pending!</p>
-                </div>
-            @endif
-            <form method="POST"
-                action="{{ $fundraiserpost->status != 'pending' && @$fundraiserpost->pendingUpdate->status != 'pending' ? route('fundraiser.post.update', $fundraiserpost->slug) : '#' }}"
+
+            <form method="POST" action="{{ route('fundraiser.post.update', $fundraiserpost->slug) }}"
                 class="account_content_area_form" enctype="multipart/form-data" id="post_form">
                 @csrf
                 @method('PUT')
@@ -113,7 +103,7 @@
                             <button type="submit" id="publish_btn">Publish</button>
                             <input type="hidden" name="save_draft" id="draft_input">
                             <button type="button" name="save_draft" id="draft_btn">Save to draft</button>
-                        @elseif($fundraiserpost->status != 'pending' && @$fundraiserpost->pendingUpdate->status != 'pending')
+                        @else
                             <button type="submit"
                                 onclick="this.form.submit(); this.disabled=true; this.innerHTML='saving…';">Update</button>
                         @endif
