@@ -8,14 +8,18 @@
 
         <div class="account_content_area">
             <h3>{{ $fundraiserpost->title }}</h3>
-            @if ($lastApprovedComment && $lastApprovedComment->status != 'running' && $fundraiserpost->status != 'running')
-                <div class="alert alert-warning">
-                    <div>
-                        <strong>{{ $lastApprovedComment->created_at->format('M d, Y') }}</strong>
-                        <hr>
-                        <p>{{ $lastApprovedComment->comments }}</p>
-                    </div>
-                </div>
+            @if ($lastApprovedComment)
+                @foreach ($lastApprovedComment as $lastApprovedComment)
+                    @if ($lastApprovedComment->status != 'running' && $fundraiserpost->status != 'running')
+                        <div class="alert alert-warning">
+                            <div>
+                                <strong>{{ $lastApprovedComment->created_at->format('M d, Y') }}</strong>
+                                <hr>
+                                <p>{{ $lastApprovedComment->comments }}</p>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             @endif
 
             <div class="account_content_area_form table-responsive">
@@ -29,7 +33,7 @@
                         <td width="20%"><strong>Status</strong></td>
                         <td width="3%">:</td>
                         <td><span
-                                class="badge bg-{{ $fundraiserpost->status == 'running' ? 'success' : ($fundraiserpost->status == 'pending' ? 'warning' : 'danger') }}">{{ Str::ucfirst($fundraiserpost->status) }}</span>
+                                class="badge bg-{{ $fundraiserpost->status == 'running' || $fundraiserpost->status == 'completed' ? 'success' : ($fundraiserpost->status == 'pending' ? 'warning' : 'danger') }}">{{ Str::ucfirst($fundraiserpost->status) }}</span>
                         </td>
                     </tr>
                     <tr>

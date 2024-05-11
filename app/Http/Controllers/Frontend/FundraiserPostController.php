@@ -620,13 +620,27 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($slug) {
-        $fundraiserpost = FundraiserPost::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+        $lastApprovedComment = [];
+        $fundraiserpost      = FundraiserPost::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
 
         if ($fundraiserpost->user_id != Auth::id()) {
             abort(404);
         }
 
-        $lastApprovedComment = FundraiserApprovalComments::where('fundraiser_post_id', $fundraiserpost->id)->orderBy('id', 'desc')->first();
+        if ($fundraiserpost->status == 'reviewed') {
+
+            $lastApprovedComment = FundraiserApprovalComments::where('fundraiser_post_id', $fundraiserpost->id)
+                ->where('status', 'reviewed')
+                ->orderBy('id', 'desc')
+                ->get();
+        }
+        if ($fundraiserpost->status == 'block') {
+
+            $lastApprovedComment = FundraiserApprovalComments::where('fundraiser_post_id', $fundraiserpost->id)
+                ->where('status', 'block')
+                ->orderBy('id', 'desc')
+                ->get();
+        }
 
         // return $lastApprovedComment;
 
