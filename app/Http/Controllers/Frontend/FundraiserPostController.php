@@ -466,6 +466,78 @@ class FundraiserPostController extends Controller {
             ->make(true);
     }
 
+    public function draftCampaign() {
+
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('user_id', Auth::id())
+            ->where('status', 'draft')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+
+        return view('frontend.fundraiser_post.draft', compact('fundposts', 'fundpostsCategory'));
+    }
+    public function draftCampaignDatatable(Request $request) {
+        $posts = FundraiserPost::with('fundraisercategory')
+            ->where('user_id', auth()->user()->id)
+            ->where('status', 'draft');
+
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
+        return DataTables::of($posts)
+
+            ->addColumn('category', function ($posts) {
+                return '<span class="badge bg-success">' . $posts->fundraisercategory->name . '</span>';
+
+            })
+            ->editColumn('goal', function ($posts) {
+                return '$' . number_format($posts->goal, 2);
+            })
+            ->editColumn('end_date', function ($posts) {
+                return $posts->end_date->format('M d, Y');
+            })
+            ->editColumn('status', function ($posts) {
+                $status = '<span class="badge bg-success">' . Str::ucfirst($posts->status) . '</span>';
+                return $status;
+            })
+            ->editColumn('created_at', function ($posts) {
+                return $posts->created_at->format('M d, Y');
+            })
+            ->addColumn('action_column', function ($posts) {
+                $links = '';
+
+                $links .= '<a href="' . route('fundraiser.post.show', $posts->slug) . '" class="action_icon"
+                title="View">
+                <i class="fas fa-eye"></i></a><a href="' . route('fundraiser.post.edit', $posts->slug) . '" class="action_icon"
+                title="Edit"> <i class="fas fa-edit"></i></a>
+                <form action="' . route('fundraiser.post.delete', $posts->slug) . '" method="POST"
+                class="d-inline" style="cursor: pointer">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <p class="action_icon delete post_delete" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </p>
+                </form>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -706,7 +778,7 @@ class FundraiserPostController extends Controller {
                 $fundraiserpost->update([
                     'status' => "draft",
                 ]);
-                return back()->with('success', 'Fundraiser Save to draft!');
+                return redirect()->route('fundraiser.post.campaign.draft')->with('success', 'Fundraiser Save to draft!');
 
             } else {
                 $fundraiserpost->update([

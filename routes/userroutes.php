@@ -82,6 +82,9 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::get('/pending', 'pendingCampaign')->name('campaign.pending');
         Route::get('/datatable/pending', 'pendingCampaignDatatable')->name('campaign.pending.datatable');
 
+        Route::get('/draft', 'draftCampaign')->name('campaign.draft');
+        Route::get('/datatable/draft', 'draftCampaignDatatable')->name('campaign.draft.datatable');
+
         Route::get('/completed', 'completedCampaign')->name('campaign.completed');
         Route::get('/datatable/completed', 'completedCampaignDatatable')->name('campaign.completed.datatable');
 
