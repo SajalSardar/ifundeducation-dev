@@ -6,6 +6,12 @@
         <div class="account_content_area">
             <h3>Edit Fundraiser</h3>
 
+            @if ($fundraiserpost->pendingUpdate)
+                <div class="alert alert-warning">
+                    <p>One update request pending!</p>
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('fundraiser.post.update', $fundraiserpost->slug) }}"
                 class="account_content_area_form" enctype="multipart/form-data" id="post_form">
                 @csrf
@@ -104,8 +110,10 @@
                             <input type="hidden" name="save_draft" id="draft_input">
                             <button type="button" name="save_draft" id="draft_btn">Save to draft</button>
                         @else
-                            <button type="submit"
-                                onclick="this.form.submit(); this.disabled=true; this.innerHTML='saving…';">Update</button>
+                            @if (!$fundraiserpost->pendingUpdate)
+                                <button type="submit"
+                                    onclick="this.form.submit(); this.disabled=true; this.innerHTML='saving…';">Update</button>
+                            @endif
                         @endif
 
                     </div>

@@ -700,13 +700,19 @@ class FundraiserPostController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($slug) {
-        $fundraiserpost = FundraiserPost::with('pendingUpdate')->where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+        $fundraiserpost = FundraiserPost::with('pendingUpdate')
+            ->where('slug', $slug)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
 
         if ($fundraiserpost->user_id != Auth::id()) {
             abort(404);
         }
 
         $categories = FundraiserCategory::orderBy('id', 'desc')->where('status', true)->get();
+
+        // return $fundraiserpost;
+
         return view('frontend.fundraiser_post.edit', compact('categories', 'fundraiserpost'));
     }
 
