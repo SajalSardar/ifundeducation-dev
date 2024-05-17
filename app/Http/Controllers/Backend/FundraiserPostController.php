@@ -7,8 +7,12 @@ use App\Models\FundraiserApprovalComments;
 use App\Models\FundraiserCategory;
 use App\Models\FundraiserPost;
 use App\Models\FundraiserPostUpdate;
+use App\Notifications\FundraiserStatusUpdateNotify;
+use App\Notifications\FundraiserUpdateNotify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -367,7 +371,7 @@ class FundraiserPostController extends Controller {
     }
     public function statusChangeCampaign(Request $request) {
 
-        $fundraiserpost = FundraiserPost::where('id', $request->fundRaiserPost)->first();
+        $fundraiserpost = FundraiserPost::with('user')->where('id', $request->fundRaiserPost)->first();
 
         if ($request->status == 'running') {
 
@@ -406,12 +410,14 @@ class FundraiserPostController extends Controller {
         }
 
         if ($request->comment) {
-            FundraiserApprovalComments::create([
+            $updatePostStatus = FundraiserApprovalComments::create([
                 "fundraiser_post_id" => $fundraiserpost->id,
                 "comments"           => $request->comment,
                 "status"             => $request->status,
                 "admin_id"           => Auth::id(),
             ]);
+
+            Notification::send($fundraiserpost->user, new FundraiserStatusUpdateNotify($updatePostStatus));
         }
 
         return back()->with('success', 'Successfully Update!');
@@ -491,15 +497,23 @@ class FundraiserPostController extends Controller {
     public function fundraiserRequestUpdate(Request $request) {
 
         $updatePost  = FundraiserPostUpdate::where('id', $request->update_post_id)->firstOrfail();
-        $currentPost = FundraiserPost::where('id', $updatePost->fundraiser_post_id)->firstOrfail();
+        $currentPost = FundraiserPost::with('user')->where('id', $updatePost->fundraiser_post_id)->firstOrfail();
 
         if ($request->status == 'cancelled') {
-            $updatePost->update([
+            $notifyComment = $updatePost->update([
                 'status'         => 'cancelled',
                 "admin_comments" => $request->comment,
                 "cancel_by"      => Auth::id(),
             ]);
+
+            Notification::send($currentPost->user, new FundraiserUpdateNotify($updatePost));
+
         } else if ($request->status == 'updated') {
+
+            if (file_exists(public_path('storage/fundraiser_post/' . $currentPost->image))) {
+                Storage::delete('fundraiser_post/' . $currentPost->image);
+            }
+
             $currentPost->update([
                 'fundraiser_category_id' => $updatePost->fundraiser_category_id,
                 'title'                  => $updatePost->title,
@@ -514,6 +528,7 @@ class FundraiserPostController extends Controller {
                 "admin_comments" => $request->comment,
                 "accepted_by"    => Auth::id(),
             ]);
+            Notification::send($currentPost->user, new FundraiserUpdateNotify($updatePost));
         }
 
         return redirect()->route('dashboard.fundraiser.campaign.campaign.all')->with('success', 'Successfully Update!');
