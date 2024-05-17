@@ -74,7 +74,7 @@
                                 </li>
                             </ul>
                             <ul class="fundraisers_card_sub">
-                                <li><i class="fas fa-tag text-dark"></i>{{ $fundRaiserPost->fundraisercategory->name }}
+                                <li><i class="fas fa-tag text-dark"></i>{{ @$fundRaiserPost->fundraisercategory->name }}
                                 </li>
                             </ul>
                             <p>{{ $fundRaiserPost->shot_description }}</p>
