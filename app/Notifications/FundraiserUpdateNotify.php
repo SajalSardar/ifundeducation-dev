@@ -12,6 +12,7 @@ class FundraiserUpdateNotify extends Notification implements ShouldQueue {
 
     private $notifyComment;
     private $status;
+    private $title;
 
     /**
      * Create a new notification instance.
@@ -21,6 +22,7 @@ class FundraiserUpdateNotify extends Notification implements ShouldQueue {
     public function __construct($updatePost) {
         $this->notifyComment = $updatePost->admin_comments;
         $this->status        = $updatePost->status;
+        $this->title         = $updatePost->title;
     }
 
     /**
@@ -42,6 +44,7 @@ class FundraiserUpdateNotify extends Notification implements ShouldQueue {
     public function toMail($notifiable) {
         return (new MailMessage)
             ->greeting('Hello!')
+            ->line('Title: ' . $this->title)
             ->line($this->notifyComment)
             ->line('Status: ' . $this->status)
             ->line('Thank you for using our application!');

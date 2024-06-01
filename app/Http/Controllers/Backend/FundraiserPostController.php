@@ -417,7 +417,7 @@ class FundraiserPostController extends Controller {
                 "admin_id"           => Auth::id(),
             ]);
 
-            Notification::send($fundraiserpost->user, new FundraiserStatusUpdateNotify($updatePostStatus));
+            Notification::send($fundraiserpost->user, new FundraiserStatusUpdateNotify($updatePostStatus, $fundraiserpost->title));
         }
 
         return back()->with('success', 'Successfully Update!');
