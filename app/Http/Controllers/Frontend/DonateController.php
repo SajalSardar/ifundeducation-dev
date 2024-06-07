@@ -158,9 +158,16 @@ class DonateController extends Controller {
                 "display_publicly"       => $request->is_display_info === "on" ? "no" : "yes",
             ]);
 
-            $balance->update([
-                'curent_amount' => (($transaction->net / 100) - $platform_fee) + $balance->curent_amount,
-            ]);
+            if ($balance) {
+                $balance->update([
+                    'curent_amount' => (($transaction->net / 100) - $platform_fee) + $balance->curent_amount,
+                ]);
+            } else {
+                FundraiserBalance::create([
+                    "user_id"       => Auth::id(),
+                    'curent_amount' => ($transaction->net / 100) - $platform_fee,
+                ]);
+            }
 
             //$fundRaiser = FundraiserPost::with('user')->find($request->post_id);
 
