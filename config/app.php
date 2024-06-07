@@ -188,6 +188,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Laravolt\Avatar\ServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -213,6 +214,7 @@ return [
 
     'aliases'         => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
     ])->toArray(),
 
 ];

@@ -7,19 +7,18 @@ use App\Models\Country;
 use App\Models\Donate;
 use App\Models\FundraiserBalance;
 use App\Models\FundraiserPost;
+use App\Models\ThemeOption;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use PDF;
 use Yajra\DataTables\Facades\DataTables;
 
 class DonateController extends Controller {
 
     public function index() {
-        // $user = User::with('all_donars.fundraiser')->where('id', Auth::id())->firstOrFail();
-
-        // $all_donars = $user->all_donars()->orderBy('id', 'desc')->paginate(10);
-        // return $all_donars;
 
         $fundposts = FundraiserPost::select('id', 'title')->where('user_id', Auth::id())->get();
 
@@ -36,8 +35,11 @@ class DonateController extends Controller {
                     $query->where('donates.fundraiser_post_id', '=', $request->title);
                 }
                 if ($request->donorname) {
-
-                    $query->where('donates.donar_name', 'like', "%$request->donorname%");
+                    if (Str::lower($request->donorname) === 'guest') {
+                        $query->where('donates.display_publicly', 'no');
+                    } else {
+                        $query->where('donates.donar_name', 'like', "%$request->donorname%");
+                    }
                 }
                 if ($request->fromdate) {
                     $from_date = date("Y-m-d", strtotime($request->fromdate));
@@ -49,6 +51,7 @@ class DonateController extends Controller {
                 }
             });
         }
+
         return DataTables::of($all_donars)
 
             ->editColumn('net_balance', function ($all_donars) {
@@ -63,6 +66,21 @@ class DonateController extends Controller {
             ->addIndexColumn()
             ->escapeColumns([])
             ->make(true);
+    }
+
+    public function downloadDonationList(Request $request) {
+
+        return $request;
+        $all_donars = Donate::join('fundraiser_posts', 'fundraiser_posts.id', 'donates.fundraiser_post_id')
+            ->select('donates.*', 'fundraiser_posts.title', 'fundraiser_posts.user_id')
+            ->where('fundraiser_posts.user_id', Auth::id())->get();
+        $themeOption = ThemeOption::first();
+        $data        = [
+            'all_donars'  => $all_donars,
+            'themeOption' => $themeOption,
+        ];
+        $pdf = PDF::loadView('pdf.frontend.donation', $data);
+        return $pdf->stream();
     }
 
     public function create($slug) {

@@ -122,6 +122,7 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
     Route::controller(DonateController::class)->group(function () {
         Route::get('all/donation/list', 'index')->name('donate.index');
         Route::get('donation-list-datatable', 'listDataTabel')->name('donate.index.datatable');
+        Route::get('download-donation-list', 'downloadDonationList')->name('donate.donation.list');
 
     });
 
