@@ -70,17 +70,65 @@ class DonateController extends Controller {
 
     public function downloadDonationList(Request $request) {
 
-        return $request;
-        $all_donars = Donate::join('fundraiser_posts', 'fundraiser_posts.id', 'donates.fundraiser_post_id')
-            ->select('donates.*', 'fundraiser_posts.title', 'fundraiser_posts.user_id')
-            ->where('fundraiser_posts.user_id', Auth::id())->get();
+        // return $request;
         $themeOption = ThemeOption::first();
-        $data        = [
-            'all_donars'  => $all_donars,
-            'themeOption' => $themeOption,
+
+        $all_donars = Donate::join('fundraiser_posts', 'fundraiser_posts.id', 'donates.fundraiser_post_id')
+            ->select('donates.id', 'donates.created_at', 'donates.display_publicly', 'donates.donar_name', 'donates.net_balance', 'fundraiser_posts.title', 'fundraiser_posts.user_id')
+            ->where('fundraiser_posts.user_id', Auth::id());
+
+        if ($request->all()) {
+            $all_donars->where(function ($query) use ($request) {
+                if ($request->pdf_title) {
+                    $query->where('donates.fundraiser_post_id', '=', $request->pdf_title);
+                }
+                if ($request->pdf_donorname) {
+                    if (Str::lower($request->pdf_donorname) === 'guest') {
+                        $query->where('donates.display_publicly', 'no');
+                    } else {
+                        $query->where('donates.donar_name', 'like', "%$request->pdf_donorname%");
+                    }
+                }
+                if ($request->pdf_fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->pdf_fromdate));
+                    $query->where('donates.created_at', '>=', $from_date);
+                }
+                if ($request->pdf_todate) {
+                    $to_date = date("Y-m-d", strtotime($request->pdf_todate));
+                    $query->where('donates.created_at', '<=', $to_date);
+                }
+            });
+        }
+
+        $all_donars = $all_donars->get();
+        // return $all_donars;
+
+        $table_columns = [];
+        if ($request->campaign_id) {
+            array_push($table_columns, 'campaign_id');
+        }
+        if ($request->campaign_title) {
+            array_push($table_columns, 'campaign_title');
+        }
+        if ($request->amount) {
+            array_push($table_columns, 'amount');
+        }
+        if ($request->date) {
+            array_push($table_columns, 'date');
+        }
+        if ($request->donor) {
+            array_push($table_columns, 'donor');
+        }
+        // return $table_columns;
+
+        $data = [
+            'all_donars'   => $all_donars,
+            'themeOption'  => $themeOption,
+            'table_column' => $table_columns,
         ];
-        $pdf = PDF::loadView('pdf.frontend.donation', $data);
-        return $pdf->stream();
+        $pdf = PDF::loadView('pdf.frontend.donationpdf', $data);
+        $pdf->download('campaign.pdf');
+        return back();
     }
 
     public function create($slug) {
