@@ -155,5 +155,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified', 'userStatus', 'role:donor'])->prefix('donor')->name('donor.')->group(function () {
     Route::get('/donate-list', [DonorController::class, 'donateList'])->name('index');
     Route::get('/donate-list-datatable', [DonorController::class, 'listDataTabel'])->name('index.datatable');
-
+    Route::get('download-donate-history', [DonorController::class, 'downloadDonateList'])->name('download.donate.list');
 });
