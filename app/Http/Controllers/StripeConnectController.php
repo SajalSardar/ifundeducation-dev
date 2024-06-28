@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FundraiserBalance;
 use App\Models\Payout;
 use App\Models\PayoutEmailVerification;
+use App\Models\ThemeOption;
 use App\Models\User;
 use App\Notifications\PayoutEmailVerification as PayoutNotify;
 use Carbon\Carbon;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
+use PDF;
 use Stripe\Account;
 use Stripe\Balance;
 use Stripe\Stripe;
@@ -282,6 +284,62 @@ class StripeConnectController extends Controller {
 
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    //download payout history
+    public function downloadPayoutList(Request $request) {
+        // return $request;
+
+        $themeOption = ThemeOption::first();
+
+        $payoutRequestall = Payout::where('user_id', Auth::id());
+
+        if ($request->all()) {
+            $payoutRequestall->where(function ($query) use ($request) {
+                if ($request->pdf_status) {
+                    $query->where('pdf_status', '=', $request->status);
+                }
+                if ($request->pdf_fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->pdf_fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->pdf_todate) {
+                    $to_date = date("Y-m-d", strtotime($request->pdf_todate));
+                    $query->where('created_at', '<=', $to_date);
+                }
+            });
+        }
+
+        $payoutRequestall = $payoutRequestall->get();
+        // return $campaigns;
+        if ($payoutRequestall->isEmpty()) {
+            return back()->with('warning', 'Payout history not found!');
+        }
+
+        $table_columns = [];
+        if ($request->payout_id_column) {
+            array_push($table_columns, 'payout_id_column');
+        }
+        if ($request->amount_column) {
+            array_push($table_columns, 'amount_column');
+        }
+        if ($request->date_column) {
+            array_push($table_columns, 'date_column');
+        }
+        if ($request->status_column) {
+            array_push($table_columns, 'status_column');
+        }
+
+        // return $table_columns;
+
+        $data = [
+            'payoutRequestall' => $payoutRequestall,
+            'themeOption'      => $themeOption,
+            'table_column'     => $table_columns,
+        ];
+        $pdf = PDF::loadView('pdf.frontend.payoutpdf', $data);
+        $pdf->download('payout.pdf');
+        return back();
     }
 
 }

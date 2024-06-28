@@ -138,6 +138,7 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::post('payout/verify/code/submit', 'verifyCodeSubmit')->name('withdrawals.verify.code.submit');
         Route::get('payout/view', 'payoutView')->name('withdrawals.payout.view');
         Route::post('payout/request', 'payoutRequest')->name('withdrawals.payout.request');
+        Route::get('download-payout-history', 'downloadPayoutList')->name('download.payout.list');
     });
 
 });

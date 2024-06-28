@@ -86,29 +86,98 @@
                             </div>
                         </form>
                     </div>
-                    <div class="account_content_area_form table-responsive">
-                        <table class="table" id="data-table">
-                            <thead>
-                                <tr class="table-dark">
-                                    <th>#</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <div class="account_content_area_form">
+                        <div>
+                            <button type="button" class="btn btn-primary download_PDF_btn" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Export Report
+                            </button>
 
-                            </tbody>
-                        </table>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table" id="data-table">
+                                <thead>
+                                    <tr class="table-dark">
+                                        <th>#</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    {{-- modal --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form action="{{ route('download.payout.list') }}" method="GET">
+            @csrf
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Donation List</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">Status</label>
+                            <div class="col-sm-8">
+                                <select class="form-select pdf_status" name="pdf_status">
+                                    <option selected value="">All status</option>
+                                    <option value="transfer">Transfer</option>
+                                    <option value="processing">Processing</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">From Date:</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control pdf_fromdate" name="pdf_fromdate">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">To Date:</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control pdf_todate" name="pdf_todate">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-3">Column:</label>
+                            <div class="col-sm-8">
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="payout_id_column"> id
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="amount_column"> Amount
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="date_column"> date
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="status_column"> status
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Download</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
 
     <!-- Payout Form -->
-    <div class="modal fade modal-md show" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+    {{-- <div class="modal fade modal-md show" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -135,19 +204,42 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     {{-- <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-                myModal.show();
-            });
-        </script> --}}
+        document.addEventListener("DOMContentLoaded", function() {
+            var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+            myModal.show();
+        });
+    </script> --}}
+
+
+
 
 @endsection
 @section('script')
 
     <script>
         $(function($) {
+
+            //modal
+
+            $('.download_PDF_btn').on('click', function() {
+                var pdf_status = $('.pdf_status option');
+                var selectedTitle = $('select[name=status]').val();
+                pdf_status.each(function() {
+                    var value = $(this).val();
+                    if (selectedTitle == value) {
+                        $(this).prop('selected', true);
+                    } else {
+                        $(this).prop('selected', false);
+                    }
+                });
+
+                $('.pdf_fromdate').val($('input[name=fromdate]').val());
+                $('.pdf_todate').val($('input[name=todate]').val());
+
+            });
+
 
             var dTable = $('#data-table').DataTable({
                 processing: true,
