@@ -22,7 +22,7 @@ class FrontController extends Controller {
         $fundRaiserPosts = FundraiserPost::with([
             'fundraisercategory',
             'donates' => function ($q) {
-                $q->select('id', 'amount', 'fundraiser_post_id');
+                $q->select('id', 'amount', 'net_balance', 'fundraiser_post_id');
             },
             'user.academic_profile.university',
         ])->where('status', "running")->orderBy('id', 'desc')->get();
@@ -45,7 +45,7 @@ class FrontController extends Controller {
         $fundRaiserPosts = FundraiserPost::with([
             'fundraisercategory',
             'donates' => function ($q) {
-                $q->select('id', 'amount', 'fundraiser_post_id');
+                $q->select('id', 'amount', 'net_balance', 'fundraiser_post_id');
             },
             'user.academic_profile.university',
         ])->where('status', "running")->orderBy('id', 'desc')->paginate(21);

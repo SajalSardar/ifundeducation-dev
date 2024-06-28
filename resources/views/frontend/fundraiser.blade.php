@@ -81,14 +81,14 @@
                             <div class="progress mt-3" style="height: 13px;">
                                 <div class="progress-bar progress-bar-striped" role="progressbar"
                                     aria-label="Example with label"
-                                    style="width: {{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%;"
-                                    aria-valuenow="{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}"
+                                    style="width: {{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}%;"
+                                    aria-valuenow="{{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}"
                                     aria-valuemin="0" aria-valuemax="100">
-                                    {{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
+                                    {{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}%
                                 </div>
                             </div>
                             <ul class="fundraisers_card_bottom">
-                                <li>{{ round(($fundRaiserPost->donates->sum('amount') * 100) / $fundRaiserPost->goal) }}%
+                                <li>{{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}%
                                     <span>Funded</span>
                                 </li>
                                 <li>${{ number_format($fundRaiserPost->goal, 2) }} <span>Target</span></li>
