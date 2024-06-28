@@ -44,7 +44,7 @@
                 <img width="150" src="{{ asset('frontend/images/theme_options/' . $themeOption->site_logo) }}"
                     alt="">
                 <p>{{ @$themeOption->footer_about_title }}</p>
-                <p>Mail:{{ @$themeOption->header_email }}</p>
+                <p>{{ @$themeOption->header_email }}</p>
             </div>
         </htmlpageheader>
         <table style="width: 100%" border="1" cellspacing="0" cellpadding="5">

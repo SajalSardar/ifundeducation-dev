@@ -10,11 +10,13 @@ use App\Models\FundraiserCategory;
 use App\Models\FundraiserPost;
 use App\Models\FundraiserPostUpdate;
 use App\Models\FundraiserUpdateMessage;
+use App\Models\ThemeOption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use PDF;
 use Yajra\DataTables\Facades\DataTables;
 
 class FundraiserPostController extends Controller {
@@ -33,6 +35,7 @@ class FundraiserPostController extends Controller {
 
         return view('frontend.fundraiser_post.index', compact('fundposts', 'fundpostsCategory'));
     }
+
     public function postDataTable(Request $request) {
         $posts = FundraiserPost::with('fundraisercategory')
             ->where('user_id', auth()->user()->id)
@@ -536,6 +539,72 @@ class FundraiserPostController extends Controller {
             ->addIndexColumn()
             ->escapeColumns([])
             ->make(true);
+    }
+
+    // download
+    public function downloadCampaignList(Request $request) {
+        // return $request;
+        $themeOption = ThemeOption::first();
+
+        $posts = FundraiserPost::withSum('donates', 'net_balance')->where('user_id', Auth::id());
+
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->pdf_title) {
+                    $query->where('id', '=', $request->pdf_title);
+                }
+                if ($request->status) {
+                    $query->where('status', '=', $request->status);
+                }
+                if ($request->start_date) {
+                    $from_date = date("Y-m-d", strtotime($request->start_date));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->to_date) {
+                    $to_date = date("Y-m-d", strtotime($request->to_date));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
+
+        $campaigns = $posts->get();
+        // return $campaigns;
+        if ($campaigns->isEmpty()) {
+            return back()->with('warning', 'Campaign not found!');
+        }
+
+        $table_columns = [];
+        if ($request->campaign_id_column) {
+            array_push($table_columns, 'campaign_id_column');
+        }
+        if ($request->campaign_title_column) {
+            array_push($table_columns, 'campaign_title_column');
+        }
+        if ($request->start_date_column) {
+            array_push($table_columns, 'start_date_column');
+        }
+        if ($request->end_date_column) {
+            array_push($table_columns, 'end_date_column');
+        }
+        if ($request->target_column) {
+            array_push($table_columns, 'target_column');
+        }
+        if ($request->raised_column) {
+            array_push($table_columns, 'raised_column');
+        }
+        if ($request->status_column) {
+            array_push($table_columns, 'status_column');
+        }
+        // return $table_columns;
+
+        $data = [
+            'campaigns'    => $campaigns,
+            'themeOption'  => $themeOption,
+            'table_column' => $table_columns,
+        ];
+        $pdf = PDF::loadView('pdf.frontend.campaignpdf', $data);
+        $pdf->download('campaign.pdf');
+        return back();
     }
 
     /**

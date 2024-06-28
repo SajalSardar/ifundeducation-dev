@@ -31,27 +31,114 @@
                     </div>
                 </form>
             </div>
-            <div class="account_content_area_form table-responsive">
-                <table class="table" id="data-table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Target</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Status</th>
-                            <th style="text-align: right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="account_content_area_form">
+                <div>
+                    <button type="button" class="btn btn-primary download_PDF_btn" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Download PDF
+                    </button>
 
-                    </tbody>
-                </table>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="data-table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Target</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th style="text-align: right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
         </div>
+    </div>
+
+    {{-- modal --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form action="{{ route('fundraiser.post.download.campaign.list') }}" method="GET">
+            @csrf
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Running Campaign</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">Campaign</label>
+                            <div class="col-sm-8">
+                                <select class="form-select pdf_title" name="pdf_title">
+                                    <option value="">All Campaign</option>
+                                    @foreach ($fundposts as $fundpost)
+                                        <option value="{{ $fundpost->id }}">{{ $fundpost->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">Start Date:</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control start_date" name="start_date">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">To Date:</label>
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control to_date" name="to_date">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">Status:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control bg-secondary bg-opacity-50" name="status"
+                                    value="block" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-3">Column:</label>
+                            <div class="col-sm-8">
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="campaign_id_column"> id
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="campaign_title_column"> Campaign Title
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="start_date_column"> Start Date
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="end_date_column"> End Date
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="status_column"> Status
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="target_column"> Target
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="raised_column"> Raised
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Download</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 @endsection
 @section('style')
@@ -62,6 +149,22 @@
     <script>
         $(function($) {
             $('.select2').select2();
+
+            $('.download_PDF_btn').on('click', function() {
+                var pdf_title = $('.pdf_title option');
+                var selectedTitle = $('select[name=title]').val();
+                pdf_title.each(function() {
+                    var value = $(this).val();
+                    if (selectedTitle == value) {
+                        $(this).prop('selected', true);
+                    } else {
+                        $(this).prop('selected', false);
+                    }
+                });
+
+                $('.start_date').val($('input[name=fromdate]').val());
+                $('.to_date').val($('input[name=todate]').val());
+            });
 
             var dTable = $('#data-table').DataTable({
                 processing: true,

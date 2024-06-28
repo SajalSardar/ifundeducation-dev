@@ -97,6 +97,8 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::get('/reviewed', 'reviewedCampaign')->name('campaign.reviewed');
         Route::get('/datatable/reviewed', 'reviewedCampaignDatatable')->name('campaign.reviewed.datatable');
 
+        Route::get('download-campaign-list', 'downloadCampaignList')->name('download.campaign.list');
+
     });
 
     Route::controller(UserProfileController::class)->prefix('user/profile')->name('user.profile.')->group(function () {

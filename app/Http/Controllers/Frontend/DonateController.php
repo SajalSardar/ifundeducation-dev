@@ -101,6 +101,11 @@ class DonateController extends Controller {
         }
 
         $all_donars = $all_donars->get();
+
+        if ($all_donars->isEmpty()) {
+            return back()->with('warning', 'Donation not found!');
+        }
+
         // return $all_donars;
 
         $table_columns = [];
