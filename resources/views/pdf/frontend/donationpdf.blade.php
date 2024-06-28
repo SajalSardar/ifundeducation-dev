@@ -96,7 +96,7 @@
                         @endif
                         @if (in_array('amount', $table_column) || $table_column_count == 0)
                             <td align="right">
-                                <p>${{ @$all_donar->net_balance }}</p>
+                                <p>${{ $all_donar->net_balance ? number_format($all_donar->net_balance, 2) : '' }}</p>
                             </td>
                         @endif
                     </tr>
@@ -106,7 +106,7 @@
                         <td colspan="{{ $table_column_count == 0 ? 4 : $table_column_count - 1 }}" align="center">
                             <strong>Total</strong>
                         </td>
-                        <td align="right"><strong>${{ @$total }}</strong></td>
+                        <td align="right"><strong>${{ $total ? number_format($total, 2) : '' }}</strong></td>
                     </tr>
                 @endif
 

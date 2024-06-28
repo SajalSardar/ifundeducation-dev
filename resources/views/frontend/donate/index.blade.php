@@ -28,7 +28,7 @@
                 <div>
                     <button type="button" class="btn btn-primary download_PDF_btn" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
-                        Download PDF
+                        Export Report
                     </button>
 
                 </div>

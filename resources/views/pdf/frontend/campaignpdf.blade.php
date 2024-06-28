@@ -109,12 +109,13 @@
                         @endif
                         @if (in_array('target_column', $table_column) || $table_column_count == 0)
                             <td align="right">
-                                <p>${{ @$campaign->goal ?? 0 }}</p>
+                                <p>${{ $campaign->goal ? number_format($campaign->goal, 2) : 0 }}</p>
                             </td>
                         @endif
                         @if (in_array('raised_column', $table_column) || $table_column_count == 0)
                             <td align="right">
-                                <p>${{ @$campaign->donates_sum_net_balance ?? 0 }}</p>
+                                <p>${{ $campaign->donates_sum_net_balance ? number_format($campaign->donates_sum_net_balance, 2) : 0 }}
+                                </p>
                             </td>
                         @endif
                     </tr>
@@ -127,12 +128,12 @@
                         </td>
                         @if (in_array('target_column', $table_column) || $table_column_count == 0)
                             <td align="right">
-                                <strong>${{ @$totalTarget }}</strong>
+                                <strong>${{ $totalTarget ? number_format($totalTarget, 2) : 0 }}</strong>
                             </td>
                         @endif
                         @if (in_array('raised_column', $table_column) || $table_column_count == 0)
                             <td align="right">
-                                <strong>${{ @$totalRaised }}</strong>
+                                <strong>${{ $totalRaised ? number_format($totalRaised, 2) : 0 }}</strong>
                             </td>
                         @endif
                     </tr>
