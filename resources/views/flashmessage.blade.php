@@ -5,7 +5,7 @@
             icon: 'success',
             title: "{{ Session::get('success') }}",
             showConfirmButton: false,
-            timer: 5000,
+            timer: 30000,
             timerProgressBar: true,
             padding: '1em',
             customClass: {
@@ -25,7 +25,7 @@
             icon: 'error',
             title: "{{ Session::get('error') }}",
             showConfirmButton: false,
-            timer: 5000,
+            timer: 30000,
             timerProgressBar: true,
             padding: '1em',
             customClass: {
@@ -44,7 +44,7 @@
             icon: 'info',
             title: "{{ Session::get('info') }}",
             showConfirmButton: false,
-            timer: 5000,
+            timer: 30000,
             timerProgressBar: true,
             padding: '1em',
             customClass: {
@@ -63,7 +63,7 @@
             icon: 'danger',
             title: "{{ Session::get('warning') }}",
             showConfirmButton: false,
-            timer: 5000,
+            timer: 30000,
             timerProgressBar: true,
             padding: '1em',
             customClass: {
