@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\FundraiserPost;
+use App\Rules\ReCaptcha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,14 +42,16 @@ class CommentController extends Controller {
     public function store(Request $request) {
         if (!Auth::check()) {
             $request->validate([
-                'name'    => 'required',
-                'email'   => 'required',
-                'comment' => 'required|max:300',
+                'name'                 => 'required',
+                'email'                => 'required',
+                'comment'              => 'required|max:300',
+                'g-recaptcha-response' => ['required', new ReCaptcha],
             ]);
 
         } else {
             $request->validate([
-                'comment' => 'required|max:300',
+                'comment'              => 'required|max:300',
+                'g-recaptcha-response' => ['required', new ReCaptcha],
             ]);
         }
 

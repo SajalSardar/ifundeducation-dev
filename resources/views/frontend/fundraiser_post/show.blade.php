@@ -123,10 +123,10 @@
                                 Donars</button>
                         </li>
                         <!-- <li class="nav-item" role="presentation">
-                                                                                    <button class="nav-link" data-bs-toggle="tab"
-                                                                                        data-bs-target="#professional_experience">Professional
-                                                                                        Experience</button>
-                                                                                </li> -->
+                                                                                            <button class="nav-link" data-bs-toggle="tab"
+                                                                                                data-bs-target="#professional_experience">Professional
+                                                                                                Experience</button>
+                                                                                        </li> -->
                     </ul>
                     <div class="tab-content text-start" id="myTabContent">
                         <div class="tab-pane fade show active" id="story">
@@ -182,6 +182,18 @@
                                                 @error('comment')
                                                     <p class="text-danger">{{ $message }}</p>
                                                 @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="g-recaptcha"
+                                                        data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
+                                                    @if ($errors->has('g-recaptcha-response'))
+                                                        <span
+                                                            class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Post Comment</button>
@@ -264,10 +276,10 @@
 
                         </div>
                         <!-- <div class="tab-pane fade" id="professional_experience">
-                                                                                    <div class="text-start pb-3 mt-4">
-                                                                                        {{-- {!! $fundRaiserPost->user->academic_profile->experience !!} --}}
-                                                                                    </div>
-                                                                                </div> -->
+                                                                                            <div class="text-start pb-3 mt-4">
+                                                                                                {{-- {!! $fundRaiserPost->user->academic_profile->experience !!} --}}
+                                                                                            </div>
+                                                                                        </div> -->
                     </div>
                 </div>
             </div>
@@ -469,6 +481,8 @@
 @endsection
 @section('script')
     <script src="{{ asset('frontend/js/venobox.min.js') }}"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
     <script>
         new VenoBox({
             selector: ".lightBox"
