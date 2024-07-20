@@ -55,6 +55,10 @@ class FundraiserUpdateMessageController extends Controller {
             ->editColumn('updated_at', function ($messages) {
                 return $messages->updated_at->format(' M d, Y');
             })
+            ->editColumn('status', function ($messages) {
+                $status = $messages->status == 1 ? 'Active' : 'blocked';
+                return $status . "<br>" . $messages->status == 2 ? "By admin" : '';
+            })
             ->addColumn('action', function ($messages) {
                 return '<div class="text-end"><a href="' . route('fundraiser.post.message.edit', $messages->id) . '"
                 class="action_icon" title="View">

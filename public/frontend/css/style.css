@@ -198,7 +198,7 @@ h5 {
 
 /* menu part css  */
 .logo {
-    padding: 15px 0;
+    padding: 10px 0;
 }
 
 .menuFix {
@@ -211,6 +211,7 @@ h5 {
 }
 .navbar{
     background-color: #fff;
+    box-shadow: 0 5px 25px 0 rgb(214 215 216 / 40%);
 }
 
 #iNav ul li a {
@@ -298,6 +299,17 @@ h5 {
 
 #iNav ul li ul li:hover a {
     color: var(--primary-color);
+}
+
+.menu_title  {
+    margin: 5px 0;
+}
+.menu_title p {
+    padding: 8px 5px;
+    font-weight: 700;
+    font-size: 11.5px;
+    color: #666;
+    text-transform: uppercase;
 }
 
 /* hero part css */
@@ -538,7 +550,7 @@ h5 {
 
 /* footer css */
 #footer {
-    padding: 70px 0 20px 0;
+    padding: 55px 0 20px 0;
     background: var(--tertiary-color);
 }
 
@@ -586,7 +598,7 @@ h5 {
     position: relative;
     padding-bottom: 15px;
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .footer_contact p {
@@ -949,9 +961,9 @@ h5 {
 }
 
 .fundraisers_description_area .nav-tabs .nav-link {
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 700;
+    /* text-transform: uppercase; */
     color: var(--tertiary-color);
     position: relative;
 }
@@ -1044,7 +1056,7 @@ h5 {
 }
 
 .account_menu ul li.active a{
-    font-weight: 700;
+    font-weight: 600;
 }
 .account_menu ul li:last-child a:hover,
 .account_menu ul li.active a,

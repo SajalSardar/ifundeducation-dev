@@ -96,7 +96,7 @@
                             </div>
 
                             <div data-kt-menu-trigger="click"
-                                class="menu-item menu-accordion {{ request()->routeIs('dashboard.fundraiser.*') ? 'hover show' : '' }}">
+                                class="menu-item menu-accordion {{ request()->routeIs('dashboard.fundraiser.campaign.*') || request()->routeIs('dashboard.fundraiser.category.*') ? 'hover show' : '' }}">
                                 <span class="menu-link">
                                     <span class="menu-icon">
                                         <span class="svg-icon svg-icon-2">
@@ -165,6 +165,146 @@
                                     <span class="menu-title">Payouts</span>
                                 </a>
                             </div>
+                            <div
+                                class="menu-item {{ request()->routeIs('dashboard.campaign.donation.admin.donation.*') ? 'hover show' : '' }}">
+                                <a href="{{ route('dashboard.campaign.donation.admin.donation.list') }}"
+                                    class="menu-link">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Donations</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="{{ route('dashboard.contact-messages.index') }}"
+                                    class="menu-link {{ request()->routeIs('dashboard.contact-messages.*') ? 'active' : '' }}">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Contact Messages</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="{{ route('dashboard.campaign.comment.admin.all.comments') }}"
+                                    class="menu-link {{ request()->routeIs('dashboard.campaign.comment.*') ? 'active' : '' }}">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Comments <span
+                                            class="badge badge-danger badge-circle">{{ commentsCount() }}</span></span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="{{ route('dashboard.campaign.message.admin.all.message') }}"
+                                    class="menu-link {{ request()->routeIs('dashboard.campaign.message.*') ? 'active' : '' }}">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Campaign Updates <span
+                                            class="badge badge-danger badge-circle">{{ updateMessageCount() }}</span></span>
+                                </a>
+                            </div>
+
+                            <div data-kt-menu-trigger="click"
+                                class="menu-item menu-accordion {{ request()->routeIs('dashboard.user.*') ? 'hover show' : '' }}">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">User Management</span>
+                                    <span class="menu-arrow"></span>
+                                </span>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <div class="menu-item menu-accordion">
+                                        <a href="{{ route('dashboard.user.craete') }}"
+                                            class="menu-link {{ request()->routeIs('dashboard.user.craete') ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Create Admin</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <div class="menu-item menu-accordion">
+                                        <a href="{{ route('dashboard.user.allusers') }}"
+                                            class="menu-link {{ request()->routeIs('dashboard.user') ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">All Users</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <a href="{{ route('dashboard.theme-options.index') }}"
+                                    class="menu-link {{ request()->routeIs('dashboard.theme-options.*') ? 'active' : '' }}">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-title">Theme Options</span>
+                                </a>
+                            </div>
+
 
                             <div data-kt-menu-trigger="click"
                                 class="menu-item menu-accordion  {{ request()->routeIs('dashboard.pages.*') ? 'hover show' : '' }}">
@@ -260,7 +400,7 @@
                                             </svg>
                                         </span>
                                     </span>
-                                    <span class="menu-title">Page Options</span>
+                                    <span class="menu-title">Page Sections</span>
                                     <span class="menu-arrow"></span>
                                 </span>
                                 <div class="menu-sub menu-sub-accordion menu-active-bg">
@@ -337,90 +477,6 @@
 
                                 </div>
                             </div>
-
-                            <div class="menu-item">
-                                <a href="{{ route('dashboard.theme-options.index') }}"
-                                    class="menu-link {{ request()->routeIs('dashboard.theme-options.*') ? 'active' : '' }}">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
-                                                    fill="#000000" opacity="0.3" />
-                                                <path
-                                                    d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
-                                                    fill="#000000" />
-                                            </svg>
-                                        </span>
-                                        <!--end::Svg Icon-->
-                                    </span>
-                                    <span class="menu-title">Theme Options</span>
-                                </a>
-                            </div>
-
-
-                            <div class="menu-item">
-                                <a href="{{ route('dashboard.contact-messages.index') }}"
-                                    class="menu-link {{ request()->routeIs('dashboard.contact-messages.*') ? 'active' : '' }}">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
-                                                    fill="#000000" opacity="0.3" />
-                                                <path
-                                                    d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
-                                                    fill="#000000" />
-                                            </svg>
-                                        </span>
-                                        <!--end::Svg Icon-->
-                                    </span>
-                                    <span class="menu-title">Contact Messages</span>
-                                </a>
-                            </div>
-
-                            <div data-kt-menu-trigger="click"
-                                class="menu-item menu-accordion {{ request()->routeIs('dashboard.user.*') ? 'hover show' : '' }}">
-                                <span class="menu-link">
-                                    <span class="menu-icon">
-                                        <span class="svg-icon svg-icon-2">
-                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
-                                                    fill="#000000" opacity="0.3" />
-                                                <path
-                                                    d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
-                                                    fill="#000000" />
-                                            </svg>
-                                        </span>
-                                    </span>
-                                    <span class="menu-title">User Management</span>
-                                    <span class="menu-arrow"></span>
-                                </span>
-                                <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                    <div class="menu-item menu-accordion">
-                                        <a href=""
-                                            class="menu-link {{ request()->routeIs('dashboard.user.*') ? 'active' : '' }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot"></span>
-                                            </span>
-                                            <span class="menu-title">Create Admin</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="menu-sub menu-sub-accordion menu-active-bg">
-                                    <div class="menu-item menu-accordion">
-                                        <a href="{{ route('dashboard.user.allusers') }}"
-                                            class="menu-link {{ request()->routeIs('dashboard.user.*') ? 'active' : '' }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot"></span>
-                                            </span>
-                                            <span class="menu-title">All Users</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                         <!--end::Menu-->
                     </div>
@@ -477,6 +533,168 @@
                                 <!--begin::Toolbar wrapper-->
                                 <div class="d-flex align-items-stretch flex-shrink-0">
 
+                                    <div class="d-flex align-items-center ms-1 ms-lg-3">
+                                        <!--begin::Menu- wrapper-->
+                                        <div class="btn btn-icon btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px show menu-dropdown"
+                                            data-kt-menu-trigger="click" data-kt-menu-attach="parent"
+                                            data-kt-menu-placement="bottom-end">
+                                            <span
+                                                class="badge badge-circle badge-danger">{{ commentsCount() + updateMessageCount() }}</span>
+                                            <span class="svg-icon svg-icon-1">
+                                                <svg width="24" height="24" viewBox="0 0 24 24"
+                                                    fill="none">
+                                                    <path
+                                                        d="M11.2929 2.70711C11.6834 2.31658 12.3166 2.31658 12.7071 2.70711L15.2929 5.29289C15.6834 5.68342 15.6834 6.31658 15.2929 6.70711L12.7071 9.29289C12.3166 9.68342 11.6834 9.68342 11.2929 9.29289L8.70711 6.70711C8.31658 6.31658 8.31658 5.68342 8.70711 5.29289L11.2929 2.70711Z"
+                                                        fill="currentColor"></path>
+                                                    <path
+                                                        d="M11.2929 14.7071C11.6834 14.3166 12.3166 14.3166 12.7071 14.7071L15.2929 17.2929C15.6834 17.6834 15.6834 18.3166 15.2929 18.7071L12.7071 21.2929C12.3166 21.6834 11.6834 21.6834 11.2929 21.2929L8.70711 18.7071C8.31658 18.3166 8.31658 17.6834 8.70711 17.2929L11.2929 14.7071Z"
+                                                        fill="currentColor"></path>
+                                                    <path opacity="0.3"
+                                                        d="M5.29289 8.70711C5.68342 8.31658 6.31658 8.31658 6.70711 8.70711L9.29289 11.2929C9.68342 11.6834 9.68342 12.3166 9.29289 12.7071L6.70711 15.2929C6.31658 15.6834 5.68342 15.6834 5.29289 15.2929L2.70711 12.7071C2.31658 12.3166 2.31658 11.6834 2.70711 11.2929L5.29289 8.70711Z"
+                                                        fill="currentColor"></path>
+                                                    <path opacity="0.3"
+                                                        d="M17.2929 8.70711C17.6834 8.31658 18.3166 8.31658 18.7071 8.70711L21.2929 11.2929C21.6834 11.6834 21.6834 12.3166 21.2929 12.7071L18.7071 15.2929C18.3166 15.6834 17.6834 15.6834 17.2929 15.2929L14.7071 12.7071C14.3166 12.3166 14.3166 11.6834 14.7071 11.2929L17.2929 8.70711Z"
+                                                        fill="currentColor"></path>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <!--begin::Menu-->
+                                        <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px"
+                                            data-kt-menu="true"
+                                            style="z-index: 105; position: fixed; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(-229px, 65px, 0px);"
+                                            data-popper-placement="bottom-end">
+                                            <!--begin::Heading-->
+                                            <div class="d-flex flex-column bgi-no-repeat rounded-top"
+                                                style="background-image:url('{{ asset('backend/img/pattern-1.jpg') }}')">
+                                                <!--begin::Title-->
+                                                <h3 class="text-white fw-bold px-9 mt-10 mb-6">Notifications
+                                                </h3>
+                                                <!--end::Title-->
+                                                <!--begin::Tabs-->
+                                                <ul
+                                                    class="nav nav-line-tabs nav-line-tabs-2x nav-stretch fw-bold px-9">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link text-white opacity-75 opacity-state-100 pb-4 active"
+                                                            data-bs-toggle="tab"
+                                                            href="#kt_topbar_notifications_1">Comments <span
+                                                                class="badge badge-circle badge-danger">{{ commentsCount() }}</span></a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link text-white opacity-75 opacity-state-100 pb-4"
+                                                            data-bs-toggle="tab"
+                                                            href="#kt_topbar_notifications_2">Updates <span
+                                                                class="badge badge-circle badge-danger">{{ updateMessageCount() }}</span></a>
+                                                    </li>
+
+                                                </ul>
+                                                <!--end::Tabs-->
+                                            </div>
+                                            <!--end::Heading-->
+                                            <!--begin::Tab content-->
+                                            <div class="tab-content">
+                                                <!--begin::Tab panel-->
+                                                <div class="tab-pane fade active show" id="kt_topbar_notifications_1"
+                                                    role="tabpanel">
+                                                    <!--begin::Items-->
+                                                    <div class="scroll-y mh-325px my-5 px-8">
+                                                        @forelse (get10Comments() as $comment)
+                                                            <div class="d-flex flex-stack py-4">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="mb-0 me-2">
+                                                                        <a href="{{ route('dashboard.campaign.comment.admin.comment.show', $comment->id) }}"
+                                                                            class="fs-6 text-gray-800 text-hover-primary fw-bolder">{{ Str::limit($comment->comment, 15, '...') }}</a>
+                                                                    </div>
+                                                                </div>
+                                                                <span
+                                                                    class="badge badge-light fs-8">{{ $comment->created_at->diffforHumans() }}</span>
+                                                            </div>
+                                                        @empty
+                                                            <div class="d-flex flex-stack py-4">
+                                                                <div class="d-flex align-items-center">
+                                                                    <p>Comments not found!</p>
+                                                                </div>
+                                                            </div>
+                                                        @endforelse
+                                                    </div>
+                                                    <!--end::Items-->
+                                                    <!--begin::View more-->
+                                                    <div class="py-3 text-center border-top">
+                                                        <a href="{{ route('dashboard.campaign.comment.admin.all.comments') }}"
+                                                            class="btn btn-color-gray-600 btn-active-color-primary">View
+                                                            All
+                                                            <span class="svg-icon svg-icon-5">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                    height="24" viewBox="0 0 24 24"
+                                                                    fill="none">
+                                                                    <rect opacity="0.5" x="18" y="13" width="13"
+                                                                        height="2" rx="1"
+                                                                        transform="rotate(-180 18 13)"
+                                                                        fill="currentColor"></rect>
+                                                                    <path
+                                                                        d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
+                                                                        fill="currentColor"></path>
+                                                                </svg>
+                                                            </span>
+                                                            <!--end::Svg Icon--></a>
+                                                    </div>
+                                                    <!--end::View more-->
+                                                </div>
+                                                <!--end::Tab panel-->
+                                                <!--begin::Tab panel-->
+                                                <div class="tab-pane fade" id="kt_topbar_notifications_2"
+                                                    role="tabpanel">
+                                                    <div class="scroll-y mh-325px my-5 px-8">
+                                                        @forelse (get10updateMessage() as $message)
+                                                            <div class="d-flex flex-stack py-4">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="mb-0 me-2">
+                                                                        <a href="{{ route('dashboard.campaign.message.admin.message.show', $message->id) }}"
+                                                                            class="fs-6 text-gray-800 text-hover-primary fw-bolder">{{ Str::limit($message->message, 15, '...') }}</a>
+                                                                    </div>
+                                                                </div>
+                                                                <span
+                                                                    class="badge badge-light fs-8">{{ $message->created_at->diffforHumans() }}</span>
+                                                            </div>
+                                                        @empty
+                                                            <div class="d-flex flex-stack py-4">
+                                                                <div class="d-flex align-items-center">
+                                                                    <p>Message not found!</p>
+                                                                </div>
+                                                            </div>
+                                                        @endforelse
+                                                    </div>
+                                                    <!--end::Items-->
+                                                    <!--begin::View more-->
+                                                    <div class="py-3 text-center border-top">
+                                                        <a href="{{ route('dashboard.campaign.message.admin.all.message') }}"
+                                                            class="btn btn-color-gray-600 btn-active-color-primary">View
+                                                            All
+                                                            <span class="svg-icon svg-icon-5">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                    height="24" viewBox="0 0 24 24"
+                                                                    fill="none">
+                                                                    <rect opacity="0.5" x="18" y="13" width="13"
+                                                                        height="2" rx="1"
+                                                                        transform="rotate(-180 18 13)"
+                                                                        fill="currentColor"></rect>
+                                                                    <path
+                                                                        d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
+                                                                        fill="currentColor"></path>
+                                                                </svg>
+                                                            </span>
+                                                            <!--end::Svg Icon--></a>
+                                                    </div>
+                                                    <!--end::View more-->
+                                                </div>
+                                                <!--end::Tab panel-->
+
+                                            </div>
+                                            <!--end::Tab content-->
+                                        </div>
+                                        <!--end::Menu-->
+                                        <!--end::Menu wrapper-->
+                                    </div>
+
                                     <!--begin::User-->
                                     <div class="d-flex align-items-center ms-1 ms-lg-3"
                                         id="kt_header_user_menu_toggle">
@@ -501,20 +719,15 @@
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
                                                 <div class="menu-content d-flex align-items-center px-3">
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-50px me-5">
-                                                        <img alt="Logo" src="assets/media/avatars/150-2.jpg" />
-                                                    </div>
-                                                    <!--end::Avatar-->
                                                     <!--begin::Username-->
                                                     <div class="d-flex flex-column">
-                                                        <div class="fw-bolder d-flex align-items-center fs-5">Max
-                                                            Smith
-                                                            <span
-                                                                class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">Pro</span>
+                                                        <div class="fw-bolder d-flex align-items-center fs-5">
+                                                            {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}
+
                                                         </div>
                                                         <a href="#"
-                                                            class="fw-bold text-muted text-hover-primary fs-7">max@kt.com</a>
+                                                            class="fw-bold text-muted text-hover-primary fs-7">
+                                                            {{ auth()->user()->email }}</a>
                                                     </div>
                                                     <!--end::Username-->
                                                 </div>
@@ -525,7 +738,8 @@
                                             <!--end::Menu separator-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-5">
-                                                <a href="account/overview.html" class="menu-link px-5">My
+                                                <a href="{{ route('dashboard.user.edit', auth()->user()->id) }}"
+                                                    class="menu-link px-5">Edit
                                                     Profile</a>
                                             </div>
                                             <!--end::Menu item-->

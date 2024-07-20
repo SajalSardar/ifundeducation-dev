@@ -23,6 +23,6 @@ class FundraiserCategory extends Model {
     }
 
     public function fundraiserpost() {
-        return $this->hasOne(FundraiserPost::class);
+        return $this->hasMany(FundraiserPost::class);
     }
 }

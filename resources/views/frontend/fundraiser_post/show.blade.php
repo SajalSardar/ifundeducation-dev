@@ -32,7 +32,7 @@
                     @endif
                     <h3>{{ $fundRaiserPost->title }}</h3>
                     <ul class="fundraisers_card_sub pt-2 ">
-                        <li><i class="fas fa-tag text-dark"></i>{{ $fundRaiserPost->fundraisercategory->name }}</li>
+                        <li><i class="fas fa-tag text-dark"></i>{{ @$fundRaiserPost->fundraisercategory->name }}</li>
                         <li>
                             <a href="#" class="view_donar" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <i class="far fa-eye"></i>View Profile</a>
@@ -123,10 +123,10 @@
                                 Donars</button>
                         </li>
                         <!-- <li class="nav-item" role="presentation">
-                                                                                            <button class="nav-link" data-bs-toggle="tab"
-                                                                                                data-bs-target="#professional_experience">Professional
-                                                                                                Experience</button>
-                                                                                        </li> -->
+                                                                                                <button class="nav-link" data-bs-toggle="tab"
+                                                                                                    data-bs-target="#professional_experience">Professional
+                                                                                                    Experience</button>
+                                                                                            </li> -->
                     </ul>
                     <div class="tab-content text-start" id="myTabContent">
                         <div class="tab-pane fade show active" id="story">
@@ -276,10 +276,10 @@
 
                         </div>
                         <!-- <div class="tab-pane fade" id="professional_experience">
-                                                                                            <div class="text-start pb-3 mt-4">
-                                                                                                {{-- {!! $fundRaiserPost->user->academic_profile->experience !!} --}}
-                                                                                            </div>
-                                                                                        </div> -->
+                                                                                                <div class="text-start pb-3 mt-4">
+                                                                                                    {{-- {!! $fundRaiserPost->user->academic_profile->experience !!} --}}
+                                                                                                </div>
+                                                                                            </div> -->
                     </div>
                 </div>
             </div>

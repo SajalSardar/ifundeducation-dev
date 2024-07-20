@@ -35,6 +35,7 @@
                             <th>Message</th>
                             <th>Created At</th>
                             <th>Updated At</th>
+                            <th>Status</th>
                             <th style="text-align: right">Action</th>
                         </tr>
                     </thead>
@@ -138,6 +139,10 @@
                     {
                         data: 'updated_at',
                         name: 'updated_at'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
                     },
                     {
                         data: 'action',

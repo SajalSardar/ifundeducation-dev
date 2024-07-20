@@ -245,7 +245,7 @@ class StripeConnectController extends Controller {
     }
 
     public function payoutListAdmin() {
-        $payoutRequestall = Payout::orderBy('id', 'desc')->paginate(25);
+        $payoutRequestall = Payout::orderBy('id', 'desc')->paginate(15);
         return view('backend.payout.index', compact('payoutRequestall'));
     }
 

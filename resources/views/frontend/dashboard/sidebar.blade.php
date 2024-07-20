@@ -7,17 +7,20 @@
                 <a href="{{ route('user.dashboard.index') }}"><i class="fas fa-dashboard"></i>Dashboard</a>
             </li>
             @role('fundraiser')
+                <li class="menu_title">
+                    <p>Fundraiser</p>
+                </li>
                 <li class="{{ request()->routeIs('fundraiser.post.create') ? 'active' : '' }}">
                     <a href="{{ route('fundraiser.post.create') }}"><i class="fas fa-hand-holding-heart"></i>Start
-                        A Fundraiser</a>
+                        A Campaign</a>
                 </li>
                 <li
                     class="{{ request()->routeIs(['fundraiser.post.index', 'fundraiser.post.edit', 'fundraiser.post.show']) ? 'active' : '' }}">
                     <a href="{{ route('fundraiser.post.index') }}"><i class="fa-solid fa-envelopes-bulk"></i>My
-                        Fundraisers</a>
+                        Campaigns</a>
                 </li>
                 <li class="{{ request()->routeIs('fundraiser.post.message.*') ? 'active' : '' }}">
-                    <a href="{{ route('fundraiser.post.message.index') }}"><i class="fa-regular fa-envelope"></i>Fundraiser
+                    <a href="{{ route('fundraiser.post.message.index') }}"><i class="fa-regular fa-envelope"></i>Campaign
                         Updates</a>
                 </li>
                 <li class="{{ request()->routeIs('fundraiser.comment.*') ? 'active' : '' }}">
@@ -33,14 +36,20 @@
             @endrole
 
             @role('donor')
+                <li class="menu_title">
+                    <p>Donor</p>
+                </li>
                 <li class="{{ request()->routeIs('donor.*') ? 'active' : '' }}">
                     <a href="{{ route('donor.index') }}">
                         <i class="fas fa-money-bill-trend-up"></i>Total Donate</a>
                 </li>
             @endrole
 
+            <li class="menu_title">
+                <p>General</p>
+            </li>
             <li class="{{ request()->routeIs('wishlist.index') ? 'active' : '' }}">
-                <a href="{{ route('wishlist.index') }}"><i class="fas fa-heart"></i>Saved Fundraisers</a>
+                <a href="{{ route('wishlist.index') }}"><i class="fas fa-heart"></i>Saved Campaigns</a>
             </li>
 
             <li class="{{ request()->routeIs('user.profile.edit') ? 'active' : '' }}">
@@ -67,7 +76,7 @@
                     @else
                         <a href="{{ route('make.role.fundraiser') }}" class="btn btn-success btn-sm text-white"><i
                                 class="fa-regular fa-square-plus"></i> Become a
-                            Fundraiser</a>
+                                Campaign</a>
                     @endif
 
                 @endif

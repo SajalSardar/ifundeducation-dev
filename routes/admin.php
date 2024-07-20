@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Backend\BackendController;
+use App\Http\Controllers\Backend\CommentController;
 use App\Http\Controllers\Backend\CommonPageController;
 use App\Http\Controllers\Backend\ContactMessageController;
 use App\Http\Controllers\Backend\ContactPageController;
+use App\Http\Controllers\Backend\DonationController;
 use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\FaqPageController;
 use App\Http\Controllers\Backend\FooterMenuController;
@@ -14,10 +16,23 @@ use App\Http\Controllers\Backend\Home3ColumnBlockController;
 use App\Http\Controllers\Backend\HomePageBannerController;
 use App\Http\Controllers\Backend\SiteSocialLinkController;
 use App\Http\Controllers\Backend\ThemeOptionController;
+use App\Http\Controllers\Backend\UpdateMessageController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\StripeConnectController;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
+    // user management routs
+    Route::controller(UserController::class)->prefix('/user')->name('user.')->group(function () {
+        Route::get('/', 'index')->name('allusers');
+        Route::get('/block/{id}', 'userBlock')->name('block');
+        Route::get('/active/{id}', 'userActive')->name('active');
+        Route::get('/admin/create', 'create')->name('craete');
+        Route::post('/admin/create', 'store')->name('store');
+        Route::get('/admin/edit/{user}', 'edit')->name('edit');
+        Route::put('/admin/update/{user}', 'update')->name('update');
+    });
+});
 Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
 
     Route::get('/', [BackendController::class, 'index'])->name('index');
@@ -60,13 +75,25 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
     Route::controller(FundraiserCategoryController::class)->prefix('fundraiser-category')->name('fundraiser.category.')->group(function () {
         Route::get('/fundraiser-category', 'index')->name('index');
         Route::post('/fundraiser-category/store', 'store')->name('store');
+        Route::get('/fundraiser-category/edit/{fundraiserCategory}', 'edit')->name('edit');
+        Route::put('/fundraiser-category/update/{fundraiserCategory}', 'update')->name('update');
+        Route::delete('/fundraiser-category/delete/{fundraiserCategory}', 'destroy')->name('delete');
     });
-
-    // user management routs
-    Route::controller(UserController::class)->prefix('/user')->name('user.')->group(function () {
-        Route::get('/', 'index')->name('allusers');
-        Route::get('/block/{id}', 'userBlock')->name('block');
-        Route::get('/active/{id}', 'userActive')->name('active');
+    Route::controller(CommentController::class)->prefix('campaign-comment')->name('campaign.comment.')->group(function () {
+        Route::get('/', 'adminAllComments')->name('admin.all.comments');
+        Route::get('/campaign-comments-datatable', 'adminAllCommentsDataTable')->name('admin.all.comment.datatable');
+        Route::get('/campaign-comments-status-update/{comment}', 'statusUpdate')->name('admin.comment.status.update');
+        Route::get('/campaign-comment-view/{comment}', 'show')->name('admin.comment.show');
+    });
+    Route::controller(UpdateMessageController::class)->prefix('campaign-message')->name('campaign.message.')->group(function () {
+        Route::get('/', 'adminAllMessage')->name('admin.all.message');
+        Route::get('/campaign-message-datatable', 'adminAllCommentsDataTable')->name('admin.all.message.datatable');
+        Route::get('/campaign-message-status-update/{id}', 'statusUpdate')->name('admin.message.status.update');
+        Route::get('/campaign-message-view/{id}', 'show')->name('admin.message.show');
+    });
+    Route::controller(DonationController::class)->prefix('donotaion')->name('campaign.donation.')->group(function () {
+        Route::get('/', 'index')->name('admin.donation.list');
+        Route::get('/show/{id}', 'show')->name('admin.donation.show');
     });
 
     Route::prefix('/pages')->name('pages.')->group(function () {

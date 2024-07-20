@@ -908,7 +908,7 @@ class FundraiserPostController extends Controller {
                 $q->with('replies')->where('status', 'approved')->orderBy('created_at', "desc");
             },
             'fundraiserupdatemessage' => function ($q) {
-                $q->orderBy('created_at', 'desc');
+                $q->where('status', 1)->orderBy('created_at', 'desc');
             }])->where('slug', $slug)->where('status', 'running')->firstOrfail();
         $total_comment = Comment::where('fundraiser_post_id', $fundRaiserPost->id)->where('status', 'approved')->count();
 

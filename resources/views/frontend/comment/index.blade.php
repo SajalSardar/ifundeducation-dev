@@ -31,9 +31,9 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Author</th>
-                            <th>Fundraiser Title</th>
                             <th>Comments</th>
+                            <th>Fundraiser Title</th>
+                            <th>Author</th>
                             <th>Status</th>
                             <th style="text-align: right; width:15%">Action</th>
                         </tr>
@@ -41,16 +41,17 @@
                     <tbody>
                         @forelse  ($comments as $key=>$comment)
                             <tr style="background: rgba(230, 229, 229, 0.7)">
-                                <td>{{ $comment->name }} <br> {{ $comment->email }} </td>
-                                <td>{{ Str::limit($comment->fundraiserpost->title, 20, '...') }}
-                                </td>
                                 <td>
                                     {{ $comment->comment }}
 
                                     <p style="font-size: 12px">{{ $comment->created_at->format('M d, Y') }}</p>
                                 </td>
+                                <td>{{ Str::limit($comment->fundraiserpost->title, 20, '...') }}</td>
+                                <td>{{ $comment->name }} <br> {{ $comment->email }} </td>
                                 <td><span
-                                        class="badge  {{ $comment->status === 'approved' ? 'bg-success' : 'bg-warning' }}">{{ $comment->status }}</span>
+                                        class="badge  {{ $comment->status === 'approved' ? 'bg-success' : ($comment->status === 'blocked' ? 'bg-danger' : 'bg-warning') }}">{{ $comment->status }}</span><br>
+                                    <span
+                                        style="font-size: 11px">{{ $comment->status === 'blocked' ? 'by admin' : '' }}</span>
                                 </td>
                                 <td align="right">
                                     <a href="#" data-id="{{ $comment->id }}"
@@ -78,17 +79,20 @@
                             </tr>
                             @foreach ($comment->replies as $key => $replie)
                                 <tr>
-                                    <td>{{ $replie->name }} <br> {{ $replie->email }} </td>
-                                    <td>{{ Str::limit($comment->fundraiserpost->title, 20, '...') }}
-                                    </td>
                                     <td>
                                         <p style="font-size: 12px">In reply to: <strong>{{ $comment->name }}</strong></p>
                                         {{ $replie->comment }}
                                         <br>
                                         <p style="font-size: 12px">{{ $replie->created_at->format('M d, Y') }}</p>
                                     </td>
+                                    <td>{{ Str::limit($comment->fundraiserpost->title, 20, '...') }}</td>
+                                    <td>{{ $replie->name }} <br> {{ $replie->email }} </td>
+
                                     <td><span
-                                            class="badge  {{ $replie->status === 'approved' ? 'bg-success' : 'bg-warning' }}">{{ $replie->status }}</span>
+                                            class="badge  {{ $replie->status === 'approved' ? 'bg-success' : ($comment->status === 'blocked' ? 'bg-danger' : 'bg-warning') }}">{{ $replie->status }}</span>
+                                        <br> <span
+                                            style="font-size: 11px">{{ $replie->status === 'blocked' ? 'by admin' : '' }}
+                                        </span>
                                     </td>
                                     <td align="right">
 

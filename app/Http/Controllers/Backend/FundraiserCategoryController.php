@@ -13,8 +13,8 @@ class FundraiserCategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $categories = FundraiserCategory::orderBy( 'id', 'desc' )->get();
-        return view( 'backend.fundraiser_category.index', compact( 'categories' ) );
+        $categories = FundraiserCategory::orderBy('id', 'desc')->paginate(10);
+        return view('backend.fundraiser_category.index', compact('categories'));
     }
 
     /**
@@ -23,17 +23,17 @@ class FundraiserCategoryController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store( Request $request ) {
-        $request->validate( [
+    public function store(Request $request) {
+        $request->validate([
             'name' => 'required|unique:fundraiser_categories,name',
-        ] );
-        $insert = FundraiserCategory::create( [
+        ]);
+        $insert = FundraiserCategory::create([
             'name' => $request->name,
-        ] );
-        if ( $insert ) {
-            return back()->with( 'success', 'Cateogry Insert Successfull!' );
+        ]);
+        if ($insert) {
+            return back()->with('success', 'Cateogry Insert Successfull!');
         } else {
-            return back()->with( 'error', 'Cateogry Insert Error!' );
+            return back()->with('error', 'Cateogry Insert Error!');
         }
 
     }
@@ -44,7 +44,7 @@ class FundraiserCategoryController extends Controller {
      * @param  \App\Models\FundraiserCategory  $fundraiserCategory
      * @return \Illuminate\Http\Response
      */
-    public function show( FundraiserCategory $fundraiserCategory ) {
+    public function show(FundraiserCategory $fundraiserCategory) {
         //
     }
 
@@ -54,8 +54,8 @@ class FundraiserCategoryController extends Controller {
      * @param  \App\Models\FundraiserCategory  $fundraiserCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit( FundraiserCategory $fundraiserCategory ) {
-        //
+    public function edit(FundraiserCategory $fundraiserCategory) {
+        return view('backend.fundraiser_category.edit', compact('fundraiserCategory'));
     }
 
     /**
@@ -65,8 +65,16 @@ class FundraiserCategoryController extends Controller {
      * @param  \App\Models\FundraiserCategory  $fundraiserCategory
      * @return \Illuminate\Http\Response
      */
-    public function update( Request $request, FundraiserCategory $fundraiserCategory ) {
-        //
+    public function update(Request $request, FundraiserCategory $fundraiserCategory) {
+        $request->validate([
+            'name' => 'required|unique:fundraiser_categories,name,' . $fundraiserCategory->id,
+        ]);
+        $update = $fundraiserCategory->update([
+            'name' => $request->name,
+        ]);
+        if ($update) {
+            return redirect()->route('dashboard.fundraiser.category.index')->with('success', 'Cateogry Update Successfull!');
+        }
     }
 
     /**
@@ -75,7 +83,13 @@ class FundraiserCategoryController extends Controller {
      * @param  \App\Models\FundraiserCategory  $fundraiserCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy( FundraiserCategory $fundraiserCategory ) {
-        //
+    public function destroy(FundraiserCategory $fundraiserCategory) {
+        $fundraiserpostCount = $fundraiserCategory->loadCount('fundraiserpost');
+
+        if ($fundraiserpostCount->fundraiserpost_count != 0) {
+            return back()->with('error', "$fundraiserpostCount->fundraiserpost_count Campaign found, don't delete this category!");
+        }
+        $fundraiserCategory->delete();
+        return redirect()->route('dashboard.fundraiser.category.index')->with('success', 'Cateogry Delete Successfull!');
     }
 }
