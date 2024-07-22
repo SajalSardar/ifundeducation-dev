@@ -35,6 +35,7 @@
                             <th>Campaign</th>
                             <th>Created At</th>
                             <th>Status</th>
+                            <th>Read/unread</th>
                             <th style="text-align: right">Action</th>
                         </tr>
                     </thead>
@@ -46,6 +47,7 @@
                                 <td>{{ $message->fundraiserpost->title }}</td>
                                 <td>{{ $message->created_at->format('D m, Y') }}</td>
                                 <td>{{ $message->status == 1 ? 'Active' : 'blocked' }}</td>
+                                <td>{{ $message->admin_view == 1 ? 'read' : 'unread' }}</td>
                                 <td style="text-align: right">
                                     <a href="{{ route('dashboard.campaign.message.admin.message.show', $message->id) }}"
                                         class="btn btn-sm btn-primary">View</a>

@@ -40,10 +40,11 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Fundraiser Title</th>
+                            <th>Campaign</th>
                             <th>Amount</th>
                             <th>Date</th>
                             <th>Donor</th>
+                            <th>Read/Unread</th>
                             <th class="text-end">Action</th>
                         </tr>
                     </thead>
@@ -57,6 +58,7 @@
                                 <td>
                                     {{ $donation->donar_name ? $donation->donar_name : 'Guest' }}
                                 </td>
+                                <td>{{ $donation->admin_view == 0 ? 'unread' : 'read' }}</td>
                                 <td class="text-end">
                                     <a href="{{ route('dashboard.campaign.donation.admin.donation.show', $donation->id) }}"
                                         class="btn btn-sm btn-primary">View</a>

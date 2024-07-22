@@ -14,10 +14,12 @@ use App\Http\Controllers\Backend\FundraiserPostController;
 use App\Http\Controllers\Backend\Home2ColumnBlockController;
 use App\Http\Controllers\Backend\Home3ColumnBlockController;
 use App\Http\Controllers\Backend\HomePageBannerController;
+use App\Http\Controllers\Backend\Reports\CampaignReportController;
 use App\Http\Controllers\Backend\SiteSocialLinkController;
 use App\Http\Controllers\Backend\ThemeOptionController;
 use App\Http\Controllers\Backend\UpdateMessageController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\StripeConnectController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,10 +34,18 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
         Route::get('/admin/edit/{user}', 'edit')->name('edit');
         Route::put('/admin/update/{user}', 'update')->name('update');
     });
+
 });
 Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
 
     Route::get('/', [BackendController::class, 'index'])->name('index');
+
+    // all reports routs
+    Route::prefix('/report')->name('report.')->group(function () {
+        Route::controller(CampaignReportController::class)->prefix('/campaign')->name('campaign.')->group(function () {
+            Route::get('/', 'create')->name('create');
+        });
+    });
 
     Route::controller(FundraiserPostController::class)->prefix('campaign')->name('fundraiser.campaign.')->group(function () {
         Route::get('/running', 'runningCampaign')->name('campaign.all');
@@ -66,9 +76,11 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
         Route::post('/request-campaign-status-update', 'fundraiserRequestUpdate')->name('request.campaign.update');
     });
 
-    Route::controller(StripeConnectController::class)->prefix('payout')->name('fundraiser.payout.')->group(function () {
+    Route::controller(PayoutController::class)->prefix('payout')->name('fundraiser.payout.')->group(function () {
         Route::get('/list', 'payoutListAdmin')->name('list');
         Route::get('/details/{id}', 'payoutdetailsAdmin')->name('details');
+    });
+    Route::controller(StripeConnectController::class)->prefix('payout')->name('fundraiser.payout.')->group(function () {
         Route::post('/connect-transfer', 'stripeConnectTransfer')->name('connect.transfer');
     });
 

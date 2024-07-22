@@ -18,7 +18,9 @@ class DonationController extends Controller {
 
     public function show($id) {
         $donation = Donate::with('fundraiser:id,title,slug')->find($id);
-
+        $donation->update([
+            'admin_view' => 1,
+        ]);
         return view('backend.donation.show', compact('donation'));
     }
 

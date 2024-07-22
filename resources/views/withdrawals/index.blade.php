@@ -18,7 +18,7 @@
                             </div>
                         @elseif ($payoutAttemptCount > 3)
                             <div class="alert alert-warning mt-3">
-                                <p>Please try again later, as our system has made three payout attempts.</p>
+                                <p>Please try again later, as our system has made three payout attempts today.</p>
                             </div>
                         @elseif ($payoutRequest > 0)
                             <div class="alert alert-success mt-3">

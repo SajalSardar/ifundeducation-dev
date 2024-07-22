@@ -162,7 +162,12 @@
                                             </svg>
                                         </span>
                                     </span>
-                                    <span class="menu-title">Payouts</span>
+                                    <span class="menu-title">Payouts
+                                        @if (unreadPayoutCount() > 0)
+                                            <span
+                                                class="badge badge-danger badge-circle ml-1">{{ unreadPayoutCount() }}</span>
+                                        @endif
+                                    </span>
                                 </a>
                             </div>
                             <div
@@ -181,9 +186,68 @@
                                             </svg>
                                         </span>
                                     </span>
-                                    <span class="menu-title">Donations</span>
+                                    <span class="menu-title">Donations
+                                        @if (unreadDotationCount() > 0)
+                                            <span
+                                                class="badge badge-danger badge-circle ml-1">{{ unreadDotationCount() }}</span>
+                                        @endif
+                                    </span>
                                 </a>
                             </div>
+
+                            <div data-kt-menu-trigger="click"
+                                class="menu-item menu-accordion {{ request()->routeIs('dashboard.report.*') ? 'hover show' : '' }}">
+                                <span class="menu-link">
+                                    <span class="menu-icon">
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
+                                                    fill="#000000" opacity="0.3" />
+                                                <path
+                                                    d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
+                                                    fill="#000000" />
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <span class="menu-title">Reports</span>
+                                    <span class="menu-arrow"></span>
+                                </span>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <div class="menu-item menu-accordion">
+                                        <a href="{{ route('dashboard.report.campaign.create') }}"
+                                            class="menu-link {{ request()->routeIs('dashboard.report.campaign.create') ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Campaign</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <div class="menu-item menu-accordion">
+                                        <a href="{{ route('dashboard.user.allusers') }}"
+                                            class="menu-link {{ request()->routeIs('dashboard.user') ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Donation</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                                    <div class="menu-item menu-accordion">
+                                        <a href="{{ route('dashboard.user.allusers') }}"
+                                            class="menu-link {{ request()->routeIs('dashboard.user') ? 'active' : '' }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Payouts</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="menu-item">
                                 <a href="{{ route('dashboard.contact-messages.index') }}"
                                     class="menu-link {{ request()->routeIs('dashboard.contact-messages.*') ? 'active' : '' }}">
@@ -200,7 +264,12 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                     </span>
-                                    <span class="menu-title">Contact Messages</span>
+                                    <span class="menu-title">Contact Messages
+                                        @if (unreadContactMessageCount() > 0)
+                                            <span
+                                                class="badge badge-danger badge-circle ml-1">{{ unreadContactMessageCount() }}</span>
+                                        @endif
+                                    </span>
                                 </a>
                             </div>
                             <div class="menu-item">
@@ -219,8 +288,13 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                     </span>
-                                    <span class="menu-title">Comments <span
-                                            class="badge badge-danger badge-circle">{{ commentsCount() }}</span></span>
+                                    <span class="menu-title">Comments
+                                        @if (unreadCommentsCount() > 0)
+                                            <span
+                                                class="badge badge-danger badge-circle ml-1">{{ unreadCommentsCount() }}</span>
+                                        @endif
+
+                                    </span>
                                 </a>
                             </div>
                             <div class="menu-item">
@@ -239,8 +313,13 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                     </span>
-                                    <span class="menu-title">Campaign Updates <span
-                                            class="badge badge-danger badge-circle">{{ updateMessageCount() }}</span></span>
+                                    <span class="menu-title">Campaign Updates
+                                        @if (unreadUpdateMessageCount() > 0)
+                                            <span
+                                                class="badge badge-danger badge-circle ml-1">{{ unreadUpdateMessageCount() }}</span>
+                                        @endif
+                                    </span>
+
                                 </a>
                             </div>
 
@@ -538,8 +617,10 @@
                                         <div class="btn btn-icon btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px show menu-dropdown"
                                             data-kt-menu-trigger="click" data-kt-menu-attach="parent"
                                             data-kt-menu-placement="bottom-end">
-                                            <span
-                                                class="badge badge-circle badge-danger">{{ commentsCount() + updateMessageCount() }}</span>
+                                            @if (unreadCommentsCount() > 0 || unreadUpdateMessageCount() > 0)
+                                                <span
+                                                    class="badge badge-circle badge-danger">{{ unreadCommentsCount() + unreadUpdateMessageCount() }}</span>
+                                            @endif
                                             <span class="svg-icon svg-icon-1">
                                                 <svg width="24" height="24" viewBox="0 0 24 24"
                                                     fill="none">
@@ -576,14 +657,22 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link text-white opacity-75 opacity-state-100 pb-4 active"
                                                             data-bs-toggle="tab"
-                                                            href="#kt_topbar_notifications_1">Comments <span
-                                                                class="badge badge-circle badge-danger">{{ commentsCount() }}</span></a>
+                                                            href="#kt_topbar_notifications_1">Comments
+                                                            @if (unreadCommentsCount() > 0)
+                                                                <span
+                                                                    class="badge badge-circle badge-danger">{{ unreadCommentsCount() }}</span>
+                                                            @endif
+                                                        </a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link text-white opacity-75 opacity-state-100 pb-4"
                                                             data-bs-toggle="tab"
-                                                            href="#kt_topbar_notifications_2">Updates <span
-                                                                class="badge badge-circle badge-danger">{{ updateMessageCount() }}</span></a>
+                                                            href="#kt_topbar_notifications_2">Updates
+                                                            @if (unreadUpdateMessageCount() > 0)
+                                                                <span
+                                                                    class="badge badge-circle badge-danger">{{ unreadUpdateMessageCount() }}</span>
+                                                            @endif
+                                                        </a>
                                                     </li>
 
                                                 </ul>
@@ -597,7 +686,7 @@
                                                     role="tabpanel">
                                                     <!--begin::Items-->
                                                     <div class="scroll-y mh-325px my-5 px-8">
-                                                        @forelse (get10Comments() as $comment)
+                                                        @forelse (unread10Comments() as $comment)
                                                             <div class="d-flex flex-stack py-4">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="mb-0 me-2">
@@ -644,7 +733,7 @@
                                                 <div class="tab-pane fade" id="kt_topbar_notifications_2"
                                                     role="tabpanel">
                                                     <div class="scroll-y mh-325px my-5 px-8">
-                                                        @forelse (get10updateMessage() as $message)
+                                                        @forelse (unread10updateMessage() as $message)
                                                             <div class="d-flex flex-stack py-4">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="mb-0 me-2">

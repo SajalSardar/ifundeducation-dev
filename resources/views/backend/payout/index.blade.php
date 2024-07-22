@@ -41,9 +41,11 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Email</th>
                             <th>Amount</th>
                             <th>Created</th>
                             <th>Status</th>
+                            <th>Read/unread</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
@@ -52,12 +54,16 @@
                     <tbody>
                         @forelse  ($payoutRequestall as $payout)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $payout->id }}</td>
+                                <td>{{ $payout->user->email }}</td>
                                 <td>${{ number_format($payout->amount, 2) }}</td>
                                 <td>{{ $payout->created_at->isoFormat('D MMM YYYY') }}</td>
                                 <td>
                                     <span
                                         class="badge badge-{{ $payout->status == 'transfer' ? 'success' : 'warning' }}">{{ Str::ucfirst($payout->status) }}</span>
+                                <td>
+                                    {{ $payout->admin_view == 0 ? 'unread' : 'read' }}
+                                </td>
                                 <td class="text-end">
                                     <a href="{{ route('dashboard.fundraiser.payout.details', $payout->id) }}"
                                         class="btn btn-sm btn-primary" title="View">

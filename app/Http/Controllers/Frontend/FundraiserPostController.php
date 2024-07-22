@@ -651,7 +651,7 @@ class FundraiserPostController extends Controller {
             'user_id'                => auth()->user()->id,
             'fundraiser_category_id' => $request->category,
             'title'                  => $request->title,
-            'slug'                   => Str::slug($request->title) . '-' . Str::ulid(),
+            'slug'                   => Str::slug($request->title) . '-' . Str::lower(Str::ulid()) . time(),
             'shot_description'       => $request->shot_description,
             'goal'                   => $request->goal,
             'end_date'               => $request->end_date,

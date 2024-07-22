@@ -35,6 +35,7 @@
                             <th>Author</th>
                             <th>Date</th>
                             <th>Status</th>
+                            <th>Read/unread</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
@@ -46,6 +47,7 @@
                                 <td>{{ $comment->name }} <br> {{ $comment->email }}</td>
                                 <td>{{ $comment->created_at->format('M d, Y') }}</td>
                                 <td>{{ $comment->status }}</td>
+                                <td>{{ $comment->admin_view == 0 ? 'unread' : 'read' }}</td>
                                 <td class="text-end">
                                     <a href="{{ route('dashboard.campaign.comment.admin.comment.show', $comment->id) }}"
                                         class="btn btn-sm btn-primary">View</a>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\FundraiserPostController;
 use App\Http\Controllers\Frontend\FundraiserUpdateMessageController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\StripeConnectController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserProfileController;
@@ -133,6 +134,9 @@ Route::middleware(['auth', 'verified', 'userStatus', 'role:fundraiser'])->group(
         Route::get('withdrawal-datatable', 'listDataTable')->name('withdrawals.index.datatable');
         Route::get('stripe/account', 'stripeConnectAccount')->name('withdrawals.stripe.account');
         Route::get('stripe/account/login', 'stripeConnectLogin')->name('withdrawals.stripe.login');
+    });
+
+    Route::controller(PayoutController::class)->group(function () {
         Route::post('payout/verify', 'verifyPayoutEmail')->name('withdrawals.verify');
         Route::get('payout/verify/code', 'verifyCodeForm')->name('withdrawals.verify.code.form');
         Route::post('payout/verify/code/submit', 'verifyCodeSubmit')->name('withdrawals.verify.code.submit');

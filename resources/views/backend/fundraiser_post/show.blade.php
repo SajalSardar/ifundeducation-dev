@@ -1,5 +1,5 @@
 @extends('layouts.backapp')
-@section('title', 'All Fundraiser Category')
+@section('title', 'Fundraiser Campaign')
 @section('breadcrumb')
     <div data-kt-place="true" data-kt-place-mode="prepend"
         data-kt-place-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
@@ -233,7 +233,7 @@
     <div class="card mb-5 mb-xl-8">
         <div class="card-header border-0 pt-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label fw-bolder fs-3 mb-1">Comments</span>
+                <span class="card-label fw-bolder fs-3 mb-1">Campaign Updates</span>
             </h3>
         </div>
         <div class="card-body py-3">
