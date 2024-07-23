@@ -15,6 +15,8 @@ use App\Http\Controllers\Backend\Home2ColumnBlockController;
 use App\Http\Controllers\Backend\Home3ColumnBlockController;
 use App\Http\Controllers\Backend\HomePageBannerController;
 use App\Http\Controllers\Backend\Reports\CampaignReportController;
+use App\Http\Controllers\Backend\Reports\DonationReportController;
+use App\Http\Controllers\Backend\Reports\PayoutReportController;
 use App\Http\Controllers\Backend\SiteSocialLinkController;
 use App\Http\Controllers\Backend\ThemeOptionController;
 use App\Http\Controllers\Backend\UpdateMessageController;
@@ -43,7 +45,13 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
     // all reports routs
     Route::prefix('/report')->name('report.')->group(function () {
         Route::controller(CampaignReportController::class)->prefix('/campaign')->name('campaign.')->group(function () {
-            Route::get('/', 'create')->name('create');
+            Route::get('/', 'index')->name('index');
+        });
+        Route::controller(DonationReportController::class)->prefix('/donation')->name('donation.')->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+        Route::controller(PayoutReportController::class)->prefix('/payout')->name('payout.')->group(function () {
+            Route::get('/', 'index')->name('index');
         });
     });
 

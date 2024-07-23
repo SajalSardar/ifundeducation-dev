@@ -90,12 +90,12 @@
                             <td>{{ $donation->balance_transaction_id }}</td>
                         </tr>
                         <tr>
-                            <td width="200"><strong>Donar Name</strong></td>
+                            <td width="200"><strong>Donor Name</strong></td>
                             <td width="3">:</td>
                             <td>{{ $donation->donar_name ?? 'Guest' }}</td>
                         </tr>
                         <tr>
-                            <td width="200"><strong>Donar Email</strong></td>
+                            <td width="200"><strong>Donor Email</strong></td>
                             <td width="3">:</td>
                             <td>{{ $donation->donar_email ?? '--' }}</td>
                         </tr>
