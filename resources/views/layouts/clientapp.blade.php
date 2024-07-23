@@ -86,10 +86,11 @@
                                     <li>
                                         <a href="{{ route('user.dashboard.index') }}">Dashboard</a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('user.profile.edit') }}">Profile</a>
+                                    </li>
                                 @endrole
-                                <li>
-                                    <a href="{{ route('user.profile.edit') }}">Profile</a>
-                                </li>
+
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
