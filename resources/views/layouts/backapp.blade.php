@@ -22,7 +22,7 @@ $unreadPayoutCount = unreadPayoutCount();
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     {{-- @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"); --}}
-    <link rel="stylesheet" href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('datatable/css/dataTables.2.0.2.min.css') }}">
     @yield('style')
 </head>
 <!--end::Head-->
@@ -954,7 +954,7 @@ $unreadPayoutCount = unreadPayoutCount();
     <script src="{{ asset('backend/js/chat.js') }}"></script>
     <script src="{{ asset('backend/js/create-app.js') }}"></script>
     <script src="{{ asset('backend/js/upgrade-plan.js') }}"></script>
-    <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
+    <script src="{{ asset('datatable/js/dataTables-2.0.2.min.js') }}"></script>
 
     @include('flashmessage')
     @yield('script')

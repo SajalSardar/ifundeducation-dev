@@ -18,7 +18,7 @@
         rel="stylesheet">
     @yield('style')
     <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('datatable/css/dataTables.2.0.2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
     <link type="text/css" href="{{ asset('frontend/css/sweetalert2.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
@@ -142,7 +142,7 @@
     <script src="{{ asset('frontend/js/jquery-1.12.4.min.js') }}"></script>
     <script src="{{ asset('frontend/js/script.js') }}"></script>
     <script src="{{ asset('frontend/js/sweetalert2.min.js') }}"></script>
-    <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
+    <script src="{{ asset('datatable/js/dataTables-2.0.2.min.js') }}"></script>
     @include('flashmessage')
     @yield('script')
 </body>
