@@ -22,6 +22,8 @@
                             </option>
                             <option value="unapproved" {{ request()->status == 'unapproved' ? 'selected' : '' }}>Unapprove
                             </option>
+                            <option value="blocked" {{ request()->status == 'blocked' ? 'blocked' : '' }}>Blocked
+                            </option>
                         </select>
                         <button class="btn btn-outline-secondary" type="submit">Search</button>
                     </div>
@@ -54,19 +56,22 @@
                                         style="font-size: 11px">{{ $comment->status === 'blocked' ? 'by admin' : '' }}</span>
                                 </td>
                                 <td align="right">
-                                    <a href="#" data-id="{{ $comment->id }}"
-                                        data-title=" {{ Str::limit($comment->comment, 20, '...') }}"
-                                        data-postid="{{ $comment->fundraiser_post_id }}" class="action_icon replay_btn"
-                                        title="Reply" data-bs-toggle="modal" data-bs-target="#replayModal">
-                                        <i class="fas fa-reply"></i>
-                                    </a>
-                                    <a href="{{ route('fundraiser.comment.status.update', $comment->id) }}"
-                                        class="action_icon"
-                                        title="{{ $comment->status === 'approved' ? 'Unapproved' : 'Approved' }}">
-                                        <i
-                                            class="far {{ $comment->status === 'approved' ? 'fa-circle-xmark' : 'fa-square-check' }}"></i>
+                                    @if ($comment->status != 'blocked')
+                                        <a href="#" data-id="{{ $comment->id }}"
+                                            data-title=" {{ Str::limit($comment->comment, 20, '...') }}"
+                                            data-postid="{{ $comment->fundraiser_post_id }}" class="action_icon replay_btn"
+                                            title="Reply" data-bs-toggle="modal" data-bs-target="#replayModal">
+                                            <i class="fas fa-reply"></i>
+                                        </a>
+                                        <a href="{{ route('fundraiser.comment.status.update', $comment->id) }}"
+                                            class="action_icon"
+                                            title="{{ $comment->status === 'approved' ? 'Unapproved' : 'Approved' }}">
+                                            <i
+                                                class="far {{ $comment->status === 'approved' ? 'fa-circle-xmark' : 'fa-square-check' }}"></i>
 
-                                    </a>
+                                        </a>
+                                    @endif
+
                                     <form action="{{ route('fundraiser.comment.delete', $comment->id) }}" method="POST"
                                         class="d-inline" style="cursor: pointer">
                                         @csrf
