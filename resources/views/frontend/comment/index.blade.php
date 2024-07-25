@@ -22,7 +22,7 @@
                             </option>
                             <option value="unapproved" {{ request()->status == 'unapproved' ? 'selected' : '' }}>Unapprove
                             </option>
-                            <option value="blocked" {{ request()->status == 'blocked' ? 'blocked' : '' }}>Blocked
+                            <option value="blocked" {{ request()->status == 'blocked' ? 'selected' : '' }}>Blocked
                             </option>
                         </select>
                         <button class="btn btn-outline-secondary" type="submit">Search</button>
