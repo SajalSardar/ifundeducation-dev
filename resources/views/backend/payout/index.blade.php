@@ -22,6 +22,29 @@
     </div>
 @endsection
 @section('content')
+    {{-- <div class="card mb-5">
+        <div class="card-body">
+            <form action="" method="GET" id="filterForm">
+                <div class="input-group">
+                    <select class="form-select select2" name="title">
+                        <option selected value="">Running Fundraiser</option>
+                        @foreach ($fundposts as $fundpost)
+                            <option value="{{ $fundpost->id }}">{{ $fundpost->title }}</option>
+                        @endforeach
+                    </select>
+                    <div class="border">
+                        <label class="form-label  px-2 mb-0 pt-2">Start date</label>
+                    </div>
+                    <input type="date" class="form-control" name="fromdate">
+                    <div class="border">
+                        <label class="form-label  px-2 mb-0 pt-2">End date</label>
+                    </div>
+                    <input type="date" class="form-control" name="todate">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div> --}}
     <div class="card mb-5 mb-xl-8">
         <!--begin::Header-->
         <div class="card-header border-0 pt-5">
@@ -36,7 +59,7 @@
             <!--begin::Table container-->
             <div class="table-responsive">
                 <!--begin::Table-->
-                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                <table class="table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="data-table">
                     <!--begin::Table head-->
                     <thead>
                         <tr>
@@ -49,45 +72,66 @@
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
-                    <!--end::Table head-->
-                    <!--begin::Table body-->
                     <tbody>
-                        @forelse  ($payoutRequestall as $payout)
-                            <tr>
-                                <td>{{ $payout->id }}</td>
-                                <td>{{ $payout->user->email }}</td>
-                                <td>${{ number_format($payout->amount, 2) }}</td>
-                                <td>{{ $payout->created_at->isoFormat('D MMM YYYY') }}</td>
-                                <td>
-                                    <span
-                                        class="badge badge-{{ $payout->status == 'transfer' ? 'success' : 'warning' }}">{{ Str::ucfirst($payout->status) }}</span>
-                                <td>
-                                    {{ $payout->admin_view == 0 ? 'unread' : 'read' }}
-                                </td>
-                                <td class="text-end">
-                                    <a href="{{ route('dashboard.fundraiser.payout.details', $payout->id) }}"
-                                        class="btn btn-sm btn-primary" title="View">
-                                        View
-                                    </a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6">
-                                    <p>No Payouts Found!</p>
-                                </td>
-                            </tr>
-                        @endforelse
+
                     </tbody>
-                    <!--end::Table body-->
                 </table>
-                <!--end::Table-->
-                <div>
-                    {{ $payoutRequestall->links() }}
-                </div>
             </div>
-            <!--end::Table container-->
         </div>
-        <!--begin::Body-->
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(function() {
+            var dTable = $('#data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                ajax: {
+                    url: "{{ route('dashboard.fundraiser.payout.list.datatable') }}",
+                    type: "GET",
+                    // data: function(d) {
+                    //     d._token = "{{ csrf_token() }}";
+                    //     d.title = $('select[name=title]').val();
+                    //     d.fromdate = $('input[name=fromdate]').val();
+                    //     d.todate = $('input[name=todate]').val();
+                    // }
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'amount',
+                        name: 'amount'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'admin_view',
+                        name: 'admin_view',
+                    },
+                    {
+                        data: 'action_column',
+                        name: 'action_column'
+                    }
+                ]
+            });
+            $('#filterForm').on('submit', function(e) {
+                dTable.draw();
+                e.preventDefault();
+            });
+        });
+    </script>
 @endsection

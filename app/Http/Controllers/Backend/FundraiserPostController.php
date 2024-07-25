@@ -20,26 +20,34 @@ class FundraiserPostController extends Controller {
 
     public function runningCampaign() {
 
-        return view('backend.fundraiser_post.index');
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('status', 'running')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+
+        return view('backend.fundraiser_post.index', compact('fundposts', 'fundpostsCategory'));
     }
 
-    public function runningCampaignDatatable() {
+    public function runningCampaignDatatable(Request $request) {
         $posts = FundraiserPost::with('fundraisercategory')->where('status', 'running');
-        // if ($request->all()) {
-        //     $posts->where(function ($query) use ($request) {
-        //         if ($request->title) {
-        //             $query->where('id', '=', $request->title);
-        //         }
-        //         if ($request->fromdate) {
-        //             $from_date = date("Y-m-d", strtotime($request->fromdate));
-        //             $query->where('created_at', '>=', $from_date);
-        //         }
-        //         if ($request->todate) {
-        //             $to_date = date("Y-m-d", strtotime($request->todate));
-        //             $query->where('end_date', '<=', $to_date);
-        //         }
-        //     });
-        // }
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->category) {
+                    $query->where('fundraiser_category_id', '=', $request->category);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {
@@ -75,27 +83,33 @@ class FundraiserPostController extends Controller {
     }
 
     public function pendingCampaign() {
-
-        return view('backend.fundraiser_post.pending');
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('status', 'pending')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+        return view('backend.fundraiser_post.pending', compact('fundposts', 'fundpostsCategory'));
     }
 
-    public function pendingCampaignDatatable() {
+    public function pendingCampaignDatatable(Request $request) {
         $posts = FundraiserPost::with('fundraisercategory')->where('status', 'pending');
-        // if ($request->all()) {
-        //     $posts->where(function ($query) use ($request) {
-        //         if ($request->title) {
-        //             $query->where('id', '=', $request->title);
-        //         }
-        //         if ($request->fromdate) {
-        //             $from_date = date("Y-m-d", strtotime($request->fromdate));
-        //             $query->where('created_at', '>=', $from_date);
-        //         }
-        //         if ($request->todate) {
-        //             $to_date = date("Y-m-d", strtotime($request->todate));
-        //             $query->where('end_date', '<=', $to_date);
-        //         }
-        //     });
-        // }
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->category) {
+                    $query->where('fundraiser_category_id', '=', $request->category);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {
@@ -131,27 +145,33 @@ class FundraiserPostController extends Controller {
     }
 
     public function completedCampaign() {
-
-        return view('backend.fundraiser_post.completed');
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('status', 'completed')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+        return view('backend.fundraiser_post.completed', compact('fundposts', 'fundpostsCategory'));
     }
 
-    public function completedCampaignDatatable() {
+    public function completedCampaignDatatable(Request $request) {
         $posts = FundraiserPost::with('fundraisercategory')->where('status', 'completed');
-        // if ($request->all()) {
-        //     $posts->where(function ($query) use ($request) {
-        //         if ($request->title) {
-        //             $query->where('id', '=', $request->title);
-        //         }
-        //         if ($request->fromdate) {
-        //             $from_date = date("Y-m-d", strtotime($request->fromdate));
-        //             $query->where('created_at', '>=', $from_date);
-        //         }
-        //         if ($request->todate) {
-        //             $to_date = date("Y-m-d", strtotime($request->todate));
-        //             $query->where('end_date', '<=', $to_date);
-        //         }
-        //     });
-        // }
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->category) {
+                    $query->where('fundraiser_category_id', '=', $request->category);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {
@@ -187,27 +207,33 @@ class FundraiserPostController extends Controller {
     }
 
     public function blockCampaign() {
-
-        return view('backend.fundraiser_post.block');
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('status', 'block')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+        return view('backend.fundraiser_post.block', compact('fundposts', 'fundpostsCategory'));
     }
 
-    public function blockCampaignDatatable() {
+    public function blockCampaignDatatable(Request $request) {
         $posts = FundraiserPost::with('fundraisercategory')->where('status', 'block');
-        // if ($request->all()) {
-        //     $posts->where(function ($query) use ($request) {
-        //         if ($request->title) {
-        //             $query->where('id', '=', $request->title);
-        //         }
-        //         if ($request->fromdate) {
-        //             $from_date = date("Y-m-d", strtotime($request->fromdate));
-        //             $query->where('created_at', '>=', $from_date);
-        //         }
-        //         if ($request->todate) {
-        //             $to_date = date("Y-m-d", strtotime($request->todate));
-        //             $query->where('end_date', '<=', $to_date);
-        //         }
-        //     });
-        // }
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->category) {
+                    $query->where('fundraiser_category_id', '=', $request->category);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {
@@ -243,27 +269,33 @@ class FundraiserPostController extends Controller {
             ->make(true);
     }
     public function stopCampaign() {
-
-        return view('backend.fundraiser_post.stop');
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('status', 'stop')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+        return view('backend.fundraiser_post.stop', compact('fundposts', 'fundpostsCategory'));
     }
 
-    public function stopCampaignDatatable() {
+    public function stopCampaignDatatable(Request $request) {
         $posts = FundraiserPost::with('fundraisercategory')->where('status', 'stop');
-        // if ($request->all()) {
-        //     $posts->where(function ($query) use ($request) {
-        //         if ($request->title) {
-        //             $query->where('id', '=', $request->title);
-        //         }
-        //         if ($request->fromdate) {
-        //             $from_date = date("Y-m-d", strtotime($request->fromdate));
-        //             $query->where('created_at', '>=', $from_date);
-        //         }
-        //         if ($request->todate) {
-        //             $to_date = date("Y-m-d", strtotime($request->todate));
-        //             $query->where('end_date', '<=', $to_date);
-        //         }
-        //     });
-        // }
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->category) {
+                    $query->where('fundraiser_category_id', '=', $request->category);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {
@@ -298,27 +330,33 @@ class FundraiserPostController extends Controller {
             ->make(true);
     }
     public function reviewedCampaign() {
-
-        return view('backend.fundraiser_post.reviewed');
+        $fundposts = FundraiserPost::select('id', 'title')
+            ->where('status', 'reviewed')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+        return view('backend.fundraiser_post.reviewed', compact('fundposts', 'fundpostsCategory'));
     }
 
-    public function reviewedCampaignDatatable() {
+    public function reviewedCampaignDatatable(Request $request) {
         $posts = FundraiserPost::with('fundraisercategory')->where('status', 'reviewed');
-        // if ($request->all()) {
-        //     $posts->where(function ($query) use ($request) {
-        //         if ($request->title) {
-        //             $query->where('id', '=', $request->title);
-        //         }
-        //         if ($request->fromdate) {
-        //             $from_date = date("Y-m-d", strtotime($request->fromdate));
-        //             $query->where('created_at', '>=', $from_date);
-        //         }
-        //         if ($request->todate) {
-        //             $to_date = date("Y-m-d", strtotime($request->todate));
-        //             $query->where('end_date', '<=', $to_date);
-        //         }
-        //     });
-        // }
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->category) {
+                    $query->where('fundraiser_category_id', '=', $request->category);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {
@@ -427,26 +465,33 @@ class FundraiserPostController extends Controller {
     // update request
 
     public function updateCampaign() {
-        return view('backend.fundraiser_post.update');
+        $fundposts = FundraiserPostUpdate::select('id', 'title')
+            ->where('status', 'pending')
+            ->get();
+        $fundpostsCategory = FundraiserCategory::where('status', 1)->get();
+        return view('backend.fundraiser_post.update', compact('fundposts', 'fundpostsCategory'));
     }
 
-    public function updateCampaignDatatable() {
+    public function updateCampaignDatatable(Request $request) {
         $posts = FundraiserPostUpdate::where('status', 'pending');
-        // if ($request->all()) {
-        //     $posts->where(function ($query) use ($request) {
-        //         if ($request->title) {
-        //             $query->where('id', '=', $request->title);
-        //         }
-        //         if ($request->fromdate) {
-        //             $from_date = date("Y-m-d", strtotime($request->fromdate));
-        //             $query->where('created_at', '>=', $from_date);
-        //         }
-        //         if ($request->todate) {
-        //             $to_date = date("Y-m-d", strtotime($request->todate));
-        //             $query->where('end_date', '<=', $to_date);
-        //         }
-        //     });
-        // }
+        if ($request->all()) {
+            $posts->where(function ($query) use ($request) {
+                if ($request->title) {
+                    $query->where('id', '=', $request->title);
+                }
+                if ($request->category) {
+                    $query->where('fundraiser_category_id', '=', $request->category);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
         return DataTables::of($posts)
 
             ->addColumn('category', function ($posts) {

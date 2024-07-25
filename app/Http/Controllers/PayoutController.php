@@ -11,7 +11,9 @@ use App\Notifications\PayoutEmailVerification as PayoutNotify;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use PDF;
+use Yajra\DataTables\Facades\DataTables;
 
 class PayoutController extends Controller {
 
@@ -183,8 +185,56 @@ class PayoutController extends Controller {
 
     // admin or super admin parts
     public function payoutListAdmin() {
-        $payoutRequestall = Payout::with('user:id,first_name,last_name,email')->orderBy('id', 'desc')->paginate(15);
-        return view('backend.payout.index', compact('payoutRequestall'));
+        // $payoutRequestall = Payout::with('user:id,first_name,last_name,email')->orderBy('id', 'desc')->paginate(15);
+        return view('backend.payout.index');
+    }
+    public function payoutListAdminDataTable(Request $request) {
+        $payouts = Payout::with('user:id,first_name,last_name,email')->orderBy('id', 'desc');
+        // if ($request->all()) {
+        //     $posts->where(function ($query) use ($request) {
+        //         if ($request->title) {
+        //             $query->where('id', '=', $request->title);
+        //         }
+        //         if ($request->fromdate) {
+        //             $from_date = date("Y-m-d", strtotime($request->fromdate));
+        //             $query->where('created_at', '>=', $from_date);
+        //         }
+        //         if ($request->todate) {
+        //             $to_date = date("Y-m-d", strtotime($request->todate));
+        //             $query->where('end_date', '<=', $to_date);
+        //         }
+        //     });
+        // }
+        return DataTables::of($payouts)
+
+            ->addColumn('email', function ($payouts) {
+                return $payouts->user->email;
+
+            })
+            ->editColumn('amount', function ($payouts) {
+                return '$' . number_format($payouts->amount, 2);
+            })
+            ->editColumn('status', function ($payouts) {
+                $sts    = $payouts->status == 'transfer' ? 'success' : 'warning';
+                $status = '<span class="badge badge-' . $sts . '">' . Str::ucfirst($payouts->status) . '</span>';
+                return $status;
+            })
+            ->editColumn('admin_view', function ($payouts) {
+                return $payouts->admin_view == 0 ? 'unread' : 'read';
+            })
+            ->editColumn('created_at', function ($payouts) {
+                return $payouts->created_at->format('M d, Y');
+            })
+            ->addColumn('action_column', function ($payouts) {
+                $links = '';
+
+                $links .= '<div class="text-end"><a href="' . route('dashboard.fundraiser.payout.details', $payouts->id) . '" class="btn btn-sm btn-primary" title="View"> View</a></div>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function payoutdetailsAdmin($id) {

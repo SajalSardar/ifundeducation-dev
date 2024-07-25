@@ -58,8 +58,6 @@
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
-                    <!--end::Table head-->
-                    <!--begin::Table body-->
                     <tbody>
                         @foreach ($categories as $categorie)
                             <tr>

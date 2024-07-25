@@ -86,6 +86,7 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
 
     Route::controller(PayoutController::class)->prefix('payout')->name('fundraiser.payout.')->group(function () {
         Route::get('/list', 'payoutListAdmin')->name('list');
+        Route::get('/list-datatable', 'payoutListAdminDataTable')->name('list.datatable');
         Route::get('/details/{id}', 'payoutdetailsAdmin')->name('details');
     });
     Route::controller(StripeConnectController::class)->prefix('payout')->name('fundraiser.payout.')->group(function () {
@@ -113,6 +114,7 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
     });
     Route::controller(DonationController::class)->prefix('donotaion')->name('campaign.donation.')->group(function () {
         Route::get('/', 'index')->name('admin.donation.list');
+        Route::get('/list', 'listDatatable')->name('admin.donation.list.datatable');
         Route::get('/show/{id}', 'show')->name('admin.donation.show');
     });
 

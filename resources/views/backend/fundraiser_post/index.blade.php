@@ -25,6 +25,43 @@
     <div>
         <x-campaignbutton />
     </div>
+    <div class="card my-5">
+        <div class="card-body">
+            <form action="" method="GET" id="filterForm">
+                <div class="row">
+
+                    <div class="col-lg-3 px-0">
+                        <select class="form-select" data-control="select2" data-hide-search="false" name="title">
+                            <option value="">All running campaign</option>
+                            @foreach ($fundposts as $fundpost)
+                                <option value="{{ $fundpost->id }}">{{ $fundpost->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-lg-3  px-0">
+                        <select class="form-select" data-control="select2" data-hide-search="false" name="category">
+                            <option value="">All category</option>
+                            @foreach ($fundpostsCategory as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <input type="date" class="form-control" name="fromdate">
+                        <p class="text-gray-400">Start date</p>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <input type="date" class="form-control" name="todate">
+                        <p class="text-gray-400">End date</p>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 px-0">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="card mb-5 mb-xl-8">
         <!--begin::Header-->
         <div class="card-header border-0 pt-5">
@@ -40,7 +77,6 @@
             <div class="table-responsive">
                 <!--begin::Table-->
                 <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="data-table">
-                    <!--begin::Table head-->
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -53,18 +89,12 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <!--end::Table head-->
-                    <!--begin::Table body-->
                     <tbody>
 
                     </tbody>
-                    <!--end::Table body-->
                 </table>
-                <!--end::Table-->
             </div>
-            <!--end::Table container-->
         </div>
-        <!--begin::Body-->
     </div>
 @endsection
 
@@ -96,12 +126,13 @@
                 ajax: {
                     url: "{{ route('dashboard.fundraiser.campaign.campaign.all.datatable') }}",
                     type: "GET",
-                    // data: function(d) {
-                    //     d._token = "{{ csrf_token() }}";
-                    //     d.title = $('select[name=title]').val();
-                    //     d.fromdate = $('input[name=fromdate]').val();
-                    //     d.todate = $('input[name=todate]').val();
-                    // }
+                    data: function(d) {
+                        d._token = "{{ csrf_token() }}";
+                        d.title = $('select[name=title]').val();
+                        d.category = $('select[name=category]').val();
+                        d.fromdate = $('input[name=fromdate]').val();
+                        d.todate = $('input[name=todate]').val();
+                    }
                 },
                 columns: [{
                         data: 'DT_RowIndex',
