@@ -113,7 +113,6 @@
                         d.title = $('select[name=title]').val();
                         d.status = $('select[name=status]').val();
                         d.admin_view = $('select[name=admin_view]').val();
-                        d.donorname = $('input[name=donorname]').val();
                         d.fromdate = $('input[name=fromdate]').val();
                         d.todate = $('input[name=todate]').val();
                     }

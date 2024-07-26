@@ -18,6 +18,48 @@
 
 
 @section('content')
+    <div class="card my-5">
+        <div class="card-body">
+            <form action="" method="GET" id="filterForm">
+                <div class="row">
+
+                    <div class="col-lg-3 px-0">
+                        <select class="form-select" data-control="select2" data-hide-search="false" name="title">
+                            <option value="">All running campaign</option>
+                            @foreach ($fundposts as $fundpost)
+                                <option value="{{ $fundpost->id }}">{{ $fundpost->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <select class="form-select" data-control="select2" data-hide-search="false" name="status">
+                            <option value="">All</option>
+                            <option value="active">Active</option>
+                            <option value="deactive">Deactive</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <select class="form-select" data-control="select2" data-hide-search="false" name="admin_view">
+                            <option value="">All</option>
+                            <option value="read">Read</option>
+                            <option value="unread">Unread</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <input type="date" class="form-control" name="fromdate">
+                        <p class="text-gray-400">Start date</p>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <input type="date" class="form-control" name="todate">
+                        <p class="text-gray-400">End date</p>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 px-0">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="card mb-5 mb-xl-8">
         <!--begin::Header-->
         <div class="card-header border-0 pt-5">
@@ -40,22 +82,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($messages as $message)
-                            <tr>
-                                <td>{{ $message->id }}</td>
-                                <td>{{ $message->message }}</td>
-                                <td>{{ $message->fundraiserpost->title }}</td>
-                                <td>{{ $message->created_at->format('D m, Y') }}</td>
-                                <td>{{ $message->status == 1 ? 'Active' : 'blocked' }}</td>
-                                <td>{{ $message->admin_view == 1 ? 'read' : 'unread' }}</td>
-                                <td style="text-align: right">
-                                    <a href="{{ route('dashboard.campaign.message.admin.message.show', $message->id) }}"
-                                        class="btn btn-sm btn-primary">View</a>
-                                    <a href="{{ route('dashboard.campaign.message.admin.message.status.update', $message->id) }}"
-                                        class="btn btn-sm text-white {{ $message->status == 1 ? 'bg-danger' : 'bg-success' }}">{{ $message->status == 1 ? 'Block' : 'Active' }}</a>
-                                </td>
-                            </tr>
-                        @endforeach
+
                     </tbody>
                 </table>
             </div>
@@ -78,34 +105,38 @@
                 ajax: {
                     url: "{{ route('dashboard.campaign.message.admin.all.message.datatable') }}",
                     type: "GET",
-                    // data: function(d) {
-                    //     d._token = "{{ csrf_token() }}";
-                    //     d.title = $('select[name=title]').val();
-                    //     d.donorname = $('input[name=donorname]').val();
-                    //     d.fromdate = $('input[name=fromdate]').val();
-                    //     d.todate = $('input[name=todate]').val();
-                    // }
+                    data: function(d) {
+                        d._token = "{{ csrf_token() }}";
+                        d.title = $('select[name=title]').val();
+                        d.status = $('select[name=status]').val();
+                        d.admin_view = $('select[name=admin_view]').val();
+                        d.fromdate = $('input[name=fromdate]').val();
+                        d.todate = $('input[name=todate]').val();
+                    }
                 },
                 columns: [{
-                        data: 'DT_RowIndex',
+                        data: 'id',
                         name: 'id'
                     },
                     {
-                        data: 'title',
-                        name: 'title',
-                        orderable: false
+                        data: 'message',
+                        name: 'message',
                     },
                     {
-                        data: 'message',
-                        name: 'message'
+                        data: 'campaign',
+                        name: 'campaign'
                     },
                     {
                         data: 'created_at',
                         name: 'created_at'
                     },
                     {
-                        data: 'updated_at',
-                        name: 'updated_at'
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'admin_view',
+                        name: 'admin_view'
                     },
                     {
                         data: 'action',
