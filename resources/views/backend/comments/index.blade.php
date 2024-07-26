@@ -18,6 +18,49 @@
 
 
 @section('content')
+    <div class="card my-5">
+        <div class="card-body">
+            <form action="" method="GET" id="filterForm">
+                <div class="row">
+
+                    <div class="col-lg-3 px-0">
+                        <select class="form-select" data-control="select2" data-hide-search="false" name="title">
+                            <option value="">All running campaign</option>
+                            @foreach ($fundposts as $fundpost)
+                                <option value="{{ $fundpost->id }}">{{ $fundpost->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <select class="form-select" data-control="select2" data-hide-search="false" name="status">
+                            <option value="">All</option>
+                            <option value="approved">Approved</option>
+                            <option value="unapproved">Unapproved</option>
+                            <option value="blocked">Blocked</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <select class="form-select" data-control="select2" data-hide-search="false" name="admin_view">
+                            <option value="">All</option>
+                            <option value="read">Read</option>
+                            <option value="unread">Unread</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <input type="date" class="form-control" name="fromdate">
+                        <p class="text-gray-400">Start date</p>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <input type="date" class="form-control" name="todate">
+                        <p class="text-gray-400">End date</p>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 px-0">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="card mb-5 mb-xl-8">
         <!--begin::Header-->
         <div class="card-header border-0 pt-5">
@@ -32,6 +75,7 @@
                         <tr class="fw-bolder text-muted">
                             <th>ID</th>
                             <th>Comment</th>
+                            <th>Campaign</th>
                             <th>Author</th>
                             <th>Date</th>
                             <th>Status</th>
@@ -40,22 +84,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($comments as $comment)
-                            <tr>
-                                <td>{{ $comment->id }}</td>
-                                <td>{{ $comment->comment }}</td>
-                                <td>{{ $comment->name }} <br> {{ $comment->email }}</td>
-                                <td>{{ $comment->created_at->format('M d, Y') }}</td>
-                                <td>{{ $comment->status }}</td>
-                                <td>{{ $comment->admin_view == 0 ? 'unread' : 'read' }}</td>
-                                <td class="text-end">
-                                    <a href="{{ route('dashboard.campaign.comment.admin.comment.show', $comment->id) }}"
-                                        class="btn btn-sm btn-primary">View</a>
-                                    <a href="{{ route('dashboard.campaign.comment.admin.comment.status.update', $comment->id) }}"
-                                        class="btn btn-sm text-white {{ $comment->status === 'blocked' ? 'bg-success' : 'bg-danger' }}">{{ $comment->status === 'blocked' ? 'Active' : 'Block' }}</a>
-                                </td>
-                            </tr>
-                        @endforeach
+
                     </tbody>
                 </table>
 
@@ -79,16 +108,18 @@
                 ajax: {
                     url: "{{ route('dashboard.campaign.comment.admin.all.comment.datatable') }}",
                     type: "GET",
-                    // data: function(d) {
-                    //     d._token = "{{ csrf_token() }}";
-                    //     d.title = $('select[name=title]').val();
-                    //     d.donorname = $('input[name=donorname]').val();
-                    //     d.fromdate = $('input[name=fromdate]').val();
-                    //     d.todate = $('input[name=todate]').val();
-                    // }
+                    data: function(d) {
+                        d._token = "{{ csrf_token() }}";
+                        d.title = $('select[name=title]').val();
+                        d.status = $('select[name=status]').val();
+                        d.admin_view = $('select[name=admin_view]').val();
+                        d.donorname = $('input[name=donorname]').val();
+                        d.fromdate = $('input[name=fromdate]').val();
+                        d.todate = $('input[name=todate]').val();
+                    }
                 },
                 columns: [{
-                        data: 'DT_RowIndex',
+                        data: 'id',
                         name: 'id'
                     },
                     {
@@ -96,12 +127,12 @@
                         name: 'comment',
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'campaign',
+                        name: 'campaign',
                     },
                     {
-                        data: 'email',
-                        name: 'email'
+                        data: 'author',
+                        name: 'author'
                     },
                     {
                         data: 'created_at',
@@ -110,6 +141,14 @@
                     {
                         data: 'status',
                         name: 'status'
+                    },
+                    {
+                        data: 'admin_view',
+                        name: 'admin_view'
+                    },
+                    {
+                        data: 'action_column',
+                        name: 'action_column'
                     }
                 ]
             });

@@ -77,28 +77,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @forelse  ($all_donates as $donation)
-                            <tr>
-                                <td>{{ $donation->id }}</td>
-                                <td>{{ $donation->title }}</td>
-                                <td>${{ number_format($donation->amount, 2) }}</td>
-                                <td>{{ $donation->created_at->isoFormat('MMM D, YYYY') }}</td>
-                                <td>
-                                    {{ $donation->donar_name ? $donation->donar_name : 'Guest' }}
-                                </td>
-                                <td>{{ $donation->admin_view == 0 ? 'unread' : 'read' }}</td>
-                                <td class="text-end">
-                                    <a href="{{ route('dashboard.campaign.donation.admin.donation.show', $donation->id) }}"
-                                        class="btn btn-sm btn-primary">View</a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6">
-                                    <p>Donation not Found!</p>
-                                </td>
-                            </tr>
-                        @endforelse --}}
+
                     </tbody>
                     <!--end::Table body-->
                 </table>
