@@ -25,8 +25,7 @@
     <div class="card mb-5 mb-xl-8">
         <div class="card-body py-3">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Transfer Amount: ${{ $payout->amount }}</h2>
-                <h4>Status: {{ $payout->status }}</h4>
+                <h2>Transfer Request</h2>
                 @if ($payout->status == 'processing')
                     <form action="{{ route('dashboard.fundraiser.payout.connect.transfer') }}" method="POST">
                         @csrf
@@ -38,6 +37,41 @@
                     </form>
                 @endif
 
+            </div>
+            <div class="mt-3">
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                    <tr>
+                        <td width="15%"><strong>Transfer Amount</strong></td>
+                        <td width="3%">:</td>
+                        <td>{{ $payout->amount ?? '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td width="15%"><strong>Transaction Id</strong></td>
+                        <td width="3%">:</td>
+                        <td>{{ $payout->balance_transaction ?? '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td width="15%"><strong>
+                                Transaction Date</strong></td>
+                        <td width="3%">:</td>
+                        <td>{{ $payout->transaction_time ?? '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td width="15%"><strong>Destination</strong></td>
+                        <td width="3%">:</td>
+                        <td>{{ $payout->destination ?? '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td width="15%"><strong>Currency</strong></td>
+                        <td width="3%">:</td>
+                        <td>{{ $payout->currency ?? '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td width="15%"><strong>Status</strong></td>
+                        <td width="3%">:</td>
+                        <td>{{ $payout->status ?? '--' }}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

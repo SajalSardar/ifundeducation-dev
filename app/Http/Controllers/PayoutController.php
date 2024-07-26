@@ -185,7 +185,6 @@ class PayoutController extends Controller {
 
     // admin or super admin parts
     public function payoutListAdmin() {
-        // $payoutRequestall = Payout::with('user:id,first_name,last_name,email')->orderBy('id', 'desc')->paginate(15);
         return view('backend.payout.index');
     }
     public function payoutListAdminDataTable(Request $request) {
