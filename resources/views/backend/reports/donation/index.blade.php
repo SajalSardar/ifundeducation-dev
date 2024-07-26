@@ -29,48 +29,45 @@
             </h3>
         </div>
         <div class="card-body py-3">
-            <form action="" method="POST">
-                @csrf
+            <form action="" method="GET" id="filterForm">
+
                 <div class="row">
                     <div class="col-md-4 col-lg-3 fv-row">
-                        <label class="required fs-6 fw-bold mb-2">Fundraiser</label>
+                        <label class=" fs-6 fw-bold mb-2">Fundraiser</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
-                            data-placeholder="Select Fundraiser" name="user">
-                            <option value="all">All</option>
+                            name="user">
+                            <option value="">All</option>
                             @foreach ($fundraisers as $fundraiser)
                                 <option value="{{ $fundraiser->id }}">
-                                    {{ $fundraiser->first_name . ' ' . $fundraiser->last_name }}</option>
+                                    {{ $fundraiser->email }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4 col-lg-3 fv-row">
-                        <label class="required fs-6 fw-bold mb-2">Campaign</label>
+                    <div class="col-md-3 col-lg-3 fv-row">
+                        <label class=" fs-6 fw-bold mb-2">Campaign</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
-                            data-placeholder="Select Campaign" name="campaign">
-                            <option value="all">All</option>
+                            name="title">
+                            <option value="">All</option>
                             @foreach ($campaigns as $campaign)
                                 <option value="{{ $campaign->id }}">{{ $campaign->title }}</option>
                             @endforeach
                         </select>
                     </div>
-
+                    <div class="col-lg-2 px-0">
+                        <label class=" fs-6 fw-bold mb-2">Start Date</label>
+                        <input type="date" class="form-control" name="fromdate">
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <label class=" fs-6 fw-bold mb-2">End date</label>
+                        <input type="date" class="form-control" name="todate">
+                    </div>
                 </div>
                 <div class="mt-2">
                     <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
                         <span class="indicator-label">Submit</span>
                     </button>
                 </div>
-
-                {{-- <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-                    <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                        <span class="required">Name</span>
-                    </label>
-                    <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror"
-                        placeholder="Enter Category Name" name="name" value="{{ old('name') }}">
-                    @error('name')
-                        <p class="text-danger mt-2">{{ $message }}</p>
-                    @enderror
-                </div> --}}
 
             </form>
         </div>
@@ -83,7 +80,7 @@
         </div>
         <div class="card-body py-3">
             <div class="table-responsive">
-                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="data-table">
                     <thead>
                         <tr class="fw-bolder text-muted">
                             <th>Id</th>
@@ -100,39 +97,89 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($donations as $donation)
-                            <tr>
-                                <td>{{ $donation->id }}</td>
-                                <td>{{ $donation->fundraiser->user->first_name . ' ' . $donation->fundraiser->user->last_name }}
-                                    <br> {{ $donation->fundraiser->user->email }}
-                                </td>
-                                <td>
-                                    <a href="{{ route('dashboard.fundraiser.campaign.campaign.show', $donation->fundraiser->slug) }}"
-                                        target="_blank"
-                                        title="{{ $donation->fundraiser->title }}">{{ Str::limit($donation->fundraiser->title, 15, '...') }}</a>
-                                </td>
-                                <td>{{ $donation->status }}</td>
-                                <td>{{ $donation->created_at->format('D m, Y') }}</td>
-                                <td>${{ number_format($donation->amount, 2) }}</td>
-                                <td>${{ number_format($donation->stripe_fee, 2) }}</td>
-                                <td>${{ number_format($donation->platform_fee, 2) }}</td>
-                                <td>${{ number_format($donation->net_balance, 2) }}</td>
-                                <td>{{ $donation->balance_transaction_id }}</td>
-                                <td>{{ $donation->donar_name ?? 'Guest' }} <br> {{ $donation->donar_email ?? '--' }} </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td>
-                                    <p>
-                                        Donation Not Found!
-                                    </p>
-                                </td>
-                            </tr>
-                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+@endsection
+
+
+
+@section('script')
+    <script>
+        $(function($) {
+            var dTable = $('#data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                searching: false,
+                // order: [
+                //     [3, 'desc']
+                // ],
+                ajax: {
+                    url: "{{ route('dashboard.report.donation.list.datatable') }}",
+                    type: "GET",
+                    data: function(d) {
+                        d._token = "{{ csrf_token() }}";
+                        d.title = $('select[name=title]').val();
+                        d.user = $('select[name=user]').val();
+                        d.fromdate = $('input[name=fromdate]').val();
+                        d.todate = $('input[name=todate]').val();
+                    }
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'author',
+                        name: 'author',
+                    },
+                    {
+                        data: 'campaign',
+                        name: 'campaign',
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+
+                    {
+                        data: 'amount',
+                        name: 'amount'
+                    },
+                    {
+                        data: 'stripe_fee',
+                        name: 'stripe_fee'
+                    },
+                    {
+                        data: 'platform_fee',
+                        name: 'platform_fee'
+                    },
+                    {
+                        data: 'net_balance',
+                        name: 'net_balance'
+                    },
+                    {
+                        data: 'balance_transaction_id',
+                        name: 'balance_transaction_id'
+                    },
+                    {
+                        data: 'donar',
+                        name: 'donar'
+                    }
+                ]
+            });
+            $('#filterForm').on('submit', function(e) {
+                dTable.draw();
+                e.preventDefault();
+            });
+        })
+    </script>
 @endsection

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Donate;
 use App\Models\FundraiserPost;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class DonationReportController extends Controller {
     public function index() {
@@ -14,11 +17,70 @@ class DonationReportController extends Controller {
             ->get(['id', 'title', 'user_id']);
 
         $hasCampaign = $campaigns->pluck('user_id')->toArray();
-        $fundraisers = User::whereIn('id', $hasCampaign)->get(['id', 'first_name', 'last_name']);
+        $fundraisers = User::whereIn('id', $hasCampaign)->get(['id', 'first_name', 'last_name', 'email']);
 
-        $donations = Donate::with(['fundraiser:id,title,slug,user_id', 'fundraiser.user:id,first_name,last_name,email'])->get();
-        // return $donations;
-
-        return view('backend.reports.donation.index', compact('campaigns', 'fundraisers', 'donations'));
+        return view('backend.reports.donation.index', compact('campaigns', 'fundraisers'));
     }
+
+    public function listDatatable(Request $request) {
+
+        $donations = Donate::with(['campaign:id,title,slug,user_id', 'campaign.user:id,first_name,last_name,email'])
+            ->join('fundraiser_posts', 'fundraiser_posts.id', 'donates.fundraiser_post_id')
+            ->select('donates.*', 'fundraiser_posts.user_id');
+
+        if ($request->all()) {
+            $donations->where(function ($query) use ($request) {
+                if ($request->user) {
+                    $query->where('user_id', '=', $request->user);
+                }
+                if ($request->title) {
+                    $query->where('fundraiser_post_id', '=', $request->title);
+                }
+                if ($request->status) {
+                    $query->where('status', '=', $request->status);
+                }
+                if ($request->fromdate) {
+                    $from_date = date("Y-m-d", strtotime($request->fromdate));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->todate) {
+                    $to_date = date("Y-m-d", strtotime($request->todate));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
+
+        return DataTables::of($donations)
+
+            ->addColumn('author', function ($donations) {
+                return $donations->campaign->user->first_name . ' ' . $donations->campaign->user->last_name . "<br>" . $donations->campaign->user->email;
+
+            })
+            ->editColumn('campaign', function ($donations) {
+                return '<a href="' . route('dashboard.fundraiser.campaign.campaign.show', $donations->campaign->slug) . '" target="_blank" title="' . $donations->campaign->title . '">' . Str::limit($donations->campaign->title, 20, '...') . '</a>';
+            })
+            ->editColumn('created_at', function ($donations) {
+                return $donations->created_at->format('M d, Y');
+            })
+            ->editColumn('amount', function ($donations) {
+                return '$' . number_format($donations->amount, 2);
+            })
+            ->editColumn('stripe_fee', function ($donations) {
+                return '$' . number_format($donations->stripe_fee, 2);
+            })
+            ->editColumn('platform_fee', function ($donations) {
+                return '$' . number_format($donations->platform_fee, 2);
+            })
+            ->editColumn('net_balance', function ($donations) {
+                return '$' . number_format($donations->net_balance, 2);
+            })
+            ->editColumn('donar', function ($donations) {
+                $donor = $donations->donar_name ?? 'Guest';
+                return $donor . '<br>' . $donations->donar_email ?? '--';
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
+
 }

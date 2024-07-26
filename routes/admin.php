@@ -46,9 +46,11 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
     Route::prefix('/report')->name('report.')->group(function () {
         Route::controller(CampaignReportController::class)->prefix('/campaign')->name('campaign.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/list-datatable', 'listDatatable')->name('list.datatable');
         });
         Route::controller(DonationReportController::class)->prefix('/donation')->name('donation.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/list-datatable', 'listDatatable')->name('list.datatable');
         });
         Route::controller(PayoutReportController::class)->prefix('/payout')->name('payout.')->group(function () {
             Route::get('/', 'index')->name('index');

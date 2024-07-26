@@ -29,39 +29,48 @@
             </h3>
         </div>
         <div class="card-body py-3">
-            <form action="" method="POST">
-                @csrf
+            <form action="" method="GET" id="filterForm">
+
                 <div class="row">
                     <div class="col-md-4 col-lg-3 fv-row">
-                        <label class="required fs-6 fw-bold mb-2">Fundraiser</label>
+                        <label class=" fs-6 fw-bold mb-2">Fundraiser</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
-                            data-placeholder="Select Fundraiser" name="user">
-                            <option value="all">All</option>
+                            name="user">
+                            <option value="">All</option>
                             @foreach ($fundraisers as $fundraiser)
                                 <option value="{{ $fundraiser->id }}">
-                                    {{ $fundraiser->first_name . ' ' . $fundraiser->last_name }}</option>
+                                    {{ $fundraiser->email }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4 col-lg-3 fv-row">
-                        <label class="required fs-6 fw-bold mb-2">Campaign</label>
+                    <div class="col-md-3 col-lg-3 fv-row">
+                        <label class=" fs-6 fw-bold mb-2">Campaign</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
-                            data-placeholder="Select Campaign" name="campaign">
-                            <option value="all">All</option>
+                            name="title">
+                            <option value="">All</option>
                             @foreach ($campaigns as $campaign)
                                 <option value="{{ $campaign->id }}">{{ $campaign->title }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4 col-lg-3 fv-row">
-                        <label class="required fs-6 fw-bold mb-2">Status</label>
+                    <div class="col-md-3 col-lg-2 fv-row">
+                        <label class=" fs-6 fw-bold mb-2">Status</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
-                            data-placeholder="Select Status" name="status">
-                            <option value="all">All</option>
+                            name="status">
+                            <option value="">All</option>
                             <option value="running">Running</option>
                             <option value="block">Blocked</option>
                             <option value="completed">Completed</option>
                         </select>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <label class=" fs-6 fw-bold mb-2">Start Date</label>
+                        <input type="date" class="form-control" name="fromdate">
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <label class=" fs-6 fw-bold mb-2">End date</label>
+                        <input type="date" class="form-control" name="todate">
                     </div>
                 </div>
                 <div class="mt-2">
@@ -69,17 +78,6 @@
                         <span class="indicator-label">Submit</span>
                     </button>
                 </div>
-
-                {{-- <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-                    <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                        <span class="required">Name</span>
-                    </label>
-                    <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror"
-                        placeholder="Enter Category Name" name="name" value="{{ old('name') }}">
-                    @error('name')
-                        <p class="text-danger mt-2">{{ $message }}</p>
-                    @enderror
-                </div> --}}
 
             </form>
         </div>
@@ -92,7 +90,7 @@
         </div>
         <div class="card-body py-3">
             <div class="table-responsive">
-                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="data-table">
                     <thead>
                         <tr class="fw-bolder text-muted">
                             <th>Id</th>
@@ -109,39 +107,90 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($campaignsDetails as $campaignsDetail)
-                            <tr>
-                                <td>{{ $campaignsDetail->id }}</td>
-                                <td>{{ $campaignsDetail->user->first_name . ' ' . $campaignsDetail->user->last_name }}
-                                    <br> {{ $campaignsDetail->user->email }}
-                                </td>
-                                <td>
-                                    <a href="{{ route('dashboard.fundraiser.campaign.campaign.show', $campaignsDetail->slug) }}"
-                                        target="_blank"
-                                        title="{{ $campaignsDetail->title }}">{{ Str::limit($campaignsDetail->title, 15, '...') }}</a>
-                                </td>
-                                <td>${{ number_format($campaignsDetail->goal, 2) }}</td>
-                                <td>{{ $campaignsDetail->status }}</td>
-                                <td>{{ $campaignsDetail->end_date->format('D m, Y') }}</td>
-                                <td>{{ $campaignsDetail->created_at->format('D m, Y') }}</td>
-                                <td>${{ number_format($campaignsDetail->donates_sum_amount, 2) }}</td>
-                                <td>${{ number_format($campaignsDetail->donates_sum_stripe_fee, 2) }}</td>
-                                <td>${{ number_format($campaignsDetail->donates_sum_platform_fee, 2) }}</td>
-                                <td>${{ number_format($campaignsDetail->donates_sum_net_balance, 2) }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td>
-                                    <p>
-                                        No Campaign Found!
-                                    </p>
-                                </td>
-                            </tr>
-                        @endforelse
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+@endsection
+
+
+@section('script')
+    <script>
+        $(function($) {
+            var dTable = $('#data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                searching: false,
+                // order: [
+                //     [3, 'desc']
+                // ],
+                ajax: {
+                    url: "{{ route('dashboard.report.campaign.list.datatable') }}",
+                    type: "GET",
+                    data: function(d) {
+                        d._token = "{{ csrf_token() }}";
+                        d.title = $('select[name=title]').val();
+                        d.status = $('select[name=status]').val();
+                        d.user = $('select[name=user]').val();
+                        d.fromdate = $('input[name=fromdate]').val();
+                        d.todate = $('input[name=todate]').val();
+                    }
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'author',
+                        name: 'author',
+                    },
+                    {
+                        data: 'campaign',
+                        name: 'campaign',
+                    },
+                    {
+                        data: 'gole',
+                        name: 'gole'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'end_date',
+                        name: 'end_date'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+
+                    {
+                        data: 'donates_sum_amount',
+                        name: 'donates_sum_amount'
+                    },
+                    {
+                        data: 'donates_sum_stripe_fee',
+                        name: 'donates_sum_stripe_fee'
+                    },
+                    {
+                        data: 'donates_sum_platform_fee',
+                        name: 'donates_sum_platform_fee'
+                    },
+                    {
+                        data: 'donates_sum_net_balance',
+                        name: 'donates_sum_net_balance'
+                    }
+                ]
+            });
+            $('#filterForm').on('submit', function(e) {
+                dTable.draw();
+                e.preventDefault();
+            });
+        })
+    </script>
 @endsection
