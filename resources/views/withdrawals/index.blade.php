@@ -26,7 +26,7 @@
                             </div>
                         @else
                             <p>You currently have
-                                <strong>${{ $balance->balance ? number_format($balance->balance->curent_amount - $balance->balance->withdraw_amount, 2) : '0' }}</strong>
+                                <strong>${{ $balance->balance ? number_format($balance->balance->net_balance, 2) : '0' }}</strong>
                                 in earnings for next payout.
                             </p>
                             <form action="{{ route('withdrawals.verify') }}" method="POST">

@@ -54,6 +54,12 @@ class DonateController extends Controller {
 
         return DataTables::of($all_donars)
 
+            ->editColumn('stripe_fee', function ($all_donars) {
+                return '$' . number_format($all_donars->stripe_fee, 2);
+            })
+            ->editColumn('net_balance', function ($all_donars) {
+                return '$' . number_format($all_donars->net_balance, 2);
+            })
             ->editColumn('net_balance', function ($all_donars) {
                 return '$' . number_format($all_donars->net_balance, 2);
             })
@@ -74,7 +80,7 @@ class DonateController extends Controller {
         $themeOption = ThemeOption::first();
 
         $all_donars = Donate::join('fundraiser_posts', 'fundraiser_posts.id', 'donates.fundraiser_post_id')
-            ->select('donates.id', 'donates.created_at', 'donates.display_publicly', 'donates.donar_name', 'donates.net_balance', 'fundraiser_posts.title', 'fundraiser_posts.user_id')
+            ->select('donates.id', 'donates.created_at', 'donates.display_publicly', 'donates.donar_name', 'donates.net_balance', 'donates.stripe_fee', 'fundraiser_posts.title', 'fundraiser_posts.user_id')
             ->where('fundraiser_posts.user_id', Auth::id());
 
         if ($request->all()) {
@@ -114,6 +120,9 @@ class DonateController extends Controller {
         }
         if ($request->campaign_title) {
             array_push($table_columns, 'campaign_title');
+        }
+        if ($request->stripe_fee) {
+            array_push($table_columns, 'stripe_fee');
         }
         if ($request->amount) {
             array_push($table_columns, 'amount');
@@ -178,9 +187,9 @@ class DonateController extends Controller {
         $platformFee = ($request->amount * 3.5) / 100;
 
         try {
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $stripe = new \Stripe\StripeClient(config('stripe.connect.stripe_secret'));
 
-            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            \Stripe\Stripe::setApiKey(config('stripe.connect.stripe_secret'));
 
             $token = $stripe->tokens->create([
                 'card' => [
@@ -231,29 +240,15 @@ class DonateController extends Controller {
 
             if ($balance) {
                 $balance->update([
-                    'curent_amount' => (($transaction->net / 100) - $platform_fee) + $balance->curent_amount,
+                    'total_amount' => (($transaction->net / 100) - $platform_fee) + $balance->total_amount,
+                    'net_balance'  => (($transaction->net / 100) - $platform_fee) + $balance->net_balance,
                 ]);
             } else {
                 FundraiserBalance::create([
-                    "user_id"       => Auth::id(),
-                    'curent_amount' => ($transaction->net / 100) - $platform_fee,
+                    "user_id"      => Auth::id(),
+                    'total_amount' => ($transaction->net / 100) - $platform_fee,
                 ]);
             }
-
-            //$fundRaiser = FundraiserPost::with('user')->find($request->post_id);
-
-            // if ($fundRaiser->user->stripe_account_id && $fundRaiser->user->stripe_account_id != null) {
-
-            //     $transfer = \Stripe\Transfer::create([
-            //         "amount"      => round(($transaction->net / 100) - $platform_fee, 2) * 100,
-            //         "currency"    => "usd",
-            //         "destination" => $fundRaiser->user->stripe_account_id,
-            //     ]);
-
-            //     $donate->update([
-            //         'is_transfer_stripe' => 'yes',
-            //     ]);
-            // }
 
             if ($post->donates->sum('net_balance') >= $post->goal) {
                 $post->update([
@@ -261,7 +256,7 @@ class DonateController extends Controller {
                 ]);
             }
 
-            return redirect()->route('front.fundraiser.post.show', $post->slug)->with('success', 'Donate Successfull');
+            return redirect()->route('front.fundraiser', $post->slug)->with('success', 'Donate Successfull');
 
         } catch (Exception $e) {
 

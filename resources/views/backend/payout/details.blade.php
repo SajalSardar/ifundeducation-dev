@@ -77,12 +77,12 @@
                     <tr>
                         <td width="15%"><strong>Balance</strong></td>
                         <td width="3%">:</td>
-                        <td>${{ number_format($payout->user->balance->curent_amount, 2) }}</td>
+                        <td>${{ number_format($payout->user->balance->net_balance, 2) }}</td>
                     </tr>
                     <tr>
                         <td width="15%"><strong>Total Withdraw</strong></td>
                         <td width="3%">:</td>
-                        <td>${{ number_format($payout->user->balance->withdraw_amount, 2) }}</td>
+                        <td>${{ number_format($payout->user->balance->total_withdraw, 2) }}</td>
                     </tr>
 
                 </table>

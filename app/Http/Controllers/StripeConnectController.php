@@ -145,12 +145,17 @@ class StripeConnectController extends Controller {
                 $userBalance = FundraiserBalance::find($request->balance);
                 $userPayout  = Payout::find($request->payout_id);
 
-                $userBalance->decrement('curent_amount', $request->amount);
-                $userBalance->increment('withdraw_amount', $request->amount);
+                $userBalance->decrement('net_balance', $request->amount);
+                $userBalance->increment('total_withdraw', $request->amount);
 
+                $transaction_time = date("Y-m-d H:i:s", $transfer->created);
                 $userPayout->update([
-                    'status'     => "transfer",
-                    'updated_by' => Auth::id(),
+                    'status'              => "transfer",
+                    'updated_by'          => Auth::id(),
+                    'balance_transaction' => $transfer->balance_transaction,
+                    'destination'         => $transfer->destination,
+                    'transaction_time'    => $transaction_time,
+                    'currency'            => $transfer->currency,
                 ]);
             }
 

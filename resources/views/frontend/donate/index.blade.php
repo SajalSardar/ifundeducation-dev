@@ -37,8 +37,9 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Fundraiser Title</th>
-                                <th>Amount</th>
+                                <th>Campaign</th>
+                                <th>Payment Fee</th>
+                                <th>Net Amount</th>
                                 <th>Date</th>
                                 <th>Donor</th>
                             </tr>
@@ -101,6 +102,9 @@
                                 </label>
                                 <label class="me-2 d-inline-block">
                                     <input type="checkbox" name="campaign_title"> Campaign Title
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="stripe_fee"> Payment Fee
                                 </label>
                                 <label class="me-2 d-inline-block">
                                     <input type="checkbox" name="amount"> Amount
@@ -176,6 +180,10 @@
                     {
                         data: 'title',
                         name: 'title',
+                    },
+                    {
+                        data: 'stripe_fee',
+                        name: 'stripe_fee'
                     },
                     {
                         data: 'net_balance',

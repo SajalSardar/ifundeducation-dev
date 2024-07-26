@@ -62,6 +62,9 @@
                     @if (in_array('date', $table_column) || $table_column_count == 0)
                         <th align="left">Date</th>
                     @endif
+                    @if (in_array('stripe_fee', $table_column) || $table_column_count == 0)
+                        <th align="right">Payment Fee</th>
+                    @endif
                     @if (in_array('amount', $table_column) || $table_column_count == 0)
                         <th align="right">Amount</th>
                     @endif
@@ -70,10 +73,12 @@
             <tbody>
                 @php
                     $total = 0;
+                    $total_stripe_fee = 0;
                 @endphp
                 @foreach ($all_donars as $all_donar)
                     @php
                         $total += $all_donar->net_balance;
+                        $total_stripe_fee += $all_donar->stripe_fee;
                     @endphp
                     <tr>
                         @if (in_array('campaign_id', $table_column) || $table_column_count == 0)
@@ -94,6 +99,11 @@
                                 <p>{{ @$all_donar->created_at->format('M d, Y') }}</p>
                             </td>
                         @endif
+                        @if (in_array('stripe_fee', $table_column) || $table_column_count == 0)
+                            <td align="right">
+                                <p>${{ $all_donar->stripe_fee ? number_format($all_donar->stripe_fee, 2) : '' }}</p>
+                            </td>
+                        @endif
                         @if (in_array('amount', $table_column) || $table_column_count == 0)
                             <td align="right">
                                 <p>${{ $all_donar->net_balance ? number_format($all_donar->net_balance, 2) : '' }}</p>
@@ -101,12 +111,21 @@
                         @endif
                     </tr>
                 @endforeach
-                @if (in_array('amount', $table_column) || $table_column_count == 0)
+                @if (in_array('amount', $table_column) || in_array('stripe_fee', $table_column) || $table_column_count == 0)
                     <tr>
-                        <td colspan="{{ $table_column_count == 0 ? 4 : $table_column_count - 1 }}" align="center">
+                        <td colspan="{{ $table_column_count == 0 ? 4 : (in_array('stripe_fee', $table_column) && in_array('amount', $table_column) ? $table_column_count - 2 : $table_column_count - 1) }}"
+                            align="center">
                             <strong>Total</strong>
                         </td>
-                        <td align="right"><strong>${{ $total ? number_format($total, 2) : '' }}</strong></td>
+                        @if (in_array('stripe_fee', $table_column) || $table_column_count == 0)
+                            <td align="right">
+                                <strong>${{ $total_stripe_fee ? number_format($total_stripe_fee, 2) : '' }}</strong>
+                            </td>
+                        @endif
+                        @if (in_array('amount', $table_column) || $table_column_count == 0)
+                            <td align="right"><strong>${{ $total ? number_format($total, 2) : '' }}</strong></td>
+                        @endif
+
                     </tr>
                 @endif
 

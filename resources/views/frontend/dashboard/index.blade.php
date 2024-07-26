@@ -13,7 +13,7 @@
                                 <i class="fas fa-money-check"></i>
                             </div>
                             <h4>Total Balance</h4>
-                            <p>${{ auth()->user()->balance ? number_format(auth()->user()->balance->curent_amount, 2) : '0' }}
+                            <p>${{ auth()->user()->balance ? number_format(auth()->user()->balance->total_amount, 2) : '0' }}
                             </p>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                                 <i class="fas fa-money-bill-trend-up"></i>
                             </div>
                             <h4>Total Withdraw</h4>
-                            <p>${{ auth()->user()->balance ? number_format(auth()->user()->balance->withdraw_amount, 2) : '0' }}
+                            <p>${{ auth()->user()->balance ? number_format(auth()->user()->balance->total_withdraw, 2) : '0' }}
                             </p>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                                 <i class="fas fa-money-bill-trend-up"></i>
                             </div>
                             <h4>Available Balance</h4>
-                            <p>${{ auth()->user()->balance ? number_format(auth()->user()->balance->curent_amount - auth()->user()->balance->withdraw_amount, 2) : '0' }}
+                            <p>${{ auth()->user()->balance ? number_format(auth()->user()->balance->net_balance, 2) : '0' }}
                             </p>
                         </div>
                     </div>

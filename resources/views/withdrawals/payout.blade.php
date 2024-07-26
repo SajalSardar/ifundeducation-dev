@@ -14,7 +14,7 @@
                     <div class="account_content_area_form">
 
                         You currently have
-                        <strong>{{ $balance->balance->curent_amount - $balance->balance->withdraw_amount }}</strong>
+                        <strong>{{ $balance->balance->net_balance }}</strong>
                         in earnings for next payout.
                         <form action="{{ route('withdrawals.payout.request') }}" method="POST" class="mt-3">
                             @csrf

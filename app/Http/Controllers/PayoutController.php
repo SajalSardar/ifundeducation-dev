@@ -114,7 +114,7 @@ class PayoutController extends Controller {
 
         $balance = Auth::user()->load('balance');
 
-        if ((int) $balance->balance->curent_amount < $request->amount) {
+        if ((int) $balance->balance->net_balance < $request->amount) {
             return back()->with('warning', 'Your balance is insufficient to process the payout request.');
         }
         $payout = Payout::create([
