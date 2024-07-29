@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Backend\Reports;
 
+use App\Exports\MisReportExport;
 use App\Http\Controllers\Controller;
 use App\Models\FundraiserPost;
 use App\Models\Payout;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class PayoutReportController extends Controller {
@@ -61,5 +63,38 @@ class PayoutReportController extends Controller {
             ->addIndexColumn()
             ->escapeColumns([])
             ->make(true);
+    }
+
+    public function exportExcel(Request $request) {
+
+        $payouts = Payout::query();
+
+        if ($request->all()) {
+            $payouts->where(function ($query) use ($request) {
+                if ($request->user_id) {
+                    $query->where('user_id', '=', $request->user_id);
+                }
+                if ($request->status) {
+                    $query->where('status', '=', $request->status);
+                }
+                if ($request->transfer_from_date) {
+                    $from_date = date("Y-m-d", strtotime($request->transfer_from_date));
+                    $query->where('transaction_time', '>=', $from_date);
+                }
+                if ($request->transfer_to_date) {
+                    $to_date = date("Y-m-d", strtotime($request->transfer_to_date));
+                    $query->where('transaction_time', '<=', $to_date);
+                }
+            });
+        }
+
+        $payoutsData = $payouts->with('user:id,first_name,last_name,email')->get();
+
+        $view_link = 'backend.reports.payout.excel_export';
+        $file_name = "payout_list_" . time() . '.xlsx';
+        $data      = [
+            "payouts" => $payoutsData,
+        ];
+        return Excel::download(new MisReportExport($data, $view_link), $file_name);
     }
 }

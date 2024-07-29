@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Backend\Reports;
 
+use App\Exports\MisReportExport;
 use App\Http\Controllers\Controller;
 use App\Models\Donate;
 use App\Models\FundraiserPost;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class DonationReportController extends Controller {
@@ -81,6 +83,18 @@ class DonationReportController extends Controller {
             ->addIndexColumn()
             ->escapeColumns([])
             ->make(true);
+    }
+
+    public function exportExcel() {
+        $donations = Donate::with(['campaign:id,title,slug,user_id', 'campaign.user:id,first_name,last_name,email'])
+            ->get();
+
+        $view_link = 'backend.reports.donation.excel_export';
+        $file_name = "donation_list_" . time() . '.xlsx';
+        $data      = [
+            "donations" => $donations,
+        ];
+        return Excel::download(new MisReportExport($data, $view_link), $file_name);
     }
 
 }

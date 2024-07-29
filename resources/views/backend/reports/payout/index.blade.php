@@ -64,12 +64,23 @@
 
                 </div>
                 <div class="mt-2">
-                    <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
+                    <button type="submit" id="search_submit" class="btn btn-primary btn-sm">
                         <span class="indicator-label">Submit</span>
                     </button>
                 </div>
 
             </form>
+
+            <div class="mt-5">
+                <form action="{{ route('dashboard.report.payout.export.excel') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="user_id">
+                    <input type="hidden" name="status">
+                    <input type="hidden" name="transfer_from_date">
+                    <input type="hidden" name="transfer_to_date">
+                    <button type="submit" class="btn btn-primary btn-sm">Export Excel</button>
+                </form>
+            </div>
         </div>
     </div>
     <div class="card mb-5 mb-xl-8">
@@ -106,6 +117,19 @@
 @section('script')
     <script>
         $(function($) {
+
+            $('#search_submit').on('click', function() {
+                let user_id = $('input[name=user_id]');
+                let status = $('input[name=status]');
+                let transfer_from_date = $('input[name=transfer_from_date]');
+                let transfer_to_date = $('input[name=transfer_to_date]');
+
+                user_id.val($('select[name=user]').val());
+                status.val($('select[name=status]').val());
+                transfer_from_date.val($('input[name=fromdate]').val());
+                transfer_to_date.val($('input[name=todate]').val());
+            });
+
             var dTable = $('#data-table').DataTable({
                 processing: true,
                 serverSide: true,

@@ -64,12 +64,16 @@
                     </div>
                 </div>
                 <div class="mt-2">
-                    <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
+                    <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary btn-sm">
                         <span class="indicator-label">Submit</span>
                     </button>
                 </div>
 
             </form>
+            <div class="mt-5">
+                <a href="{{ route('dashboard.report.donation.export.excel') }}" class="btn btn-primary btn-sm">Export
+                    Excel</a>
+            </div>
         </div>
     </div>
     <div class="card mb-5 mb-xl-8">

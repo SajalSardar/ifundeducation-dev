@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Backend\Reports;
 
+use App\Exports\MisReportExport;
 use App\Http\Controllers\Controller;
 use App\Models\FundraiserPost;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class CampaignReportController extends Controller {
@@ -86,6 +88,23 @@ class CampaignReportController extends Controller {
             ->addIndexColumn()
             ->escapeColumns([])
             ->make(true);
+    }
+
+    public function exportExcel() {
+        $campaignsDetails = FundraiserPost::with('fundraisercategory', 'donates', 'user')
+            ->withSum('donates', 'net_balance', )
+            ->withSum('donates', 'stripe_fee')
+            ->withSum('donates', 'platform_fee')
+            ->withSum('donates', 'amount')
+            ->whereIn('status', ['running', 'block', 'completed'])
+            ->get();
+
+        $view_link = 'backend.reports.campaign.excel_export';
+        $file_name = "campaign_list_" . time() . '.xlsx';
+        $data      = [
+            "campaignsDetails" => $campaignsDetails,
+        ];
+        return Excel::download(new MisReportExport($data, $view_link), $file_name);
     }
 
 }
