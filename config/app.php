@@ -189,6 +189,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Laravolt\Avatar\ServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -214,7 +215,8 @@ return [
 
     'aliases'         => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'PDF'   => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];

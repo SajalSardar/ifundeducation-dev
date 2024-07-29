@@ -54,6 +54,7 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
         });
         Route::controller(PayoutReportController::class)->prefix('/payout')->name('payout.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/list-datatable', 'listDatatable')->name('list.datatable');
         });
     });
 

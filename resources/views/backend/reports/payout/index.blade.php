@@ -29,29 +29,37 @@
             </h3>
         </div>
         <div class="card-body py-3">
-            <form action="" method="POST">
+            <form action="" method="POST" id="filterForm">
                 @csrf
                 <div class="row">
                     <div class="col-md-4 col-lg-3 fv-row">
                         <label class="required fs-6 fw-bold mb-2">Fundraiser</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
                             data-placeholder="Select Fundraiser" name="user">
-                            <option value="all">All</option>
+                            <option value="">All</option>
                             @foreach ($fundraisers as $fundraiser)
                                 <option value="{{ $fundraiser->id }}">
                                     {{ $fundraiser->first_name . ' ' . $fundraiser->last_name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4 col-lg-3 fv-row">
-                        <label class="required fs-6 fw-bold mb-2">Campaign</label>
+
+                    <div class="col-md-3 col-lg-2 fv-row">
+                        <label class=" fs-6 fw-bold mb-2">Status</label>
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
-                            data-placeholder="Select Campaign" name="campaign">
-                            <option value="all">All</option>
-                            @foreach ($campaigns as $campaign)
-                                <option value="{{ $campaign->id }}">{{ $campaign->title }}</option>
-                            @endforeach
+                            name="status">
+                            <option value="">All</option>
+                            <option value="transfer">Transfer</option>
+                            <option value="processing">Processing</option>
                         </select>
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <label class=" fs-6 fw-bold mb-2">Transfer form Date</label>
+                        <input type="date" class="form-control" name="fromdate">
+                    </div>
+                    <div class="col-lg-2 px-0">
+                        <label class=" fs-6 fw-bold mb-2"> Transfer to Date</label>
+                        <input type="date" class="form-control" name="todate">
                     </div>
 
                 </div>
@@ -60,17 +68,6 @@
                         <span class="indicator-label">Submit</span>
                     </button>
                 </div>
-
-                {{-- <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-                    <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                        <span class="required">Name</span>
-                    </label>
-                    <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror"
-                        placeholder="Enter Category Name" name="name" value="{{ old('name') }}">
-                    @error('name')
-                        <p class="text-danger mt-2">{{ $message }}</p>
-                    @enderror
-                </div> --}}
 
             </form>
         </div>
@@ -83,43 +80,91 @@
         </div>
         <div class="card-body py-3">
             <div class="table-responsive">
-                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="data-table">
                     <thead>
                         <tr class="fw-bolder text-muted">
                             <th>Id</th>
                             <th>Author</th>
                             <th>Status</th>
                             <th>Request Date</th>
+                            <th>Transaction Id</th>
+                            <th>Destination</th>
+                            <th>Currency</th>
                             <th>Transfer Date</th>
                             <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($payouts as $payout)
-                            <tr>
-                                <td>{{ $payout->id }}</td>
-                                <td>{{ $payout->user->first_name . ' ' . $payout->user->last_name }}
-                                    <br> {{ $payout->user->email }}
-                                </td>
-                                <td>{{ $payout->status }}</td>
-                                <td>{{ $payout->created_at->format('D m, Y') }}</td>
-                                <td>{{ $payout->updated_at->format('D m, Y') }}</td>
-                                <td>${{ number_format($payout->amount, 2) }}</td>
-
-                            </tr>
-                        @empty
-                            <tr>
-                                <td>
-                                    <p>
-                                        Payout Not Found!
-                                    </p>
-                                </td>
-                            </tr>
-                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+@endsection
+
+@section('script')
+    <script>
+        $(function($) {
+            var dTable = $('#data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                searching: false,
+                ajax: {
+                    url: "{{ route('dashboard.report.payout.list.datatable') }}",
+                    type: "GET",
+                    data: function(d) {
+                        d._token = "{{ csrf_token() }}";
+                        d.status = $('select[name=status]').val();
+                        d.user = $('select[name=user]').val();
+                        d.fromdate = $('input[name=fromdate]').val();
+                        d.todate = $('input[name=todate]').val();
+                    }
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'author',
+                        name: 'author',
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'balance_transaction',
+                        name: 'balance_transaction'
+                    },
+                    {
+                        data: 'destination',
+                        name: 'destination'
+                    },
+                    {
+                        data: 'currency',
+                        name: 'currency'
+                    },
+                    {
+                        data: 'transaction_time',
+                        name: 'transaction_time'
+                    },
+                    {
+                        data: 'amount',
+                        name: 'amount'
+                    }
+                ]
+            });
+
+            $('#filterForm').on('submit', function(e) {
+                dTable.draw();
+                e.preventDefault();
+            });
+        })
+    </script>
 @endsection

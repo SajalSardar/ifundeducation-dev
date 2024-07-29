@@ -18,4 +18,14 @@ class Payout extends Model {
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'transaction_time' => 'datetime',
+    ];
+
 }
