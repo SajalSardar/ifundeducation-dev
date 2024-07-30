@@ -36,18 +36,18 @@ class DonationReportController extends Controller {
                     $query->where('user_id', '=', $request->user);
                 }
                 if ($request->title) {
-                    $query->where('fundraiser_post_id', '=', $request->title);
+                    $query->where('donates.fundraiser_post_id', '=', $request->title);
                 }
                 if ($request->status) {
-                    $query->where('status', '=', $request->status);
+                    $query->where('donates.status', '=', $request->status);
                 }
                 if ($request->fromdate) {
                     $from_date = date("Y-m-d", strtotime($request->fromdate));
-                    $query->where('created_at', '>=', $from_date);
+                    $query->where('donates.created_at', '>=', $from_date);
                 }
                 if ($request->todate) {
                     $to_date = date("Y-m-d", strtotime($request->todate));
-                    $query->where('end_date', '<=', $to_date);
+                    $query->where('donates.created_at', '<=', $to_date);
                 }
             });
         }
@@ -85,14 +85,36 @@ class DonationReportController extends Controller {
             ->make(true);
     }
 
-    public function exportExcel() {
-        $donations = Donate::with(['campaign:id,title,slug,user_id', 'campaign.user:id,first_name,last_name,email'])
-            ->get();
+    public function exportExcel(Request $request) {
+        $donations = Donate::query()
+            ->join('fundraiser_posts', 'fundraiser_posts.id', 'donates.fundraiser_post_id')
+            ->select('donates.*', 'fundraiser_posts.user_id');
+
+        if ($request->all()) {
+            $donations->where(function ($query) use ($request) {
+                if ($request->user_id) {
+                    $query->where('user_id', '=', $request->user_id);
+                }
+                if ($request->campaign_id) {
+                    $query->where('fundraiser_post_id', '=', $request->campaign_id);
+                }
+                if ($request->from_date) {
+                    $from_date = date("Y-m-d", strtotime($request->from_date));
+                    $query->where('donates.created_at', '>=', $from_date);
+                }
+                if ($request->to_date) {
+                    $to_date = date("Y-m-d", strtotime($request->to_date));
+                    $query->where('donates.created_at', '<=', $to_date);
+                }
+            });
+        }
+
+        $donation = $donations->with(['campaign:id,title,slug,user_id', 'campaign.user:id,first_name,last_name,email'])->get();
 
         $view_link = 'backend.reports.donation.excel_export';
         $file_name = "donation_list_" . time() . '.xlsx';
         $data      = [
-            "donations" => $donations,
+            "donations" => $donation,
         ];
         return Excel::download(new MisReportExport($data, $view_link), $file_name);
     }

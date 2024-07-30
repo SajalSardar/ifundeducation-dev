@@ -47,12 +47,12 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
         Route::controller(CampaignReportController::class)->prefix('/campaign')->name('campaign.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/list-datatable', 'listDatatable')->name('list.datatable');
-            Route::get('excel/export', 'exportExcel')->name('export.excel');
+            Route::post('excel/export', 'exportExcel')->name('export.excel');
         });
         Route::controller(DonationReportController::class)->prefix('/donation')->name('donation.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/list-datatable', 'listDatatable')->name('list.datatable');
-            Route::get('excel/export', 'exportExcel')->name('export.excel');
+            Route::post('excel/export', 'exportExcel')->name('export.excel');
         });
         Route::controller(PayoutReportController::class)->prefix('/payout')->name('payout.')->group(function () {
             Route::get('/', 'index')->name('index');

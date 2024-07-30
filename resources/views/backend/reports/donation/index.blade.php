@@ -64,16 +64,12 @@
                     </div>
                 </div>
                 <div class="mt-2">
-                    <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary btn-sm">
+                    <button type="submit" id="search_submit" class="btn btn-primary btn-sm">
                         <span class="indicator-label">Submit</span>
                     </button>
                 </div>
 
             </form>
-            <div class="mt-5">
-                <a href="{{ route('dashboard.report.donation.export.excel') }}" class="btn btn-primary btn-sm">Export
-                    Excel</a>
-            </div>
         </div>
     </div>
     <div class="card mb-5 mb-xl-8">
@@ -81,6 +77,16 @@
             <h3 class="card-title align-items-start flex-column">
                 <span class="card-label fw-bolder fs-3 mb-1">Donation Report</span>
             </h3>
+            <div>
+                <form action="{{ route('dashboard.report.donation.export.excel') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="user_id">
+                    <input type="hidden" name="campaign_id">
+                    <input type="hidden" name="from_date">
+                    <input type="hidden" name="to_date">
+                    <button type="submit" class="btn btn-primary btn-sm">Export Excel</button>
+                </form>
+            </div>
         </div>
         <div class="card-body py-3">
             <div class="table-responsive">
@@ -114,6 +120,18 @@
 @section('script')
     <script>
         $(function($) {
+            $('#search_submit').on('click', function() {
+                let user_id = $('input[name=user_id]');
+                let campaign_id = $('input[name=campaign_id]');
+                let from_date = $('input[name=from_date]');
+                let to_date = $('input[name=to_date]');
+
+                user_id.val($('select[name=user]').val());
+                campaign_id.val($('select[name=title]').val());
+                from_date.val($('input[name=fromdate]').val());
+                to_date.val($('input[name=todate]').val());
+            });
+
             var dTable = $('#data-table').DataTable({
                 processing: true,
                 serverSide: true,

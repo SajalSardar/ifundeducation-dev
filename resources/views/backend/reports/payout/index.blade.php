@@ -70,8 +70,14 @@
                 </div>
 
             </form>
-
-            <div class="mt-5">
+        </div>
+    </div>
+    <div class="card mb-5 mb-xl-8">
+        <div class="card-header border-0 pt-5">
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label fw-bolder fs-3 mb-1">Payout Report</span>
+            </h3>
+            <div>
                 <form action="{{ route('dashboard.report.payout.export.excel') }}" method="POST">
                     @csrf
                     <input type="hidden" name="user_id">
@@ -81,13 +87,6 @@
                     <button type="submit" class="btn btn-primary btn-sm">Export Excel</button>
                 </form>
             </div>
-        </div>
-    </div>
-    <div class="card mb-5 mb-xl-8">
-        <div class="card-header border-0 pt-5">
-            <h3 class="card-title align-items-start flex-column">
-                <span class="card-label fw-bolder fs-3 mb-1">Payout Report</span>
-            </h3>
         </div>
         <div class="card-body py-3">
             <div class="table-responsive">

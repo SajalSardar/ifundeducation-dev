@@ -90,8 +90,31 @@ class CampaignReportController extends Controller {
             ->make(true);
     }
 
-    public function exportExcel() {
-        $campaignsDetails = FundraiserPost::with('fundraisercategory', 'donates', 'user')
+    public function exportExcel(Request $request) {
+        $campaignsDetails = FundraiserPost::query();
+
+        if ($request->all()) {
+            $campaignsDetails->where(function ($query) use ($request) {
+                if ($request->user_id) {
+                    $query->where('user_id', '=', $request->user_id);
+                }
+                if ($request->campaign_id) {
+                    $query->where('id', '=', $request->campaign_id);
+                }
+                if ($request->search_status) {
+                    $query->where('status', '=', $request->search_status);
+                }
+                if ($request->from_date) {
+                    $from_date = date("Y-m-d", strtotime($request->from_date));
+                    $query->where('created_at', '>=', $from_date);
+                }
+                if ($request->to_date) {
+                    $to_date = date("Y-m-d", strtotime($request->to_date));
+                    $query->where('end_date', '<=', $to_date);
+                }
+            });
+        }
+        $campaignsDetails = $campaignsDetails->with('fundraisercategory', 'donates', 'user')
             ->withSum('donates', 'net_balance', )
             ->withSum('donates', 'stripe_fee')
             ->withSum('donates', 'platform_fee')
