@@ -65,7 +65,7 @@
                                 <td>{{ $user->id }}</td>
                                 <td>
                                     @if ($user->photo)
-                                        <img src="{{ asset('storage/profile_photo/' . $user->photo) }}"
+                                        <img src="{{ asset('public/storage/profile_photo/' . $user->photo) }}"
                                             alt="{{ $user->first_name }}" width="60" class="rounded-circle">
                                     @elseif($user->avatar)
                                         <img src="{{ $user->avatar }}" class="rounded-circle" alt="{{ $user->first_name }}"

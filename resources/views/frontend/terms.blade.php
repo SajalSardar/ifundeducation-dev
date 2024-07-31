@@ -30,7 +30,7 @@
                 <div class="col-12">
                     <div class="text-center">
                         @isset ($terms->image)
-                        <img class="img img-fuid" style="width: 100%;" src="{{ asset('frontend/images/pages/'.$terms->image) }}" alt="{{$terms->image}}">
+                        <img class="img img-fuid" style="width: 100%;" src="{{ asset('public/frontend/images/pages/'.$terms->image) }}" alt="{{$terms->image}}">
                         @endisset
                     </div>
                 </div>

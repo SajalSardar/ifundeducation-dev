@@ -56,7 +56,7 @@
                             </div>
                             @if ($fundRaiserPost->image)
                                 <a href="{{ route('front.fundraiser.post.show', $fundRaiserPost->slug) }}">
-                                    <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"
+                                    <img src="{{ asset('public/storage/fundraiser_post/' . $fundRaiserPost->image) }}"
                                         alt="{{ $fundRaiserPost->title }}">
                                 </a>
                             @else

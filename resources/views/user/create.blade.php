@@ -10,7 +10,7 @@
                 <div class="col-lg-5 col-xl-4 login_signup_form">
                     <div class="logo text-center">
                         <a href="">
-                            <img src="{{ asset('frontend/images/logo.png') }}" alt="">
+                            <img src="{{ asset('public/frontend/images/logo.png') }}" alt="">
                         </a>
                     </div>
                     <form action="" method="POST">

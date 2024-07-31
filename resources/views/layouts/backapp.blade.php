@@ -17,12 +17,12 @@ $unreadPayoutCount = unreadPayoutCount();
     <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-    <link href="{{ asset('backend/css/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/backend/css/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/backend/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     {{-- @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"); --}}
-    <link rel="stylesheet" href="{{ asset('datatable/css/dataTables.2.0.2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/datatable/css/dataTables.2.0.2.min.css') }}">
     @yield('style')
 </head>
 <!--end::Head-->
@@ -45,7 +45,7 @@ $unreadPayoutCount = unreadPayoutCount();
                 <div class="aside-logo flex-column-auto" id="kt_aside_logo">
                     <!--begin::Logo-->
                     <a href="{{ url('/') }}" target="_blank">
-                        <img src="{{ asset('frontend/images/logo.png') }}" alt="">
+                        <img src="{{ asset('public/frontend/images/logo.png') }}" alt="">
                     </a>
                     <!--end::Logo-->
                     <!--begin::Aside toggler-->
@@ -603,7 +603,7 @@ $unreadPayoutCount = unreadPayoutCount();
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                             <a href="index.html" class="d-lg-none">
-                                <img alt="Logo" src="{{ asset('frontend/images/logo.png') }}" class="h-30px" />
+                                <img alt="Logo" src="{{ asset('public/frontend/images/logo.png') }}" class="h-30px" />
                             </a>
                         </div>
                         <!--end::Mobile logo-->
@@ -800,7 +800,7 @@ $unreadPayoutCount = unreadPayoutCount();
                                             data-kt-menu-trigger="click" data-kt-menu-attach="parent"
                                             data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
                                             @if (auth()->user()->photo)
-                                                <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
+                                                <img src="{{ asset('public/storage/profile_photo/' . auth()->user()->photo) }}"
                                                     alt="{{ auth()->user()->first_name }}">
                                             @elseif(auth()->user()->avatar)
                                                 <img src="{{ auth()->user()->avatar }}" class="rounded-circle"
@@ -946,15 +946,15 @@ $unreadPayoutCount = unreadPayoutCount();
 
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(used by all pages)-->
-    <script src="{{ asset('backend/js/plugins.bundle.js') }}"></script>
-    <script src="{{ asset('backend/js/scripts.bundle.js') }}"></script>
+    <script src="{{ asset('public/backend/js/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('public/backend/js/scripts.bundle.js') }}"></script>
     <!--end::Global Javascript Bundle-->
     <!--begin::Page Custom Javascript(used by this page)-->
-    <script src="{{ asset('backend/js/widgets.js') }}"></script>
-    <script src="{{ asset('backend/js/chat.js') }}"></script>
-    <script src="{{ asset('backend/js/create-app.js') }}"></script>
-    <script src="{{ asset('backend/js/upgrade-plan.js') }}"></script>
-    <script src="{{ asset('datatable/js/dataTables-2.0.2.min.js') }}"></script>
+    <script src="{{ asset('public/backend/js/widgets.js') }}"></script>
+    <script src="{{ asset('public/backend/js/chat.js') }}"></script>
+    <script src="{{ asset('public/backend/js/create-app.js') }}"></script>
+    <script src="{{ asset('public/backend/js/upgrade-plan.js') }}"></script>
+    <script src="{{ asset('public/datatable/js/dataTables-2.0.2.min.js') }}"></script>
 
     @include('flashmessage')
     @yield('script')

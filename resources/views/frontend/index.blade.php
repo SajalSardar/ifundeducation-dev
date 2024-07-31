@@ -4,7 +4,7 @@
     <!-- hero part  -->
     <section id="banner">
         <div class="banner_item"
-            style="background:url({{ asset('frontend/images/home_page_banner/' . @$homePageBanner->image) }})">
+            style="background:url({{ asset('public/frontend/images/home_page_banner/' . @$homePageBanner->image) }})">
             <div class="container h-100">
                 <div class="row align-items-center h-100">
                     <div class="banner_caption">
@@ -78,7 +78,7 @@
 
                             </div>
                             @if ($fundRaiserPost->image)
-                                <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"
+                                <img src="{{ asset('public/storage/fundraiser_post/' . $fundRaiserPost->image) }}"
                                     alt="{{ $fundRaiserPost->title }}">
                             @else
                                 <img src="{{ Avatar::create($fundRaiserPost->title)->setBackground('#ddd')->setDimension(250)->setFontSize(16)->toBase64() }}"

@@ -45,7 +45,7 @@
                     </label>
                     <div class="col col-lg-11" style="border: 1px solid #e6e6e6; padding: 5px 15px; display: flex; justify-content: center; align-items: center;">
                         @if($homePageBanner->image != 'blank')
-                            <img src="{{ asset('frontend/images/home_page_banner/'.$homePageBanner->image) }}" class="img-fluid img-thumbnail rounded float-left" style="min-width:180px" alt="{{$homePageBanner->image}}">
+                            <img src="{{ asset('public/frontend/images/home_page_banner/'.$homePageBanner->image) }}" class="img-fluid img-thumbnail rounded float-left" style="min-width:180px" alt="{{$homePageBanner->image}}">
                         @else
                         <div style="width:180px; height: 43px; text-align: center">
                             <span style="font-size: 30px; font-weight: 700; color:rgb(178, 178, 178)">No Image</span>

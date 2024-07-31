@@ -35,11 +35,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     @yield('style')
-    <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
-    <link type="text/css" href="{{ asset('frontend/css/sweetalert2.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/fontawesome.min.css') }}">
+    <link type="text/css" href="{{ asset('public/frontend/css/sweetalert2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/responsive.css') }}">
 
 </head>
 
@@ -64,7 +64,7 @@
                                 <li>
                                     <a href="#">
                                         @if (auth()->user()->photo)
-                                            <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
+                                            <img src="{{ asset('public/storage/profile_photo/' . auth()->user()->photo) }}"
                                                 alt="{{ auth()->user()->first_name }}" width="35"
                                                 class="rounded-circle">
                                         @elseif(auth()->user()->avatar)
@@ -111,7 +111,7 @@
     <nav class="navbar navbar-expand-md sticky-top">
         <div class="container">
             <a class="logo" href="{{ route('front.index') }}">
-                <img src=" {{ asset('frontend/images/theme_options/' . @$themeOption->site_logo) }}" class="img-fluid"
+                <img src=" {{ asset('public/frontend/images/theme_options/' . @$themeOption->site_logo) }}" class="img-fluid"
                     alt="{{ config('app.name') }}">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#iNav">
@@ -142,7 +142,7 @@
                         <li class="login_last_item">
                             <a href="#">
                                 @if (auth()->user()->photo)
-                                    <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
+                                    <img src="{{ asset('public/storage/profile_photo/' . auth()->user()->photo) }}"
                                         alt="{{ auth()->user()->first_name }}" width="35" class="rounded-circle">
                                 @elseif(auth()->user()->avatar)
                                     <img src="{{ auth()->user()->avatar }}" class="rounded-circle"
@@ -202,7 +202,7 @@
             <div class="row">
                 <div class="col-lg-4 col-sm-6">
                     <div class="footer_about">
-                        <img src="{{ asset('frontend/images/theme_options/' . @$themeOption->footer_logo) }}"
+                        <img src="{{ asset('public/frontend/images/theme_options/' . @$themeOption->footer_logo) }}"
                             alt="{{ config('app.name') }}" class="img-fluid">
                         <strong>{{ @$themeOption->footer_about_title }}</strong>
                         <p>{{ @$themeOption->footer_about_description }}</p>
@@ -258,10 +258,10 @@
     <!-- footer part end -->
 
 
-    <script src="{{ asset('frontend/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/jquery-1.12.4.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/script.js') }}"></script>
-    <script src="{{ asset('frontend/js/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('public/frontend/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('public/frontend/js/jquery-1.12.4.min.js') }}"></script>
+    <script src="{{ asset('public/frontend/js/script.js') }}"></script>
+    <script src="{{ asset('public/frontend/js/sweetalert2.min.js') }}"></script>
 
     @include('flashmessage')
     @yield('script')

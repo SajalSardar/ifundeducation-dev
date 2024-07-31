@@ -41,7 +41,7 @@
     <main>
         <htmlpageheader name="page-header">
             <div style="text-align: center">
-                <img width="150" src="{{ asset('frontend/images/theme_options/' . $themeOption->site_logo) }}"
+                <img width="150" src="{{ asset('public/frontend/images/theme_options/' . $themeOption->site_logo) }}"
                     alt="">
                 <p>{{ @$themeOption->footer_about_title }}</p>
                 <p>{{ @$themeOption->header_email }}</p>

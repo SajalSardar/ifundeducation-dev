@@ -46,7 +46,7 @@
                     <div class="account_content_area_form ">
                         @if (auth()->user()->stripe_account_id)
                             <div>
-                                <img src="{{ asset('frontend/images/stripe-logo-1.png') }}" width="120"
+                                <img src="{{ asset('public/frontend/images/stripe-logo-1.png') }}" width="120"
                                     alt="Stripe Logo">
                                 <p><strong>Name</strong>: {{ $stripeAccount['display_name'] }}</p>
                                 <p><strong>Email</strong>: {{ $stripeAccount['email'] }}</p>
@@ -55,7 +55,7 @@
                             <a target="_blank" href="{{ route('withdrawals.stripe.login') }}"
                                 class="btn btn-success btn-sm">Login Stripe</a>
                         @else
-                            <img src="{{ asset('frontend/images/stripe-logo-1.png') }}" width="120" alt="Stripe Logo">
+                            <img src="{{ asset('public/frontend/images/stripe-logo-1.png') }}" width="120" alt="Stripe Logo">
                             <br>
                             <a href="{{ route('withdrawals.stripe.account') }}" class="btn btn-primary btn-sm mt-3">Set
                                 Stripe Account</a>
