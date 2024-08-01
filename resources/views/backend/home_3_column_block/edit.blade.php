@@ -1,7 +1,7 @@
 @extends('layouts.backapp')
 @section('title', 'Home 3 Column Block')
 @section('style')
-<link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/fontawesome.min.css') }}">
 @endsection
 @section('breadcrumb')
     <div data-kt-place="true" data-kt-place-mode="prepend"
@@ -15,7 +15,8 @@
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
             </li>
             <li class="breadcrumb-item text-muted">
-                <a href="{{ route('dashboard.page-options.home-3-column-block.index') }}" class="text-muted text-hover-primary">Home 3 Column Block</a>
+                <a href="{{ route('dashboard.page-options.home-3-column-block.index') }}"
+                    class="text-muted text-hover-primary">Home 3 Column Block</a>
             </li>
             <li class="breadcrumb-item">
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
@@ -35,11 +36,12 @@
                     <span class="card-label fw-bolder fs-3 mb-1">Home 3 Column Block (Edit Block)</span>
                 </h3>
                 <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                title="" data-bs-original-title="Click to Update Block" style="display: inline-block; float: right;">
-                <button type="submit" class="btn btn-sm btn-primary">
-                    Update Block
-                </button>
-            </div>
+                    title="" data-bs-original-title="Click to Update Block"
+                    style="display: inline-block; float: right;">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        Update Block
+                    </button>
+                </div>
             </div>
             <!--end::Header-->
             <!--begin::Body-->
@@ -50,13 +52,15 @@
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                             <span class="">Icon</span>
                         </label>
-                        <input type="text" class="form-control form-control-solid " placeholder="Enter Icon" name="icon" value="{{ $iconTextBox->icon }}">
+                        <input type="text" class="form-control form-control-solid " placeholder="Enter Icon"
+                            name="icon" value="{{ $iconTextBox->icon }}">
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                             <span class="required">Title</span>
                         </label>
-                        <input type="text" class="form-control form-control-solid " placeholder="Enter Title" name="title" value="{{ $iconTextBox->title }}">
+                        <input type="text" class="form-control form-control-solid " placeholder="Enter Title"
+                            name="title" value="{{ $iconTextBox->title }}">
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
@@ -68,21 +72,23 @@
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                             <span class="">Long Description</span>
                         </label>
-                        <textarea id="long_description" name="long_description" class="form-control" rows="3" placeholder="Enter Long Description">{{ $iconTextBox->long_description }}</textarea>
+                        <textarea id="long_description" name="long_description" class="form-control" rows="3"
+                            placeholder="Enter Long Description">{{ $iconTextBox->long_description }}</textarea>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                             <span class="">Link</span>
                         </label>
-                        <input type="text" class="form-control form-control-solid " placeholder="Enter Link" name="link" value="{{ $iconTextBox->link }}">
+                        <input type="text" class="form-control form-control-solid " placeholder="Enter Link"
+                            name="link" value="{{ $iconTextBox->link }}">
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                             <span class="">Status</span>
                         </label>
                         <select name="status" class="form-control form-control-solid ">
-                            <option {{$iconTextBox->status<>1?'selected':''}} value="0">Inactive</option>
-                            <option {{$iconTextBox->status==1?'selected':''}} value="1">Active</option>
+                            <option {{ $iconTextBox->status != 1 ? 'selected' : '' }} value="0">Inactive</option>
+                            <option {{ $iconTextBox->status == 1 ? 'selected' : '' }} value="1">Active</option>
                         </select>
                     </div>
                 </div>
@@ -105,9 +111,9 @@
 
     <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/super-build/ckeditor.js"></script>
     <!--
-        Uncomment to load the Spanish translation
-        <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/super-build/translations/es.js"></script>
-    -->
+            Uncomment to load the Spanish translation
+            <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/super-build/translations/es.js"></script>
+        -->
     <script>
         // This sample still does not showcase all CKEditor 5 features (!)
         // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
@@ -115,17 +121,19 @@
             // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
             toolbar: {
                 items: [
-                    'exportPDF','exportWord', '|',
+                    'exportPDF', 'exportWord', '|',
                     'findAndReplace', 'selectAll', '|',
                     'heading', '|',
-                    'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                    'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript',
+                    'removeFormat', '|',
                     'bulletedList', 'numberedList', 'todoList', '|',
                     'outdent', 'indent', '|',
                     'undo', 'redo',
                     '-',
                     'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
                     'alignment', '|',
-                    'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                    'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed',
+                    '|',
                     'specialCharacters', 'horizontalLine', 'pageBreak', '|',
                     'textPartLanguage', '|',
                     'sourceEditing'
@@ -143,14 +151,47 @@
             },
             // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
             heading: {
-                options: [
-                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                    { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
-                    { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                options: [{
+                        model: 'paragraph',
+                        title: 'Paragraph',
+                        class: 'ck-heading_paragraph'
+                    },
+                    {
+                        model: 'heading1',
+                        view: 'h1',
+                        title: 'Heading 1',
+                        class: 'ck-heading_heading1'
+                    },
+                    {
+                        model: 'heading2',
+                        view: 'h2',
+                        title: 'Heading 2',
+                        class: 'ck-heading_heading2'
+                    },
+                    {
+                        model: 'heading3',
+                        view: 'h3',
+                        title: 'Heading 3',
+                        class: 'ck-heading_heading3'
+                    },
+                    {
+                        model: 'heading4',
+                        view: 'h4',
+                        title: 'Heading 4',
+                        class: 'ck-heading_heading4'
+                    },
+                    {
+                        model: 'heading5',
+                        view: 'h5',
+                        title: 'Heading 5',
+                        class: 'ck-heading_heading5'
+                    },
+                    {
+                        model: 'heading6',
+                        view: 'h6',
+                        title: 'Heading 6',
+                        class: 'ck-heading_heading6'
+                    }
                 ]
             },
             // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
@@ -172,20 +213,18 @@
             },
             // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
             fontSize: {
-                options: [ 10, 12, 14, 'default', 18, 20, 22 ],
+                options: [10, 12, 14, 'default', 18, 20, 22],
                 supportAllValues: true
             },
             // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
             // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
             htmlSupport: {
-                allow: [
-                    {
-                        name: /.*/,
-                        attributes: true,
-                        classes: true,
-                        styles: true
-                    }
-                ]
+                allow: [{
+                    name: /.*/,
+                    attributes: true,
+                    classes: true,
+                    styles: true
+                }]
             },
             // Be careful with enabling previews
             // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
@@ -208,18 +247,19 @@
             },
             // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
             mention: {
-                feeds: [
-                    {
-                        marker: '@',
-                        feed: [
-                            '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
-                            '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
-                            '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
-                            '@sugar', '@sweet', '@topping', '@wafer'
-                        ],
-                        minimumCharacters: 1
-                    }
-                ]
+                feeds: [{
+                    marker: '@',
+                    feed: [
+                        '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes',
+                        '@chocolate', '@cookie', '@cotton', '@cream',
+                        '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread',
+                        '@gummi', '@ice', '@jelly-o',
+                        '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding',
+                        '@sesame', '@snaps', '@soufflé',
+                        '@sugar', '@sweet', '@topping', '@wafer'
+                    ],
+                    minimumCharacters: 1
+                }]
             },
             // The "super-build" contains more premium features that require additional configuration, disable them below.
             // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.

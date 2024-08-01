@@ -1,7 +1,7 @@
 @extends('layouts.backapp')
 @section('title', 'Home 2 Column Block')
 @section('style')
-<link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/fontawesome.min.css') }}">
 @endsection
 @section('breadcrumb')
     <div data-kt-place="true" data-kt-place-mode="prepend"
@@ -15,7 +15,8 @@
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
             </li>
             <li class="breadcrumb-item text-muted">
-                <a href="{{ route('dashboard.page-options.home-2-column-block.index') }}" class="text-muted text-hover-primary">Home 2 Column Block</a>
+                <a href="{{ route('dashboard.page-options.home-2-column-block.index') }}"
+                    class="text-muted text-hover-primary">Home 2 Column Block</a>
             </li>
             <li class="breadcrumb-item">
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
@@ -35,16 +36,16 @@
                     <span class="card-label fw-bolder fs-3 mb-1">Home 2 Column Block (New Block)</span>
                 </h3>
                 <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                title="" data-bs-original-title="Click to add Block" style="display: inline-block; float: right;">
-                <button type="submit" class="btn btn-sm btn-primary">
-                    <span class="svg-icon svg-icon-3">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                    </span>
-                    Block
-                </button>
-            </div>
+                    title="" data-bs-original-title="Click to add Block" style="display: inline-block; float: right;">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <span class="svg-icon svg-icon-3">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </span>
+                        Block
+                    </button>
+                </div>
             </div>
             <!--end::Header-->
             <!--begin::Body-->
@@ -55,13 +56,15 @@
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                             <span class="">Icon</span>
                         </label>
-                        <input type="text" class="form-control form-control-solid " placeholder="Enter Icon" name="icon" value="{{ old('icon') }}">
+                        <input type="text" class="form-control form-control-solid " placeholder="Enter Icon"
+                            name="icon" value="{{ old('icon') }}">
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                             <span class="required">Title</span>
                         </label>
-                        <input type="text" class="form-control form-control-solid " placeholder="Enter Title" name="title" value="{{ old('title') }}">
+                        <input type="text" class="form-control form-control-solid " placeholder="Enter Title"
+                            name="title" value="{{ old('title') }}">
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
@@ -75,7 +78,8 @@
                     <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
                         <span class="indicator-label">
                             <span class="svg-icon svg-icon-3">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>
                             </span>

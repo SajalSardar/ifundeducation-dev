@@ -603,7 +603,8 @@ $unreadPayoutCount = unreadPayoutCount();
                         <!--begin::Mobile logo-->
                         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                             <a href="index.html" class="d-lg-none">
-                                <img alt="Logo" src="{{ asset('public/frontend/images/logo.png') }}" class="h-30px" />
+                                <img alt="Logo" src="{{ asset('public/frontend/images/logo.png') }}"
+                                    class="h-30px" />
                             </a>
                         </div>
                         <!--end::Mobile logo-->
@@ -654,7 +655,7 @@ $unreadPayoutCount = unreadPayoutCount();
                                             data-popper-placement="bottom-end">
                                             <!--begin::Heading-->
                                             <div class="d-flex flex-column bgi-no-repeat rounded-top"
-                                                style="background-image:url('{{ asset('backend/img/pattern-1.jpg') }}')">
+                                                style="background-image:url('{{ asset('public/backend/img/pattern-1.jpg') }}')">
                                                 <!--begin::Title-->
                                                 <h3 class="text-white fw-bold px-9 mt-10 mb-6">Notifications
                                                 </h3>

@@ -1,7 +1,7 @@
 @extends('layouts.backapp')
 @section('title', 'Edit Profile')
 @section('style')
-    <link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/fontawesome.min.css') }}">
 @endsection
 @section('breadcrumb')
     <div data-kt-place="true" data-kt-place-mode="prepend"
@@ -91,7 +91,7 @@
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                         <div class="mt-2">
-                            <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}" id="show_img"
+                            <img src="{{ asset('public/storage/profile_photo/' . auth()->user()->photo) }}" id="show_img"
                                 alt="" width="100">
                         </div>
                     </div>

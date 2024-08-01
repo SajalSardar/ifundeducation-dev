@@ -20,8 +20,7 @@
                         @endforeach
 
                         @if (auth()->user()->hasRole('donor'))
-                            @if (auth()->user()->hasRole('fundraiser') &&
-                                    auth()->user()->hasRole('donor'))
+                            @if (auth()->user()->hasRole('fundraiser') && auth()->user()->hasRole('donor'))
                             @else
                                 <a href="{{ route('make.role.fundraiser') }}" class="btn btn-primary"><i
                                         class="fa-regular fa-square-plus"></i> Become a
@@ -30,8 +29,7 @@
 
                         @endif
                         @if (auth()->user()->hasRole('fundraiser'))
-                            @if (auth()->user()->hasRole('fundraiser') &&
-                                    auth()->user()->hasRole('donor'))
+                            @if (auth()->user()->hasRole('fundraiser') && auth()->user()->hasRole('donor'))
                             @else
                                 <a href="{{ route('make.role.donor') }}" class="btn btn-primary"><i
                                         class="fa-regular fa-square-plus"></i> Become a Donor</a>
@@ -44,7 +42,7 @@
             {{-- <div class="col-sm-4">
                 <div class="profile_photo text-end">
                     @if (auth()->user()->photo)
-                        <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
+                        <img src="{{ asset('public/storage/profile_photo/' . auth()->user()->photo) }}"
                             alt="{{ auth()->user()->first_name }}" width="70" class="rounded-circle">
                     @elseif(auth()->user()->avatar)
                         <img src="{{ auth()->user()->avatar }}" class="rounded-circle"

@@ -171,7 +171,7 @@
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                     <div class="mt-2">
-                                        <img src="{{ asset('storage/profile_photo/' . auth()->user()->photo) }}"
+                                        <img src="{{ asset('public/storage/profile_photo/' . auth()->user()->photo) }}"
                                             id="show_img" alt="" width="100">
                                     </div>
                                 </div>
@@ -297,7 +297,7 @@
                                         @enderror
                                         @if (!empty(auth()->user()->academic_profile->schedule))
                                             <div class="mt-2">
-                                                <img src="{{ asset('storage/class_schedule/' . auth()->user()->academic_profile->schedule) }}"
+                                                <img src="{{ asset('public/storage/class_schedule/' . auth()->user()->academic_profile->schedule) }}"
                                                     id="schedule_show_img" alt="" width="100">
                                             </div>
                                         @endif
@@ -322,7 +322,7 @@
                                         @enderror
                                         @if (!empty(auth()->user()->academic_profile->transcript))
                                             <div class="mt-2">
-                                                <img src="{{ asset('storage/transcript/' . auth()->user()->academic_profile->transcript) }}"
+                                                <img src="{{ asset('public/storage/transcript/' . auth()->user()->academic_profile->transcript) }}"
                                                     id="transcript_show_img" alt="" width="100">
                                             </div>
                                         @endif

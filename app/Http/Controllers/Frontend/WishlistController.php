@@ -48,7 +48,7 @@ class WishlistController extends Controller {
             ->editColumn('image', function ($wishlists) use ($av) {
                 if ($wishlists->fundraiser_post->image) {
 
-                    return '<img src="' . asset('storage/fundraiser_post/' . $wishlists->fundraiser_post->image) . '"
+                    return '<img src="' . asset('public/storage/fundraiser_post/' . $wishlists->fundraiser_post->image) . '"
                                             alt="' . $wishlists->fundraiser_post->title . '" width="80">';
                 } else {
                     return '<img src="' . $av->create($wishlists->fundraiser_post->title)->setShape('square')->setBackground('#ddd')->setDimension(80)->setFontSize(14)->toBase64() . '"

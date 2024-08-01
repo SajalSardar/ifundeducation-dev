@@ -1,7 +1,7 @@
 @extends('layouts.backapp')
 @section('title', 'Contact Page')
 @section('style')
-<link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/fontawesome.min.css') }}">
 @endsection
 @section('breadcrumb')
     <div data-kt-place="true" data-kt-place-mode="prepend"
@@ -27,7 +27,8 @@
 @section('content')
     <div class="card mb-5 mb-xl-8">
 
-        <form action="{{ route('dashboard.pages.contact-page.update', $contactPage) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('dashboard.pages.contact-page.update', $contactPage) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <!--begin::Header-->
@@ -36,7 +37,8 @@
                     <span class="card-label fw-bolder fs-3 mb-1">Contact Page</span>
                 </h3>
                 <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                    title="" data-bs-original-title="Click to Update Contact Page" style="display: inline-block; float: right;">
+                    title="" data-bs-original-title="Click to Update Contact Page"
+                    style="display: inline-block; float: right;">
                     <button type="submit" class="btn btn-sm btn-primary">Update Contact Page</button>
                 </div>
             </div>
@@ -51,39 +53,55 @@
                             <!--begin::Table body-->
                             <tbody>
                                 @isset($contactPage)
-                                <tr>
-                                    <td colspan="4"><strong>Page</strong></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4">
-                                        <span class="mb-5" style="display: block;">Featured Image</span>
-                                        @if ($contactPage->image)
-                                            <img src="{{ asset('frontend/images/pages/'.$contactPage->image) }}" width="200" alt="{{$contactPage->image}}">
-                                            <p>{{$contactPage->image}} <a href="{{ route('dashboard.pages.contact-page.image.delete', $contactPage) }}" title="Delete [{{ $contactPage->image }}]" onclick="return confirm('Are you sure you want to delete this Image? [{{ $contactPage->image }}]')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"><i class='fas fa-trash-alt' style='color:red'></i></a></p>
-                                        @endif
-                                        <input type="file" id="file_input" class="form-control form-control-solid @error('image') is-invalid @enderror" name="image">
-                                        @error('image')
-                                            <p class="text-danger mt-2">{{ $message }}</p>
-                                        @enderror</td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;&nbsp;Sub Title</td>
-                                    <td>&nbsp;:&nbsp;</td>
-                                    <td colspan="2" style="padding: 0"><input type="text" class="form-control form-control-solid " placeholder="Enter Page Sub Title" name="sub_title" value="{{ $contactPage->sub_title }}"></td>
-                                </tr>
+                                    <tr>
+                                        <td colspan="4"><strong>Page</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <span class="mb-5" style="display: block;">Featured Image</span>
+                                            @if ($contactPage->image)
+                                                <img src="{{ asset('public/frontend/images/pages/' . $contactPage->image) }}"
+                                                    width="200" alt="{{ $contactPage->image }}">
+                                                <p>{{ $contactPage->image }} <a
+                                                        href="{{ route('dashboard.pages.contact-page.image.delete', $contactPage) }}"
+                                                        title="Delete [{{ $contactPage->image }}]"
+                                                        onclick="return confirm('Are you sure you want to delete this Image? [{{ $contactPage->image }}]')"
+                                                        class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"><i
+                                                            class='fas fa-trash-alt' style='color:red'></i></a></p>
+                                            @endif
+                                            <input type="file" id="file_input"
+                                                class="form-control form-control-solid @error('image') is-invalid @enderror"
+                                                name="image">
+                                            @error('image')
+                                                <p class="text-danger mt-2">{{ $message }}</p>
+                                            @enderror
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;&nbsp;Sub Title</td>
+                                        <td>&nbsp;:&nbsp;</td>
+                                        <td colspan="2" style="padding: 0"><input type="text"
+                                                class="form-control form-control-solid " placeholder="Enter Page Sub Title"
+                                                name="sub_title" value="{{ $contactPage->sub_title }}"></td>
+                                    </tr>
                                     <tr>
                                         <td colspan="4"><strong>Address</strong></td>
                                     </tr>
                                     <tr>
                                         <td style="width:80px">&nbsp;&nbsp;Icon</td>
                                         <td style="width:30px">&nbsp;:&nbsp;</td>
-                                        <td style="width:40px"><i class="{{ $contactPage->address_icon }}" style="font-size: 18px; color: green;"></i></td>
-                                        <td style="padding: 0"><input type="text" class="form-control form-control-solid " placeholder="Enter Address Icon" name="address_icon" value="{{ $contactPage->address_icon }}"></td>
+                                        <td style="width:40px"><i class="{{ $contactPage->address_icon }}"
+                                                style="font-size: 18px; color: green;"></i></td>
+                                        <td style="padding: 0"><input type="text" class="form-control form-control-solid "
+                                                placeholder="Enter Address Icon" name="address_icon"
+                                                value="{{ $contactPage->address_icon }}"></td>
                                     </tr>
                                     <tr>
                                         <td>&nbsp;&nbsp;Title</td>
                                         <td>&nbsp;:&nbsp;</td>
-                                        <td colspan="2" style="padding: 0"><input type="text" class="form-control form-control-solid " placeholder="Enter Address Title" name="address_title" value="{{ $contactPage->address_title }}"></td>
+                                        <td colspan="2" style="padding: 0"><input type="text"
+                                                class="form-control form-control-solid " placeholder="Enter Address Title"
+                                                name="address_title" value="{{ $contactPage->address_title }}"></td>
                                     </tr>
                                     <tr>
                                         <td style="vertical-align: top">&nbsp;&nbsp;Address</td>
@@ -98,19 +116,25 @@
                                     <tr>
                                         <td>&nbsp;&nbsp;Icon</td>
                                         <td>&nbsp;:&nbsp;</td>
-                                        <td><i class="{{ $contactPage->email_icon }}" style="font-size: 18px; color: green;"></i></td>
-                                        <td style="padding: 0"><input type="text" class="form-control form-control-solid " placeholder="Enter Email Icon" name="email_icon" value="{{ $contactPage->email_icon }}"></td>
+                                        <td><i class="{{ $contactPage->email_icon }}"
+                                                style="font-size: 18px; color: green;"></i></td>
+                                        <td style="padding: 0"><input type="text" class="form-control form-control-solid "
+                                                placeholder="Enter Email Icon" name="email_icon"
+                                                value="{{ $contactPage->email_icon }}"></td>
                                     </tr>
                                     <tr>
                                         <td>&nbsp;&nbsp;Title</td>
                                         <td>&nbsp;:&nbsp;</td>
-                                        <td colspan="2" style="padding: 0"><input type="text" class="form-control form-control-solid " placeholder="Enter Email Title" name="email_title" value="{{ $contactPage->email_title }}"></td>
+                                        <td colspan="2" style="padding: 0"><input type="text"
+                                                class="form-control form-control-solid " placeholder="Enter Email Title"
+                                                name="email_title" value="{{ $contactPage->email_title }}"></td>
                                     </tr>
                                     <tr>
                                         <td style="vertical-align: top">&nbsp;&nbsp;Address</td>
                                         <td style="vertical-align: top">&nbsp;:&nbsp;</td>
                                         <td colspan="2" style="padding: 0">
-                                            <textarea name="email_text" class="form-control  form-control-solid" rows="2" placeholder="Enter Email Address">{{ $contactPage->email_text }}</textarea>
+                                            <textarea name="email_text" class="form-control  form-control-solid" rows="2"
+                                                placeholder="Enter Email Address">{{ $contactPage->email_text }}</textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -119,19 +143,25 @@
                                     <tr>
                                         <td>&nbsp;&nbsp;Icon</td>
                                         <td>&nbsp;:&nbsp;</td>
-                                        <td><i class="{{ $contactPage->phone_icon }}" style="font-size: 18px; color: green;"></i></td>
-                                        <td style="padding: 0"><input type="text" class="form-control form-control-solid " placeholder="Enter Phone Icon" name="phone_icon" value="{{ $contactPage->phone_icon }}"></td>
+                                        <td><i class="{{ $contactPage->phone_icon }}"
+                                                style="font-size: 18px; color: green;"></i></td>
+                                        <td style="padding: 0"><input type="text" class="form-control form-control-solid "
+                                                placeholder="Enter Phone Icon" name="phone_icon"
+                                                value="{{ $contactPage->phone_icon }}"></td>
                                     </tr>
                                     <tr>
                                         <td>&nbsp;&nbsp;Title</td>
                                         <td>&nbsp;:&nbsp;</td>
-                                        <td colspan="2" style="padding: 0"><input type="text" class="form-control form-control-solid " placeholder="Enter Phone Title" name="phone_title" value="{{ $contactPage->phone_title }}"></td>
+                                        <td colspan="2" style="padding: 0"><input type="text"
+                                                class="form-control form-control-solid " placeholder="Enter Phone Title"
+                                                name="phone_title" value="{{ $contactPage->phone_title }}"></td>
                                     </tr>
                                     <tr>
                                         <td style="vertical-align: top">&nbsp;&nbsp;Number</td>
                                         <td style="vertical-align: top">&nbsp;:&nbsp;</td>
                                         <td colspan="2" style="padding: 0">
-                                            <textarea name="phone_text" class="form-control  form-control-solid" rows="2" placeholder="Enter Phone Number">{{ $contactPage->phone_text }}</textarea>
+                                            <textarea name="phone_text" class="form-control  form-control-solid" rows="2"
+                                                placeholder="Enter Phone Number">{{ $contactPage->phone_text }}</textarea>
                                         </td>
                                     </tr>
                                 @endisset

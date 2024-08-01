@@ -24,7 +24,7 @@
             <div class="row fundraisers_card">
                 <div class="col-xl-4 col-lg-6 border-end">
                     @if ($fundRaiserPost->image)
-                        <img src="{{ asset('storage/fundraiser_post/' . $fundRaiserPost->image) }}"
+                        <img src="{{ asset('public/storage/fundraiser_post/' . $fundRaiserPost->image) }}"
                             alt="{{ $fundRaiserPost->title }}">
                     @else
                         <img src="{{ Avatar::create($fundRaiserPost->title)->setBackground('#ddd')->setDimension(250)->setFontSize(16)->toBase64() }}"
@@ -123,10 +123,10 @@
                                 Donars</button>
                         </li>
                         <!-- <li class="nav-item" role="presentation">
-                                                                                                <button class="nav-link" data-bs-toggle="tab"
-                                                                                                    data-bs-target="#professional_experience">Professional
-                                                                                                    Experience</button>
-                                                                                            </li> -->
+                                                                                                            <button class="nav-link" data-bs-toggle="tab"
+                                                                                                                data-bs-target="#professional_experience">Professional
+                                                                                                                Experience</button>
+                                                                                                        </li> -->
                     </ul>
                     <div class="tab-content text-start" id="myTabContent">
                         <div class="tab-pane fade show active" id="story">
@@ -276,10 +276,10 @@
 
                         </div>
                         <!-- <div class="tab-pane fade" id="professional_experience">
-                                                                                                <div class="text-start pb-3 mt-4">
-                                                                                                    {{-- {!! $fundRaiserPost->user->academic_profile->experience !!} --}}
-                                                                                                </div>
-                                                                                            </div> -->
+                                                                                                            <div class="text-start pb-3 mt-4">
+                                                                                                                {{-- {!! $fundRaiserPost->user->academic_profile->experience !!} --}}
+                                                                                                            </div>
+                                                                                                        </div> -->
                     </div>
                 </div>
             </div>
@@ -352,9 +352,9 @@
                                 <td><strong>Class Schedule</strong></td>
                                 <td>:</td>
                                 <td>
-                                    <img src="{{ asset('storage/class_schedule/' . $fundRaiserPost->user->academic_profile->schedule) }}"
+                                    <img src="{{ asset('public/storage/class_schedule/' . $fundRaiserPost->user->academic_profile->schedule) }}"
                                         alt="" width="100">
-                                    <a href="{{ asset('storage/class_schedule/' . $fundRaiserPost->user->academic_profile->schedule) }}"
+                                    <a href="{{ asset('public/storage/class_schedule/' . $fundRaiserPost->user->academic_profile->schedule) }}"
                                         class="lightBox btn btn-sm btn-success">View Schedule </a>
                                 </td>
                             </tr>
@@ -364,9 +364,9 @@
                                 <td><strong>Transcript</strong></td>
                                 <td>:</td>
                                 <td>
-                                    <img src="{{ asset('storage/transcript/' . $fundRaiserPost->user->academic_profile->transcript) }}"
+                                    <img src="{{ asset('public/storage/transcript/' . $fundRaiserPost->user->academic_profile->transcript) }}"
                                         alt="" width="100">
-                                    <a href="{{ asset('storage/transcript/' . $fundRaiserPost->user->academic_profile->transcript) }}"
+                                    <a href="{{ asset('public/storage/transcript/' . $fundRaiserPost->user->academic_profile->transcript) }}"
                                         class="lightBox btn btn-sm btn-success">View Transcript </a>
                                 </td>
                             </tr>
@@ -477,10 +477,10 @@
 @endsection
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('frontend/css/venobox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/venobox.min.css') }}">
 @endsection
 @section('script')
-    <script src="{{ asset('frontend/js/venobox.min.js') }}"></script>
+    <script src="{{ asset('public/frontend/js/venobox.min.js') }}"></script>
     <script src="https://www.google.com/recaptcha/api.js"></script>
 
     <script>

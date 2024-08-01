@@ -1,7 +1,7 @@
 @extends('layouts.backapp')
 @section('title', $commonPage->title)
 @section('style')
-<link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/fontawesome.min.css') }}">
 @endsection
 @section('breadcrumb')
     <div data-kt-place="true" data-kt-place-mode="prepend"
@@ -20,24 +20,26 @@
             <li class="breadcrumb-item">
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
             </li>
-            <li class="breadcrumb-item text-dark">{{$commonPage->title}}</li>
+            <li class="breadcrumb-item text-dark">{{ $commonPage->title }}</li>
         </ul>
     </div>
 @endsection
 @section('content')
     <div class="card mb-5 mb-xl-8">
 
-        <form action="{{ route('dashboard.pages.all-pages.update', $commonPage) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('dashboard.pages.all-pages.update', $commonPage) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <!--begin::Header-->
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column" style="display: inline-block;">
-                    <span class="card-label fw-bolder fs-3 mb-1">{{$commonPage->title}} Page</span>
+                    <span class="card-label fw-bolder fs-3 mb-1">{{ $commonPage->title }} Page</span>
                 </h3>
                 <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                    title="" data-bs-original-title="Click to Update {{$commonPage->title}} Page" style="display: inline-block; float: right;">
-                    <button type="submit" class="btn btn-sm btn-primary">Update {{$commonPage->title}} Page</button>
+                    title="" data-bs-original-title="Click to Update {{ $commonPage->title }} Page"
+                    style="display: inline-block; float: right;">
+                    <button type="submit" class="btn btn-sm btn-primary">Update {{ $commonPage->title }} Page</button>
                 </div>
             </div>
             <!--end::Header-->
@@ -54,31 +56,44 @@
                                     <tr>
                                         <td>
                                             <h5>Page Title</h5>
-                                            <input type="text" class="form-control form-control-solid " placeholder="Enter Page Title" name="sub_title" value="{{ $commonPage->sub_title }}">
+                                            <input type="text" class="form-control form-control-solid "
+                                                placeholder="Enter Page Title" name="sub_title"
+                                                value="{{ $commonPage->sub_title }}">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <h5 class="mb-5">Featured Image</h5>
                                             @if ($commonPage->image)
-                                                <img src="{{ asset('frontend/images/pages/'.$commonPage->image) }}" width="200" alt="{{$commonPage->title}}">
-                                                <p>{{$commonPage->image}} <a href="{{ route('dashboard.pages.all-pages.image.delete', $commonPage) }}" title="Delete [{{ $commonPage->image }}]" onclick="return confirm('Are you sure you want to delete this Image? [{{ $commonPage->image }}]')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"><i class='fas fa-trash-alt' style='color:red'></i></a></p>
+                                                <img src="{{ asset('public/frontend/images/pages/' . $commonPage->image) }}"
+                                                    width="200" alt="{{ $commonPage->title }}">
+                                                <p>{{ $commonPage->image }} <a
+                                                        href="{{ route('dashboard.pages.all-pages.image.delete', $commonPage) }}"
+                                                        title="Delete [{{ $commonPage->image }}]"
+                                                        onclick="return confirm('Are you sure you want to delete this Image? [{{ $commonPage->image }}]')"
+                                                        class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"><i
+                                                            class='fas fa-trash-alt' style='color:red'></i></a></p>
                                             @endif
-                                            <input type="file" id="file_input" class="form-control form-control-solid @error('image') is-invalid @enderror" name="image">
+                                            <input type="file" id="file_input"
+                                                class="form-control form-control-solid @error('image') is-invalid @enderror"
+                                                name="image">
                                             @error('image')
                                                 <p class="text-danger mt-2">{{ $message }}</p>
-                                            @enderror</td>
+                                            @enderror
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <h5>Short Description</h5>
-                                            <textarea name="short_description" class="form-control  form-control-solid" rows="3" placeholder="Enter Short Description">{{ $commonPage->short_description }}</textarea>
+                                            <textarea name="short_description" class="form-control  form-control-solid" rows="3"
+                                                placeholder="Enter Short Description">{{ $commonPage->short_description }}</textarea>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <h5 class="mb-5">Page Body</h5>
-                                            <textarea name="long_description" id="long_description" class="form-control  form-control-solid" rows="3" placeholder="Enter Page Body">{{ $commonPage->long_description }}</textarea>
+                                            <textarea name="long_description" id="long_description" class="form-control  form-control-solid" rows="3"
+                                                placeholder="Enter Page Body">{{ $commonPage->long_description }}</textarea>
                                         </td>
                                     </tr>
                                 @endisset
@@ -99,9 +114,9 @@
 @section('script')
     <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/super-build/ckeditor.js"></script>
     <!--
-        Uncomment to load the Spanish translation
-        <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/super-build/translations/es.js"></script>
-    -->
+                Uncomment to load the Spanish translation
+                <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/super-build/translations/es.js"></script>
+            -->
     <script>
         // This sample still does not showcase all CKEditor 5 features (!)
         // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
@@ -109,17 +124,19 @@
             // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
             toolbar: {
                 items: [
-                    'exportPDF','exportWord', '|',
+                    'exportPDF', 'exportWord', '|',
                     'findAndReplace', 'selectAll', '|',
                     'heading', '|',
-                    'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                    'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript',
+                    'removeFormat', '|',
                     'bulletedList', 'numberedList', 'todoList', '|',
                     'outdent', 'indent', '|',
                     'undo', 'redo',
                     '-',
                     'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
                     'alignment', '|',
-                    'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                    'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed',
+                    '|',
                     'specialCharacters', 'horizontalLine', 'pageBreak', '|',
                     'textPartLanguage', '|',
                     'sourceEditing'
@@ -137,14 +154,47 @@
             },
             // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
             heading: {
-                options: [
-                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                    { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
-                    { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                options: [{
+                        model: 'paragraph',
+                        title: 'Paragraph',
+                        class: 'ck-heading_paragraph'
+                    },
+                    {
+                        model: 'heading1',
+                        view: 'h1',
+                        title: 'Heading 1',
+                        class: 'ck-heading_heading1'
+                    },
+                    {
+                        model: 'heading2',
+                        view: 'h2',
+                        title: 'Heading 2',
+                        class: 'ck-heading_heading2'
+                    },
+                    {
+                        model: 'heading3',
+                        view: 'h3',
+                        title: 'Heading 3',
+                        class: 'ck-heading_heading3'
+                    },
+                    {
+                        model: 'heading4',
+                        view: 'h4',
+                        title: 'Heading 4',
+                        class: 'ck-heading_heading4'
+                    },
+                    {
+                        model: 'heading5',
+                        view: 'h5',
+                        title: 'Heading 5',
+                        class: 'ck-heading_heading5'
+                    },
+                    {
+                        model: 'heading6',
+                        view: 'h6',
+                        title: 'Heading 6',
+                        class: 'ck-heading_heading6'
+                    }
                 ]
             },
             // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
@@ -166,20 +216,18 @@
             },
             // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
             fontSize: {
-                options: [ 10, 12, 14, 'default', 18, 20, 22 ],
+                options: [10, 12, 14, 'default', 18, 20, 22],
                 supportAllValues: true
             },
             // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
             // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
             htmlSupport: {
-                allow: [
-                    {
-                        name: /.*/,
-                        attributes: true,
-                        classes: true,
-                        styles: true
-                    }
-                ]
+                allow: [{
+                    name: /.*/,
+                    attributes: true,
+                    classes: true,
+                    styles: true
+                }]
             },
             // Be careful with enabling previews
             // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
@@ -202,18 +250,19 @@
             },
             // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
             mention: {
-                feeds: [
-                    {
-                        marker: '@',
-                        feed: [
-                            '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
-                            '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
-                            '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
-                            '@sugar', '@sweet', '@topping', '@wafer'
-                        ],
-                        minimumCharacters: 1
-                    }
-                ]
+                feeds: [{
+                    marker: '@',
+                    feed: [
+                        '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes',
+                        '@chocolate', '@cookie', '@cotton', '@cream',
+                        '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread',
+                        '@gummi', '@ice', '@jelly-o',
+                        '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding',
+                        '@sesame', '@snaps', '@soufflé',
+                        '@sugar', '@sweet', '@topping', '@wafer'
+                    ],
+                    minimumCharacters: 1
+                }]
             },
             // The "super-build" contains more premium features that require additional configuration, disable them below.
             // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.

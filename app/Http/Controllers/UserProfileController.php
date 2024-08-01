@@ -212,7 +212,7 @@ class UserProfileController extends Controller {
 
             $request->file('upload')->storeAs('experience', $fileName);
 
-            $url = asset('storage/experience/' . $fileName);
+            $url = asset('public/storage/experience/' . $fileName);
 
             return response()->json(['fileName' => $fileName, 'uploaded' => 1, 'url' => $url]);
         }

@@ -676,7 +676,7 @@ class FundraiserPostController extends Controller {
 
             $request->file('upload')->storeAs('fundraiser_post', $fileName);
 
-            $url = asset('storage/fundraiser_post/' . $fileName);
+            $url = asset('public/storage/fundraiser_post/' . $fileName);
 
             return response()->json(['fileName' => $fileName, 'uploaded' => 1, 'url' => $url]);
         }

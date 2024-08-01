@@ -8,7 +8,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">iFundraiser</a></li>
-                        <li class="breadcrumb-item active">{{$commonPage->title}}</li>
+                        <li class="breadcrumb-item active">{{ $commonPage->title }}</li>
                     </ol>
                 </div>
             </div>
@@ -21,15 +21,17 @@
             <div class="row">
                 <div class="col-12">
                     <div class="section_header text-center">
-                        <h2>{{$commonPage->title}}</h2>
+                        <h2>{{ $commonPage->title }}</h2>
                     </div>
                 </div>
             </div>
             <div class="row align-items-center">
                 <div class="col-12">
                     <div class="text-center">
-                        @isset ($commonPage->image)
-                        <img class="img img-fuid" style="width: 100%;" src="{{ asset('frontend/images/pages/'.$commonPage->image) }}" alt="{{$commonPage->image}}">
+                        @isset($commonPage->image)
+                            <img class="img img-fuid" style="width: 100%;"
+                                src="{{ asset('public/frontend/images/pages/' . $commonPage->image) }}"
+                                alt="{{ $commonPage->image }}">
                         @endisset
                     </div>
                 </div>

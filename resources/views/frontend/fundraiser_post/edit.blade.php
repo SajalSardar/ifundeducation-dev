@@ -98,8 +98,8 @@
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                         <div class="mt-2">
-                            <img src="{{ asset('storage/fundraiser_post/' . $fundraiserpost->image) }}" id="show_img"
-                                alt="" width="100">
+                            <img src="{{ asset('public/storage/fundraiser_post/' . $fundraiserpost->image) }}"
+                                id="show_img" alt="" width="100">
                         </div>
                     </div>
                     <div class="col-12">

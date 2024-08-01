@@ -1,7 +1,7 @@
 @extends('layouts.backapp')
 @section('title', 'Create Admin')
 @section('style')
-    <link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/fontawesome.min.css') }}">
 @endsection
 @section('breadcrumb')
     <div data-kt-place="true" data-kt-place-mode="prepend"

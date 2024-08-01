@@ -32,8 +32,8 @@
                             <div class="flex-shrink-0">
 
                                 @if ($fundPost->image)
-                                    <img src="{{ asset('storage/fundraiser_post/' . $fundPost->image) }}" width="100"
-                                        class="rounded" alt="{{ $fundPost->title }}">
+                                    <img src="{{ asset('public/storage/fundraiser_post/' . $fundPost->image) }}"
+                                        width="100" class="rounded" alt="{{ $fundPost->title }}">
                                 @else
                                     <img src="{{ Avatar::create($fundPost->title)->setShape('square')->setBackground('#ddd')->setDimension(100)->setFontSize(12) }}"
                                         alt="{{ $fundPost->title }}" class="rounded">

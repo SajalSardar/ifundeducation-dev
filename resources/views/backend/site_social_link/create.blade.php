@@ -1,7 +1,7 @@
 @extends('layouts.backapp')
 @section('title', 'Site Social Link')
 @section('style')
-<link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/frontend/css/fontawesome.min.css') }}">
 @endsection
 @section('breadcrumb')
     <div data-kt-place="true" data-kt-place-mode="prepend"
@@ -15,7 +15,8 @@
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
             </li>
             <li class="breadcrumb-item text-muted">
-                <a href="{{ route('dashboard.page-options.site-social-links.index') }}" class="text-muted text-hover-primary">Site Social Link</a>
+                <a href="{{ route('dashboard.page-options.site-social-links.index') }}"
+                    class="text-muted text-hover-primary">Site Social Link</a>
             </li>
             <li class="breadcrumb-item">
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
@@ -35,16 +36,17 @@
                     <span class="card-label fw-bolder fs-3 mb-1">Site Social Link (New)</span>
                 </h3>
                 <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                title="" data-bs-original-title="Click to add Social Link" style="display: inline-block; float: right;">
-                <button type="submit" class="btn btn-sm btn-primary">
-                    <span class="svg-icon svg-icon-3">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                    </span>
-                    Social Link
-                </button>
-            </div>
+                    title="" data-bs-original-title="Click to add Social Link"
+                    style="display: inline-block; float: right;">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <span class="svg-icon svg-icon-3">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </span>
+                        Social Link
+                    </button>
+                </div>
             </div>
             <!--end::Header-->
             <!--begin::Body-->
@@ -57,38 +59,57 @@
                         </label>
                         <select name="icon" class="form-control form-control-solid ">
                             <option selected value="">--Select--</option>
-                            <option {{ old('icon') == 'fab fa-discord' ? 'selected' : '' }} value="fab fa-discord">fa-discord</option>
-                            <option {{ old('icon') == 'fab fa-facebook-f' ? 'selected' : '' }} value="fab fa-facebook-f">fa-facebook-f</option>
-                            <option {{ old('icon') == 'fab fa-instagram' ? 'selected' : '' }} value="fab fa-instagram">fa-instagram</option>
-                            <option {{ old('icon') == 'fab fa-linkedin-in' ? 'selected' : '' }} value="fab fa-linkedin-in">fa-linkedin-in</option>
-                            <option {{ old('icon') == 'fab fa-mastodon' ? 'selected' : '' }} value="fab fa-mastodon">fa-mastodon</option>
-                            <option {{ old('icon') == 'fab fa-pinterest' ? 'selected' : '' }} value="fab fa-pinterest">fa-pinterest</option>
+                            <option {{ old('icon') == 'fab fa-discord' ? 'selected' : '' }} value="fab fa-discord">
+                                fa-discord</option>
+                            <option {{ old('icon') == 'fab fa-facebook-f' ? 'selected' : '' }} value="fab fa-facebook-f">
+                                fa-facebook-f</option>
+                            <option {{ old('icon') == 'fab fa-instagram' ? 'selected' : '' }} value="fab fa-instagram">
+                                fa-instagram</option>
+                            <option {{ old('icon') == 'fab fa-linkedin-in' ? 'selected' : '' }} value="fab fa-linkedin-in">
+                                fa-linkedin-in</option>
+                            <option {{ old('icon') == 'fab fa-mastodon' ? 'selected' : '' }} value="fab fa-mastodon">
+                                fa-mastodon</option>
+                            <option {{ old('icon') == 'fab fa-pinterest' ? 'selected' : '' }} value="fab fa-pinterest">
+                                fa-pinterest</option>
                             <option {{ old('icon') == 'fab fa-qq' ? 'selected' : '' }} value="fab fa-qq">fa-qq</option>
-                            <option {{ old('icon') == 'fab fa-quora' ? 'selected' : '' }} value="fab fa-quora">fa-quora</option>
-                            <option {{ old('icon') == 'fab fa-reddit' ? 'selected' : '' }} value="fab fa-reddit">fa-reddit</option>
-                            <option {{ old('icon') == 'bi bi-sina-weibo' ? 'selected' : '' }} value="bi bi-sina-weibo">bi-sina-weibo</option>
-                            <option {{ old('icon') == 'fab fa-snapchat' ? 'selected' : '' }} value="fab fa-snapchat">fa-snapchat</option>
-                            <option {{ old('icon') == 'fab fa-telegram' ? 'selected' : '' }} value="fab fa-telegram">fa-telegram</option>
-                            <option {{ old('icon') == 'fab fa-tiktok' ? 'selected' : '' }} value="fab fa-tiktok">fa-tiktok</option>
-                            <option {{ old('icon') == 'fab fa-tumblr' ? 'selected' : '' }} value="fab fa-tumblr">fa-tumblr</option>
-                            <option {{ old('icon') == 'fab fa-twitch' ? 'selected' : '' }} value="fab fa-twitch">fa-twitch</option>
-                            <option {{ old('icon') == 'fab fa-twitter' ? 'selected' : '' }} value="fab fa-twitter">fa-twitter</option>
-                            <option {{ old('icon') == 'fab fa-wechat' ? 'selected' : '' }} value="fab fa-wechat">fa-wechat</option>
-                            <option {{ old('icon') == 'fab fa-whatsapp' ? 'selected' : '' }} value="fab fa-whatsapp">fa-whatsapp</option>
-                            <option {{ old('icon') == 'fab fa-youtube' ? 'selected' : '' }} value="fab fa-youtube">fa-youtube</option>
+                            <option {{ old('icon') == 'fab fa-quora' ? 'selected' : '' }} value="fab fa-quora">fa-quora
+                            </option>
+                            <option {{ old('icon') == 'fab fa-reddit' ? 'selected' : '' }} value="fab fa-reddit">fa-reddit
+                            </option>
+                            <option {{ old('icon') == 'bi bi-sina-weibo' ? 'selected' : '' }} value="bi bi-sina-weibo">
+                                bi-sina-weibo</option>
+                            <option {{ old('icon') == 'fab fa-snapchat' ? 'selected' : '' }} value="fab fa-snapchat">
+                                fa-snapchat</option>
+                            <option {{ old('icon') == 'fab fa-telegram' ? 'selected' : '' }} value="fab fa-telegram">
+                                fa-telegram</option>
+                            <option {{ old('icon') == 'fab fa-tiktok' ? 'selected' : '' }} value="fab fa-tiktok">fa-tiktok
+                            </option>
+                            <option {{ old('icon') == 'fab fa-tumblr' ? 'selected' : '' }} value="fab fa-tumblr">fa-tumblr
+                            </option>
+                            <option {{ old('icon') == 'fab fa-twitch' ? 'selected' : '' }} value="fab fa-twitch">fa-twitch
+                            </option>
+                            <option {{ old('icon') == 'fab fa-twitter' ? 'selected' : '' }} value="fab fa-twitter">
+                                fa-twitter</option>
+                            <option {{ old('icon') == 'fab fa-wechat' ? 'selected' : '' }} value="fab fa-wechat">fa-wechat
+                            </option>
+                            <option {{ old('icon') == 'fab fa-whatsapp' ? 'selected' : '' }} value="fab fa-whatsapp">
+                                fa-whatsapp</option>
+                            <option {{ old('icon') == 'fab fa-youtube' ? 'selected' : '' }} value="fab fa-youtube">
+                                fa-youtube</option>
                         </select>
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                             <span class="required">Name</span>
                         </label>
-                        {{ old('name')}}
+                        {{ old('name') }}
                         <select name="name" class="form-control form-control-solid ">
                             <option selected value="">--Select--</option>
                             <option {{ old('name') == 'Discord' ? 'selected' : '' }} value="Discord">Discord</option>
                             <option {{ old('name') == 'Facebook' ? 'selected' : '' }} value="Facebook">Facebook</option>
                             <option {{ old('name') == 'Instagram' ? 'selected' : '' }} value="Instagram">Instagram</option>
-                            <option {{ old('name') == 'LinkedIn' ? 'selected' : '' }} value="fab fa-linkedin-in">LinkedIn</option>
+                            <option {{ old('name') == 'LinkedIn' ? 'selected' : '' }} value="fab fa-linkedin-in">LinkedIn
+                            </option>
                             <option {{ old('name') == 'Mastodon' ? 'selected' : '' }} value="Mastodon">Mastodon</option>
                             <option {{ old('name') == 'Pinterest' ? 'selected' : '' }} value="Pinterest">Pinterest</option>
                             <option {{ old('name') == 'QQ' ? 'selected' : '' }} value="QQ">QQ</option>
@@ -110,7 +131,8 @@
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
                             <span class="">Link</span>
                         </label>
-                        <input type="text" class="form-control form-control-solid " placeholder="Enter Link" name="link" value="{{ old('link') }}">
+                        <input type="text" class="form-control form-control-solid " placeholder="Enter Link"
+                            name="link" value="{{ old('link') }}">
                     </div>
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
@@ -127,7 +149,8 @@
                     <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
                         <span class="indicator-label">
                             <span class="svg-icon svg-icon-3">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>
                             </span>
