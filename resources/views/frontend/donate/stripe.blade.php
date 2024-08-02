@@ -48,8 +48,8 @@
                         <div class='col-12 mb-3'>
                             <div class="form-floating">
                                 <input type="number" class="form-control @error('amount') is-invalid @enderror"
-                                    id="amount" name="amount" placeholder='Amount' value="{{ old('amount') }}"
-                                    required>
+                                    id="amount" name="amount" placeholder='Amount' min="10"
+                                    value="{{ old('amount') }}" required>
                                 <label for="amount">Amount</label>
                             </div>
                             @error('amount')
@@ -236,6 +236,7 @@
                 display_amount = $('.display_amount'),
                 display_platform_fee = $('.display_platform_fee'),
                 display_total = $('.display_total');
+
 
             amount.on('change', function() {
                 let fee = parseFloat((amount.val() * 3.5) / 100);

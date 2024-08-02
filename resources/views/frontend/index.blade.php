@@ -97,17 +97,21 @@
                                 </li>
                             </ul>
                             <p>{{ $fundRaiserPost->shot_description }}</p>
+                            @php
+                                $net_balance_cal = number_format(
+                                    ($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal,
+                                    2,
+                                );
+                            @endphp
                             <div class="progress mt-3" style="height: 13px;">
                                 <div class="progress-bar progress-bar-striped" role="progressbar"
-                                    aria-label="Example with label"
-                                    style="width: {{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}%;"
-                                    aria-valuenow="{{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}"
-                                    aria-valuemin="0" aria-valuemax="100">
-                                    {{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}%
+                                    aria-label="Example with label" style="width: {{ $net_balance_cal }}%;"
+                                    aria-valuenow="{{ $net_balance_cal }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ $net_balance_cal }}%
                                 </div>
                             </div>
                             <ul class="fundraisers_card_bottom">
-                                <li>{{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}%
+                                <li>{{ $net_balance_cal }}%
                                     <span>Funded</span>
                                 </li>
                                 <li>${{ number_format($fundRaiserPost->goal, 2) }} <span>Target</span></li>

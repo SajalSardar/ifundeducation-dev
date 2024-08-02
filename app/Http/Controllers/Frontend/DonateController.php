@@ -146,7 +146,6 @@ class DonateController extends Controller {
     }
 
     public function create($slug) {
-
         $fundPost = FundraiserPost::where('slug', $slug)->select('id', 'user_id', 'slug', 'title', 'image', 'shot_description')->firstOrFail();
 
         if ($fundPost->status === 'completed') {
@@ -165,8 +164,9 @@ class DonateController extends Controller {
      */
     public function donation(Request $request) {
 
-        $post    = FundraiserPost::find($request->post_id);
-        $balance = FundraiserBalance::where('user_id', $post->user_id)->first();
+        $post           = FundraiserPost::find($request->post_id);
+        $balance        = FundraiserBalance::where('user_id', $post->user_id)->first();
+        $getPlatformFee = ThemeOption::first(['platform_fee']);
 
         if ($post->status === 'completed') {
             return view('frontend.donate.completed');
@@ -184,79 +184,88 @@ class DonateController extends Controller {
             "amount"      => 'required|integer|min:10',
         ]);
 
-        $platformFee = ($request->amount * 3.5) / 100;
+        $platformFee = ($request->amount * $getPlatformFee->platform_fee) / 100;
 
         try {
             $stripe = new \Stripe\StripeClient(config('stripe.connect.stripe_secret'));
 
             \Stripe\Stripe::setApiKey(config('stripe.connect.stripe_secret'));
 
-            $token = $stripe->tokens->create([
-                'card' => [
-                    'number'    => $request->cardNumber,
-                    'exp_month' => $request->expiraMonth,
-                    'exp_year'  => $request->expiraYear,
-                    'cvc'       => $request->cardCVC,
-                ],
-            ]);
-
-            $customer = $stripe->customers->create([
-                'source'   => $token,
-                'name'     => $request->name,
-                'email'    => $request->email,
-                'metadata' => [
-                    'zip_code' => $request->zipCode,
-                    'country'  => $request->country,
-                ],
-            ]);
-
-            $charge = $stripe->charges->create([
-                'amount'      => round(($request->amount + $platformFee) * 100),
-                'currency'    => 'usd',
-                'description' => $post->title,
-                'customer'    => $customer->id,
-            ]);
-
-            $transaction = $stripe->balanceTransactions->retrieve(
-                $charge->balance_transaction
-            );
-
-            $platform_fee = (($transaction->net / 100) * 3.5) / 100;
-
-            $donate = Donate::create([
-                "donar_id"               => auth()->user()->id ?? null,
-                'donar_name'             => $request->name,
-                'donar_email'            => $request->email,
-                "fundraiser_post_id"     => $request->post_id,
-                "charge_id"              => $charge->id,
-                "balance_transaction_id" => $transaction->id,
-                "amount"                 => $transaction->amount / 100,
-                "stripe_fee"             => $transaction->fee / 100,
-                "net_balance"            => ($transaction->net / 100) - $platform_fee,
-                "platform_fee"           => $platform_fee,
-                "currency"               => 'usd',
-                "display_publicly"       => $request->is_display_info === "on" ? "no" : "yes",
-            ]);
-
-            if ($balance) {
-                $balance->update([
-                    'total_amount' => (($transaction->net / 100) - $platform_fee) + $balance->total_amount,
-                    'net_balance'  => (($transaction->net / 100) - $platform_fee) + $balance->net_balance,
-                ]);
-            } else {
-                FundraiserBalance::create([
-                    "user_id"      => Auth::id(),
-                    'total_amount' => ($transaction->net / 100) - $platform_fee,
+            if ($stripe) {
+                $token = $stripe->tokens->create([
+                    'card' => [
+                        'number'    => $request->cardNumber,
+                        'exp_month' => $request->expiraMonth,
+                        'exp_year'  => $request->expiraYear,
+                        'cvc'       => $request->cardCVC,
+                    ],
                 ]);
             }
 
-            if ($post->donates->sum('net_balance') >= $post->goal) {
-                $post->update([
-                    'status' => 'completed',
+            if ($token) {
+                $customer = $stripe->customers->create([
+                    'source'   => $token,
+                    'name'     => $request->name,
+                    'email'    => $request->email,
+                    'metadata' => [
+                        'zip_code' => $request->zipCode,
+                        'country'  => $request->country,
+                    ],
+                ]);
+
+            }
+
+            if ($customer) {
+                $charge = $stripe->charges->create([
+                    'amount'      => round(($request->amount + $platformFee) * 100),
+                    'currency'    => 'usd',
+                    'description' => $post->title,
+                    'customer'    => $customer->id,
                 ]);
             }
 
-            return redirect()->route('front.fundraiser', $post->slug)->with('success', 'Donate Successfull');
+            if ($charge) {
+                $transaction = $stripe->balanceTransactions->retrieve(
+                    $charge->balance_transaction
+                );
+
+                $platform_fee = (($transaction->net / 100) * $getPlatformFee->platform_fee) / 100;
+
+                $donate = Donate::create([
+                    "donar_id"               => auth()->user()->id ?? null,
+                    'donar_name'             => $request->name,
+                    'donar_email'            => $request->email,
+                    "fundraiser_post_id"     => $request->post_id,
+                    "charge_id"              => $charge->id,
+                    "balance_transaction_id" => $transaction->id,
+                    "amount"                 => $transaction->amount / 100,
+                    "stripe_fee"             => $transaction->fee / 100,
+                    "net_balance"            => ($transaction->net / 100) - $platform_fee,
+                    "platform_fee"           => $platform_fee,
+                    "currency"               => 'usd',
+                    "display_publicly"       => $request->is_display_info === "on" ? "no" : "yes",
+                ]);
+
+                if ($balance) {
+                    $balance->update([
+                        'total_amount' => (($transaction->net / 100) - $platform_fee) + $balance->total_amount,
+                        'net_balance'  => (($transaction->net / 100) - $platform_fee) + $balance->net_balance,
+                    ]);
+                } else {
+                    FundraiserBalance::create([
+                        "user_id"      => Auth::id(),
+                        'total_amount' => ($transaction->net / 100) - $platform_fee,
+                    ]);
+                }
+
+                if ($post->donates->sum('net_balance') >= $post->goal) {
+                    $post->update([
+                        'status' => 'completed',
+                    ]);
+                }
+
+                return redirect()->route('front.fundraiser', $post->slug)->with('success', 'Donate Successfull');
+            }
 
         } catch (Exception $e) {
 
