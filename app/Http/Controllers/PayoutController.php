@@ -173,6 +173,18 @@ class PayoutController extends Controller {
         if ($request->status_column) {
             array_push($table_columns, 'status_column');
         }
+        if ($request->transaction_id_column) {
+            array_push($table_columns, 'transaction_id_column');
+        }
+        if ($request->transaction_date_column) {
+            array_push($table_columns, 'transaction_date_column');
+        }
+        if ($request->transaction_destination_column) {
+            array_push($table_columns, 'transaction_destination_column');
+        }
+        if ($request->transaction_currency_column) {
+            array_push($table_columns, 'transaction_currency_column');
+        }
 
         // return $table_columns;
 
@@ -181,7 +193,11 @@ class PayoutController extends Controller {
             'themeOption'      => $themeOption,
             'table_column'     => $table_columns,
         ];
-        $pdf = PDF::loadView('pdf.frontend.payoutpdf', $data);
+        $pdf = PDF::loadView('pdf.frontend.payoutpdf', $data, [], [
+            'title'       => 'Payouts',
+            'format'      => 'A4-L',
+            'orientation' => 'L',
+        ]);
         $pdf->download('payout.pdf');
         return back();
     }

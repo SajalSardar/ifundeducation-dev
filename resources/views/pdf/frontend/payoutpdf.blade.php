@@ -59,12 +59,27 @@
                     @if (in_array('status_column', $table_column) || $table_column_count == 0)
                         <th align="left">Status</th>
                     @endif
+                    @if (in_array('transaction_id_column', $table_column) || $table_column_count == 0)
+                        <th align="left">Transaction Id</th>
+                    @endif
+                    @if (in_array('transaction_date_column', $table_column) || $table_column_count == 0)
+                        <th align="left">Transfer date</th>
+                    @endif
+                    @if (in_array('transaction_destination_column', $table_column) || $table_column_count == 0)
+                        <th align="left">Destination</th>
+                    @endif
+                    @if (in_array('transaction_currency_column', $table_column) || $table_column_count == 0)
+                        <th align="left">Currency</th>
+                    @endif
                     @if (in_array('amount_column', $table_column) || $table_column_count == 0)
                         <th align="right">Amount</th>
                     @endif
                 </tr>
             </thead>
-
+            {{-- transaction_id_column
+transaction_date_column
+transaction_destination_column
+transaction_currency_column --}}
             <tbody>
                 @php
                     $total = 0;
@@ -88,6 +103,27 @@
                                 <p>{{ $payout->status }}</p>
                             </td>
                         @endif
+                        @if (in_array('transaction_id_column', $table_column) || $table_column_count == 0)
+                            <td>
+                                <p>{{ $payout->balance_transaction }}</p>
+                            </td>
+                        @endif
+                        @if (in_array('transaction_date_column', $table_column) || $table_column_count == 0)
+                            <td>
+                                <p>{{ $payout->transaction_time ? $payout->transaction_time->format('M d, Y H:i:s') : '' }}
+                                </p>
+                            </td>
+                        @endif
+                        @if (in_array('transaction_destination_column', $table_column) || $table_column_count == 0)
+                            <td>
+                                <p>{{ $payout->destination }}</p>
+                            </td>
+                        @endif
+                        @if (in_array('transaction_currency_column', $table_column) || $table_column_count == 0)
+                            <td>
+                                <p>{{ $payout->currency }}</p>
+                            </td>
+                        @endif
                         @if (in_array('amount_column', $table_column) || $table_column_count == 0)
                             <td align="right">
                                 <p>${{ $payout->amount ? number_format($payout->amount, 2) : 0 }}</p>
@@ -97,7 +133,7 @@
                 @endforeach
                 @if (in_array('amount_column', $table_column) || $table_column_count == 0)
                     <tr>
-                        <td colspan="{{ $table_column_count == 0 ? 3 : $table_column_count - 1 }}" align="center">
+                        <td colspan="{{ $table_column_count == 0 ? 7 : $table_column_count - 1 }}" align="center">
                             <strong>Total</strong>
                         </td>
                         <td align="right"><strong>${{ $total ? number_format($total, 2) : '' }}</strong></td>

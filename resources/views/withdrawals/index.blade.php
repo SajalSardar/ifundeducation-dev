@@ -78,9 +78,12 @@
                                     <option value="transfer">Transfer</option>
                                     <option value="processing">Processing</option>
                                 </select>
+                                <div class="border">
+                                    <label class="form-label  px-2 mb-0 pt-2">From request</label>
+                                </div>
                                 <input type="date" class="form-control" name="fromdate">
                                 <div class="border">
-                                    <label class="form-label  px-2 mb-0 pt-2">to</label>
+                                    <label class="form-label  px-2 mb-0 pt-2">To request</label>
                                 </div>
                                 <input type="date" class="form-control" name="todate">
                                 <button class="btn btn-outline-secondary" type="submit">Search</button>
@@ -106,7 +109,7 @@
                                         <th>Transaction Id</th>
                                         <th>Transaction Date</th>
                                         <th>Destination</th>
-                                        <th>currency</th>
+                                        <th>Currency</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -142,13 +145,13 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label class="col-sm-3 col-form-label">From Date:</label>
+                            <label class="col-sm-3 col-form-label">From request Date:</label>
                             <div class="col-sm-8">
                                 <input type="date" class="form-control pdf_fromdate" name="pdf_fromdate">
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label class="col-sm-3 col-form-label">To Date:</label>
+                            <label class="col-sm-3 col-form-label">To request Date:</label>
                             <div class="col-sm-8">
                                 <input type="date" class="form-control pdf_todate" name="pdf_todate">
                             </div>
@@ -168,6 +171,18 @@
                                 <label class="me-2 d-inline-block">
                                     <input type="checkbox" name="status_column"> status
                                 </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="transaction_id_column"> Transaction Id
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="transaction_date_column"> Transfer Date
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="transaction_destination_column"> Destination
+                                </label>
+                                <label class="me-2 d-inline-block">
+                                    <input type="checkbox" name="transaction_currency_column">Currency
+                                </label>
                             </div>
                         </div>
 
@@ -179,45 +194,6 @@
             </div>
         </form>
     </div>
-
-
-    <!-- Payout Form -->
-    {{-- <div class="modal fade modal-md show" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title fs-5" id="staticBackdropLabel">
-                        Payout Request
-                    </h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    You currently have
-                    <strong>{{ $balance->balance ? $balance->balance->curent_amount - $balance->balance->withdraw_amount : '0' }}</strong>
-                    in earnings for next payout.
-                    <form action="" method="POST" class="mt-3">
-                        @csrf
-                        <div class="mt-2">
-                            <input type="text" class="form-control" placeholder="Payout Amount"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
-                        </div>
-                        <div class="mt-3">
-                            <input type="submit" class="btn btn-primary" value="Submit">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-            myModal.show();
-        });
-    </script> --}}
-
-
 
 
 @endsection
