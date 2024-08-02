@@ -144,6 +144,8 @@ class ThemeOptionController extends Controller {
 
         $themeOption->update([
             'platform_fee' => $request->platform_fee,
+            'min_payout'   => $request->min_payout,
+            'min_donation' => $request->min_donation,
         ]);
         return back()->with('success', 'Update Successfull!');
 

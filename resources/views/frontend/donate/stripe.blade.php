@@ -48,10 +48,11 @@
                         <div class='col-12 mb-3'>
                             <div class="form-floating">
                                 <input type="number" class="form-control @error('amount') is-invalid @enderror"
-                                    id="amount" name="amount" placeholder='Amount' min="10"
-                                    value="{{ old('amount') }}" required>
+                                    id="amount" name="amount" placeholder='Amount'
+                                    min="{{ $min_donation->min_donation }}" value="{{ old('amount') }}" required>
                                 <label for="amount">Amount</label>
                             </div>
+                            <p style="color: #a09e9e">Minimum donation ${{ $min_donation->min_donation }}</p>
                             @error('amount')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
@@ -247,8 +248,6 @@
                 display_total.html(user_amount + parseFloat(format(fee)));
 
             })
-
-
 
         });
     </script>

@@ -20,7 +20,9 @@
                             @csrf
                             <div class="mt-2">
                                 <input type="text" name="amount" class="form-control" placeholder="Payout Amount"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                    min="{{ $getPlatformFeeSettings->min_payout }}">
+                                <p style="color: #a09e9e">Minimum donation ${{ $getPlatformFeeSettings->min_payout }}</p>
                                 @error('amount')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror

@@ -55,7 +55,8 @@
                             <a target="_blank" href="{{ route('withdrawals.stripe.login') }}"
                                 class="btn btn-success btn-sm">Login Stripe</a>
                         @else
-                            <img src="{{ asset('public/frontend/images/stripe-logo-1.png') }}" width="120" alt="Stripe Logo">
+                            <img src="{{ asset('public/frontend/images/stripe-logo-1.png') }}" width="120"
+                                alt="Stripe Logo">
                             <br>
                             <a href="{{ route('withdrawals.stripe.account') }}" class="btn btn-primary btn-sm mt-3">Set
                                 Stripe Account</a>
@@ -101,7 +102,11 @@
                                         <th>#</th>
                                         <th>Amount</th>
                                         <th>Status</th>
-                                        <th>Date</th>
+                                        <th>Request Date</th>
+                                        <th>Transaction Id</th>
+                                        <th>Transaction Date</th>
+                                        <th>Destination</th>
+                                        <th>currency</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -273,6 +278,22 @@
                     {
                         data: 'created_at',
                         name: 'created_at'
+                    },
+                    {
+                        data: 'balance_transaction',
+                        name: 'balance_transaction'
+                    },
+                    {
+                        data: 'transaction_time',
+                        name: 'transaction_time'
+                    },
+                    {
+                        data: 'destination',
+                        name: 'destination'
+                    },
+                    {
+                        data: 'currency',
+                        name: 'currency'
                     }
                 ]
             });

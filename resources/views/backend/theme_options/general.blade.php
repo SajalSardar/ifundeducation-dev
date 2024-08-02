@@ -34,6 +34,16 @@
                                 value="{{ old('platform_fee', $themeOption->platform_fee) }}">
                         </div>
                         <div class="mb-3">
+                            <label for="" class="form-label">Minumum Payout</label>
+                            <input type="text" class="form-control" name="min_payout"
+                                value="{{ old('min_payout', $themeOption->min_payout) }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Minumum Donation</label>
+                            <input type="text" class="form-control" name="min_donation"
+                                value="{{ old('min_donation', $themeOption->min_donation) }}">
+                        </div>
+                        <div class="mb-3">
                             <button type="submit" class="btn btn-sm btn-primary">Update</button>
                         </div>
                     </div>

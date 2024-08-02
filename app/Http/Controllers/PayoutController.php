@@ -73,8 +73,8 @@ class PayoutController extends Controller {
     }
 
     public function payoutView(Request $request) {
-        $verifyCode = PayoutEmailVerification::where('user_id', Auth::id())->where('apply', 'yes')->whereDate('created_at', '=', Carbon::today()->toDateString())->orderBy('id', 'desc')->first();
-
+        $verifyCode             = PayoutEmailVerification::where('user_id', Auth::id())->where('apply', 'yes')->whereDate('created_at', '=', Carbon::today()->toDateString())->orderBy('id', 'desc')->first();
+        $getPlatformFeeSettings = ThemeOption::first(['min_payout']);
         if ($verifyCode) {
             $endTime     = time();
             $expaireTime = strtotime($verifyCode->expairy_date) + 300;
@@ -89,12 +89,15 @@ class PayoutController extends Controller {
         }
 
         $balance = Auth::user()->load('balance');
-        return view('withdrawals.payout', compact('balance'));
+        return view('withdrawals.payout', compact('balance', 'getPlatformFeeSettings'));
     }
+
+    // store payout
     public function payoutRequest(Request $request) {
+        $getPlatformFeeSettings = ThemeOption::first(['min_payout']);
 
         $request->validate([
-            'amount' => 'required',
+            'amount' => 'required|int|min:' . $getPlatformFeeSettings->min_payout,
         ]);
 
         $verifyCode = PayoutEmailVerification::where('user_id', Auth::id())->where('apply', 'yes')->whereDate('created_at', '=', Carbon::today()->toDateString())->orderBy('id', 'desc')->first();

@@ -76,6 +76,9 @@ class StripeConnectController extends Controller {
             ->editColumn('created_at', function ($wishlists) {
                 return $wishlists->created_at->format('M d, Y');
             })
+            ->editColumn('transaction_time', function ($wishlists) {
+                return $wishlists->transaction_time ? $wishlists->transaction_time->format('M d, Y H:i:s') : '-';
+            })
             ->addIndexColumn()
             ->escapeColumns([])
             ->make(true);

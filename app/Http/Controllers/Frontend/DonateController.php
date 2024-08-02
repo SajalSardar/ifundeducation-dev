@@ -148,12 +148,14 @@ class DonateController extends Controller {
     public function create($slug) {
         $fundPost = FundraiserPost::where('slug', $slug)->select('id', 'user_id', 'slug', 'title', 'image', 'shot_description')->firstOrFail();
 
+        $min_donation = ThemeOption::first(['min_donation']);
+
         if ($fundPost->status === 'completed') {
             return view('frontend.donate.completed');
         }
 
         $countries = Country::all();
-        return view('frontend.donate.stripe', compact('fundPost', 'countries'));
+        return view('frontend.donate.stripe', compact('fundPost', 'countries', 'min_donation'));
 
     }
 
@@ -166,10 +168,17 @@ class DonateController extends Controller {
 
         $post           = FundraiserPost::find($request->post_id);
         $balance        = FundraiserBalance::where('user_id', $post->user_id)->first();
-        $getPlatformFee = ThemeOption::first(['platform_fee']);
+        $getPlatformFee = ThemeOption::first(['platform_fee', 'min_donation']);
 
         if ($post->status === 'completed') {
             return view('frontend.donate.completed');
+        }
+
+        if (!$balance) {
+            $balance = FundraiserBalance::create([
+                "user_id"      => $post->user_id,
+                'total_amount' => 0,
+            ]);
         }
 
         $request->validate([
@@ -181,7 +190,7 @@ class DonateController extends Controller {
             "email"       => 'required|email',
             "zipCode"     => 'required|numeric',
             "country"     => 'required',
-            "amount"      => 'required|integer|min:10',
+            "amount"      => 'required|integer|min:' . $getPlatformFee->min_donation,
         ]);
 
         $platformFee = ($request->amount * $getPlatformFee->platform_fee) / 100;
@@ -251,11 +260,6 @@ class DonateController extends Controller {
                         'total_amount' => (($transaction->net / 100) - $platform_fee) + $balance->total_amount,
                         'net_balance'  => (($transaction->net / 100) - $platform_fee) + $balance->net_balance,
                     ]);
-                } else {
-                    FundraiserBalance::create([
-                        "user_id"      => Auth::id(),
-                        'total_amount' => ($transaction->net / 100) - $platform_fee,
-                    ]);
                 }
 
                 if ($post->donates->sum('net_balance') >= $post->goal) {
@@ -264,7 +268,7 @@ class DonateController extends Controller {
                     ]);
                 }
 
-                return redirect()->route('front.fundraiser', $post->slug)->with('success', 'Donate Successfull');
+                return redirect()->route('front.fundraiser', $post->slug)->with('success', 'Donation Successfull');
             }
 
         } catch (Exception $e) {
