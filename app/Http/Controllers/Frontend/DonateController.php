@@ -163,7 +163,7 @@ class DonateController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function donatePost(Request $request) {
+    public function donation(Request $request) {
 
         $post    = FundraiserPost::find($request->post_id);
         $balance = FundraiserBalance::where('user_id', $post->user_id)->first();

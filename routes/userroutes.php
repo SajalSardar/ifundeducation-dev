@@ -36,7 +36,7 @@ Route::name('front.')->group(function () {
 
     Route::controller(DonateController::class)->group(function () {
         Route::get('donate/fundraiser/{slug}', 'create')->name('stripe.donate');
-        Route::post('donate-fundraiser', 'donatePost')->name('donate.post');
+        Route::post('donate-fundraiser', 'donation')->name('donate.post');
 
     });
 

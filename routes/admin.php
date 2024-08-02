@@ -210,6 +210,8 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store');
         Route::put('/update/{themeOption}', 'update')->name('update');
+        Route::get('/general', 'general')->name('general');
+        Route::put('/general/{themeOption}', 'generalUpdate')->name('general.update');
     });
 
     Route::controller(ContactMessageController::class)->prefix('contact-messages')->name('contact-messages.')->group(function () {

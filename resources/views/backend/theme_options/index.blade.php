@@ -11,7 +11,7 @@
             <li class="breadcrumb-item">
                 <span class="bullet bg-gray-200 w-5px h-2px"></span>
             </li>
-            <li class="breadcrumb-item text-dark">Theme Options</li>
+            <li class="breadcrumb-item text-dark">Theme setting</li>
         </ul>
     </div>
 @endsection
@@ -27,7 +27,7 @@
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column" style="display: inline-block;">
-                        <span class="card-label fw-bolder fs-3 mb-1">Theme Options</span>
+                        <span class="card-label fw-bolder fs-3 mb-1">Theme Settings</span>
                     </h3>
                     <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
                         title="" data-bs-original-title="Click to Update Theme Options"
