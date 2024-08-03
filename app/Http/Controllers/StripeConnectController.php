@@ -6,9 +6,12 @@ use App\Models\FundraiserBalance;
 use App\Models\Payout;
 use App\Models\PayoutEmailVerification;
 use App\Models\User;
+use App\Notifications\FundTransferNotification;
+use App\Notifications\PayoutUpdateMessageNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Stripe\Account;
@@ -132,6 +135,39 @@ class StripeConnectController extends Controller {
         return redirect($loginLink->url);
     }
 
+    public function payoutUpdateMessage(Request $request) {
+        $userPayout = Payout::find($request->payout_id);
+
+        if ($request->review_comment) {
+            if ($userPayout->comment) {
+
+                $data = [
+                    'comment'   => $request->comment,
+                    'date_time' => now(),
+                ];
+                $oldData   = json_decode($userPayout->comment, true);
+                $oldData[] = $data;
+
+                $userPayout->update([
+                    "comment" => json_encode($oldData),
+                ]);
+            } else {
+                $data = [
+                    'comment'   => $request->comment,
+                    'date_time' => now(),
+                ];
+                $userPayout->update([
+                    "comment" => json_encode([$data]),
+                ]);
+            }
+
+            Notification::send($userPayout->user, new PayoutUpdateMessageNotification($request->comment, $userPayout));
+
+            return back()->with('success', 'Payout review comment!');
+        }
+
+    }
+
     public function stripeConnectTransfer(Request $request) {
         try {
             $stripe = new \Stripe\StripeClient(config('stripe.connect.stripe_secret'));
@@ -147,7 +183,6 @@ class StripeConnectController extends Controller {
             if ($transfer) {
                 $userBalance = FundraiserBalance::find($request->balance);
                 $userPayout  = Payout::find($request->payout_id);
-
                 $userBalance->decrement('net_balance', $request->amount);
                 $userBalance->increment('total_withdraw', $request->amount);
 
@@ -160,6 +195,7 @@ class StripeConnectController extends Controller {
                     'transaction_time'    => $transaction_time,
                     'currency'            => $transfer->currency,
                 ]);
+                Notification::send($userPayout->user, new FundTransferNotification($userPayout));
             }
 
             return back()->with('success', 'Transfer Successfull');

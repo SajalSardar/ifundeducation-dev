@@ -97,6 +97,7 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
     });
     Route::controller(StripeConnectController::class)->prefix('payout')->name('fundraiser.payout.')->group(function () {
         Route::post('/connect-transfer', 'stripeConnectTransfer')->name('connect.transfer');
+        Route::post('/connect-transfer-comment', 'payoutUpdateMessage')->name('update.message');
     });
 
     Route::controller(FundraiserCategoryController::class)->prefix('fundraiser-category')->name('fundraiser.category.')->group(function () {

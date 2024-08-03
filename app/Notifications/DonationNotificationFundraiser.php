@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Env;
 use Illuminate\Support\HtmlString;
 
 class DonationNotificationFundraiser extends Notification implements ShouldQueue {
@@ -53,9 +52,7 @@ class DonationNotificationFundraiser extends Notification implements ShouldQueue
             ->line("Net Balance: $" . $this->donate->net_balance)
             ->line("This contribution reflects our community's commitment to making a positive impact and supporting one another. We hope it helps you in your endeavors and brings you closer to achieving your goals.")
             ->line('Thank you for being an inspiration to us all!')
-            ->action('Login', url('/login'))
-            ->line('Warm regards,')
-            ->line(env('APP_NAME'));
+            ->action('Login', url('/login'));
     }
 
     /**

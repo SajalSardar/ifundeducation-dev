@@ -27,18 +27,25 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Transfer Request</h2>
                 @if ($payout->status == 'processing')
-                    <form action="{{ route('dashboard.fundraiser.payout.connect.transfer') }}" method="POST">
-                        @csrf
-                        <input type="hidden" value="{{ $payout->user->stripe_account_id }}" name="stripe_account_id">
-                        <input type="hidden" value="{{ $payout->amount }}" name="amount">
-                        <input type="hidden" value="{{ $payout->user->balance->id }}" name="balance">
-                        <input type="hidden" value="{{ $payout->id }}" name="payout_id">
-                        <button class="btn btn-sm btn-info mx-2">Tranfer Amount</button>
-                    </form>
+                    <div class="d-flex">
+                        <form action="{{ route('dashboard.fundraiser.payout.connect.transfer') }}" method="POST"
+                            id="transfer_form">
+                            @csrf
+                            <input type="hidden" value="{{ $payout->user->stripe_account_id }}" name="stripe_account_id">
+                            <input type="hidden" value="{{ $payout->amount }}" name="amount">
+                            <input type="hidden" value="{{ $payout->user->balance->id }}" name="balance">
+                            <input type="hidden" value="{{ $payout->id }}" name="payout_id">
+                        </form>
+                        <button class="btn btn-sm btn-info mx-2" id="transfer_btn">Tranfer Amount</button>
+
+                        <button data-bs-toggle="modal" data-bs-target="#payout_review" class="btn btn-sm btn-primary ms-2">
+                            Review Comment
+                        </button>
+                    </div>
                 @endif
 
             </div>
-            <div class="mt-3">
+            <div class="mt-5">
                 <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
                     <tr>
                         <td width="15%"><strong>Transfer Amount</strong></td>
@@ -124,4 +131,69 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="payout_review" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-dialog mw-650px">
+            <div class="modal-content">
+                <div class="modal-header pb-0 border-0 justify-content-end">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <span class="svg-icon svg-icon-1">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24">
+                                <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)"
+                                    fill="#000000">
+                                    <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1">
+                                    </rect>
+                                    <rect fill="#000000" opacity="0.5"
+                                        transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)"
+                                        x="0" y="7" width="16" height="2" rx="1">
+                                    </rect>
+                                </g>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                    <div class=" mb-13">
+                        <h2 class="mb-3">Comments*</h2>
+                    </div>
+                    <form action="{{ route('dashboard.fundraiser.payout.update.message') }}" method="POST">
+                        @csrf
+                        <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                            <input type="hidden" value="review_comment" name="review_comment">
+                            <input type="hidden" value="{{ $payout->id }}" name="payout_id">
+                            <textarea name="comment" class="form-control form-control-solid " rows="8" required></textarea>
+                        </div>
+                        <div class="">
+                            <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
+                                <span class="indicator-label">Submit</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('script')
+    <script>
+        $(function() {
+            $(document).on('click', '#transfer_btn', function() {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Transfer This Fund!",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, transfer!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#transfer_form').submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
