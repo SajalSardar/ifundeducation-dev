@@ -60,7 +60,7 @@
     <script>
         Swal.fire({
             position: 'top-end',
-            icon: 'danger',
+            icon: 'warning',
             title: "{{ Session::get('warning') }}",
             showConfirmButton: false,
             timer: 30000,

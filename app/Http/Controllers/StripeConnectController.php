@@ -169,6 +169,13 @@ class StripeConnectController extends Controller {
     }
 
     public function stripeConnectTransfer(Request $request) {
+        $userBalance = FundraiserBalance::find($request->balance);
+        $userPayout  = Payout::find($request->payout_id);
+
+        if ($request->amount > $userBalance->net_balance) {
+            return back()->with('warning', 'Insufficient balance!');
+        }
+
         try {
             $stripe = new \Stripe\StripeClient(config('stripe.connect.stripe_secret'));
 
@@ -181,8 +188,7 @@ class StripeConnectController extends Controller {
             ]);
 
             if ($transfer) {
-                $userBalance = FundraiserBalance::find($request->balance);
-                $userPayout  = Payout::find($request->payout_id);
+
                 $userBalance->decrement('net_balance', $request->amount);
                 $userBalance->increment('total_withdraw', $request->amount);
 
