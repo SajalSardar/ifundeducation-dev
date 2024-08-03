@@ -43,6 +43,7 @@ class FundraiserStatusUpdateNotify extends Notification implements ShouldQueue {
      */
     public function toMail($notifiable) {
         return (new MailMessage)
+            ->subject('Status update')
             ->greeting('Hello!')
             ->line('Title: ' . $this->title)
             ->line($this->notifyComment)

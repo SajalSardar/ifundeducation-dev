@@ -9,9 +9,12 @@ use App\Models\FundraiserBalance;
 use App\Models\FundraiserPost;
 use App\Models\ThemeOption;
 use App\Models\User;
+use App\Notifications\DonationNotificationDonor;
+use App\Notifications\DonationNotificationFundraiser;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use PDF;
 use Yajra\DataTables\Facades\DataTables;
@@ -267,6 +270,9 @@ class DonateController extends Controller {
                         'status' => 'completed',
                     ]);
                 }
+
+                Notification::route('mail', $request->email)->notify(new DonationNotificationDonor($donate, $post));
+                Notification::send($post->user, new DonationNotificationFundraiser($donate, $post));
 
                 return redirect()->route('front.fundraiser', $post->slug)->with('success', 'Donation Successfull');
             }

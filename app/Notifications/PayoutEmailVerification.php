@@ -3,9 +3,9 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\HtmlString;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 
 class PayoutEmailVerification extends Notification {
     use Queueable;
@@ -39,6 +39,7 @@ class PayoutEmailVerification extends Notification {
      */
     public function toMail($notifiable) {
         return (new MailMessage)
+            ->subject('Verification Code')
             ->greeting('Hello!')
             ->line('Verification Code,')
             ->line(new HtmlString("<strong>" . $this->verify->code . "<strong>"))
