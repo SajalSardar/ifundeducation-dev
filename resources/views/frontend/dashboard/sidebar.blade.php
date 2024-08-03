@@ -27,7 +27,7 @@
                     <a href="{{ route('fundraiser.comment.index') }}"><i class="fas fa-comments"></i>Comments</a>
                 </li>
                 <li class="{{ request()->routeIs('donate.index') ? 'active' : '' }}">
-                    <a href="{{ route('donate.index') }}"><i class="fa-solid fa-table-list"></i>Total Donations</a>
+                    <a href="{{ route('donate.index') }}"><i class="fa-solid fa-table-list"></i>Donations</a>
                 </li>
                 <li class="{{ request()->routeIs('withdrawals.*') ? 'active' : '' }}">
                     <a href="{{ route('withdrawals.index') }}">
@@ -76,7 +76,7 @@
                     @else
                         <a href="{{ route('make.role.fundraiser') }}" class="btn btn-success btn-sm text-white"><i
                                 class="fa-regular fa-square-plus"></i> Become a
-                                Campaign</a>
+                            Campaign</a>
                     @endif
 
                 @endif
