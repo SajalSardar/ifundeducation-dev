@@ -7,6 +7,14 @@
             <h3>My Dashboard</h3>
             <div class="row justify-content-center">
                 @hasrole('fundraiser')
+                    @if (empty(auth()->user()->personal_profile) || empty(auth()->user()->academic_profile))
+                        <div class="col-12">
+                            <div class="alert alert-warning">
+                                <p>To start a Campaign, complete your Personal Profile and Academic Profile first! <a
+                                        href="{{ route('user.profile.edit') }}" class="text-decoration-underline">update</a></p>
+                            </div>
+                        </div>
+                    @endif
                     <div class="col-lg-4 col-sm-6">
                         <div class="count_box">
                             <div class="user_icon">
@@ -97,7 +105,7 @@
                                 <div class="d-flex align-items-center border-bottom py-3">
 
                                     <div class="donar_info">
-                                        <p>No Donar Found!</p>
+                                        <p>No Donations Yet!</p>
                                     </div>
                                 </div>
                             @endforelse

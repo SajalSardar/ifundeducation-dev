@@ -7,6 +7,13 @@
             <h3>My Profile</h3>
 
             <div class="row">
+                @if (empty(auth()->user()->personal_profile) || empty(auth()->user()->academic_profile))
+                    <div class="col-12">
+                        <div class="alert alert-warning">
+                            <p>To start a Campaign, complete your Personal Profile and Academic Profile first!!</p>
+                        </div>
+                    </div>
+                @endif
                 <div class="col-12 mb-4">
                     <ul class="nav nav-tabs" id="fundeducationTab">
                         <li class="nav-item">

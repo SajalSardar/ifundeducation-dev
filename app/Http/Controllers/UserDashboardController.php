@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donate;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller {

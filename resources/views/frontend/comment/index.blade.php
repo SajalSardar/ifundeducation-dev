@@ -34,7 +34,7 @@
                     <thead>
                         <tr>
                             <th>Comments</th>
-                            <th>Fundraiser Title</th>
+                            <th>Campaign</th>
                             <th>Author</th>
                             <th>Status</th>
                             <th style="text-align: right; width:15%">Action</th>

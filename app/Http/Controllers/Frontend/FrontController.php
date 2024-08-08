@@ -48,7 +48,8 @@ class FrontController extends Controller {
                 $q->select('id', 'amount', 'net_balance', 'fundraiser_post_id');
             },
             'user.academic_profile.university',
-        ])->where('status', "running")->orderBy('id', 'desc')->paginate(21);
+        ])->where('status', "running")->orderBy('id', 'desc')->paginate(12);
+
         $wishlists_id = Wishlist::where('user_id', auth()->user()->id ?? '')->pluck('fundraiser_post_id')->all();
         return view('frontend.fundraiser', compact('fundRaiserPosts', 'wishlists_id'));
     }

@@ -175,26 +175,24 @@
                                     <div>
                                         <p>Your donation</p>
                                     </div>
-                                    <div>$ <span class="display_amount">0.00</span> </div>
+                                    <div>$<span class="display_amount">0.00</span> </div>
                                 </div>
                                 <div class="d-flex justify-content-between mt-2">
                                     <div>
                                         <p>Platform Fee</p>
                                     </div>
-                                    <div>$ <span class="display_platform_fee">0.00</span></div>
+                                    <div>$<span class="display_platform_fee">0.00</span></div>
                                 </div>
                                 <hr>
                                 <div class="d-flex justify-content-between mt-2">
                                     <div>
                                         <strong>Total</strong>
                                     </div>
-                                    <div>$ <span class="display_total">0.00</span></div>
+                                    <div>$<span class="display_total">0.00</span></div>
                                 </div>
                             </div>
                             <div class='col-12 mb-3 mt-3'>
-                                <label> <input type="checkbox" name="is_display_info"> Don't display my name publicly on
-                                    the
-                                    fundraiser.</label>
+                                <label> <input type="checkbox" name="is_display_info"> Donate as anonymous.</label>
                                 @error('is_display_info')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror

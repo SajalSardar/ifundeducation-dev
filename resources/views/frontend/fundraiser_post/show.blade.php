@@ -46,10 +46,9 @@
                 </div>
                 <div class="col-xl-5 col-lg-6 border-end">
                     <div class="text-start px-lg-4 profile_info mt-4">
-                        <h4>$ {{ number_format($fundRaiserPost->donates->sum('net_balance'), 2, '.', ',') }} <span>USD
-                                raised of
-                                ${{ number_format($fundRaiserPost->goal, 2) }}
-                                goal</span></h4>
+                        <h4>${{ number_format($fundRaiserPost->donates->sum('net_balance'), 2, '.', ',') }} <span>Bold
+                                Goal amount
+                                ${{ number_format($fundRaiserPost->goal, 2) }}</span></h4>
                         <div class="progress mt-3" style="height: 3px;">
                             <div class="progress-bar" role="progressbar"
                                 style="width: {{ round(($fundRaiserPost->donates->sum('net_balance') * 100) / $fundRaiserPost->goal) }}%;"
@@ -99,7 +98,7 @@
                         </div>
                     @empty
                         <div class="d-flex  align-items-center border-bottom py-3">
-                            <p>{{ __('Donar Not Found!') }}</p>
+                            <p>{{ __('No Donations Yet!') }}</p>
                         </div>
                     @endforelse
                 </div>
@@ -120,13 +119,8 @@
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#donars">
-                                Donars</button>
+                                Donors</button>
                         </li>
-                        <!-- <li class="nav-item" role="presentation">
-                                                                                                            <button class="nav-link" data-bs-toggle="tab"
-                                                                                                                data-bs-target="#professional_experience">Professional
-                                                                                                                Experience</button>
-                                                                                                        </li> -->
                     </ul>
                     <div class="tab-content text-start" id="myTabContent">
                         <div class="tab-pane fade show active" id="story">
@@ -219,7 +213,7 @@
                                                             Reply
                                                         </a> --}}
                                                     </h5>
-                                                    <time>{{ $comment->created_at->isoFormat('DD MMM YYYY') }}</time>
+                                                    <time>{{ $comment->created_at->isoFormat('MMM DD, YYYY') }}</time>
                                                     <p> {{ $comment->comment }}</p>
                                                 </div>
                                             </div>
@@ -235,7 +229,7 @@
                                                                 <h5>
                                                                     <a href="">{{ $replay->name }}</a>
                                                                 </h5>
-                                                                <time>{{ $replay->created_at->isoFormat('DD MMM YYYY') }}</time>
+                                                                <time>{{ $replay->created_at->isoFormat('MMM DD, YYYY') }}</time>
                                                                 <p>{{ $replay->comment }}</p>
                                                             </div>
                                                         </div>
@@ -272,14 +266,7 @@
                                     </div>
                                 @endforelse
                             </div>
-
-
                         </div>
-                        <!-- <div class="tab-pane fade" id="professional_experience">
-                                                                                                            <div class="text-start pb-3 mt-4">
-                                                                                                                {{-- {!! $fundRaiserPost->user->academic_profile->experience !!} --}}
-                                                                                                            </div>
-                                                                                                        </div> -->
                     </div>
                 </div>
             </div>

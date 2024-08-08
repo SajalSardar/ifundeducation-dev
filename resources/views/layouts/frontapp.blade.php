@@ -111,8 +111,8 @@
     <nav class="navbar navbar-expand-md sticky-top">
         <div class="container">
             <a class="logo" href="{{ route('front.index') }}">
-                <img src=" {{ asset('public/frontend/images/theme_options/' . @$themeOption->site_logo) }}" class="img-fluid"
-                    alt="{{ config('app.name') }}">
+                <img src=" {{ asset('public/frontend/images/theme_options/' . @$themeOption->site_logo) }}"
+                    class="img-fluid" alt="{{ config('app.name') }}">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#iNav">
                 <i class="fas fa-bars"></i>
@@ -133,7 +133,7 @@
                     </li> --}}
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('front.fundraiser') ? 'active' : '' }}"
-                            href="{{ route('front.fundraiser') }}">Fundraiser</a>
+                            href="{{ route('front.fundraiser') }}">Fundraisers</a>
                     </li>
                     @guest()
                         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Sign In</a></li>
