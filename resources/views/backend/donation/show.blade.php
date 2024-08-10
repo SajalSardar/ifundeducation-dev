@@ -41,8 +41,8 @@
                         <tr>
                             <td width="200"><strong>Campaign</strong></td>
                             <td width="3">:</td>
-                            <td><a href="{{ route('front.fundraiser.post.show', $donation->fundraiser->slug) }}"
-                                    target="_blank">{{ $donation->fundraiser->title }}</a></td>
+                            <td><a href="{{ route('front.fundraiser.post.show', $donation->campaign->slug) }}"
+                                    target="_blank">{{ $donation->campaign->title }}</a></td>
                         </tr>
                         <tr>
                             <td width="200"><strong>Date</strong></td>

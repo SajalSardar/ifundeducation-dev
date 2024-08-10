@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-xl-5 col-lg-6 border-end">
                     <div class="text-start px-lg-4 profile_info mt-4">
-                        <h4>${{ number_format($fundRaiserPost->donates->sum('net_balance'), 2, '.', ',') }} <span>Bold
+                        <h4>${{ number_format($fundRaiserPost->donates->sum('net_balance'), 2, '.', ',') }}<span>Bold
                                 Goal amount
                                 ${{ number_format($fundRaiserPost->goal, 2) }}</span></h4>
                         <div class="progress mt-3" style="height: 3px;">

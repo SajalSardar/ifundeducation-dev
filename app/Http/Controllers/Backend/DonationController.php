@@ -70,7 +70,7 @@ class DonationController extends Controller {
     }
 
     public function show($id) {
-        $donation = Donate::with('fundraiser:id,title,slug')->find($id);
+        $donation = Donate::with('campaign:id,title,slug')->find($id);
         if ($donation->admin_view == 0) {
             $donation->update([
                 'admin_view' => 1,
